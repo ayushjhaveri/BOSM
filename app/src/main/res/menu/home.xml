@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Wallet"
+        android:id="@+id/menu_wallet"
+        android:iconTint="#E9E9E9"
+        android:icon="@drawable/icon_wallet"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_cart"
+        android:title="Cart"
+        android:icon="@drawable/icon_cart"
+        android:iconTintMode="src_over"
+        app:showAsAction="always" />
+</menu>

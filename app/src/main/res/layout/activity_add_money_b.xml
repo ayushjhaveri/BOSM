@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="bitspilani.bosm.AddMoneyBActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:visibility="gone"
+        android:id="@+id/toolbar_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/AppTheme">
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/rl_stall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:alpha=".95"
+        app:cardElevation="6dp"
+        android:layout_marginTop="40dp"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/icon_stall"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="10dp"
+            android:src="@drawable/icon_stall"
+            android:tint="#ffffff" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rl_stall"
+        android:layout_marginLeft="12dp"
+        android:layout_alignTop="@+id/rl_stall"
+        android:alpha=".95"
+        app:cardElevation="6dp"
+        android:layout_marginRight="64dp"
+        android:layout_toRightOf="@+id/rl_stall"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingTop="4dp"
+            android:text="Add Money"
+            android:textColor="@color/shade3"
+            android:textSize="30sp" />
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cc_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_stall"
+        android:layout_marginTop="36dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ib_add_50"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circular_imageview3"
+                android:elevation="8dp"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_rupee"
+                android:tint="@color/back_shade6" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/round_template"
+                android:elevation="9dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="1dp"
+                android:text="Rs 50"
+                android:textColor="@color/back_shade4"
+                android:textSize="13sp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout2">
+
+            <ImageButton
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ib_add_100"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circular_imageview3"
+                android:elevation="8dp"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_rupee"
+                android:tint="@color/back_shade6" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/round_template"
+                android:elevation="9dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="1dp"
+                android:text="Rs 100"
+                android:textColor="@color/back_shade4"
+                android:textSize="13sp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout">
+
+            <ImageButton
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ib_add_150"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circular_imageview3"
+                android:elevation="8dp"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_rupee"
+                android:tint="@color/back_shade6" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/round_template"
+                android:elevation="9dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="1dp"
+                android:text="Rs 150"
+                android:textColor="@color/back_shade4"
+                android:textSize="13sp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cc_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cc_1"
+        android:layout_marginTop="24dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout2_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/relativeLayout_"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ib_add_200"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circular_imageview3"
+                android:elevation="8dp"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_rupee"
+                android:tint="@color/back_shade6" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/round_template"
+                android:elevation="9dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="1dp"
+                android:text="Rs 200"
+                android:textColor="@color/back_shade4"
+                android:textSize="13sp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/relativeLayout3_"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout2_">
+
+            <ImageButton
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ib_add_350"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circular_imageview3"
+                android:elevation="8dp"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_rupee"
+                android:tint="@color/back_shade6" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/round_template"
+                android:elevation="9dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="1dp"
+                android:text="Rs 350"
+                android:textColor="@color/back_shade4"
+                android:textSize="13sp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout3_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/relativeLayout_">
+
+            <ImageButton
+                android:layout_centerHorizontal="true"
+                android:id="@+id/ib_add_500"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/circular_imageview3"
+                android:elevation="8dp"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/icon_rupee"
+                android:tint="@color/back_shade6" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:background="@drawable/round_template"
+                android:elevation="9dp"
+                android:paddingBottom="1dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="1dp"
+                android:text="Rs 500"
+                android:textColor="@color/back_shade4"
+                android:textSize="13sp"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:id="@+id/view_ref"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/cc_2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/back_shade2"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg1"
+        android:tint="#3f395e" />
+
+
+    <RelativeLayout
+        android:elevation="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_below="@id/rl_stall"
+        android:background="#cc2c293d"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/back_shade2" />
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_1"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp">
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/tv_1"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available Balance: "/>
+            <TextView
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_toRightOf="@+id/tv_1"
+                android:id="@+id/tv_wallet_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15"/>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="-7dp"
+                android:layout_toRightOf="@+id/tv_1"
+                android:id="@+id/progressBar2"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+
+        <View
+            android:visibility="gone"
+            android:layout_below="@+id/rl_1"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/back_shade2" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:visibility="visible"
+        android:layout_below="@+id/view_ref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <EditText
+        android:textColor="#ffffff"
+        android:inputType="number"
+        android:backgroundTint="@android:color/white"
+        android:id="@+id/et_amount"
+        android:textColorHint="#ffffff"
+        android:padding="15dp"
+        android:hint="Enter Amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+        <android.support.constraint.ConstraintLayout
+            android:visibility="visible"
+            android:layout_marginTop="15dp"
+            android:id="@+id/cl_1"
+            android:layout_below="@+id/et_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:elevation="4dp"
+                android:background="@drawable/border_primary"
+                android:padding="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="+ Rs.50"
+                android:textColor="#000000"
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:elevation="4dp"
+                android:background="@drawable/border_primary"
+                android:padding="10dp"
+                android:layout_margin="10dp"
+                android:gravity="center_horizontal"
+                android:text="+ Rs.100"
+                android:id="@+id/textView2"
+                android:textColor="#000000"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView3" />
+
+            <TextView
+                android:elevation="4dp"
+                android:background="@drawable/border_primary"
+                android:padding="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="+ Rs.200"
+                android:textColor="#000000"
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/textView2" />
+        </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/ib_add"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:background="@drawable/circular_imageview3"
+        android:elevation="8dp"
+        android:padding="16dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_add_money"
+        android:tint="@color/back_shade6" />
+
+   <RelativeLayout
+       android:layout_marginRight="@dimen/fab_margin"
+       android:layout_marginBottom="64dp"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentRight="true"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content">
+       <ImageView
+           android:layout_alignParentBottom="true"
+           android:id="@+id/baxter"
+           android:layout_centerHorizontal="true"
+           android:src="@drawable/baxter"
+           android:paddingBottom="16dp"
+           android:paddingTop="6dp"
+           android:paddingLeft="6dp"
+           android:paddingRight="6dp"
+           android:layout_width="56dp"
+           android:layout_height="66dp"
+
+           />
+
+       <TextView
+           android:layout_centerHorizontal="true"
+           android:layout_alignParentBottom="true"
+           android:id="@+id/tv_total_price"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="@dimen/fab_margin"
+           android:layout_marginRight="@dimen/fab_margin"
+           android:background="@drawable/round_template_balance"
+           android:elevation="9dp"
+           android:paddingBottom="1dp"
+           android:paddingLeft="12dp"
+           android:paddingRight="12dp"
+           android:paddingTop="1dp"
+           android:text="Bal: 50"
+           android:textColor="@color/shade3"
+           android:textSize="13sp"
+           android:visibility="visible" />
+
+
+
+   </RelativeLayout>
+
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerInParent="true"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/top_gradient"/>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:rotation="180"
+        android:background="@drawable/top_gradient"/>
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_back"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icon_nav" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/iv_pay"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icon_pay" />
+</RelativeLayout>
