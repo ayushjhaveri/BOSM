@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -47,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     Button signupButton;
     ImageButton loginButton;
-    FloatingActionButton  g_login_button;
+    FloatingActionButton  g_login_button, registerButton;
     SignInButton googleSignInButton;
     GoogleSignInOptions gso;
     GoogleSignInClient mGoogleSignInClient;
@@ -89,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 //                et_username.setText(hashed);
 //                Constant.BASE_URL = et_username.getText().toString();
 //                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                startActivity(new Intent(LoginActivity.this, WelcomeLogin.class));
             }
         });
 
@@ -109,9 +108,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LoginActivity.this, RegistrationActivity2.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     private void init() {
+
         signupButton = (Button) findViewById(R.id.button_signup);
         loginButton = (ImageButton) findViewById(R.id.ib_login);
         googleSignInButton = (SignInButton) findViewById(R.id.button_g_sign_in);
@@ -127,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         progressBar =(ImageView) findViewById(R.id.progressBar);
         g_login_button= (FloatingActionButton) findViewById(R.id.fab_g_login);
         profileSharedPreferences = getSharedPreferences(Constant.PROFILE_SHARED_PREFERENCES,MODE_PRIVATE);
+        registerButton = (FloatingActionButton) findViewById(R.id.register_page);
 
     }
 

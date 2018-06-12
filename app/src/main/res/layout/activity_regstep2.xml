@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg1"
+        android:tint="#3f395e" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/rl_stall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:alpha=".95"
+        app:cardElevation="6dp"
+        android:layout_marginTop="40dp"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/icon_stall"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="10dp"
+            android:src="@drawable/icon_stall"
+            android:tint="#ffffff" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rl_stall"
+        android:layout_marginLeft="12dp"
+        android:layout_alignTop="@+id/rl_stall"
+        android:alpha=".95"
+        app:cardElevation="6dp"
+        android:layout_toRightOf="@+id/rl_stall"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+    <TextView
+        android:id="@+id/tv_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingBottom="4dp"
+        android:paddingLeft="12dp"
+        android:paddingTop="4dp"
+        android:text="Sports Selected "
+        android:textColor="@color/shade3"
+        android:textSize="30sp" />
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/button_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:alpha=".95"
+        app:cardElevation="6dp"
+        android:layout_marginTop="40dp"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/icon_info"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="10dp"
+            android:src="@drawable/icon_stall"
+            android:tint="#ffffff" />
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_below="@id/rl_stall"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*Click on the Sport Name for details"
+            android:layout_marginBottom="2dp"
+            android:textStyle="italic"
+            android:textColor="@color/back_shade2"
+            />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_cricket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentPadding="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/shade3"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_cricket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cricket"
+                    android:textSize="15dp"
+                    android:padding="15dp"
+                    android:drawableLeft="@drawable/icon_sportreg"
+                    android:drawableTint="@color/back_shade1"
+                    android:drawablePadding="5dp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Register"
+                    android:textSize="12dp"
+                    android:textColor="@color/shade3"
+                    android:padding="8dp"
+                    android:layout_gravity="right"
+                    android:background="@color/back_shade1"
+                    />
+            </LinearLayout>
+            </android.support.v7.widget.CardView>
+        <RelativeLayout
+
+            android:visibility="gone"
+            android:id="@+id/expandable_cricket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@drawable/border_shadow"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/text_reg_cricket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:text="No. of registered students:"
+                android:textSize="20dp"
+                android:textColor="@color/shade3"/>
+           <TextView
+               android:id="@+id/text_no_cricket"
+               android:layout_below="@id/text_reg_cricket"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="20dp"
+               android:layout_centerHorizontal="true"
+               android:text="0"
+               android:textSize="20dp"
+               android:textColor="@color/shade3"/>
+            <Button
+                android:id="@+id/btn_refresh_cricket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_no_cricket"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:text="  REFRESH REGISTERED  "
+                android:textSize="15dp"
+                android:textColor="@color/shade3"
+                android:background="@color/back_shade1"/>
+            <Button
+                android:id="@+id/btn_add_cricket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_refresh_cricket"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_centerHorizontal="true"
+                android:text="  ADD TEAM PARTICIPANTS  "
+                android:textSize="15dp"
+                android:textColor="@color/shade3"
+                android:background="@color/back_shade1"/>
+
+
+        </RelativeLayout>
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_swimming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentPadding="0dp"
+            app:cardUseCompatPadding="true"
+            app:cardBackgroundColor="@color/shade3"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_swimming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Swimming"
+                    android:textSize="15dp"
+                    android:padding="15dp"
+                    android:drawableLeft="@drawable/icon_sportreg"
+                    android:drawableTint="@color/back_shade1"
+                    android:drawablePadding="5dp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Register"
+                    android:textSize="12dp"
+                    android:padding="8dp"
+                    android:layout_gravity="right"
+                    android:textColor="@color/shade3"
+                    android:background="@color/back_shade1"
+                    />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <RelativeLayout
+
+            android:visibility="gone"
+            android:id="@+id/expandable_swimming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:background="@color/colorAccent"
+            android:orientation="vertical">
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="hello world"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
