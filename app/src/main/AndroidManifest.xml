@@ -13,18 +13,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegistrationActivity2"
+        <activity android:name=".RegistrationActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar"/>
 
+        <activity android:name=".RegStep2Activity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"></activity>
+        
+        <activity android:name=".SportParticipantsActivity"/>
+        
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".RegistrationOld"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".WelcomeLogin" />
-        <activity android:name=".RegStep2Activity"/>
+        <activity android:name=".RegStep2Old"/>
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"

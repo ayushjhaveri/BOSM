@@ -17,6 +17,7 @@
     <string name="simple_fragment_transition">sssssssssssssssssssssss</string>
 
     <string-array name="College">
+        <item></item>
         <item>BITS PILANI</item>
         <item>BITS GOA</item>
         <item>BITS HYDERABAD</item>

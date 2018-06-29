@@ -1,10 +1,12 @@
 package bitspilani.bosm;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     Button signupButton;
     ImageButton loginButton;
-    FloatingActionButton  g_login_button, registerButton;
+    FloatingActionButton  g_login_button, registerButton, infoButton;
     SignInButton googleSignInButton;
     GoogleSignInOptions gso;
     GoogleSignInClient mGoogleSignInClient;
@@ -71,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         //Listener to
         signupButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                Intent intent = new Intent(getApplicationContext(), RegistrationOld.class);
                 startActivity(intent);
 
             }
@@ -111,8 +113,30 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, RegistrationActivity2.class);
+                Intent i = new Intent(LoginActivity.this, RegistrationActivity.class);
                 startActivity(i);
+            }
+        });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_info, null);
+
+                // Set the neutral/cancel button click listener
+                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do something when click the neutral button
+                    }
+                });
+
+                builder.setView(mView);
+                AlertDialog dialog = builder.create();
+                // Display the alert dialog on interface
+                dialog.show();
+
             }
         });
 
@@ -136,6 +160,7 @@ public class LoginActivity extends AppCompatActivity {
         g_login_button= (FloatingActionButton) findViewById(R.id.fab_g_login);
         profileSharedPreferences = getSharedPreferences(Constant.PROFILE_SHARED_PREFERENCES,MODE_PRIVATE);
         registerButton = (FloatingActionButton) findViewById(R.id.register_page);
+        infoButton = (FloatingActionButton) findViewById(R.id.button_info);
 
     }
 

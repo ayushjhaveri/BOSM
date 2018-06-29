@@ -1,187 +1,69 @@
 package bitspilani.bosm;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 
-import java.util.Arrays;
-import java.util.List;
+import bitspilani.bosm.adapters.AdpaterParticipants;
 
-import bitspilani.bosm.R;
+public class RegStep2Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-public class RegStep2Activity extends AppCompatActivity implements View.OnClickListener {
-
-    ImageView imageInfo;
-    RelativeLayout relativeLayout_cricket,relativeLayout_swimming;
-    CardView card_cricket, card_swimming;
-    int height_cricket, height_swimming;
-    Button refreshReg, addMember;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regstep2);
 
-        relativeLayout_cricket = (RelativeLayout) findViewById(R.id.expandable_cricket);
-        relativeLayout_swimming = (RelativeLayout) findViewById(R.id.expandable_swimming);
+        //Initializing Objects
+        ListView participantsListView = (ListView) findViewById(R.id.listview_participants);
+        Button button_addParticipant = (Button) findViewById(R.id.button_add_participant);
+        Button button_addSport = (Button) findViewById(R.id.button_add_sport);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_sports);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        card_cricket = (CardView) findViewById(R.id.card_cricket);
-        card_swimming = (CardView) findViewById(R.id.card_swimming);
+        //Participants List View
+        final String[] names = {"Ayush Jhaveri","Prashant Khandelwal","Nischal Ganatra","Nikhil Khandelwal","Arpit Anshuman","Another Player","More Players","More even","Short name"};
+        ListAdapter participantsAdapter = new AdpaterParticipants(this,names);
+        participantsListView.setAdapter(participantsAdapter);
 
-        card_cricket.setOnClickListener(this);
-        card_swimming.setOnClickListener(this);
-
-        relativeLayout_cricket.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-
+        participantsListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
                     @Override
-                    public boolean onPreDraw() {
-                        relativeLayout_cricket.getViewTreeObserver().removeOnPreDrawListener(this);
-                        relativeLayout_cricket.setVisibility(View.GONE);
-                        relativeLayout_swimming.setVisibility(View.GONE);
-                        //relativeLayout2.setVisibility(View.GONE);
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-                        final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-                        relativeLayout_cricket.measure(widthSpec, heightSpec);
-                        height_cricket = relativeLayout_cricket.getMeasuredHeight();
-                        relativeLayout_swimming.measure(widthSpec, heightSpec);
-                        height_swimming = relativeLayout_swimming.getMeasuredHeight();
-                        //relativeLayout2.measure(widthSpec, heightSpec);
-                        //height2 = relativeLayout.getMeasuredHeight();
-                        return true;
                     }
-                });
-
-        imageInfo = (ImageView) findViewById(R.id.icon_info);
-        imageInfo.setOnClickListener(new View.OnClickListener()   {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(RegStep2Activity.this, WelcomeLogin.class));
-            }
-
-        });
-
-        //Refresh Registered Button
-        refreshReg = (Button)findViewById(R.id.btn_refresh_cricket);
-        refreshReg.setOnClickListener(new View.OnClickListener()   {
-            @Override
-            public void onClick(View v) {
-                //Do Something
-            }});
+                }
+        );
 
         //Add Participant Button
-        addMember = (Button)findViewById(R.id.btn_add_cricket);
-        addMember.setOnClickListener(new View.OnClickListener()   {
+        button_addParticipant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Do Something
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegStep2Activity.this);
-                View mView = getLayoutInflater().inflate(R.layout.custom_addmember, null);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_add_participant, null);
 
-                //AlertDialog for sport selection Starts
-                Button button_sport = (Button) mView.findViewById(R.id.button_sport);
-                final TextView text_sport= (TextView) mView.findViewById(R.id.text_sport);
-
-                button_sport.setOnClickListener(new View.OnClickListener()   {
-                    @Override
-                    public void onClick(View v) {
-                        // Build an AlertDialog
-                        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(RegStep2Activity.this);
-                        String[] sports = new String[]{
-                                "CRICKET",
-                                "SWIMMING",
-                                "FOOTBALL",
-                                "HOCKEY",
-                                "TENNIS",
-                                "TABLE TENNIS",
-                                "TAEKWANDO (BOYS)"
-                        };
-
-                        // Boolean array for initial selected items
-                        final boolean[] checkedSports = new boolean[]{
-                                false,
-                                false,
-                                false,
-                                false,
-                                false,
-                                false,
-                                false
-                        };
-
-                        final List<String> sportsList = Arrays.asList(sports);
-
-                        builder.setMultiChoiceItems(sports, checkedSports, new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-                                // Update the current focused item's checked status
-                                checkedSports[which] = isChecked;
-
-                                // Get the current focused item
-                                String currentItem = sportsList.get(which);
-
-                                // Notify the current action
-                                //Toast.makeText(getApplicationContext(),
-                                // currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        // Specify the dialog is not cancelable
-                        builder.setCancelable(false);
-
-                        // Set a title for alert dialog
-                        builder.setTitle("Select a sport(s)");
-
-                        // Set the positive/yes button click listener
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Do something when click positive button
-                                //text_sport.setText("Your preferred colors..... \n");
-                                text_sport.setText("");
-
-                                for (int i = 0; i<checkedSports.length; i++){
-
-                                    boolean checked = checkedSports[i];
-
-                                    if (checked && text_sport.getText().equals("")) {
-                                        text_sport.setText(sportsList.get(i) );
-                                    }
-                                    else if (checked) text_sport.setText(text_sport.getText() +"\n "+ sportsList.get(i) );
-
-                                }
-                            }
-                        });
-
-
-                        // Set the neutral/cancel button click listener
-                        builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Do something when click the neutral button
-                            }
-                        });
-
-
-                        android.app.AlertDialog dialog = builder.create();
-                        // Display the alert dialog on interface
-                        dialog.show();
-
-
-                    }
-                });
+                //Dropdown menu for gender
+                Spinner spinner_gender = (Spinner) mView.findViewById(R.id.spinner_gender2);
+                String[] items_gender = new String[]{"","MALE", "FEMALE"};
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(RegStep2Activity.this,R.layout.spinner_item_gender,items_gender);
+                adapter.setDropDownViewResource(R.layout.spinner_item_gender);
+                spinner_gender.setAdapter(adapter);
 
 
                 builder.setView(mView);
@@ -190,93 +72,65 @@ public class RegStep2Activity extends AppCompatActivity implements View.OnClickL
                 dialog.show();
 
 
-            }});
-    }
-
-
-    private void expand(RelativeLayout layout, int layoutHeight) {
-        layout.setVisibility(View.VISIBLE);
-        ValueAnimator animator = slideAnimator(layout, 0, layoutHeight);
-        animator.start();
-    }
-
-    private void collapse(final RelativeLayout layout) {
-        int finalHeight = layout.getHeight();
-        ValueAnimator mAnimator = slideAnimator(layout, finalHeight, 0);
-
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                //Height=0, but it set visibility to GONE
-                layout.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationStart(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
             }
         });
-        mAnimator.start();
-    }
 
-
-    private ValueAnimator slideAnimator(final RelativeLayout layout, int start, int end) {
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        //Add to Sports Button
+        button_addSport.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                int value = (Integer) valueAnimator.getAnimatedValue();
+            public void onClick(View v) {
 
-                ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
-                layoutParams.height = value;
-                layout.setLayoutParams(layoutParams);
+                drawer.openDrawer(Gravity.END);
             }
         });
-        return animator;
-    }
 
+    Menu menu = navigationView.getMenu();
+    menu.add("Badminton (Boys)");
+    menu.add("Badminton (Girls");
+    menu.add("Football (Boys)");
+    menu.add("Football (Girls)");
+    menu.add("Table Tennis (Boys)");
+    menu.add("Table Tennis (Girls)");
+    menu.add("Hockey (Boys)");
+    menu.add("Hockey (Girls)");
+    menu.add("Badminton (Boys)");
+    menu.add("Badminton (Girls");
+    menu.add("Football (Boys)");
+    menu.add("Football (Girls)");
+    menu.add("Table Tennis (Boys)");
+    menu.add("Table Tennis (Girls)");
+    menu.add("Hockey (Boys)");
+    menu.add("Hockey (Girls)");
+
+
+    }
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.card_cricket:
-                if (relativeLayout_cricket.getVisibility() == View.GONE) {
-                    expand(relativeLayout_cricket, height_cricket);
-                    collapse(relativeLayout_swimming);
-                } else {
-                    collapse(relativeLayout_cricket);
-                }
-                break;
-
-            case R.id.card_swimming:
-                if (relativeLayout_swimming.getVisibility() == View.GONE) {
-                    expand(relativeLayout_swimming, height_swimming);
-                    collapse(relativeLayout_cricket);
-                } else {
-                    collapse(relativeLayout_swimming);
-                }
-                break;
-
-            //case R.id.viewmore2:
-            //   if (relativeLayout2.getVisibility() == View.GONE) {
-            //      expand(relativeLayout2, height2);
-            //   } else {
-            //       collapse(relativeLayout2);
-            //   }
-            //    break;
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            super.onBackPressed();
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        Intent intent = new Intent(getBaseContext(), SportParticipantsActivity.class);
+        intent.putExtra("sportName",item.getTitle().toString());
+        startActivity(intent);
 
 
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_sports);
+        drawer.closeDrawer(GravityCompat.END);
+        return false;
     }
 
+
+
+}
