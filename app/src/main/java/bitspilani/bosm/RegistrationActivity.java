@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import android.app.AlertDialog;
@@ -21,16 +22,24 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.paytm.pgsdk.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import bitspilani.bosm.items.ItemCollege;
 import bitspilani.bosm.utils.Constant;
 
 
 public class RegistrationActivity extends AppCompatActivity {
+
+    private static final String TAG = "ABCDEF";
+    ArrayList<ItemCollege> collegeArrayList;
+    ArrayList<String> ar_college = new ArrayList<String>();
+    ArrayList<String> ar_sport = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +47,10 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         //Initializing Objects
-
-
         ImageButton button_register= (ImageButton) findViewById(R.id.ib_login);
+        collegeArrayList=new ArrayList<>();
+
+        getSportList();
 
 
 
@@ -53,9 +63,14 @@ public class RegistrationActivity extends AppCompatActivity {
         spinner_registerAs.setAdapter(adapter);
 
         //Dropdown menu for college
+        String[] colleges = new String[ar_college.size()];
+        colleges = ar_college.toArray(colleges);
         final Spinner spinner_college = findViewById(R.id.spinner_college);
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this, R.array.College,
-                R.layout.spinner_item_college);
+        ArrayList<String> arr = new ArrayList<String>();
+        arr.add("Bits Pilani");
+        arr.add("BITS Goa");
+        arr.add("Bits Goa");
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, R.layout.spinner_item_college, ar_college);
         adapter2.setDropDownViewResource(R.layout.spinner_item_college);
         spinner_college.setAdapter(adapter2);
 
@@ -87,7 +102,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String sport = text_sport.getText().toString();
                 String gender = spinner_gender.getSelectedItem().toString();
 
-
+                sendDetails(name,email,username,password,registerAs,phone,college,sport,gender);
             }
         });
 
@@ -101,7 +116,11 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Build an AlertDialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationActivity.this);
-                String[] sports = new String[]{
+
+                String[] sports = new String[ar_sport.size()];
+                sports = ar_sport.toArray(sports);
+
+                /*String[] sports = new String[]{
                         "CRICKET",
                         "SWIMMING",
                         "FOOTBALL",
@@ -109,18 +128,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         "TENNIS",
                         "TABLE TENNIS",
                         "TAEKWANDO (BOYS)"
-                };
+                };*/
 
                 // Boolean array for initial selected items
-                final boolean[] checkedSports = new boolean[]{
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false,
-                        false
-                };
+                final boolean[] checkedSports = new boolean[ar_sport.size()];
+                Arrays.fill(checkedSports,false);
 
                 final List<String> sportsList = Arrays.asList(sports);
 
@@ -192,18 +204,18 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    public void getWalletAmount(){
+    public void getSportList(){
 //        Toast.makeText(this,"start",Toast.LENGTH_SHORT).show();
         class GetData extends AsyncTask<Void, Void, String> {
             @Override
             protected void onPreExecute() {
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 super.onPreExecute();
             }
 
             @Override
             protected void onPostExecute(String s) {
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
                 super.onPostExecute(s);
                 parseJSON(s);
             }
@@ -212,12 +224,12 @@ public class RegistrationActivity extends AppCompatActivity {
             protected String doInBackground(Void... params) {
 
                 try {
-                    URL url = new URL("http://127.0.0.1:8000/register/sportlist_app/");
-//                    String urlParams = "email=" + Constant.currentItemUser.getUser_email();
+                    URL url = new URL("http://10.0.2.2:8000/register/sportlist_app/");
+//                  String urlParams = "email=" + Constant.currentItemUser.getUser_email();
 
-//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                    con.setDoOutput(true);
-//                    StringBuilder sb = new StringBuilder();
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    StringBuilder sb = new StringBuilder();
 
 //                    OutputStream os = con.getOutputStream();
 //                    os.write(urlParams.getBytes());
@@ -244,17 +256,136 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
 //                   Toast.makeText(WalletActivity.this,json,Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Response: " + json);
-                    JSONObject root = new JSONObject(json);
-                    JSONObject response = root.getJSONObject("response");
-                    boolean success = response.getBoolean("success");
-                    if(success){
-                        double wallet = response.getDouble("balance");
-                        Constant.currentItemUser.setUser_wallet(wallet);
-                        textView_balance.setText(getResources().getString(R.string.Rs) + " "+ wallet);
-                    }else{
-                        textView_balance.setText(getResources().getString(R.string.Rs)+" ---");
+                    //Toast.makeText(getApplicationContext(),json,Toast.LENGTH_LONG).show();
+                    JSONObject jobject= new JSONObject(json);
+
+                    JSONArray collegeArray = jobject.getJSONArray("college");
+
+                    for(int i=0; i< collegeArray.length();i++){
+
+                        JSONArray c = collegeArray.getJSONArray(i);
+                        String college =  c.getString(0);
+                        String city =  c.getString(1);
+                        String state =  c.getString(2);
+
+                        String collegeFull = college + ", " + city + ", " + state;
+                        ar_college.add(collegeFull);
+
+                        ItemCollege itemCollege = new ItemCollege(
+                                c.getString(0),
+                                c.getString(1),
+                                c.getString(2),
+                                c.getInt(3)
+                        );
                     }
-                } catch (JSONException e) {
+
+                    JSONArray sportArray = jobject.getJSONArray("data");
+                    for(int i=0; i<sportArray.length(); i++){
+
+                        JSONArray s = sportArray.getJSONArray(i);
+                        String sport = s.getString(1);
+                        ar_sport.add(sport);
+                    }
+//                    JSONObject root = new JSONObject(json);
+//                    JSONObject response = root.getJSONObject("response");
+//                    boolean success = response.getBoolean("success");
+//                    if(success){
+//                        double wallet = response.getDouble("balance");
+//                        Constant.currentItemUser.setUser_wallet(wallet);
+//                        textView_balance.setText(getResources().getString(R.string.Rs) + " "+ wallet);
+//                    }else{
+//                        textView_balance.setText(getResources().getString(R.string.Rs)+" ---");
+//                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        GetData gd = new GetData();
+        gd.execute();
+    }
+
+    public void sendDetails(final String name, final String email, final String username, final String password, final String registerAs, final String phone, final String college, final String sport, final String gender){
+//        Toast.makeText(this,"start",Toast.LENGTH_SHORT).show();
+        class GetData extends AsyncTask<Void, Void, String> {
+            @Override
+            protected void onPreExecute() {
+//                progressBar.setVisibility(View.VISIBLE);
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+//                progressBar.setVisibility(View.GONE);
+                super.onPostExecute(s);
+                parseJSON(s);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+
+                try {
+                    URL url = new URL("http://10.0.2.2:8000/register/sportlist_app/");
+                  //String urlParams = "email=" + Constant.currentItemUser.getUser_email();
+                    String urlName = "name=" + name;
+                    String urlEmail = "email=" + email;
+                    String urlUsername = "username=" + username;
+                    String urlPassword = "password=" + password;
+                    String urlRegisterAs = "registerAs=" + registerAs;
+                    String urlPhone = "phone=" + phone;
+                    String urlCollege = "college=" + Constant.currentItemCollege.getCollege_id();
+                    String urlSport = "sport=" + sport;
+                    String urlGender = "gender=" + gender;
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setDoOutput(true);
+                    StringBuilder sb = new StringBuilder();
+
+                   OutputStream os = con.getOutputStream();
+                    os.write(urlName.getBytes());
+                    os.write(urlEmail.getBytes());
+                    os.write(urlUsername.getBytes());
+                    os.write(urlPassword.getBytes());
+                    os.write(urlRegisterAs.getBytes());
+                    os.write(urlPhone.getBytes());
+                    os.write(urlCollege.getBytes());
+                    os.write(urlSport.getBytes());
+                    os.write(urlGender.getBytes());
+                    os.flush();
+                    os.close();
+
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                    String json;
+                    while ((json = bufferedReader.readLine()) != null) {
+                        sb.append(json + "\n");
+                    }
+
+                    String s = sb.toString().trim();
+                    return s;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return "error";
+                }
+            }
+
+            private void parseJSON(String json) {
+                try {
+//                   Toast.makeText(WalletActivity.this,json,Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Response: " + json);
+                    //Toast.makeText(getApplicationContext(),json,Toast.LENGTH_LONG).show();
+
+//                    JSONObject root = new JSONObject(json);
+//                    JSONObject response = root.getJSONObject("response");
+//                    boolean success = response.getBoolean("success");
+//                    if(success){
+//                        double wallet = response.getDouble("balance");
+//                        Constant.currentItemUser.setUser_wallet(wallet);
+//                        textView_balance.setText(getResources().getString(R.string.Rs) + " "+ wallet);
+//                    }else{
+//                        textView_balance.setText(getResources().getString(R.string.Rs)+" ---");
+//                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

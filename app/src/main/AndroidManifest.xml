@@ -22,7 +22,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
         
-        <activity android:name=".SportParticipantsActivity"/>
+        <activity android:name=".SportParticipantsActivity"
+            android:screenOrientation="portrait"/>
         
         <activity
             android:name=".RegistrationOld"
@@ -35,9 +36,13 @@
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity android:name=".WalletActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".AddMoneyBActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".CartActivity"
@@ -45,9 +50,12 @@
         <activity android:name=".OrderDetailsActivity"></activity>
         <activity android:name=".LoginActivity"
             android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".ScheduleActivity"
+            android:theme="@style/MyMaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

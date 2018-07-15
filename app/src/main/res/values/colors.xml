@@ -57,4 +57,12 @@
         <item>@color/dot_dark_screen4</item>
     </array>
 
+
+
+
+        <color name="textColorPrimary">#FFFFFF</color>
+        <color name="windowBackground">#FFFFFF</color>
+        <color name="navigationBarColor">#000000</color>
+
+
 </resources>

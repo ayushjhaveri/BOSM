@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import java.util.Random;
 
+import bitspilani.bosm.items.ItemCollege;
 import bitspilani.bosm.items.ItemUser;
 
 /**
@@ -15,8 +16,8 @@ public class Constant {
     //API URL's
 //  public static String BASE_URL = "http://172.17.44.85:8000/";
     public static String BASE_URL = "http://bosm.pythonanywhere.com/";
-      //  public static String BASE_URL = "http://192.168.43.72:8000/";
-//    public static String BASE_URL = "http://192.168.43.57:8000/";
+//        public static String BASE_URL = "http://192.168.43.72:8000/";
+//   public static String BASE_URL = "http://192.168.43.57:8000/";
 
     public static String URL_VALIDATING_ACCCOUNT= BASE_URL + "login/";
     public static String URL_GET_WALLET= BASE_URL + "get_wallet/";
@@ -64,4 +65,6 @@ public class Constant {
         int i1 = r.nextInt(100000000);
         return Integer.toString(i1);
     }
+
+    public static ItemCollege currentItemCollege;
 }
