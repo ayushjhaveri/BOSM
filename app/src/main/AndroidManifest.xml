@@ -52,7 +52,7 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".ScheduleActivity"
+        <activity android:name=".LiveActivity"
             android:theme="@style/MyMaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

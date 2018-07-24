@@ -27,7 +27,9 @@
             <!--android:orientation="vertical">-->
 
 
-            <include android:id="@+id/one" layout="@layout/layout_drawer_menu" />
+        <include
+            android:id="@+id/one"
+            layout="@layout/layout_drawer_menu" />
 
         <!--</ScrollView>-->
     </android.support.design.widget.NavigationView>
