@@ -27,7 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import bitspilani.bosm.fragments.BlankFragment;
+import bitspilani.bosm.fragments.HomeFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -133,8 +136,8 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        setTitle("Order Food");
-        loadFrag(new BlankFragment(), "Order Food", fm);
+//        setTitle("Order Food");
+        loadFrag(new HomeFragment(), "Home", fm);
 
 //         findViewById(R.id.nav_order_food).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -154,6 +157,27 @@ public class HomeActivity extends AppCompatActivity
         TextView tv_bosm = (TextView) findViewById(R.id.tv_bosm);
         Typeface oswald_regular = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
         tv_bosm.setTypeface(oswald_regular);
+
+
+        final TextView tv_home = (TextView) findViewById(R.id.tv_home);
+        tv_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFrag(new HomeFragment(), "Home", fm);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        final TextView tv_order_food = (TextView) findViewById(R.id.tv_order_food);
+        tv_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadFrag(new BlankFragment(), "Order Food", fm);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+
     }
 
     @Override

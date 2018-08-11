@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".CurrentSportActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg1"
+        android:tint="#3f395e" />
+
+
+    <android.support.v7.widget.CardView
+        android:visibility="gone"
+        android:id="@+id/rl_stall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:alpha=".95"
+        app:cardElevation="6dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="24dp"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+        <ImageView
+            android:id="@+id/icon_stall"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="10dp"
+            android:src="@drawable/icon_stall"
+            android:tint="#ffffff" />
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rl_stall"
+        android:layout_marginLeft="64dp"
+        android:layout_alignTop="@+id/rl_stall"
+        android:alpha=".80"
+        app:cardElevation="6dp"
+        android:layout_marginRight="64dp"
+        android:layout_toRightOf="@+id/rl_stall"
+        app:cardBackgroundColor="@color/back_shade4"
+        app:cardCornerRadius="20dp">
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="Football"
+            android:textColor="@color/background2"
+            android:textSize="30sp" />
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="80dp"
+        android:paddingBottom="125dp"
+        android:divider="@android:color/transparent"
+        android:overScrollMode="never"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/top_gradient"/>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:rotation="180"
+        android:background="@drawable/top_gradient"/>
+
+
+</RelativeLayout>

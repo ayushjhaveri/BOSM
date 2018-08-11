@@ -13,7 +13,13 @@
     <string name="connection_error">Please check your connection!</string>
     <string name="Rs">\u20B9</string>
 
-
+    <string-array name="red_wine">
+        <item>#ff670729</item>
+        <item>#ff7a0c2d</item>
+        <item>#ff96092d</item>
+        <item>#ffa10a37</item>
+        <item>#ffbf013b</item>
+    </string-array>
     <string name="simple_fragment_transition">sssssssssssssssssssssss</string>
 
     <string-array name="College">
@@ -24,7 +30,6 @@
         <item>IIT DELHI</item>
         <item>MANIPAL UNIVERSITY</item>
     </string-array>
-
 
 
     <string name="drawer_open">Open</string>

@@ -67,6 +67,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
             holder = (ViewHolder) convertView.getTag();
         }
 
+
         if(arrayList.get(position).getAmount()>=0){
             holder.textView_header.setText("Added to Wallet");
             holder.textView_amount.setTextColor(ContextCompat.getColor(context,R.color.colorPosAmount));
