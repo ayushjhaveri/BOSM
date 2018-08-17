@@ -4,11 +4,8 @@ package bitspilani.bosm.fragments;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.transition.Fade;
-import android.support.transition.TransitionInflater;
-import android.support.transition.TransitionSet;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
@@ -17,14 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,17 +27,15 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import bitspilani.bosm.HomeActivity;
-import bitspilani.bosm.LoginActivity;
+import bitspilani.bosm.CartActivity;
 import bitspilani.bosm.R;
+import bitspilani.bosm.WalletActivity;
 import bitspilani.bosm.adapters.AdapterStalls;
 import bitspilani.bosm.items.ItemStall;
-import bitspilani.bosm.items.ItemUser;
 import bitspilani.bosm.utils.Constant;
 //import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -58,6 +50,8 @@ public class BlankFragment extends Fragment {
     ArrayList<ItemStall> stallArrayList;
     private ProgressBar progressBar;
 
+    ImageButton ib_cart;
+
     public BlankFragment() {
         // Required empty public constructor
     }
@@ -67,8 +61,27 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView =  inflater.inflate(R.layout.fragment_blank, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_stall, container, false);
         init(rootView);
+
+        //imagebutton for cart
+        ib_cart = (ImageButton) rootView.findViewById(R.id.ib_cart);
+        ib_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), CartActivity.class));
+            }
+        });
+
+        //fab for wallet
+        FloatingActionButton fab_wallet = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab_wallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), WalletActivity.class));
+            }
+        });
+
 
         adapterStalls = new AdapterStalls(getContext(),stallArrayList,getActivity());
         listview_stalls.setAdapter(adapterStalls);

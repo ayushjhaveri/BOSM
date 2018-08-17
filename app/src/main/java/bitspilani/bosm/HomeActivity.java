@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -30,13 +31,18 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import bitspilani.bosm.fragments.BlankFragment;
+import bitspilani.bosm.fragments.ContactFragment;
+import bitspilani.bosm.fragments.DevelopersFragment;
+import bitspilani.bosm.fragments.EpcFragment;
 import bitspilani.bosm.fragments.HomeFragment;
+import bitspilani.bosm.fragments.HpcFragment;
+import bitspilani.bosm.fragments.SponsorsFragment;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //    public static Toolbar toolbar;
-    ImageButton ib_cart;
+//    ImageButton ib_cart;
     FragmentManager fm;
     DrawerLayout drawer;
     LinearLayout ll_dots;
@@ -90,15 +96,15 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ib_cart = (ImageButton) findViewById(R.id.ib_cart);
-        ib_cart.setOnClickListener(new View.OnClickListener()
-
-        {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, CartActivity.class));
-            }
-        });
+//        ib_cart = (ImageButton) findViewById(R.id.ib_cart);
+//        ib_cart.setOnClickListener(new View.OnClickListener()
+//
+//        {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(HomeActivity.this, CartActivity.class));
+//            }
+//        });
 //        iv_nav = (ImageView)findViewById(R.id.iv_nav);
 
 //        iv_cart.setOnClickListener(new View.OnClickListener() {
@@ -128,54 +134,110 @@ public class HomeActivity extends AppCompatActivity
 //        });
 
 
-        FloatingActionButton fab_wallet = (FloatingActionButton) findViewById(R.id.fab);
-        fab_wallet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, WalletActivity.class));
-            }
-        });
+//        FloatingActionButton fab_wallet = (FloatingActionButton) findViewById(R.id.fab);
+//        fab_wallet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(HomeActivity.this, WalletActivity.class));
+//            }
+//        });
 
 //        setTitle("Order Food");
         loadFrag(new HomeFragment(), "Home", fm);
 
-//         findViewById(R.id.nav_order_food).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                drawer.closeDrawer(GravityCompat.START);
-//                loadFrag(new BlankFragment(),"Order Food",fm);
-//            }
-//        });
-//        findViewById(R.id.nav_home).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                drawer.closeDrawer(GravityCompat.START);
-////                loadFrag(new BlankFragment(),"Order Food",fm);
-//            }
-//        });
 
         TextView tv_bosm = (TextView) findViewById(R.id.tv_bosm);
         Typeface oswald_regular = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
         tv_bosm.setTypeface(oswald_regular);
 
 
-        final TextView tv_home = (TextView) findViewById(R.id.tv_home);
-        tv_home.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFrag(new HomeFragment(), "Home", fm);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new HomeFragment(), "Home", fm);
+                    }
+                }, 200);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
 
-        final TextView tv_order_food = (TextView) findViewById(R.id.tv_order_food);
-        tv_home.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_order_food).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFrag(new BlankFragment(), "Order Food", fm);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new BlankFragment(), "Order Food", fm);
+                    }
+                }, 200);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
+        findViewById(R.id.tv_developers).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new DevelopersFragment(), "Develoeprs", fm);
+                    }
+                }, 200);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        findViewById(R.id.tv_sponsors).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new SponsorsFragment(), "Sponsors", fm);
+                    }
+                }, 200);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
+        findViewById(R.id.tv_epc).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new EpcFragment(), "EPC", fm);
+                    }
+                }, 200);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        findViewById(R.id.tv_hpc).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new HpcFragment(), "EPC", fm);
+                    }
+                }, 200);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        findViewById(R.id.tv_contactus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new ContactFragment(), "Contact Us", fm);
+                    }
+                }, 200);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
 
 
     }

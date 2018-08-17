@@ -1,10 +1,10 @@
 package bitspilani.bosm.items;
 
-public class ItemScore {
+public class ItemSport {
 
     private String sport, round, matchDate, matchTime, venue, collegeOne, collegeTwo, scoreOne, scoreTwo;
 
-    public ItemScore(String sport, String round, String matchDate, String matchTime, String venue, String collegeOne, String collegeTwo, String scoreOne, String scoreTwo){
+    public ItemSport(String sport, String round, String matchDate, String matchTime, String venue, String collegeOne, String collegeTwo, String scoreOne, String scoreTwo){
         this.sport = sport;
         this.round = round;
         this.matchDate = matchDate;

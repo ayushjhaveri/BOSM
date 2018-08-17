@@ -1,10 +1,16 @@
 package bitspilani.bosm.adapters;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,8 +34,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import bitspilani.bosm.CartActivity;
-import bitspilani.bosm.CurrentSportActivity;
+//import bitspilani.bosm.CurrentSportActivity;
 import bitspilani.bosm.R;
+import bitspilani.bosm.fragments.CurrentSportFragment;
+import bitspilani.bosm.fragments.ScoreFragment;
 import bitspilani.bosm.items.ItemCart;
 import bitspilani.bosm.utils.Constant;
 
@@ -64,11 +72,27 @@ public class AdapterSport extends RecyclerView.Adapter<AdapterSport.ViewHolder> 
         holder.textView_name.setText(itemSport.getName());
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/Oswald-Regular.ttf");
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            // the view being shared
+            holder.card_name.setTransitionName("transition" + position);
+        }
         holder.textView_name.setTypeface(oswald_regular);
-        holder.textView_name.setOnClickListener(new View.OnClickListener() {
+        holder.textView_name.setOnClickListener(    new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, CurrentSportActivity.class));
+
+                Fragment currentSportFragment = new CurrentSportFragment();
+                FragmentTransaction transaction = ((Activity)context).getFragmentManager().beginTransaction();
+
+                transaction.addSharedElement(holder.card_name, ViewCompat.getTransitionName(holder.card_name));
+                transaction.addToBackStack(null);
+                transaction.replace(R.id.fl_view, currentSportFragment);
+                transaction.commit();
+
+
+
+//                context.startActivity(new Intent(context, CurrentSportActivity.class));
             }
         });
 
@@ -81,10 +105,19 @@ public class AdapterSport extends RecyclerView.Adapter<AdapterSport.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView_name;
+        CardView card_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textView_name = (TextView) itemView.findViewById(R.id.tv_name);
+            card_name= (CardView)itemView.findViewById(R.id.card_name);
+
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                }
+//            });
         }
     }
 

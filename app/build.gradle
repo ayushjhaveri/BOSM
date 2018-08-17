@@ -43,8 +43,11 @@ dependencies {
     implementation 'com.github.yalantis:Side-Menu.Android:1.0.1'
     implementation 'devlight.io:navigationtabbar:1.2.5'
     implementation 'com.github.florent37:hollyviewpager:1.0.1'
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+//    implementation 'io.mattcarroll.hover:hover:0.9.8'
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
 
-
+    implementation 'com.facebook.shimmer:shimmer:0.3.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 }

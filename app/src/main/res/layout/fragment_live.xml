@@ -8,10 +8,14 @@
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:divider="@android:color/transparent"
         android:id="@+id/lv_recent"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_3"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:paddingBottom="140dp"
+        android:overScrollMode="never"
+        />
 
 
     <android.support.v7.widget.CardView
@@ -73,7 +77,8 @@
         android:divider="@android:color/transparent"
         android:overScrollMode="never"
         android:paddingTop="105dp"
-        android:id="@+id/recycler_live">
+        android:id="@+id/recycler_live"
+        >
 
     </android.support.v7.widget.RecyclerView>
 

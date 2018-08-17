@@ -15,25 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".RegistrationActivity"
-            android:label="@string/title_activity_registration"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".RegStep2Activity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".SportParticipantsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".RegistrationOld"
-            android:label="@string/title_activity_registration"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".WelcomeLogin" />
-        <activity android:name=".RegStep2Old" />
-        <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
@@ -56,13 +37,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".LiveActivity"
-            android:theme="@style/MyMaterialTheme" />
-        <activity android:name=".ScheduleActivity" />
-        <activity android:name=".CurrentSportActivity">
-
         </activity>
     </application>
 

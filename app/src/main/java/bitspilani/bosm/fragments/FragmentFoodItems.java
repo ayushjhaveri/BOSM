@@ -2,10 +2,12 @@ package bitspilani.bosm.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.transition.TransitionInflater;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,7 +33,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import bitspilani.bosm.CartActivity;
 import bitspilani.bosm.R;
+import bitspilani.bosm.WalletActivity;
 import bitspilani.bosm.adapters.AdapterFoods;
 import bitspilani.bosm.adapters.AdapterStalls;
 import bitspilani.bosm.items.ItemFood;
@@ -49,6 +54,7 @@ public class FragmentFoodItems extends Fragment {
         // Required empty public constructor
     }
 
+    ImageButton ib_cart;
     ListView listview_food_items;
     TextView tv_stall_name;
     AdapterFoods adapterFoods;
@@ -80,6 +86,8 @@ public class FragmentFoodItems extends Fragment {
 
 
 
+
+
         return rootView;
     }
 
@@ -90,6 +98,25 @@ public class FragmentFoodItems extends Fragment {
         progressBar=(ProgressBar) rootView.findViewById(R.id.progressBar);
         Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
         tv_stall_name.setTypeface(oswald_regular);
+
+
+        //imagebutton for cart
+        ib_cart = (ImageButton) rootView.findViewById(R.id.ib_cart);
+        ib_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), CartActivity.class));
+            }
+        });
+
+        //fab for wallet
+        FloatingActionButton fab_wallet = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        fab_wallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), WalletActivity.class));
+            }
+        });
 
     }
 

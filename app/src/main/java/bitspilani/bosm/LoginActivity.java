@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     Button signupButton;
     ImageButton loginButton;
-    FloatingActionButton  g_login_button, registerButton, infoButton;
+    FloatingActionButton  g_login_button;
     SignInButton googleSignInButton;
     GoogleSignInOptions gso;
     GoogleSignInClient mGoogleSignInClient;
@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        startActivity(new Intent(this,HomeActivity.class));
         //initializing Objects
         init();
 
@@ -73,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         //Listener to
         signupButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegistrationOld.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), RegistrationOld.class);
+//                startActivity(intent);
 
             }
         });
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
 //                et_username.setText(hashed);
 //                Constant.BASE_URL = et_username.getText().toString();
 //                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                startActivity(new Intent(LoginActivity.this, WelcomeLogin.class));
+//                startActivity(new Intent(LoginActivity.this, WelcomeLogin.class));
             }
         });
 
@@ -107,36 +108,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
                 signIn();
-            }
-        });
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(i);
-            }
-        });
-
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.dialog_info, null);
-
-                // Set the neutral/cancel button click listener
-                builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Do something when click the neutral button
-                    }
-                });
-
-                builder.setView(mView);
-                AlertDialog dialog = builder.create();
-                // Display the alert dialog on interface
-                dialog.show();
-
             }
         });
 
@@ -159,8 +130,6 @@ public class LoginActivity extends AppCompatActivity {
         progressBar =(ImageView) findViewById(R.id.progressBar);
         g_login_button= (FloatingActionButton) findViewById(R.id.fab_g_login);
         profileSharedPreferences = getSharedPreferences(Constant.PROFILE_SHARED_PREFERENCES,MODE_PRIVATE);
-        registerButton = (FloatingActionButton) findViewById(R.id.register_page);
-        infoButton = (FloatingActionButton) findViewById(R.id.button_info);
 
     }
 

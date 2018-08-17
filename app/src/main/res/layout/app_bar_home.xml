@@ -23,21 +23,21 @@
 
     <include layout="@layout/content_home" />
 
-    <ImageButton
-        android:id="@+id/ib_cart"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_gravity="end"
-        android:layout_marginBottom="@dimen/fab_margin"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginTop="48dp"
-        android:background="@drawable/circular_imageview3"
-        android:elevation="8dp"
-        android:padding="10dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/icon_cart"
-        android:tint="@color/back_shade6" />
+    <!--<ImageButton-->
+        <!--android:id="@+id/ib_cart"-->
+        <!--android:layout_width="36dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:layout_marginBottom="@dimen/fab_margin"-->
+        <!--android:layout_marginLeft="@dimen/fab_margin"-->
+        <!--android:layout_marginRight="@dimen/fab_margin"-->
+        <!--android:layout_marginTop="48dp"-->
+        <!--android:background="@drawable/circular_imageview3"-->
+        <!--android:elevation="8dp"-->
+        <!--android:padding="10dp"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/icon_cart"-->
+        <!--android:tint="@color/back_shade6" />-->
 
 
     <LinearLayout
@@ -67,15 +67,15 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="64dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:background="#78bf33"
-        app:backgroundTint="#78bf33"
-        app:srcCompat="@drawable/icon_wallet" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom|end"-->
+        <!--android:layout_marginBottom="64dp"-->
+        <!--android:layout_marginRight="@dimen/fab_margin"-->
+        <!--android:background="#78bf33"-->
+        <!--app:backgroundTint="#78bf33"-->
+        <!--app:srcCompat="@drawable/icon_wallet" />-->
 
 </android.support.design.widget.CoordinatorLayout>

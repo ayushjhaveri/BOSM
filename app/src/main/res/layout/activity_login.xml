@@ -38,20 +38,6 @@
         android:padding="50dp"
         android:src="@drawable/ic_bosm" />
 
-   <android.support.design.widget.FloatingActionButton
-       android:id="@+id/button_info"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_alignParentTop="true"
-       android:layout_alignParentRight="true"
-       android:layout_marginTop="24dp"
-       android:layout_marginRight="@dimen/fab_margin"
-       android:elevation="8dp"
-       app:backgroundTint="@android:color/black"
-       app:srcCompat="@drawable/icon_info"
-       android:scaleType="fitCenter"
-        />
-
     <RelativeLayout
         android:id="@+id/rl_1"
         android:layout_width="match_parent"
@@ -132,20 +118,6 @@
         android:elevation="8dp"
         app:backgroundTint="@android:color/white"
         app:srcCompat="@drawable/ic_google" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/register_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="64dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:elevation="8dp"
-        app:backgroundTint="@android:color/white"
-        app:srcCompat="@drawable/ic_bosm"
-        android:scaleType="fitCenter"/>
 
 
     <RelativeLayout

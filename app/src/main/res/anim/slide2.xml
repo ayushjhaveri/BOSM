@@ -4,6 +4,7 @@
     android:interpolator="@android:anim/linear_interpolator"
     android:fillAfter="true">
 
+
     <translate
         android:fromXDelta="-5%p"
         android:toXDelta="0%p"

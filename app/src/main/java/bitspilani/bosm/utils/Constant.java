@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 
 import java.util.Random;
 
-import bitspilani.bosm.items.ItemCollege;
 import bitspilani.bosm.items.ItemUser;
 
 /**
@@ -53,6 +52,11 @@ public class Constant {
         IS_LOGIN = true;
         saveLoginToSharedPreferences(profieSharedPreferences,email);
     }
+
+
+    public final static int ATHLETIC_TYPE_MATCH = 0;
+    public final static int TEAM_MATCH = 1;
+
     private static void saveLoginToSharedPreferences(SharedPreferences profieSharedPreferences, String email){
         SharedPreferences.Editor editor = profieSharedPreferences.edit();
         editor.putBoolean(TAG_IS_LOGIN,true);
@@ -65,6 +69,4 @@ public class Constant {
         int i1 = r.nextInt(100000000);
         return Integer.toString(i1);
     }
-
-    public static ItemCollege currentItemCollege;
 }

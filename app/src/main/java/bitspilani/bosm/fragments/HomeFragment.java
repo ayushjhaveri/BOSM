@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,17 +31,9 @@ import devlight.io.library.ntb.NavigationTabBar;
 // * create an instance of this fragment.
 // */
 public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-//
-//    private OnFragmentInteractionListener mListener;
+//    FragmentManager fragmentManager = getChildFragmentManager();
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -48,47 +41,39 @@ public class HomeFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_home, container, false);
 
-
-//        rl_empty_layout = (RelativeLayout) findViewById(R.id.rl_empty_layout);
-//        progressBar = (ProgressBar) findViewById(R.id.progressBar);
-//        tv_total_price=(TextView) findViewById(R.id.tv_total_price);
-//        tv_items=(TextView) findViewById(R.id.tv_items);
-////        tv_pay=(TextView) findViewById(R.id.tv_pay);
-//
-////        iv_back = (ImageView)findViewById(R.id.iv_back);
-//        ib_pay = (ImageButton) findViewById(R.id.ib_pay);
-
-
-
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), Color.WHITE
-                ).build()
+                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
+                )
+                        .badgeTitle("icon")
+                        .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), Color.WHITE
-                ).build()
+                        getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(getContext(),R.color.back_shade1)
+                ).badgeTitle("icon")
+                        .build()
+        );
+        models5.add(
+                new NavigationTabBar.Model.Builder(
+                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
+                )
+                        .badgeTitle("icon")
+                        .build()
         );
         ntbSample5.setModels(models5);
 
 
 
         ViewPager vpPager = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
-        MyPagerAdapter adapterViewPager = new MyPagerAdapter(getFragmentManager());
+        MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
         ntbSample5.setViewPager(vpPager, 0);
@@ -100,7 +85,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-                ntbSample5.getModels().get(position).hideBadge();
+//                ntbSample5.getModels().get(position).hideBadge();
             }
 
             @Override
@@ -124,17 +109,15 @@ public class HomeFragment extends Fragment {
             }
         }, 500);
 
-
-
-
         return v;
     }
 
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 2;
+        private static int NUM_ITEMS = 3;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
+
             super(fragmentManager);
         }
 
@@ -148,12 +131,15 @@ public class HomeFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
-                case 0: // Fragment # 0 - This will show FirstFragment
-                    return LiveFragment.newInstance(0, "Page # 1");
-                case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return ScoreFragment.newInstance(1, "Page # 2");
+
+                case 0:
+                    return new EventFragment();
+                case 1: // Fragment # 0 - This will show FirstFragment
+                    return new LiveFragment();
+                case 2: // Fragment # 0 - This will show FirstFragment different title
+                    return new ScoreFragment();
                 default:
-                    return LiveFragment.newInstance(2, "Page # 3");
+                    return new LiveFragment();
             }
         }
 
