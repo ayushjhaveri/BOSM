@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/cv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_shadow"
+        android:padding="12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/circular_imageview5" />
+
+            <TextView
+                android:id="@+id/tv_food_name"
+                style="@style/TextAppearance.AppCompat.Title.Inverse"
+                android:textColor="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@+id/iv_remove"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:text="Pepper Pizza Cheese Loaded" />
+
+            <!--<TextView-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:id="@+id/tv_price_tag"-->
+            <!--android:layout_below="@id/tv_name"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Price: "/>-->
+            <TextView
+                android:id="@+id/tv_price"
+                style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_food_name"
+
+                android:textColor="#ffffff"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="5dp"
+                android:text="5000"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/rl_quantity_changer"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/border1"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="-4dp"
+                    android:fontFamily="serif"
+                    android:padding="10dp"
+                    android:text="-"
+                    android:textColor="#DFDFDF"
+                    android:textSize="19sp" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="2dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_toRightOf="@id/tv_minus"
+                    android:background="#DFDFDF" />
+
+                <TextView
+                    android:id="@+id/tv_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="-4dp"
+                    android:layout_toRightOf="@+id/view1"
+                    android:fontFamily="serif"
+                    android:padding="10dp"
+                    android:text="1"
+                    android:textColor="#DFDFDF"
+                    android:textSize="19sp" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="2dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="0dp"
+                    android:layout_toRightOf="@id/tv_quantity"
+                    android:background="#DFDFDF" />
+
+                <TextView
+                    android:id="@+id/tv_plus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="-4dp"
+                    android:layout_toRightOf="@id/view2"
+                    android:padding="10dp"
+                    android:text="+"
+                    android:textColor="#DFDFDF"
+                    android:textSize="19sp" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_toLeftOf="@+id/spinner"
+                android:id="@+id/tv_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view2"
+                android:layout_marginLeft="36dp"
+                android:text="Qty: "
+                android:textColor="#ffffff"
+                android:textSize="15sp" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_alignParentRight="true"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view2"
+                android:backgroundTint="#ffffff"></Spinner>
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/tv_price"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/back_shade2" />
+
+            <ImageView
+                android:id="@+id/iv_update_cart"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="21dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/rl_quantity_changer"
+                android:src="@drawable/icon_reload"
+                android:tint="#ffffff"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_remove"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/icon_cart_remove"
+                android:tint="#ffffff"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.5"
+                android:src="@drawable/round_template4" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/color_grey"
+                android:indeterminateTintMode="src_atop"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/ib_add"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_below="@+id/cv_1"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="58dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginTop="-30dp"
+        android:background="@drawable/circular_imageview4"
+        android:elevation="8dp"
+        android:padding="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_add_shopping_cart_black_24dp"
+        android:tint="#bbf7ca42" />
+
+</RelativeLayout>

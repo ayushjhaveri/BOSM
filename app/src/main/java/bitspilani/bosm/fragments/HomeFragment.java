@@ -1,6 +1,5 @@
 package bitspilani.bosm.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -8,9 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +14,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import bitspilani.bosm.R;
-import bitspilani.bosm.adapters.AdapterLive;
-import bitspilani.bosm.items.ItemLive;
 import devlight.io.library.ntb.NavigationTabBar;
 
 ///**
@@ -137,7 +131,7 @@ public class HomeFragment extends Fragment {
                 case 1: // Fragment # 0 - This will show FirstFragment
                     return new LiveFragment();
                 case 2: // Fragment # 0 - This will show FirstFragment different title
-                    return new ScoreFragment();
+                    return new SportFragment();
                 default:
                     return new LiveFragment();
             }

@@ -11,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +28,6 @@ import java.util.ArrayList;
 import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.FragmentFoodItems;
 import bitspilani.bosm.items.ItemFood;
-import bitspilani.bosm.items.ItemStall;
 import bitspilani.bosm.utils.Constant;
 
 /**
@@ -51,7 +47,7 @@ public class AdapterFoods extends ArrayAdapter<ItemFood> {
         final ItemFood itemFood = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_food_row, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_food, parent, false);
         }
         // Lookup view for data population
         TextView textView_food_name = (TextView) convertView.findViewById(R.id.tv_food_name);

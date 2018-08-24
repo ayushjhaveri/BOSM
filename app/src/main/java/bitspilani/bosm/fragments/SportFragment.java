@@ -17,7 +17,7 @@ import bitspilani.bosm.adapters.AdapterCart;
 import bitspilani.bosm.adapters.AdapterSport;
 import bitspilani.bosm.adapters.ItemSport;
 
-public class ScoreFragment extends Fragment{
+public class SportFragment extends Fragment{
 
 
     // Store instance variables based on arguments passed

@@ -28,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+
 import org.w3c.dom.Text;
 
 import bitspilani.bosm.fragments.BlankFragment;
@@ -37,6 +39,8 @@ import bitspilani.bosm.fragments.EpcFragment;
 import bitspilani.bosm.fragments.HomeFragment;
 import bitspilani.bosm.fragments.HpcFragment;
 import bitspilani.bosm.fragments.SponsorsFragment;
+import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
+import io.mattcarroll.hover.overlay.OverlayPermission;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,10 +51,20 @@ public class HomeActivity extends AppCompatActivity
     DrawerLayout drawer;
     LinearLayout ll_dots;
 
+    private static final int REQUEST_CODE_HOVER_PERMISSION = 1000;
+
+    private boolean mPermissionsRequested = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        FirebaseApp.initializeApp(this);
+
+        Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
+        startService(startHoverIntent);
+
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         setTitle("BOSM 2K18");
@@ -312,14 +326,13 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    public void loadFrag(Fragment f1, String name, FragmentManager fm) {
+    public static void loadFrag(Fragment f1, String name, FragmentManager fm) {
 //        selectedFragment = name;
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.replace(R.id.fl_view, f1, name);
         ft.commit();
     }
-
 //    @Override
 //    public void onClick(View view) {
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -336,4 +349,27 @@ public class HomeActivity extends AppCompatActivity
 //                break;
 //        }
 //    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // On Android M and above we need to ask the user for permission to display the Hover
+        // menu within the "alert window" layer.  Use OverlayPermission to check for the permission
+        // and to request it.
+        if (!mPermissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
+            @SuppressWarnings("NewApi")
+            Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
+            startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (REQUEST_CODE_HOVER_PERMISSION == requestCode) {
+            mPermissionsRequested = true;
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

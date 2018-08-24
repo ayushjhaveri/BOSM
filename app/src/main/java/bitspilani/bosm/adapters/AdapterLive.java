@@ -2,47 +2,40 @@ package bitspilani.bosm.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.gms.actions.ItemListIntents;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.io.LineReader;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.internal.InternalTokenProvider;
 import com.like.IconType;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.Proxy;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
-import bitspilani.bosm.CartActivity;
 import bitspilani.bosm.R;
-import bitspilani.bosm.items.ItemCart;
 import bitspilani.bosm.items.ItemLive;
-import bitspilani.bosm.items.ItemMatch;
-import bitspilani.bosm.utils.Constant;
 
 /**
  * Created by Ayush on 9/8/2018.
@@ -77,7 +70,7 @@ import bitspilani.bosm.utils.Constant;
 //        holder.tv_time_date.setText(itemLive.getMatch_date()+" - "+itemLive.getMatch_time());
 //        holder.tv_score1.setText(itemLive.getScore1());
 //        holder.tv_score2.setText(itemLive.getScore2());
-//        holder.tv_type.setText(itemLive.getMatch_type());
+//        holder.tv_type.setText(itemLive.getMatch_round());
 //        holder.tv_sport.setText(itemLive.getSport_name());
 //        holder.tv_venue.setText(itemLive.getVenue());
 //
@@ -137,48 +130,139 @@ import bitspilani.bosm.utils.Constant;
 //
 //}
 
-import android.content.Context;
-import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
+import javax.annotation.Nullable;
 
-import bitspilani.bosm.R;
-import bitspilani.bosm.items.ItemWalletHistory;
+import bitspilani.bosm.utils.Constant;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+import static com.android.volley.VolleyLog.TAG;
 
 /**
  * Created by Prashant on 4/5/2018.
  */
 
-public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter {
+public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter, EventListener<QuerySnapshot> {
 
-    private ArrayList<ItemLive> arrayList;
+
+    private Query mQuery;
+    private ListenerRegistration mRegistration;
+
+    private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
+
+//    private ArrayList<ItemLive> arrayList;
     private LayoutInflater inflater;
     private Context context;
 
-    public AdapterLive(Context context, ArrayList<ItemLive> arrayList) {
+    public AdapterLive(Context context, Query query) {
         inflater = LayoutInflater.from(context);
-        this.arrayList = arrayList;
+//        this.arrayList = arrayList;
+        this.mQuery = query;
         this.context = context;
     }
 
+    @Override
+    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+        if (e != null) {
+            Log.w(TAG, "onEvent:error", e);
+            onError(e);
+            return;
+        }
+
+        // Dispatch the event
+        Log.d(TAG, "onEvent:numChanges:" + queryDocumentSnapshots.getDocumentChanges().size());
+        for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
+            switch (change.getType()) {
+                case ADDED:
+                    onDocumentAdded(change);
+                    break;
+                case MODIFIED:
+                    onDocumentModified(change);
+                    break;
+                case REMOVED:
+                    onDocumentRemoved(change);
+                    break;
+            }
+        }
+
+        onDataChanged();
+
+    }
+
+
+    public void startListening() {
+        if (mQuery != null && mRegistration == null) {
+            mRegistration = mQuery.addSnapshotListener(this);
+        }
+    }
+
+    public void stopListening() {
+        if (mRegistration != null) {
+            mRegistration.remove();
+            mRegistration = null;
+        }
+
+        mSnapshots.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setQuery(Query query) {
+        // Stop listening
+        stopListening();
+
+        // Clear existing data
+        mSnapshots.clear();
+        notifyDataSetChanged();
+
+        // Listen to new query
+        mQuery = query;
+        startListening();
+    }
 
     @Override
     public int getCount() {
-        return arrayList.size();
+        return mSnapshots.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return arrayList.get(position);
+        return mSnapshots.get(position);
     }
+
+    protected void onDocumentAdded(DocumentChange change) {
+        mSnapshots.add(change.getNewIndex(), change.getDocument());
+        notifyDataSetChanged();
+//        notifyItemInserted(change.getNewIndex());
+    }
+
+    protected void onDocumentModified(DocumentChange change) {
+        if (change.getOldIndex() == change.getNewIndex()) {
+            // Item changed but remained in same position
+            mSnapshots.set(change.getOldIndex(), change.getDocument());
+            notifyDataSetChanged();
+//            notifyItemChanged(change.getOldIndex());
+        } else {
+            // Item changed and changed position
+            mSnapshots.remove(change.getOldIndex());
+            mSnapshots.add(change.getNewIndex(), change.getDocument());
+            notifyDataSetChanged();
+//            notifyItemMoved(change.getOldIndex(), change.getNewIndex());
+        }
+    }
+
+    protected void onDocumentRemoved(DocumentChange change) {
+        mSnapshots.remove(change.getOldIndex());
+//        notifyItemRemoved(change.getOldIndex());
+        notifyDataSetChanged();
+    }
+
+    protected void onError(FirebaseFirestoreException e) {
+        Log.w(TAG, "onError", e);
+    };
+
+    protected void onDataChanged() {}
 
     @Override
     public long getItemId(int position) {
@@ -188,10 +272,11 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        int type = arrayList.get(position).getItemType();
-        final ItemLive itemLive = arrayList.get(position);
+        final DocumentSnapshot document =  mSnapshots.get(position);
 
-        switch(type){
+        int ITEM_TYPE = Integer.parseInt(document.getData().get("item_type").toString());
+        switch(ITEM_TYPE){
+
             case 0:
                 final LiveViewHolder liveViewHolder;
                 if (convertView == null) {
@@ -226,12 +311,36 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 liveViewHolder.tv_type.setTypeface(oswald_regular);
 //                liveViewHolder.container.startShimmer(); // If auto-start is set to false
 
+
+
+                Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+                Date date = timestamp.toDate();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+
+                ItemLive itemLive = new ItemLive(
+                        0,
+                         Integer.parseInt(document.getData().get("sport_id").toString()),
+                        (String)document.getData().get("sport_name"),
+                        (String)document.getData().get("college_name1"),
+                        (String)document.getData().get("college_name2"),
+                        (String)document.getData().get("round"),
+                        (String)document.getData().get("venue"),
+                        Integer.toString(cal.get(Calendar.MINUTE)),
+                        Integer.toString(cal.get(Calendar.DATE)),
+                        (String)document.getData().get("score1"),
+                        (String)document.getData().get("score2"),
+                        Integer.parseInt(document.getData().get("vote1").toString()),
+                        Integer.parseInt(document.getData().get("vote2").toString()),
+                        Integer.parseInt(document.getData().get("is_vote").toString())
+                );
+
                 liveViewHolder.tv_college1.setText(itemLive.getCollegeName1());
                 liveViewHolder.tv_college2.setText(itemLive.getCollegeName2());
                 liveViewHolder.tv_time_date.setText(itemLive.getMatch_date() + " - " + itemLive.getMatch_time());
                 liveViewHolder.tv_score1.setText(itemLive.getScore1());
                 liveViewHolder.tv_score2.setText(itemLive.getScore2());
-                liveViewHolder.tv_type.setText(itemLive.getMatch_type());
+                liveViewHolder.tv_type.setText(itemLive.getMatch_round());
                 liveViewHolder.tv_sport.setText(itemLive.getSport_name());
                 liveViewHolder.tv_venue.setText(itemLive.getVenue());
 
@@ -247,35 +356,22 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     if(itemLive.getIsVote()==1){
                         liveViewHolder.iv_vote1.setLiked(true);
                         liveViewHolder.iv_vote2.setLiked(false);
-                    }else if(itemLive.getIsVote()==2){
-                        liveViewHolder.iv_vote1.setLiked(false);
-                        liveViewHolder.iv_vote2.setLiked(true);
-                    }
-                }else{
-                    liveViewHolder.iv_vote1.setEnabled(true);
-                    liveViewHolder.iv_vote2.setEnabled(true);
 
-                    liveViewHolder.iv_vote1.setLiked(false);
-                    liveViewHolder.iv_vote2.setLiked(false);
-                }
-
-
-
-                liveViewHolder.iv_vote1.setOnLikeListener(new OnLikeListener() {
-                    @Override
-                    public void liked(LikeButton likeButton) {
                         liveViewHolder.rl_vote_one.setLayoutParams(new LinearLayout.LayoutParams(0,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
-                                ,itemLive.getVote1()+1));
+                                , itemLive.getVote1()));
                         liveViewHolder.rl_vote_two.setLayoutParams(new LinearLayout.LayoutParams(0,
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 itemLive.getVote2()));
 
-                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
-                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
-                        liveViewHolder.rl_vote_one.setVisibility(View.VISIBLE);
-                        liveViewHolder.rl_vote_two.setVisibility(View.VISIBLE);
+                        liveViewHolder.rl_vote_one.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_two.setVisibility(View.INVISIBLE);
 
+                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
+                        liveViewHolder.tv_vote1.setText(itemLive.getVote1()+"");
+
+                        liveViewHolder.tv_vote2.setVisibility(View.INVISIBLE);
+                        liveViewHolder.tv_vote2.setText(itemLive.getVote2()+"");
 
                         Animation animSlide_vote1 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.live_slide_left);
                         liveViewHolder.rl_vote_one.startAnimation(animSlide_vote1);
@@ -291,7 +387,6 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
                                 liveViewHolder.tv_vote1.startAnimation(animFade_vote1);
                                 liveViewHolder.tv_vote1.setVisibility(View.VISIBLE);
-                                liveViewHolder.tv_vote1.setText(Integer.toString(itemLive.getVote1()+1));
                             }
 
                             @Override
@@ -315,7 +410,85 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                 Animation animFade_vote2 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.fade);
                                 liveViewHolder.tv_vote2.startAnimation(animFade_vote2);
                                 liveViewHolder.tv_vote2.setVisibility(View.VISIBLE);
-                                liveViewHolder.tv_vote2.setText(itemLive.getVote2()+"");
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+
+
+                        liveViewHolder.rl_vote_one.setVisibility(View.VISIBLE);
+
+
+                        liveViewHolder.iv_vote1.setEnabled(false);
+                        liveViewHolder.iv_vote2.setEnabled(false);
+
+                    }else if(itemLive.getIsVote()==2){
+                        liveViewHolder.iv_vote1.setLiked(false);
+                        liveViewHolder.iv_vote2.setLiked(true);
+
+
+                        liveViewHolder.rl_vote_one.setLayoutParams(new LinearLayout.LayoutParams(0,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                , itemLive.getVote1()));
+                        liveViewHolder.rl_vote_two.setLayoutParams(new LinearLayout.LayoutParams(0,
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                itemLive.getVote2()));
+
+                        liveViewHolder.rl_vote_one.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_two.setVisibility(View.INVISIBLE);
+
+                        liveViewHolder.tv_vote1.setText(itemLive.getVote1()+"");
+                        liveViewHolder.tv_vote2.setText(itemLive.getVote2()+"");
+
+                        Animation animSlide_vote1 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.live_slide_left);
+
+                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
+                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_one.setVisibility(View.VISIBLE);
+                        liveViewHolder.rl_vote_two.setVisibility(View.VISIBLE);
+                        liveViewHolder.rl_vote_one.startAnimation(animSlide_vote1);
+                        animSlide_vote1.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                Animation animFade_vote1 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.fade);
+
+                                liveViewHolder.tv_vote1.startAnimation(animFade_vote1);
+                                liveViewHolder.tv_vote1.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+
+                        Animation animSlide_vote2 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.live_slide_right);
+                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
+                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_one.setVisibility(View.VISIBLE);
+                        liveViewHolder.rl_vote_two.setVisibility(View.VISIBLE);
+                        liveViewHolder.rl_vote_two.startAnimation(animSlide_vote2);
+                        animSlide_vote2.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                liveViewHolder.tv_vote2.setVisibility(View.INVISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+
+
+                                Animation animFade_vote2 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.fade);
+                                liveViewHolder.tv_vote2.startAnimation(animFade_vote2);
+                                liveViewHolder.tv_vote2.setVisibility(View.VISIBLE);
                             }
 
                             @Override
@@ -326,7 +499,39 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
                         liveViewHolder.iv_vote1.setEnabled(false);
                         liveViewHolder.iv_vote2.setEnabled(false);
-                        itemLive.setIsVote(1);
+
+                    }
+                }else{
+                    liveViewHolder.iv_vote1.setEnabled(true);
+                    liveViewHolder.iv_vote2.setEnabled(true);
+
+                    liveViewHolder.iv_vote1.setLiked(false);
+                    liveViewHolder.iv_vote2.setLiked(false);
+
+                    liveViewHolder.rl_vote_one.setVisibility(View.INVISIBLE);
+                    liveViewHolder.rl_vote_two.setVisibility(View.INVISIBLE);
+
+                }
+
+
+
+                final ItemLive finalitem = itemLive;
+                liveViewHolder.iv_vote1.setOnLikeListener(new OnLikeListener() {
+                    @Override
+                    public void liked(LikeButton likeButton) {
+
+                        int new_vote1 = finalitem.getVote1()+1;
+                        DocumentReference documentReference = document.getReference();
+                        documentReference.update("is_vote", "1");
+                        documentReference.update("vote1",new_vote1)
+                                .addOnSuccessListener(new OnSuccessListener< Void >() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(context, "Updated Successfully",
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
 
                     }
 
@@ -340,71 +545,18 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 liveViewHolder.iv_vote2.setOnLikeListener(new OnLikeListener() {
                     @Override
                     public void liked(LikeButton likeButton) {
-                        liveViewHolder.rl_vote_one.setLayoutParams(new LinearLayout.LayoutParams(0,
-                                LinearLayout.LayoutParams.WRAP_CONTENT
-                                ,itemLive.getVote1()));
-                        liveViewHolder.rl_vote_two.setLayoutParams(new LinearLayout.LayoutParams(0,
-                                LinearLayout.LayoutParams.WRAP_CONTENT,
-                                itemLive.getVote2()+1));
 
-                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
-                        liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
-                        liveViewHolder.rl_vote_one.setVisibility(View.VISIBLE);
-                        liveViewHolder.rl_vote_two.setVisibility(View.VISIBLE);
-
-
-
-                        Animation animSlide_vote1 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.live_slide_left);
-                        liveViewHolder.rl_vote_one.startAnimation(animSlide_vote1);
-                        animSlide_vote1.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                                liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                Animation animFade_vote1 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.fade);
-
-                                liveViewHolder.tv_vote1.startAnimation(animFade_vote1);
-                                liveViewHolder.tv_vote1.setVisibility(View.VISIBLE);
-                                liveViewHolder.tv_vote1.setText(Integer.toString(itemLive.getVote1()));
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-
-
-
-                        Animation animSlide_vote2 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.live_slide_right);
-                        liveViewHolder.rl_vote_two.startAnimation(animSlide_vote2);
-                        animSlide_vote2.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                                liveViewHolder.tv_vote2.setVisibility(View.INVISIBLE);
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-
-                                Animation animFade_vote2 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.fade);
-                                liveViewHolder.tv_vote2.startAnimation(animFade_vote2);
-                                liveViewHolder.tv_vote2.setVisibility(View.VISIBLE);
-                                liveViewHolder.tv_vote2.setText(Integer.toString(itemLive.getVote2()+1));
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-                        liveViewHolder.iv_vote1.setEnabled(false);
-                        liveViewHolder.iv_vote2.setEnabled(false);
-                        itemLive.setIsVote(2);
-
+                        int new_vote2 = finalitem.getVote2() + 1;
+                        DocumentReference documentReference = document.getReference();
+                        documentReference.update("is_vote", "1");
+                        documentReference.update("vote2", new_vote2)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(context, "Updated Successfully",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
 
                     @Override
@@ -430,6 +582,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
                     holder.tv_sport = (TextView) convertView.findViewById(R.id.tv_sport);
                     holder.tv_type = (TextView) convertView.findViewById(R.id.tv_subtitle);
+                    holder.ll_college = (LinearLayout) convertView.findViewById(R.id.ll_college);
 
                     convertView.setTag(holder);
                 } else {
@@ -438,13 +591,39 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
                 //use here
 
-                holder.tv_college1.setText(itemLive.getCollegeName1());
-                holder.tv_college2.setText(itemLive.getCollegeName2());
+
+                timestamp  = (Timestamp) document.getData().get("timestamp");
+                date = timestamp.toDate();
+                cal = Calendar.getInstance();
+                cal.setTime(date);
+
+                itemLive = new ItemLive(
+                        1,
+                        Integer.parseInt(document.getData().get("match_type").toString()),
+                        Integer.parseInt(document.getData().get("sport_id").toString()),
+                        (String)document.getData().get("sport_name"),
+                        (String)document.getData().get("college_name1"),
+                        (String)document.getData().get("college_name2"),
+                        (String)document.getData().get("round"),
+                        (String)document.getData().get("venue"),
+                        Integer.toString(cal.get(Calendar.MINUTE)),
+                        Integer.toString(cal.get(Calendar.DATE))
+                );
+
+
                 holder.tv_time.setText(itemLive.getMatch_time());
                 holder.tv_date.setText(itemLive.getMatch_date());
-                holder.tv_type.setText(itemLive.getMatch_type());
+                holder.tv_type.setText(itemLive.getMatch_round());
                 holder.tv_sport.setText(itemLive.getSport_name());
                 holder.tv_venue.setText(itemLive.getVenue());
+
+                if(itemLive.getMatchType() == Constant.ATHLETIC_TYPE_MATCH){
+                    holder.ll_college.setVisibility(View.GONE);
+                }else if (itemLive.getMatchType() == Constant.TEAM_MATCH){
+                    holder.tv_college1.setText(itemLive.getCollegeName1());
+                    holder.tv_college2.setText(itemLive.getCollegeName2());
+                    holder.ll_college.setVisibility(View.VISIBLE);
+                }
 
                 break;
         }
@@ -459,15 +638,24 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         //Inflating row header
         if (convertView == null) {
             holder = new HeaderViewHolder();
-            convertView = inflater.inflate(R.layout.layout_live_row_header, parent, false);
+            convertView = inflater.inflate(R.layout.row_live_header, parent, false);
             holder.header_text = (TextView) convertView.findViewById(R.id.tv_header);
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        if (arrayList.get(position).getItemType() == 0) {
+
+        DocumentSnapshot document =  mSnapshots.get(position);
+//        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+//        Date date = timestamp.toDate();
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(date);
+//
+        int ITEM_TYPE =  Integer.parseInt(document.getData().get("item_type").toString());
+
+        if (ITEM_TYPE == 0) {
             holder.header_text.setText("Live");
-        } else if (arrayList.get(position).getItemType() == 1) {
+        } else if (ITEM_TYPE == 1) {
             holder.header_text.setText("Trending");
         }
 
@@ -480,22 +668,27 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     @Override
     public int getItemViewType(int position) {
-        return arrayList.get(position).getItemType();
+        DocumentSnapshot document =  mSnapshots.get(position);
+
+        return Integer.parseInt(document.getData().get("item_type").toString());
     }
-    
+//
 
     @Override
     public long getHeaderId(int position) {
         //return the first character of the country as ID because this is what headers are based upon
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 //        String text = dateFormat.format(arrayList.get(position).getDate().getTime());
-        return arrayList.get(position).getItemType();
+        DocumentSnapshot document =  mSnapshots.get(position);
+
+        return Integer.parseInt(document.getData().get("item_type").toString());
     }
 
     @Override
     public int getViewTypeCount() {
         return 2;
     }
+
 
     class HeaderViewHolder {
         TextView header_text;
@@ -512,6 +705,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     class TrendingViewHolder {
         TextView tv_college1, tv_college2, tv_venue, tv_time,tv_date, tv_sport, tv_type;
+        LinearLayout ll_college;
     }
 
 

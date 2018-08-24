@@ -1,45 +1,28 @@
 package bitspilani.bosm.adapters;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.ClipData;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Build;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
-import bitspilani.bosm.CartActivity;
 //import bitspilani.bosm.CurrentSportActivity;
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.CurrentSportFragment;
-import bitspilani.bosm.fragments.ScoreFragment;
-import bitspilani.bosm.items.ItemCart;
-import bitspilani.bosm.utils.Constant;
+import bitspilani.bosm.fragments.SponsorsFragment;
+import bitspilani.bosm.fragments.SportSelectedFragment;
 
 /**
  * Created by Prashant on 4/7/2018.
@@ -60,7 +43,7 @@ public class AdapterSport extends RecyclerView.Adapter<AdapterSport.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_row_sport, parent, false);
+                .inflate(R.layout.row_sport, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -72,25 +55,23 @@ public class AdapterSport extends RecyclerView.Adapter<AdapterSport.ViewHolder> 
         holder.textView_name.setText(itemSport.getName());
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/Oswald-Regular.ttf");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            // the view being shared
-            holder.card_name.setTransitionName("transition" + position);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            // the view being shared
+//            holder.card_name.setTransitionName("transition" + position);
+//        }
         holder.textView_name.setTypeface(oswald_regular);
         holder.textView_name.setOnClickListener(    new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Fragment currentSportFragment = new CurrentSportFragment();
-                FragmentTransaction transaction = ((Activity)context).getFragmentManager().beginTransaction();
+              Fragment fragment = new SportSelectedFragment();
 
-                transaction.addSharedElement(holder.card_name, ViewCompat.getTransitionName(holder.card_name));
+                FragmentTransaction transaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+
                 transaction.addToBackStack(null);
-                transaction.replace(R.id.fl_view, currentSportFragment);
+                transaction.replace(R.id.fl_view, fragment);
                 transaction.commit();
-
-
 
 //                context.startActivity(new Intent(context, CurrentSportActivity.class));
             }

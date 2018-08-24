@@ -55,7 +55,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
         //Inflating row
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.layout_wallet_history_row, parent, false);
+            convertView = inflater.inflate(R.layout.row_wallet_history, parent, false);
 
             holder.textView_amount = (TextView) convertView.findViewById(R.id.tv_amount);
             holder.textView_header = (TextView) convertView.findViewById(R.id.tv_header);
@@ -91,7 +91,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
         //Inflating row header
         if (convertView == null) {
             holder = new HeaderViewHolder();
-            convertView = inflater.inflate(R.layout.layout_wallet_history_row_header, parent, false);
+            convertView = inflater.inflate(R.layout.row_wallet_history_header, parent, false);
             holder.textView_transaction_date = (TextView) convertView.findViewById(R.id.tv_transaction_date);
             convertView.setTag(holder);
         } else {

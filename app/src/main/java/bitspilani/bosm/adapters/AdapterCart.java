@@ -7,15 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +27,6 @@ import java.util.ArrayList;
 import bitspilani.bosm.CartActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemCart;
-import bitspilani.bosm.items.ItemFood;
 import bitspilani.bosm.utils.Constant;
 
 /**
@@ -52,7 +48,7 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_cart_row, parent, false);
+                .inflate(R.layout.row_cart, parent, false);
 
         return new ViewHolder(itemView);
     }
