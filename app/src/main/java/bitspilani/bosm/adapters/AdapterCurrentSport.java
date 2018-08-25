@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 //import bitspilani.bosm.CurrentSportActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.CurrentSportFragment;
-import bitspilani.bosm.items.ItemCurrentSport;
 import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
 
@@ -25,16 +32,19 @@ import bitspilani.bosm.utils.Constant;
  * Created by Prashant on 4/7/2018.
  */
 
-public class AdapterCurrentSport extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<ItemMatch> arrayList;
     private Context context;
 
     private static final String TAG = "AdapterCart";
 
-    public AdapterCurrentSport(Context context, ArrayList<ItemMatch> arrayList) {
-        this.arrayList = arrayList;
+
+    private String hash;
+
+    public AdapterCurrentSport(Context context, Query query) {
+        super(query);
         this.context = context;
+        hash = "";
     }
 
     @Override
@@ -54,10 +64,57 @@ public class AdapterCurrentSport extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-        final ItemMatch itemMatch = arrayList.get(position);
 
-        switch (itemMatch.getMatchType()) {
+        DocumentSnapshot document =  getSnapshot(position);
+        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Date date = timestamp.toDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+
+
+        int matchType = Integer.parseInt(document.getData().get("matchType").toString());
+        boolean isResult = Boolean.parseBoolean(document.getData().get("isResult").toString());
+
+
+        ItemMatch itemMatch;
+
+        switch (matchType) {
             case Constant.ATHLETIC_TYPE_MATCH:
+
+                if(isResult) {
+                    itemMatch = new ItemMatch(
+                            Integer.parseInt(document.getData().get("matchType").toString()),
+                            document.getData().get("sportName").toString(),
+                            document.getData().get("venue").toString(),
+                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            cal.get(Calendar.DATE) + "",
+                            document.getData().get("matchRound").toString(),
+                            document.getData().get("goldName").toString(),
+                            document.getData().get("silverName").toString(),
+                            document.getData().get("bronzeName").toString(),
+                            document.getData().get("goldRecord").toString(),
+                            document.getData().get("silverRecord").toString(),
+                            document.getData().get("bronzeRecord").toString()
+                            );
+                }else{
+                    itemMatch = new ItemMatch(
+                            Integer.parseInt(document.getData().get("matchType").toString()),
+                            document.getData().get("sportName").toString(),
+                            document.getData().get("venue").toString(),
+                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            cal.get(Calendar.DATE) + "",
+                            document.getData().get("matchRound").toString()
+                    );
+                }
+
+                if(!hash.equals(""+cal.get(Calendar.DATE))){
+                    itemMatch.setHeader(true);
+                    hash = ""+cal.get(Calendar.DATE);
+                }else{
+                    itemMatch.setHeader(false);
+                }
+
                 AthleticViewHolder holder1 = (AthleticViewHolder) holder;
                 holder1.tv_sort_title.setText(itemMatch.getDate());
                 holder1.tv_subtitle.setText(itemMatch.getType());
@@ -95,6 +152,40 @@ public class AdapterCurrentSport extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
             case Constant.TEAM_MATCH:
+                if(isResult) {
+                    itemMatch = new ItemMatch(
+                            Integer.parseInt(document.getData().get("matchType").toString()),
+                            document.getData().get("sportName").toString(),
+                            document.getData().get("venue").toString(),
+                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            cal.get(Calendar.DATE) + "",
+                            document.getData().get("matchRound").toString(),
+                            document.getData().get("score1").toString(),
+                            document.getData().get("score2").toString(),
+                            document.getData().get("college1").toString(),
+                            document.getData().get("college2").toString(),
+                            Integer.parseInt(document.getData().get("winner").toString())
+                    );
+                }else{
+                    itemMatch = new ItemMatch(
+                            Integer.parseInt(document.getData().get("matchType").toString()),
+                            document.getData().get("sportName").toString(),
+                            document.getData().get("venue").toString(),
+                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            cal.get(Calendar.DATE) + "",
+                            document.getData().get("matchRound").toString(),
+                            document.getData().get("college1").toString(),
+                            document.getData().get("college2").toString()
+                    );
+                }
+
+                if(!hash.equals(""+cal.get(Calendar.DATE))){
+                    itemMatch.setHeader(true);
+                    hash = ""+cal.get(Calendar.DATE);
+                }else{
+                    itemMatch.setHeader(false);
+                }
+
                 TeamViewHolder holder2 = (TeamViewHolder) holder;
                 holder2.tv_sort_title.setText(itemMatch.getDate());
                 holder2.tv_subtitle.setText(itemMatch.getType());
@@ -113,9 +204,13 @@ public class AdapterCurrentSport extends RecyclerView.Adapter<RecyclerView.ViewH
                     if(itemMatch.getWinner()==1) {
                         holder2.tv_college_one.setTextColor(ContextCompat.getColor(context, R.color.gold));
                         holder2.tv_college_two.setTextColor(ContextCompat.getColor(context, R.color.silver));
+                        holder2.tv_score_one.setTextColor(ContextCompat.getColor(context, R.color.gold));
+                        holder2.tv_score_two.setTextColor(ContextCompat.getColor(context, R.color.silver));
                     }else if(itemMatch.getWinner()==2){
                         holder2.tv_college_one.setTextColor(ContextCompat.getColor(context, R.color.silver));
                         holder2.tv_college_two.setTextColor(ContextCompat.getColor(context, R.color.gold));
+                        holder2.tv_score_two.setTextColor(ContextCompat.getColor(context, R.color.gold));
+                        holder2.tv_score_one.setTextColor(ContextCompat.getColor(context, R.color.silver));
                     }
 
                     holder2.ll_score.setVisibility(View.VISIBLE);
@@ -134,19 +229,22 @@ public class AdapterCurrentSport extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
-    }
+//    @Override
+//    public int getItemCount() {
+//        return arrayList.size();
+//    }
 
 
     @Override
     public int getItemViewType(int position) {
-        if (arrayList != null) {
-            ItemMatch object = arrayList.get(position);
-            if (object != null) {
-                return object.getMatchType();
-            }
+        DocumentSnapshot document =  getSnapshot(position);
+        if (document != null && document.exists()) {
+            Log.d("aaaaaa",document.getId()+"ffgfg");
+           return Integer.parseInt(Objects.requireNonNull(document.getData()).get("matchType").toString());
+//            ItemMatch object = arrayList.get(position);
+//            if (object != null) {
+//                return object.getMatchType();
+//            }
         }
         return 0;
     }

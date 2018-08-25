@@ -110,6 +110,18 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ll_dots.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+
+        });
+
 //        ib_cart = (ImageButton) findViewById(R.id.ib_cart);
 //        ib_cart.setOnClickListener(new View.OnClickListener()
 //

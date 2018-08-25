@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 
 import java.util.Random;
 
+import bitspilani.bosm.adapters.ItemSport;
 import bitspilani.bosm.items.ItemUser;
 
 /**
@@ -53,6 +54,7 @@ public class Constant {
         saveLoginToSharedPreferences(profieSharedPreferences,email);
     }
 
+    public static ItemSport currentSport;
 
     public final static int ATHLETIC_TYPE_MATCH = 0;
     public final static int TEAM_MATCH = 1;

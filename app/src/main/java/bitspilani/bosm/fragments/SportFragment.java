@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -19,7 +23,11 @@ import bitspilani.bosm.adapters.ItemSport;
 
 public class SportFragment extends Fragment{
 
-
+    AdapterSport adapterSport;
+    public static HashMap<Integer,Integer> iconHash;
+    static {
+        iconHash = new HashMap<>();
+    }
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,42 +43,52 @@ public class SportFragment extends Fragment{
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
 
-        ArrayList<ItemSport> sportArrayList = new ArrayList<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
 
-        AdapterSport adapterSport = new AdapterSport(getContext(),sportArrayList);
+        Query mQuery = db.collection("Sports");
+
+        adapterSport = new AdapterSport(getContext(),mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterSport);
 
+        iconHash.put(1,R.drawable.football);
+        iconHash.put(2,R.drawable.basketball);
+        iconHash.put(3,R.drawable.cricket);
+        iconHash.put(4,R.drawable.athletics);
+        iconHash.put(5,R.drawable.powerlifting);
+        iconHash.put(6,R.drawable.taekwondo);
+        iconHash.put(7,R.drawable.badminton);
+        iconHash.put(8,R.drawable.hockey);
+        iconHash.put(9,R.drawable.tabletennis);
+        iconHash.put(10,R.drawable.swimming);
 
-        sportArrayList.add(new ItemSport(
-                1,"Football"
-        ));
-        sportArrayList.add(new ItemSport(
-                1,"Basketball"
-        ));
-
-        sportArrayList.add(new ItemSport(
-                1,"Hockey"
-        ));
-
-        sportArrayList.add(new ItemSport(
-                1,"Volleyball"
-        ));
-        sportArrayList.add(new ItemSport(
-                1,"Chess"
-        ));
-        sportArrayList.add(new ItemSport(
-                1,"Pool"
-        ));
-        sportArrayList.add(new ItemSport(
-                1,"Swimming"
-        ));
 
 
 
         return view;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Start listening for Firestore updates
+        if (adapterSport != null) {
+            adapterSport.startListening();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapterSport != null) {
+            adapterSport.stopListening();
+        }
     }
 
 

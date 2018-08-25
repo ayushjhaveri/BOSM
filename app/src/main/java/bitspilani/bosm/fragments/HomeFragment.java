@@ -41,25 +41,29 @@ public class HomeFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_home, container, false);
 
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
+
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
-                        .badgeTitle("icon")
+                        .badgeTitle("Events")
+                        .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(getContext(),R.color.back_shade1)
-                ).badgeTitle("icon")
+                ).badgeTitle("Home")
+                        .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
-                        .badgeTitle("icon")
+                        .badgeTitle("Scores")
+                        .title("title")
                         .build()
         );
         ntbSample5.setModels(models5);
@@ -70,7 +74,7 @@ public class HomeFragment extends Fragment {
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
-        ntbSample5.setViewPager(vpPager, 0);
+        ntbSample5.setViewPager(vpPager, 1);
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
@@ -79,7 +83,10 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
-//                ntbSample5.getModels().get(position).hideBadge();
+                for(int i =0;i<ntbSample5.getModels().size();i++){
+                    ntbSample5.getModels().get(i).showBadge();
+                }
+                ntbSample5.getModels().get(position).hideBadge();
             }
 
             @Override
