@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/border_shadow"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_margin="15dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/tv_header"
+        android:paddingRight="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:layout_toLeftOf="@+id/tv_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cashback"
+        android:textColor="#0C0C0C"
+        />
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 5.00"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:textSize="19sp"/>
+    <TextView
+        android:id="@+id/tv_comment"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:layout_toLeftOf="@+id/tv_amount"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:layout_centerVertical="true"
+        android:text="Order _ID #fdfsdfdsfsfsfs"
+        />
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_marginBottom="15dp"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:layout_toLeftOf="@+id/tv_amount"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:text="11:51 PM"
+        />
+
+</RelativeLayout>

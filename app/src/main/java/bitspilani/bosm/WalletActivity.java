@@ -95,7 +95,7 @@ public class WalletActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onBackPressed();
-//                loadFrag(new BlankFragment(),"Order Food",fm);
+//                loadFrag(new StallFragment(),"Order Food",fm);
             }
         });
 

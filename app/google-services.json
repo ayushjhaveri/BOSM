@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "753293163223",
+    "firebase_url": "https://bosm-18-1522766608739.firebaseio.com",
+    "project_id": "bosm-18-1522766608739",
+    "storage_bucket": "bosm-18-1522766608739.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753293163223:android:719dfd2cc0d0d48b",
+        "android_client_info": {
+          "package_name": "bitspilani.bosm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753293163223-uh71o3v68hndktnue5v6i0ofbcmv7ugj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bitspilani.bosm",
+            "certificate_hash": "a0fb0eb9c2ba858280b6b4151df3b468abaf3922"
+          }
+        },
+        {
+          "client_id": "753293163223-grqo62n80npgbnnm7dmpom6dc0r5c7dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjpjkbA4WW6z7huS6nKpEn0GjEOlB-OuY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753293163223-grqo62n80npgbnnm7dmpom6dc0r5c7dc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

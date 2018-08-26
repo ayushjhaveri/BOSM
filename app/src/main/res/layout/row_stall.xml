@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/border_shadow">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="24dp"
+                android:background="@drawable/circular_imageview" />
+
+            <TextView
+                android:id="@+id/tv_stall_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:paddingBottom="18dp"
+                android:paddingLeft="48dp"
+                android:paddingTop="18dp"
+                android:text="Stall Name"
+                android:textColor="@color/back_shade6"
+                android:textSize="16sp"
+                android:transitionName="@string/simple_fragment_transition" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24dp"
+                android:src="@drawable/icon_roight_arrow"
+                android:tint="@color/back_shade6" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

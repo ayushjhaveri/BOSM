@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="18dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_sort_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="8dp"
+            android:text="Day 1"
+            android:textSize="27sp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_above="@+id/vertical_view1"
+            android:layout_marginStart="46.5dp"
+            app:cardBackgroundColor="#E64A19"
+            app:cardCornerRadius="3dp" />
+
+        <View
+            android:id="@+id/vertical_view1"
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="49dp"
+            android:background="#BDBDBD" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/vertical_view2"
+        android:layout_width="1dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/rl_top"
+        android:layout_marginStart="49dp"
+        android:background="#BDBDBD" />
+
+
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="#BDBDBD"
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/vertical_view2"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp">
+
+        <RelativeLayout
+            android:id="@+id/rl_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:paddingTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:paddingBottom="4dp"
+                android:text="Running Event -100m"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="32dp"
+            android:id="@+id/view_12"
+            android:layout_below="@+id/rl_title2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#a1000000"/>
+
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/view_12"
+            android:id="@+id/rl_college"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/ll_gold"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:id="@+id/tv_gold_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Sanjeet"
+                    android:textColor="#d1000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="GOLD"
+                    android:textColor="#c1000000"
+                    android:textSize="10sp" />
+                <TextView
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:id="@+id/tv_gold_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="45m"
+                    android:textColor="#c1000000"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_below="@id/ll_gold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:id="@+id/tv_silver_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Sanjeet"
+                        android:textColor="#d1000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="SILVER"
+                        android:textColor="#c1000000"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:id="@+id/tv_silver_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="45m"
+                        android:textColor="#c1000000"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:id="@+id/tv_bronze_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Sanjeet"
+                        android:textColor="#d1000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="BRONZE"
+                        android:textColor="#c1000000"
+                        android:textSize="10sp" />
+                    <TextView
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:id="@+id/tv_bronze_score"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="45m"
+                        android:textColor="#c1000000"
+                        android:textSize="8sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/ll_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rl_college"
+            android:background="#BDBDBD">
+
+
+            <!--<View-->
+            <!--android:background="@color/back_shade2"-->
+            <!--android:layout_marginHorizontal="15dp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--/>-->
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="4dp"
+                android:text="19:00 hrs"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_venue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_time"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:padding="4dp"
+                android:text="GYM G"
+                android:textColor="#000000"
+                android:textSize="9sp" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

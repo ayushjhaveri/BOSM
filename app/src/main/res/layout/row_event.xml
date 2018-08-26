@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ramotion.foldingcell.FoldingCell xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/folding_cell"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:layout_marginEnd="12dp"
+    app:backSideColor="@color/back_shade2"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="6dp">
+    ​
+
+    <FrameLayout
+        android:id="@+id/cell_content_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="250dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/border_shadow_menu">
+
+            <LinearLayout
+                android:id="@+id/ll_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_marginLeft="12dp"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@color/back_shade2" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/back_shade2"
+                    app:cardCornerRadius="25dp">
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="9dp"
+                        android:paddingTop="9dp"
+                        android:paddingRight="14dp"
+                        android:paddingLeft="14dp"
+                        android:textColor="@color/back_shade4"
+                        android:text="Street Football"
+                        android:textSize="27dp"
+                        android:textStyle="bold"/>
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:layout_marginRight="12dp"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@color/back_shade2" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_club2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gaming Club"
+                android:textSize="15dp"
+                android:layout_marginTop="4dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/ll_name"
+                android:textColor="@color/orange_shade"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:layout_below="@id/tv_club2"
+                android:id="@+id/tv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:text="This is an event of Gaming Club. It does suck, but please do come. Without us bosm would have been better blah blah blah. MakeTeams of 10 ppl. We'll play on a random ground an the referee will be partial."
+                android:textSize="13dp"
+                android:lineSpacingExtra="2dp" />
+
+
+            <LinearLayout
+                android:layout_marginTop="4dp"
+                android:layout_below="@id/tv_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_date2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="19th Sep" />
+
+                <TextView
+                    android:id="@+id/tv_time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="19:00" />
+
+                <TextView
+                    android:id="@+id/tv_venue2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Gym G" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+    ​
+
+    <FrameLayout
+        android:id="@+id/cell_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/border_shadow"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp">
+
+            <TextView
+                android:id="@+id/tv_event_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Street Football"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="27dp" />
+
+            <TextView
+                android:id="@+id/tv_club"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_event_name"
+                android:layout_centerHorizontal="true"
+                android:text="Gaming Club"
+                android:textColor="@color/orange_shade"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="19th Sep" />
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="19:00" />
+
+                <TextView
+                    android:id="@+id/tv_venue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Gym G" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </FrameLayout>
+    ​
+</com.ramotion.foldingcell.FoldingCell>

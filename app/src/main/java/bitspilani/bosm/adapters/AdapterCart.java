@@ -1,7 +1,9 @@
 package bitspilani.bosm.adapters;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,20 +37,21 @@ import bitspilani.bosm.CartActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemCart;
 import bitspilani.bosm.utils.Constant;
+import nl.dionsegijn.steppertouch.OnStepCallback;
+import nl.dionsegijn.steppertouch.StepperTouch;
 
 /**
  * Created by Prashant on 4/7/2018.
  */
 
-public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
+public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
 
-    private ArrayList<ItemCart> arrayList;
     private Context context;
 
     private static final String TAG = "AdapterCart";
 
-    public AdapterCart(Context context, ArrayList<ItemCart> arrayList) {
-        this.arrayList = arrayList;
+    public AdapterCart(Context context, Query query) {
+        super(query);
         this.context = context;
     }
 
@@ -55,68 +65,79 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final ItemCart itemCart = arrayList.get(position);
+
+        final DocumentSnapshot document =  getSnapshot(position);
+        final ItemCart itemCart = new ItemCart(
+                Integer.parseInt(document.getId()),
+                Integer.parseInt(document.getData().get("food_id").toString()),
+                Integer.parseInt(document.getData().get("stall_id").toString()),
+                Integer.parseInt(document.getData().get("quantity").toString()),
+                document.getData().get("food_name").toString(),
+                document.getData().get("stall_name").toString(),
+                Double.parseDouble(document.getData().get("food_price").toString())
+        );
 
         holder.textView_name.setText(itemCart.getName());
-        holder.textView_quantity.setText(itemCart.getQuantity()+"");
         holder.textView_price.setText(context.getResources().getString(R.string.Rs) + " "+itemCart.getPrice()+"");
         holder.progressBar.setVisibility(View.GONE);
 
-
-        //Quantity function
-        holder.textView_plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int quantity = Integer.parseInt(holder.textView_quantity.getText().toString());
-                quantity++;
-                holder.textView_quantity.setText(quantity+"");
-                if(holder.textView_quantity.getText().toString().equals(Integer.toString(itemCart.getQuantity()))){
-                    holder.iv_update_cart.setVisibility(View.GONE);
-                }else{
-                    holder.iv_update_cart.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        holder.textView_minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int quantity = Integer.parseInt(holder.textView_quantity.getText().toString());
-                if(quantity>1) {
-                    quantity--;
-                    holder.textView_quantity.setText(quantity + "");
-                    if(holder.textView_quantity.getText().toString().equals(Integer.toString(itemCart.getQuantity()))){
-                        holder.iv_update_cart.setVisibility(View.GONE);
-                    }else{
-                        holder.iv_update_cart.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        holder.iv_update_cart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                update_cart(holder,itemCart,Integer.parseInt(holder.textView_quantity.getText().toString()));
-            }
-        });
         holder.ib_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                del_cart_item(itemCart,position);
-                //reomve function
+                document.getReference().delete();
+                notifyItemRemoved(position);
+                getmQuery().get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    double sum = 0;
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        sum = sum +(Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
+                                    }
+                                    CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+sum+"");
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
+            }
+        });
+
+        holder.stepperTouch.stepper.setMin(1);
+        holder.stepperTouch.stepper.setMax(45);
+        holder.stepperTouch.stepper.setValue(itemCart.getQuantity());
+        holder.stepperTouch.enableSideTap(true);
+        holder.stepperTouch.stepper.addStepCallback(new OnStepCallback() {
+            @Override
+            public void onStep(int value, boolean positive) {
+                document.getReference().update("quantity",value);
+                getmQuery().get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    double sum = 0;
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        sum = sum +(Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
+                                    }
+                                    CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+sum+"");
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                }
+                            }
+                        });
             }
         });
 
     }
 
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView_name, textView_price, textView_plus, textView_minus, textView_quantity;
+        TextView textView_name, textView_price;
         ImageView iv_update_cart;
         ImageButton ib_remove;
+        StepperTouch stepperTouch;
 //        ProgressBar progressBar;
         RelativeLayout progressBar;
 
@@ -124,15 +145,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
             super(itemView);
             textView_name = (TextView) itemView.findViewById(R.id.tv_name);
             textView_price = (TextView) itemView.findViewById(R.id.tv_price);
-            textView_plus = (TextView) itemView.findViewById(R.id.tv_plus);
-            textView_minus = (TextView) itemView.findViewById(R.id.tv_minus);
-            textView_quantity = (TextView) itemView.findViewById(R.id.tv_quantity);
 //            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
             progressBar=(RelativeLayout) itemView.findViewById(R.id.rl_progress);
             ib_remove = (ImageButton) itemView.findViewById(R.id.ib_remove);
             iv_update_cart=(ImageView)itemView.findViewById(R.id.iv_update_cart);
+            stepperTouch = (StepperTouch)itemView.findViewById(R.id.stepperTouch);
         }
     }
+
+
     public void update_cart(final ViewHolder holder, final ItemCart itemCart, final int quantity){
         class GetData extends AsyncTask<Void, Void, String> {
             @Override
@@ -193,9 +214,9 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
                     boolean success = response.getBoolean("success");
                     if(success){
 //                        notifyDataSetChanged();
-                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice()) +(itemCart.getPrice()*quantity);
-                        CartActivity.sum = update_sum;
-                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
+//                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice()) +(itemCart.getPrice()*quantity);
+//                        CartActivity.sum = update_sum;
+//                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
                         itemCart.setQuantity(quantity);
                     }else{
                         Toast.makeText(context,"try again!",Toast.LENGTH_SHORT).show();
@@ -269,15 +290,15 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
                     JSONObject response = root.getJSONObject("response");
                     boolean success = response.getBoolean("success");
                     if(success){
-                        arrayList.remove(pos);
+//                        arrayList.remove(pos);
                         notifyItemRemoved(pos);
-                        CartActivity.tv_items.setText("Items("+arrayList.size()+")");
-                        if(arrayList.size()==0){
-                            CartActivity.tv_items.setText("");
-                        }
-                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice());
-                        CartActivity.sum = update_sum;
-                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
+//                        CartActivity.tv_items.setText("Items("+arrayList.size()+")");
+//                        if(arrayList.size()==0){
+//                            CartActivity.tv_items.setText("");
+//                        }
+//                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice());
+//                        CartActivity.sum = update_sum;
+//                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
                     }else{
                         Toast.makeText(context,"try again!",Toast.LENGTH_SHORT).show();
                     }

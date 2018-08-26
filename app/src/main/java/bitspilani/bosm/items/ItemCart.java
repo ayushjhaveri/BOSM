@@ -5,16 +5,19 @@ package bitspilani.bosm.items;
  */
 
 public class ItemCart {
-    private int cart_id, food_id, quantity;
+    private int cart_id, food_id, quantity, stall_id;
     private String name;
+    private String stall_name;
     private double price;
 
-    public ItemCart(int cart_id, int food_id, int quantity, String name, double price) {
+    public ItemCart(int cart_id, int food_id,int stall_id, int quantity, String name,String stall_name, double price) {
         this.cart_id = cart_id;
         this.food_id = food_id;
         this.quantity = quantity;
         this.name = name;
         this.price = price;
+        this.stall_id = stall_id;
+        this.stall_name  = stall_name;
     }
 
     public int getCart_id() {

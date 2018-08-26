@@ -6,8 +6,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,22 +15,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 
-import org.w3c.dom.Text;
-
-import bitspilani.bosm.fragments.BlankFragment;
+import bitspilani.bosm.fragments.StallFragment;
 import bitspilani.bosm.fragments.ContactFragment;
 import bitspilani.bosm.fragments.DevelopersFragment;
 import bitspilani.bosm.fragments.EpcFragment;
@@ -185,7 +177,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         loadFrag(new HomeFragment(), "Home", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -196,9 +188,9 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new BlankFragment(), "Order Food", fm);
+                        loadFrag(new StallFragment(), "Order Food", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -210,7 +202,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         loadFrag(new DevelopersFragment(), "Develoeprs", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -222,7 +214,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         loadFrag(new SponsorsFragment(), "Sponsors", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -235,7 +227,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         loadFrag(new EpcFragment(), "EPC", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -247,7 +239,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         loadFrag(new HpcFragment(), "EPC", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -259,7 +251,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         loadFrag(new ContactFragment(), "Contact Us", fm);
                     }
-                }, 200);
+                }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -330,7 +322,7 @@ public class HomeActivity extends AppCompatActivity
 //        if (id == R.id.nav_food_stalls) {
 //            // Handle the camera action
 //            setTitle("Order Food");
-//            loadFrag(new BlankFragment(),"Order Food",fm);
+//            loadFrag(new StallFragment(),"Order Food",fm);
 //        }
 
 //        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -357,7 +349,7 @@ public class HomeActivity extends AppCompatActivity
 //            case R.id.nav_order_food:
 //                drawer.closeDrawer(GravityCompat.START);
 //                Toast.makeText(HomeActivity.this,"ddsadsad",Toast.LENGTH_SHORT).show();
-//                loadFrag(new BlankFragment(),"Order Food",fm);
+//                loadFrag(new StallFragment(),"Order Food",fm);
 //                break;
 //        }
 //    }

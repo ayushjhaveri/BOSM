@@ -4,6 +4,9 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven {
+        url "https://maven.google.com"
+    }
 }
 
 android {
@@ -48,7 +51,7 @@ dependencies {
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
     implementation 'com.google.firebase:firebase-firestore:17.1.0'
     implementation 'com.google.firebase:firebase-core:16.0.3'
-
+    implementation 'com.github.DanielMartinus:Stepper-Touch:0.6'
     implementation 'com.facebook.shimmer:shimmer:0.3.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

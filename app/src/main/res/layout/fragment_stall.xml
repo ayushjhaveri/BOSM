@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-    tools:context="bitspilani.bosm.fragments.BlankFragment">
+    tools:context="bitspilani.bosm.fragments.StallFragment">
 
     <ImageView
         android:tint="#3f395e"
@@ -87,17 +87,17 @@
 
 
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:clipToPadding="false"
         android:paddingTop="105dp"
         android:paddingBottom="90dp"
         android:overScrollMode="never"
         android:layout_marginTop="12dp"
-        android:id="@+id/lv_stalls"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent">
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
