@@ -49,7 +49,7 @@ public class SportFragment extends Fragment{
                 .build();
         db.setFirestoreSettings(settings);
 
-        Query mQuery = db.collection("Sports");
+        Query mQuery = db.collection("sports");
 
         adapterSport = new AdapterSport(getContext(),mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());

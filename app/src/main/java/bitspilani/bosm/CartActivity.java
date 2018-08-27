@@ -81,6 +81,9 @@ public class CartActivity extends Fragment {
                 .setPersistenceEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
+
+
+
         Query mQuery = db.collection("cart").whereEqualTo("user_id",1);
         adapterCart = new AdapterCart(getActivity(),mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

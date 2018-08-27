@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +27,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.SetOptions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +49,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import bitspilani.bosm.items.ItemUser;
 import bitspilani.bosm.utils.Constant;
@@ -55,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
     ImageView progressBar;
 
     EditText et_username;
-
+    private FirebaseAuth mAuth;
 
     private SharedPreferences profileSharedPreferences;
 
@@ -64,8 +78,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        startActivity(new Intent(this,HomeActivity.class));
-        finish();
+
+
+// ...
+        mAuth = FirebaseAuth.getInstance();
+//        startActivity(new Intent(this,HomeActivity.class));
+//        finish();
         //initializing Objects
         init();
 
@@ -114,6 +132,16 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+
+
     private void init() {
 
         signupButton = (Button) findViewById(R.id.button_signup);
@@ -123,6 +151,7 @@ public class LoginActivity extends AppCompatActivity {
         et_username = (EditText) findViewById(R.id.et_username);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -156,7 +185,8 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
-            login(account);
+//            login(account);
+            firebaseAuthWithGoogle(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -166,165 +196,147 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-//    private void updateUI(final GoogleSignInAccount account) {
-//
-//        //validating if user is signed up or not
-//        StringRequest postRequest = new StringRequest(Request.Method.POST, Constant.URL_VALIDATING_ACCCOUNT,
-//                new Response.Listener<String>(){
-//                    @Override
-//                    public void onResponse(String response) {
-//                        // response
-//                        Log.d(TAG, "Response: " + response);
-//                        Toast.makeText(LoginActivity.this,"Respoonse " +response,Toast.LENGTH_LONG).show();
-////                        try {
-////                            JSONObject root = new JSONObject(response);
-////                            boolean isSignedUp = root.getBoolean("isSignedUp");
-////
-////                            if (isSignedUp) {
-////
-////                                //initiate Login
-////                                JSONObject login_root = root.getJSONObject("login");
-////                                boolean isSuccess = login_root.getBoolean("success");
-////                                String message = login_root.getString("message");
-////                                if(isSuccess){
-////                                    Constant.currentItemUser = new ItemUser(
-////                                            login_root.getString("user_name"),
-////                                            login_root.getString("user_gender"),
-////                                            login_root.getString("user_email"),
-////                                            login_root.getInt("user_phone"),
-////                                            login_root.getString("user_google_profile_image"),
-////                                            Float.parseFloat(login_root.getString("user_wallet"))
-////                                    );
-////                                    Constant.login(account.getEmail(),profileSharedPreferences);
-////                                }else{
-////                                    Toast.makeText(LoginActivity.this,message,Toast.LENGTH_SHORT).show();
-////                                }
-////                            } else {
-////
-////                                //initiate Signup
-//////                                signUp(account);
-////                            }
-////
-////                        } catch (JSONException e) {
-////                            e.printStackTrace();
-////                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // error
-//                        Log.d(TAG, "Error Response: " + error.toString());
-//                    }
-//                }
-//        ) {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put(Constant.USER_EMAIL, account.getEmail());
-//                return params;
-//            }
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json; charset=utf-8");
-//                return headers;
-//            }
-//        };
-//        postRequest.setRetryPolicy(new RetryPolicy() {
-//            @Override
-//            public int getCurrentTimeout() {
-//                return 50000;
-//            }
-//
-//            @Override
-//            public int getCurrentRetryCount() {
-//                return 50000;
-//            }
-//
-//            @Override
-//            public void retry(VolleyError error) throws VolleyError {
-//
-//            }
-//        });
-//        queue.add(postRequest);
-//    }
 
     private void signUp(GoogleSignInAccount account) {
-
-    }
-
-    public void login(final GoogleSignInAccount account){
-        class GetData extends AsyncTask<Void, Void, String> {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                progressBar.setVisibility(View.GONE);
-                super.onPostExecute(s);
-                parseJSON(s);
-            }
-
-            @Override
-            protected String doInBackground(Void... params) {
-
-                try {
-                    URL url = new URL(Constant.URL_VALIDATING_ACCCOUNT);
-                    String urlParams = "email=" + account.getEmail()+
-                            "&name="+account.getDisplayName();
-
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setDoOutput(true);
-                    StringBuilder sb = new StringBuilder();
 //
-                    OutputStream os = con.getOutputStream();
-                    os.write(urlParams.getBytes());
-                    os.flush();
-                    os.close();
-
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                    String json;
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
-
-                    String s = sb.toString().trim();
-                    return s;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "error";
-                }
-            }
-
-            private void parseJSON(String json) {
-                try {
-//                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Response: " + json);
-                    JSONObject root = new JSONObject(json);
-                    JSONObject response = root.getJSONObject("response");
-                    int id = response.getInt("id");
-                    String name = response.getString("name");
-                    String email = response.getString("email");
-                    double wallet = response.getDouble("wallet");
-                    ItemUser itemUser = new ItemUser(id,name,email,wallet);
-                    Constant.currentItemUser = itemUser;
-                    Constant.IS_LOGIN =true;
-                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                } catch (JSONException e) {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this,getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        }
-        GetData gd = new GetData();
-        gd.execute();
     }
+
+//    public void login(final GoogleSignInAccount account){
+//        class GetData extends AsyncTask<Void, Void, String> {
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String s) {
+//                progressBar.setVisibility(View.GONE);
+//                super.onPostExecute(s);
+//                parseJSON(s);
+//            }
+//
+//            @Override
+//            protected String doInBackground(Void... params) {
+//
+//                try {
+//                    URL url = new URL(Constant.URL_VALIDATING_ACCCOUNT);
+//                    String urlParams = "email=" + account.getEmail()+
+//                            "&name="+account.getDisplayName();
+//
+//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//                    con.setDoOutput(true);
+//                    StringBuilder sb = new StringBuilder();
+////
+//                    OutputStream os = con.getOutputStream();
+//                    os.write(urlParams.getBytes());
+//                    os.flush();
+//                    os.close();
+//
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//
+//                    String json;
+//                    while ((json = bufferedReader.readLine()) != null) {
+//                        sb.append(json + "\n");
+//                    }
+//
+//                    String s = sb.toString().trim();
+//                    return s;
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    return "error";
+//                }
+//            }
+//
+//            private void parseJSON(String json) {
+//                try {
+////                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "Response: " + json);
+//                    JSONObject root = new JSONObject(json);
+//                    JSONObject response = root.getJSONObject("response");
+//                    int id = response.getInt("id");
+//                    String name = response.getString("name");
+//                    String email = response.getString("email");
+//                    double wallet = response.getDouble("wallet");
+//                    ItemUser itemUser = new ItemUser(id,name,email,wallet);
+//                    Constant.currentItemUser = itemUser;
+//                    Constant.IS_LOGIN =true;
+//                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+//                } catch (JSONException e) {
+//                    progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(LoginActivity.this,getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        GetData gd = new GetData();
+//        gd.execute();
+//    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+//                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+//                            Snackbar.make(findViewById(R.id.), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+    private void updateUI(final FirebaseUser user){
+
+//        Toast.makeText(this,"successful!",Toast.LENGTH_SHORT).show();
+        if(user!=null){
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                    .setTimestampsInSnapshotsEnabled(true)
+                    .setPersistenceEnabled(true)
+                    .build();
+            db.setFirestoreSettings(settings);
+
+            db.collection("user").document(user.getUid()).get().addOnCompleteListener(
+                    new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if(task.getResult().getData()==null){
+                                    //user doesn't exist
+                                    Toast.makeText(LoginActivity.this,"han",Toast.LENGTH_SHORT).show();
+                                    Map<String, Object> data = new HashMap<>();
+                                    data.put("email",user.getEmail());
+                                    data.put("name",user.getDisplayName());
+                                    data.put("password",user.getUid());
+                                    data.put("username",user.getUid());
+                                    data.put("wallet",0.0);
+                                    db.collection("user").document(user.getUid())
+                                            .set(data, SetOptions.merge());
+                                }
+
+                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                finish();
+                            }
+                        }
+                    }
+            );
+
+        }
+
+    }
+
 
 }
 

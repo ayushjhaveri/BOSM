@@ -84,7 +84,7 @@ public class StallFragment extends Fragment {
         fab_wallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(), WalletActivity.class));
+                loadFragment(new WalletActivity());
             }
         });
 

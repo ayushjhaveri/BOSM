@@ -61,8 +61,8 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
         DocumentSnapshot document =  getSnapshot(position);
         final ItemSport itemSport  = new ItemSport(
                 Integer.parseInt(document.getId()),
-                document.getData().get("sportName").toString(),
-                Boolean.parseBoolean(document.getData().get("isGender").toString())
+                document.getData().get("sport_name").toString(),
+                Boolean.parseBoolean(document.getData().get("is_gender").toString())
         );
 
         holder.textView_name.setText(itemSport.getName());

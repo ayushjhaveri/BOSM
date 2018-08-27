@@ -17,9 +17,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".WalletActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".AddMoneyBActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".OrderDetailsActivity" />

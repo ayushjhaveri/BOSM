@@ -2,6 +2,8 @@ package bitspilani.bosm.utils;
 
 import android.content.SharedPreferences;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Random;
 
 import bitspilani.bosm.adapters.ItemSport;
@@ -53,6 +55,9 @@ public class Constant {
         IS_LOGIN = true;
         saveLoginToSharedPreferences(profieSharedPreferences,email);
     }
+
+    public static FirebaseUser user;
+
 
     public static ItemSport currentSport;
 
