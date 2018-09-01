@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent">
+
+    <RelativeLayout
+        android:id="@+id/cv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_shadow"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/tv_stall_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Domino's Pizza"
+            android:layout_centerHorizontal="true"
+            style="@style/TextAppearance.AppCompat.Title.Inverse"
+            android:textColor="@color/background2"
+            />
+
+        <View
+            android:id="@+id/view"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/tv_stall_name"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_gradient"></View>
+
+        <RelativeLayout
+            android:layout_below="@id/view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/circular_imageview5" />
+
+            <TextView
+                android:id="@+id/tv_food_name"
+                style="@style/TextAppearance.AppCompat.Title.Inverse"
+                android:textColor="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="36dp"
+                android:layout_marginTop="8dp"
+                android:layout_toLeftOf="@+id/iv_remove"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:text="Pepper Pizza Cheese Loaded" />
+
+            <!--<TextView-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:id="@+id/tv_price_tag"-->
+            <!--android:layout_below="@id/tv_name"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Price: "/>-->
+            <TextView
+                android:layout_marginBottom="12dp"
+                android:id="@+id/tv_price"
+                style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_food_name"
+                android:textColor="#bbeeeeee"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="5dp"
+                android:text="50"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:layout_marginBottom="12dp"
+                android:id="@+id/tv_quantity"
+                style="@style/TextAppearance.AppCompat.Subhead.Inverse"
+                android:layout_toRightOf="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_food_name"
+                android:textColor="#bbeeeeee"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:paddingRight="5dp"
+                android:text="x3"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_below="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Waiting"
+                android:textSize="14dp"
+                android:drawablePadding="3dp"
+                android:layout_alignParentEnd="true"
+                android:padding="4dp"
+                android:drawableLeft="@drawable/icon_timer"
+                />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

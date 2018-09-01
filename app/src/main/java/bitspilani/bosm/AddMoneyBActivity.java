@@ -35,10 +35,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.SetOptions;
 import com.paytm.pgsdk.Log;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -66,17 +68,29 @@ public class AddMoneyBActivity extends Fragment {
 
     private Toolbar toolbar;
     private TextView textView_balance, textView_add_amount1, textView_add_amount2, textView_add_amount3;
-    public static EditText editText_amount;
-//    Button button_add;
+    EditText editText_amount;
+    //    Button button_add;
     private ProgressBar progressBar, progressBar2;
     ImageButton ib_add;
-    String checkSum="";
-    String amount= "0";
+    String checkSum = "";
+    String amount = "0";
     String ORDER_ID = "";
+    static String amt_needed;
 
 
     FirebaseUser user;
-    FirebaseFirestore db ;
+    FirebaseFirestore db;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            amt_needed = getArguments().getString("YourKey");
+        }
+    }
 
     @Nullable
     @Override
@@ -85,9 +99,9 @@ public class AddMoneyBActivity extends Fragment {
         init(view);
 
 
-         user  = FirebaseAuth.getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
-         db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)
@@ -105,7 +119,7 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty()) {
-                    float initial =50;
+                    float initial = 50;
                     editText_amount.setText(initial + "");
                 } else {
                     float initial = Float.parseFloat(editText_amount.getText().toString());
@@ -118,7 +132,7 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty()) {
-                    float initial =100;
+                    float initial = 100;
                     editText_amount.setText(initial + "");
                 } else {
                     float initial = Float.parseFloat(editText_amount.getText().toString());
@@ -131,7 +145,7 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty()) {
-                    float initial =200;
+                    float initial = 200;
                     editText_amount.setText(initial + "");
                 } else {
                     float initial = Float.parseFloat(editText_amount.getText().toString());
@@ -142,15 +156,15 @@ public class AddMoneyBActivity extends Fragment {
         });
 
 
-
         ib_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText_amount.getText().toString().isEmpty() || Float.parseFloat(editText_amount.getText().toString())<=0){
-                    Snackbar.make(view,"Enter valid amount!",Snackbar.LENGTH_SHORT).show();
-                }else{
+                if (editText_amount.getText().toString().isEmpty() || Float.parseFloat(editText_amount.getText().toString()) <= 0) {
+                    Snackbar.make(view, "Enter valid amount!", Snackbar.LENGTH_SHORT).show();
+                } else {
 
                     add_amount(Double.parseDouble(editText_amount.getText().toString()));
+
 
 //                    if (Constant.ACCOUNT_TYPE == Constant.ACCOUNT_TYPE_BITS) {
 //                        add_amount();
@@ -169,8 +183,8 @@ public class AddMoneyBActivity extends Fragment {
 //            double amount = intent.getDoubleExtra("amount",0);
 //            editText_amount.setText(amount+"");
 //        }
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
-        TextView tv_title = (TextView)view.findViewById(R.id.tv_title);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_title.setTypeface(oswald_regular);
 
         view.findViewById(R.id.rl_add_50).setOnClickListener(new View.OnClickListener() {
@@ -212,32 +226,69 @@ public class AddMoneyBActivity extends Fragment {
         });
 
 
+        if (amt_needed != "") {
+            editText_amount.setText(amt_needed);
+        }
+
         return view;
 
     }
 
-    private void add_amount(final double amount){
+    private void add_amount(final double amount) {
 
-        if(user==null){
-            Toast.makeText(getActivity(),"Please login!",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getActivity(),LoginActivity.class));
+        if (user == null) {
+            Toast.makeText(getActivity(), "Please login!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
-        }else{
+        } else {
 
             db.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    Double prev_bal = Double.parseDouble(task.getResult().getData().get("wallet").toString());
-                    db.collection("user").document(user.getUid()).update("wallet",prev_bal+amount).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getActivity(),"Amount added successfully!",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(getActivity(),"Please try again!",Toast.LENGTH_SHORT).show();
+                    final Double prev_bal = Double.parseDouble(task.getResult().getData().get("wallet").toString());
+
+
+                    db.collection("latest_ids").document("transactions").
+                            get().addOnCompleteListener(
+                            new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        int id = Integer.parseInt(
+                                                task.getResult().getData().get("value").toString());
+                                        id++;
+                                        final int finalId = id;
+
+                                        HashMap<String, Object> data = new HashMap<>();
+                                        data.put("user_id", user.getUid());
+                                        data.put("amount", amount);
+                                        data.put("from", "User");
+                                        data.put("order_unique_id", " ");
+                                        data.put("to", "Wallet");
+                                        data.put("remarks", "Money added to wallet");
+                                        data.put("timestamp", FieldValue.serverTimestamp());
+
+                                        db.collection("transactions").document(String.valueOf(id)).set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    db.collection("latest_ids").document("transactions").update("value", finalId);
+                                                    db.collection("user").document(user.getUid()).update("wallet", prev_bal + amount);
+                                                    Toast.makeText(getActivity(), "Amount added successfully!", Toast.LENGTH_SHORT).show();
+                                                    editText_amount.setText("");
+                                                } else {
+                                                    Toast.makeText(getActivity(), "Please try again!", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                            }
+                                        });
+
+                                    } else {
+                                        Toast.makeText(getActivity(), "Please try again!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
                             }
-                        }
-                    });
+                    );
 
 
                 }
@@ -247,17 +298,17 @@ public class AddMoneyBActivity extends Fragment {
 
     }
 
-    private void getBalance(){
-        textView_balance.setText(getResources().getString(R.string.Rs)+" ---");
-        if(user==null){
-            Toast.makeText(getActivity(),"Please login!",Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getActivity(),LoginActivity.class));
+    private void getBalance() {
+        textView_balance.setText(getResources().getString(R.string.Rs) + " ---");
+        if (user == null) {
+            Toast.makeText(getActivity(), "Please login!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
-        }else{
+        } else {
             db.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    textView_balance.setText(getResources().getString(R.string.Rs)+" "+ task.getResult().getData().get("wallet").toString());
+                    textView_balance.setText(getResources().getString(R.string.Rs) + " " + task.getResult().getData().get("wallet").toString());
                 }
             });
 
@@ -275,15 +326,16 @@ public class AddMoneyBActivity extends Fragment {
 //        button_add = (Button) view.findViewById(R.id.bt_add);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar2 = (ProgressBar) view.findViewById(R.id.progressBar2);
-        ib_add =(ImageButton) view.findViewById(R.id.ib_add);
+        ib_add = (ImageButton) view.findViewById(R.id.ib_add);
     }
 
     ListenerRegistration listenerRegistration;
+
     @Override
     public void onStart() {
         super.onStart();
         DocumentReference docRef = db.collection("user").document(user.getUid());
-        listenerRegistration = docRef.addSnapshotListener(getActivity(),new EventListener<DocumentSnapshot>() {
+        listenerRegistration = docRef.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
                                 @Nullable FirebaseFirestoreException e) {
@@ -298,7 +350,7 @@ public class AddMoneyBActivity extends Fragment {
                 if (snapshot != null && snapshot.exists()) {
 //                    Log.d(TAG, source +
 //" data: " + snapshot.getData());
-                    textView_balance.setText(getResources().getString(R.string.Rs)+" "+ snapshot.getData().get("wallet").toString());
+                    textView_balance.setText(getResources().getString(R.string.Rs) + " " + snapshot.getData().get("wallet").toString());
 
                 }
 //                else {

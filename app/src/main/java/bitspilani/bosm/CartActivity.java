@@ -68,8 +68,6 @@ import bitspilani.bosm.adapters.AdapterCart;
 import bitspilani.bosm.items.ItemCart;
 import bitspilani.bosm.items.ItemFood;
 import bitspilani.bosm.utils.Constant;
-
-import static bitspilani.bosm.AddMoneyBActivity.editText_amount;
 //import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class CartActivity extends Fragment {
@@ -131,108 +129,120 @@ public class CartActivity extends Fragment {
             public void onClick(View view) {
 
                 AlertDialog.Builder builder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(getActivity());
-                }
-                builder.setTitle("Confirmation")
-                        .setMessage("Are you sure you are done with your order?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                builder.setView(dialog_view);
+                final AlertDialog alert = builder.create();
 
-                                db.collection("user").document(user.getUid()).get().addOnCompleteListener(
-                                        new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    final double balance = Double.parseDouble(task.getResult().getData().get("wallet").toString());
-                                                    final double order_total = Double.parseDouble(tv_total_price.getText().toString().substring(1));
-                                                    if (balance >= order_total) {
-                                                        final int randomID = (int) (Math.random() * 9000) + 1000;
-                                                        db.collection("cart").whereEqualTo("user_id", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                                if (task.isSuccessful()) {
-                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                //on yes button clicked to place order
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
 
-                                                                        Map<String, Object> data = new HashMap<>();
-                                                                        data.put("food_id", document.getData().get("food_id"));
-                                                                        data.put("food_name", document.getData().get("food_name"));
-                                                                        data.put("quantity", document.getData().get("quantity"));
-                                                                        data.put("food_price", document.getData().get("food_price"));
-                                                                        data.put("status", 0);
-                                                                        data.put("stall_id", document.getData().get("stall_id"));
-                                                                        data.put("stall_name", document.getData().get("stall_name"));
+                        db.collection("user").document(user.getUid()).get().addOnCompleteListener(
+                                new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            final double balance = Double.parseDouble(task.getResult().getData().get("wallet").toString());
+                                            final double order_total = Double.parseDouble(tv_total_price.getText().toString().substring(1));
+                                            if (balance >= order_total) {
+                                                final int randomID = (int) (Math.random() * 9000) + 1000;
+                                                db.collection("cart").whereEqualTo("user_id", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                                                        document.getReference().delete();
-                                                                        db.collection("orders").document(user.getUid()).collection(String.valueOf(randomID)).document().set(data, SetOptions.merge());
-                                                                    }
-                                                                    db.collection("latest_ids").document("transactions").
-                                                                            get().addOnCompleteListener(
-                                                                            new OnCompleteListener<DocumentSnapshot>() {
-                                                                                @Override
-                                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                                                    if (task.isSuccessful()) {
-                                                                                        int id = Integer.parseInt(
-                                                                                                task.getResult().getData().get("value").toString());
-                                                                                        id++;
-                                                                                        final int finalId = id;
+                                                                Map<String, Object> data = new HashMap<>();
+                                                                data.put("food_id", document.getData().get("food_id"));
+                                                                data.put("food_name", document.getData().get("food_name"));
+                                                                data.put("quantity", document.getData().get("quantity"));
+                                                                data.put("food_price", document.getData().get("food_price"));
+                                                                data.put("status", 0);
+                                                                data.put("stall_id", document.getData().get("stall_id"));
+                                                                data.put("stall_name", document.getData().get("stall_name"));
 
-                                                                                        HashMap<String, Object> data = new HashMap<>();
-                                                                                        data.put("order_unique_id", randomID);
-                                                                                        data.put("user_id", user.getUid());
-                                                                                        data.put("amount", order_total);
-                                                                                        data.put("from", "Wallet");
-                                                                                        data.put("to", "Stall");
-                                                                                        data.put("remarks", "Item purchased from Stall");
-                                                                                        data.put("timestamp", FieldValue.serverTimestamp());
-
-                                                                                        db.collection("transactions").document(String.valueOf(id)).set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                                            @Override
-                                                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                                                db.collection("latest_ids").document("transactions").update("value", finalId);
-                                                                                                db.collection("user").document(user.getUid()).update("wallet", balance - order_total);
-                                                                                            }
-                                                                                        });
-
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                    );
-
-
-                                                                    //intent
-                                                                    loadFragment(OrderDetailsActivity.newInstance(randomID));
-
-                                                                } else {
-                                                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                                                }
+                                                                document.getReference().delete();
+                                                                db.collection("orders").document(user.getUid()).collection(String.valueOf(randomID)).document().set(data, SetOptions.merge());
                                                             }
-                                                        });
+                                                            db.collection("latest_ids").document("transactions").
+                                                                    get().addOnCompleteListener(
+                                                                    new OnCompleteListener<DocumentSnapshot>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                            if (task.isSuccessful()) {
+                                                                                int id = Integer.parseInt(
+                                                                                        task.getResult().getData().get("value").toString());
+                                                                                id++;
+                                                                                final int finalId = id;
+
+                                                                                HashMap<String, Object> data = new HashMap<>();
+                                                                                data.put("order_unique_id", randomID);
+                                                                                data.put("user_id", user.getUid());
+                                                                                data.put("amount", order_total);
+                                                                                data.put("from", "Wallet");
+                                                                                data.put("to", "Stall");
+                                                                                data.put("remarks", "Item purchased from Stall");
+                                                                                data.put("timestamp", FieldValue.serverTimestamp());
+
+                                                                                db.collection("transactions").document(String.valueOf(id)).set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                        db.collection("latest_ids").document("transactions").update("value", finalId);
+                                                                                        db.collection("user").document(user.getUid()).update("wallet", balance - order_total);
+                                                                                    }
+                                                                                });
+
+                                                                            }
+                                                                        }
+                                                                    }
+                                                            );
 
 
-                                                    } else {
-                                                        Toast.makeText(getContext(), "Insufficient Balance!", Toast.LENGTH_SHORT).show();
+                                                            //intent
+                                                            loadFragment(OrderDetailsActivity.newInstance(randomID));
 
-                                                        editText_amount.setText((String.valueOf(order_total - balance)));
-                                                        loadFragment(new AddMoneyBActivity());
-
+                                                        } else {
+                                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                                        }
                                                     }
-                                                }
+                                                });
+
+
+                                            } else {
+                                                Toast.makeText(getContext(), "Insufficient Balance!", Toast.LENGTH_SHORT).show();
+
+                                                AddMoneyBActivity addFragment = new AddMoneyBActivity();
+                                                Bundle args = new Bundle();
+                                                args.putString("amt_needed", String.valueOf(order_total-balance));
+                                                addFragment.setArguments(args);
+
+                                                loadFragment(addFragment);
+
+//Inflate the fragment
+
+
                                             }
                                         }
-                                );
+                                    }
+                                }
+                        );
+
+                    }
+                });
+
+                //On button no clicked
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
 
 
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .show();
+               alert.show();
 
 
 //                if(Double.parseDouble(tv_total_price.)){
