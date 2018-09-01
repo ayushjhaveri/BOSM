@@ -1,12 +1,17 @@
 package bitspilani.bosm;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -28,12 +33,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,34 +61,39 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import bitspilani.bosm.adapters.AdapterCart;
 import bitspilani.bosm.items.ItemCart;
 import bitspilani.bosm.items.ItemFood;
 import bitspilani.bosm.utils.Constant;
+
+import static bitspilani.bosm.AddMoneyBActivity.editText_amount;
 //import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class CartActivity extends Fragment {
 
     private static final String TAG = "CartActivity";
-//    Toolbar toolbar;
+    //    Toolbar toolbar;
     RecyclerView recyclerView;
     AdapterCart adapterCart;
-    public static TextView tv_total_price;
-    public static RelativeLayout rl_empty_layout;
-    public static ProgressBar progressBar;
-
+    public TextView tv_total_price;
+    public RelativeLayout rl_empty_layout;
+    public ProgressBar progressBar;
+    ListenerRegistration listenerRegistration;
 
     ImageButton ib_pay;
-
+    FirebaseFirestore db;
+    FirebaseUser user;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_cart, container, false);
         init(view);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)
@@ -83,24 +101,141 @@ public class CartActivity extends Fragment {
         db.setFirestoreSettings(settings);
 
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        Query mQuery = db.collection("cart").whereEqualTo("user_id", user.getUid());
 
-        Query mQuery = db.collection("cart").whereEqualTo("user_id",1);
-        adapterCart = new AdapterCart(getActivity(),mQuery);
+        adapterCart = new AdapterCart(getActivity(), mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterCart);
 
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
-        TextView tv_title = (TextView)view.findViewById(R.id.tv_cart);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_cart);
         tv_title.setTypeface(oswald_regular);
+
+
+        //fab for wallet
+        FloatingActionButton fab_wallet = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab_wallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new WalletActivity());
+            }
+        });
 
 //        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
 
         ib_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if(cartArrayList.size()>0){
+
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(getActivity());
+                }
+                builder.setTitle("Confirmation")
+                        .setMessage("Are you sure you are done with your order?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                db.collection("user").document(user.getUid()).get().addOnCompleteListener(
+                                        new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    final double balance = Double.parseDouble(task.getResult().getData().get("wallet").toString());
+                                                    final double order_total = Double.parseDouble(tv_total_price.getText().toString().substring(1));
+                                                    if (balance >= order_total) {
+                                                        final int randomID = (int) (Math.random() * 9000) + 1000;
+                                                        db.collection("cart").whereEqualTo("user_id", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                                                        Map<String, Object> data = new HashMap<>();
+                                                                        data.put("food_id", document.getData().get("food_id"));
+                                                                        data.put("food_name", document.getData().get("food_name"));
+                                                                        data.put("quantity", document.getData().get("quantity"));
+                                                                        data.put("food_price", document.getData().get("food_price"));
+                                                                        data.put("status", 0);
+                                                                        data.put("stall_id", document.getData().get("stall_id"));
+                                                                        data.put("stall_name", document.getData().get("stall_name"));
+
+                                                                        document.getReference().delete();
+                                                                        db.collection("orders").document(user.getUid()).collection(String.valueOf(randomID)).document().set(data, SetOptions.merge());
+                                                                    }
+                                                                    db.collection("latest_ids").document("transactions").
+                                                                            get().addOnCompleteListener(
+                                                                            new OnCompleteListener<DocumentSnapshot>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        int id = Integer.parseInt(
+                                                                                                task.getResult().getData().get("value").toString());
+                                                                                        id++;
+                                                                                        final int finalId = id;
+
+                                                                                        HashMap<String, Object> data = new HashMap<>();
+                                                                                        data.put("order_unique_id", randomID);
+                                                                                        data.put("user_id", user.getUid());
+                                                                                        data.put("amount", order_total);
+                                                                                        data.put("from", "Wallet");
+                                                                                        data.put("to", "Stall");
+                                                                                        data.put("remarks", "Item purchased from Stall");
+                                                                                        data.put("timestamp", FieldValue.serverTimestamp());
+
+                                                                                        db.collection("transactions").document(String.valueOf(id)).set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                                db.collection("latest_ids").document("transactions").update("value", finalId);
+                                                                                                db.collection("user").document(user.getUid()).update("wallet", balance - order_total);
+                                                                                            }
+                                                                                        });
+
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                    );
+
+
+                                                                    //intent
+                                                                    loadFragment(OrderDetailsActivity.newInstance(randomID));
+
+                                                                } else {
+                                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                                }
+                                                            }
+                                                        });
+
+
+                                                    } else {
+                                                        Toast.makeText(getContext(), "Insufficient Balance!", Toast.LENGTH_SHORT).show();
+
+                                                        editText_amount.setText((String.valueOf(order_total - balance)));
+                                                        loadFragment(new AddMoneyBActivity());
+
+                                                    }
+                                                }
+                                            }
+                                        }
+                                );
+
+
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .show();
+
+
+//                if(Double.parseDouble(tv_total_price.)){
 //                    getWalletAmount();
 //                }else{
 //                    Toast.makeText(CartActivity.this,"Please enter items in the cart first!",Toast.LENGTH_SHORT).show();
@@ -108,28 +243,32 @@ public class CartActivity extends Fragment {
             }
         });
 
-        tv_total_price.setText(getContext().getResources().getString(R.string.Rs)+" --");
+        tv_total_price.setText(getContext().getResources().getString(R.string.Rs) + " --");
 
         mQuery.get()
-              .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             double sum = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                sum = sum +(Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
+                                sum = sum + (Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
                             }
-                            tv_total_price.setText(getContext().getResources().getString(R.string.Rs)+" "+sum+"");
+                            tv_total_price.setText(getContext().getResources().getString(R.string.Rs) + " " + sum + "");
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
-
-
-
-
         return view;
+    }
+
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_view, fragment);
+        transaction.addToBackStack("transaction");
+        transaction.commit();
     }
 
 
@@ -138,11 +277,11 @@ public class CartActivity extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         rl_empty_layout = (RelativeLayout) view.findViewById(R.id.rl_empty_layout);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        tv_total_price=(TextView) view.findViewById(R.id.tv_total_price);
+        tv_total_price = (TextView) view.findViewById(R.id.tv_total_price);
 //        tv_pay=(TextView) findViewById(R.id.tv_pay);
 
 //        iv_back = (ImageView)findViewById(R.id.iv_back);
-        ib_pay = (ImageButton)view. findViewById(R.id.ib_pay);
+        ib_pay = (ImageButton) view.findViewById(R.id.ib_pay);
     }
 
 
@@ -154,6 +293,33 @@ public class CartActivity extends Fragment {
         if (adapterCart != null) {
             adapterCart.startListening();
         }
+
+        Query query = db.collection("cart").whereEqualTo("user_id", user.getUid());
+        listenerRegistration = query.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    com.paytm.pgsdk.Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+//
+//                String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+//                        ? "Local" : "Server";
+//                    Log.d(TAG, source +
+//" data: " + snapshot.getData());
+
+                double sum = 0;
+                for (QueryDocumentSnapshot document : snapshot) {
+                    sum = sum + (Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
+                }
+                tv_total_price.setText(getContext().getResources().getString(R.string.Rs) + " " + sum + "");
+            }
+//                else {
+//                    Log.d(TAG, source + " data: null");
+//
+        });
+
     }
 
     @Override
@@ -162,11 +328,10 @@ public class CartActivity extends Fragment {
         if (adapterCart != null) {
             adapterCart.stopListening();
         }
+
+        listenerRegistration.remove();
     }
 
-    public static  void updatePrice(){
-
-    }
 
 ////    public void getCartList(){
 ////        class GetData extends AsyncTask<Void, Void, String> {

@@ -23,7 +23,7 @@
             android:minHeight="250dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:background="@drawable/border_shadow_menu">
+            android:background="@drawable/border_shadow">
 
             <LinearLayout
                 android:id="@+id/ll_name"
@@ -166,37 +166,47 @@
                 android:textColor="@color/orange_shade"
                 android:textStyle="bold"/>
 
-            <LinearLayout
+            <RelativeLayout
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:orientation="horizontal">
+                android:layout_alignParentBottom="true">
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="19th Sep" />
+                    android:text="19th Sep"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxLength="15"
+                    />
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_centerHorizontal="true"
+                    android:maxLength="12"
                     android:text="19:00" />
 
                 <TextView
+                    android:layout_alignParentEnd="true"
                     android:id="@+id/tv_venue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxLength="15"
                     android:text="Gym G" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </RelativeLayout>
     </FrameLayout>

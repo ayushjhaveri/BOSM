@@ -1,5 +1,7 @@
 package bitspilani.bosm;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -9,6 +11,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +37,8 @@ import bitspilani.bosm.fragments.SponsorsFragment;
 import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,11 +52,17 @@ public class HomeActivity extends AppCompatActivity
 
     private boolean mPermissionsRequested = false;
 
+
+    Intent mServiceIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
+        //checking service
         FirebaseApp.initializeApp(this);
 
         Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
@@ -114,53 +125,6 @@ public class HomeActivity extends AppCompatActivity
 
         });
 
-//        ib_cart = (ImageButton) findViewById(R.id.ib_cart);
-//        ib_cart.setOnClickListener(new View.OnClickListener()
-//
-//        {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this, CartActivity.class));
-//            }
-//        });
-//        iv_nav = (ImageView)findViewById(R.id.iv_nav);
-
-//        iv_cart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this,CartActivity.class));
-//            }
-//        });
-//
-//        iv_nav.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (drawer.isDrawerOpen(GravityCompat.START)) {
-//                    drawer.closeDrawer(GravityCompat.START);
-//                }else if(!drawer.isDrawerOpen(GravityCompat.START)) {
-//                    drawer.openDrawer(GravityCompat.START);
-//                }
-//            }
-//        });
-
-//        findViewById(R.id.iv_wallet).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this,WalletActivity.class));
-//            }
-//        });
-
-
-//        FloatingActionButton fab_wallet = (FloatingActionButton) findViewById(R.id.fab);
-//        fab_wallet.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this, WalletActivity.class));
-//            }
-//        });
-
-//        setTitle("Order Food");
         loadFrag(new HomeFragment(), "Home", fm);
 
 
@@ -260,6 +224,30 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("isMyServiceRunning?", true+"");
+                return true;
+            }
+        }
+        Log.i ("isMyServiceRunning?", false+"");
+        return false;
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        stopService(mServiceIntent);
+        Log.i("MAINACT", "onDestroy!");
+        super.onDestroy();
+
+    }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -337,22 +325,7 @@ public class HomeActivity extends AppCompatActivity
         ft.replace(R.id.fl_view, f1, name);
         ft.commit();
     }
-//    @Override
-//    public void onClick(View view) {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//
-//        switch (view.getId()) {
-//            case R.id.nav_home:
-//                drawer.closeDrawer(GravityCompat.START);
-//                Toast.makeText(HomeActivity.this,"ddsadsad",Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.nav_order_food:
-//                drawer.closeDrawer(GravityCompat.START);
-//                Toast.makeText(HomeActivity.this,"ddsadsad",Toast.LENGTH_SHORT).show();
-//                loadFrag(new StallFragment(),"Order Food",fm);
-//                break;
-//        }
-//    }
+
 
     @Override
     protected void onResume() {
@@ -374,6 +347,48 @@ public class HomeActivity extends AppCompatActivity
             mPermissionsRequested = true;
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+    public static String toTitleCase(String str) {
+
+        if (str == null) {
+            return null;
+        }
+
+        boolean space = true;
+        StringBuilder builder = new StringBuilder(str);
+        final int len = builder.length();
+
+        for (int i = 0; i < len; ++i) {
+            char c = builder.charAt(i);
+            if (space) {
+                if (!Character.isWhitespace(c)) {
+                    // Convert to title case and switch out of whitespace mode.
+                    builder.setCharAt(i, Character.toTitleCase(c));
+                    space = false;
+                }
+            } else if (Character.isWhitespace(c)) {
+                space = true;
+            } else {
+                builder.setCharAt(i, Character.toLowerCase(c));
+            }
+        }
+
+        return builder.toString();
+    }
+
+    public static String getDayOfMonthSuffix(final int n) {
+        checkArgument(n >= 1 && n <= 31, "illegal day of month: " + n);
+        if (n >= 11 && n <= 13) {
+            return "th";
+        }
+        switch (n % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
         }
     }
 }

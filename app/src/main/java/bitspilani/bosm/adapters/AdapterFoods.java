@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -90,6 +92,7 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
             @Override
             public void onClick(final View view) {
 //                S
+                FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
                 final Map<String, Object> data = new HashMap<>();
                 data.put("food_id",itemFood.getFood_id());
                 data.put("food_name",itemFood.getFood_name());
@@ -97,7 +100,7 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
                 data.put("quantity",1);
                 data.put("stall_id",Constant.CURRENT_STALL_ID);
                 data.put("stall_name",Constant.CURRENT_STALL_NAME);
-                data.put("user_id",1);
+                data.put("user_id",user.getUid());
 
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -111,9 +114,31 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
                             if(task.getResult().size()>0){
                                 Snackbar.make(view,"item already added to cart!",Snackbar.LENGTH_SHORT).show();
                             }else{
-                                db.collection("cart").document("5")
-                                        .set(data, SetOptions.merge());
-                                Snackbar.make(view,"item added successfully!",Snackbar.LENGTH_SHORT).show();
+                                db.collection("latest_ids").document("cart").
+                                        get().addOnCompleteListener(
+                                        new OnCompleteListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                if(task.isSuccessful()){
+                                                    int id = Integer.parseInt(
+                                                            task.getResult().getData().get("value").toString());
+                                                    id++;
+                                                    final int finalId = id;
+                                                    db.collection("cart").document(String.valueOf(id)).set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful()){
+                                                                Snackbar.make(view,"item added successfully!",Snackbar.LENGTH_SHORT).show();
+                                                                db.collection("latest_ids").document("cart").update("value", finalId);
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }
+                                );
+
+
                             }
                         }
                     }

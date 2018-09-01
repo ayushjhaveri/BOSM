@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -39,7 +40,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
     private static final String TAG = "AdapterCart";
 
 
-    private String hash;
+    public static String hash;
 
     public AdapterCurrentSport(Context context, Query query) {
         super(query);
@@ -65,7 +66,10 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
 
+
         DocumentSnapshot document =  getSnapshot(position);
+
+        Log.d(TAG,document.getData().toString()+" gfd");
         Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
@@ -73,8 +77,8 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
 
 
-        int matchType = Integer.parseInt(document.getData().get("matchType").toString());
-        boolean isResult = Boolean.parseBoolean(document.getData().get("isResult").toString());
+        int matchType = Integer.parseInt(document.getData().get("match_type").toString());
+        boolean isResult = Boolean.parseBoolean(document.getData().get("is_result").toString());
 
 
         ItemMatch itemMatch;
@@ -84,12 +88,12 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
                 if(isResult) {
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("matchType").toString()),
-                            document.getData().get("sportName").toString(),
+                            Integer.parseInt(document.getData().get("match_type").toString()),
+                            document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
                             cal.get(Calendar.DATE) + "",
-                            document.getData().get("matchRound").toString(),
+                            document.getData().get("round").toString(),
                             document.getData().get("goldName").toString(),
                             document.getData().get("silverName").toString(),
                             document.getData().get("bronzeName").toString(),
@@ -99,12 +103,12 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             );
                 }else{
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("matchType").toString()),
-                            document.getData().get("sportName").toString(),
+                            Integer.parseInt(document.getData().get("match_type").toString()),
+                            document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
                             cal.get(Calendar.DATE) + "",
-                            document.getData().get("matchRound").toString()
+                            document.getData().get("round").toString()
                     );
                 }
 
@@ -154,12 +158,12 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
             case Constant.TEAM_MATCH:
                 if(isResult) {
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("matchType").toString()),
-                            document.getData().get("sportName").toString(),
+                            Integer.parseInt(document.getData().get("match_type").toString()),
+                            document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
                             cal.get(Calendar.DATE) + "",
-                            document.getData().get("matchRound").toString(),
+                            "hinjjin",
                             document.getData().get("score1").toString(),
                             document.getData().get("score2").toString(),
                             document.getData().get("college1").toString(),
@@ -168,12 +172,12 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                     );
                 }else{
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("matchType").toString()),
-                            document.getData().get("sportName").toString(),
+                            Integer.parseInt(document.getData().get("match_type").toString()),
+                            document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
                             cal.get(Calendar.DATE) + "",
-                            document.getData().get("matchRound").toString(),
+                            document.getData().get("round").toString(),
                             document.getData().get("college1").toString(),
                             document.getData().get("college2").toString()
                     );
@@ -240,7 +244,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         DocumentSnapshot document =  getSnapshot(position);
         if (document != null && document.exists()) {
             Log.d("aaaaaa",document.getId()+"ffgfg");
-           return Integer.parseInt(Objects.requireNonNull(document.getData()).get("matchType").toString());
+           return Integer.parseInt(Objects.requireNonNull(document.getData()).get("match_type").toString());
 //            ItemMatch object = arrayList.get(position);
 //            if (object != null) {
 //                return object.getMatchType();

@@ -86,21 +86,6 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
             public void onClick(View view) {
                 document.getReference().delete();
                 notifyItemRemoved(position);
-                getmQuery().get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    double sum = 0;
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        sum = sum +(Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
-                                    }
-                                    CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+sum+"");
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
             }
         });
 
@@ -112,21 +97,6 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
             @Override
             public void onStep(int value, boolean positive) {
                 document.getReference().update("quantity",value);
-                getmQuery().get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    double sum = 0;
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        sum = sum +(Double.parseDouble(document.getData().get("food_price").toString()) * Integer.parseInt(document.getData().get("quantity").toString()));
-                                    }
-                                    CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+sum+"");
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                }
-                            }
-                        });
             }
         });
 
@@ -153,165 +123,165 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
         }
     }
 
-
-    public void update_cart(final ViewHolder holder, final ItemCart itemCart, final int quantity){
-        class GetData extends AsyncTask<Void, Void, String> {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                holder.iv_update_cart.setVisibility(View.GONE);
-                holder.progressBar.setVisibility(View.VISIBLE);
-
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                holder.iv_update_cart.setVisibility(View.GONE);
-                holder.progressBar.setVisibility(View.GONE);
-                parseJSON(s);
-            }
-
-            @Override
-            protected String doInBackground(Void... params) {
-
-                try {
-                    URL url = new URL(Constant.URL_UPDATE_CART);
-                    String urlParams = "cart_id=" + itemCart.getCart_id() +
-                            "&quantity="+quantity;
-
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setDoOutput(true);
-                    StringBuilder sb = new StringBuilder();
 //
-                    OutputStream os = con.getOutputStream();
-                    os.write(urlParams.getBytes());
-                    os.flush();
-                    os.close();
-
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                    String json;
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
-
-                    String s = sb.toString().trim();
-                    return s;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "error";
-                }
-            }
-
-            private void parseJSON(String json) {
-                try {
-//                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Response: " + json);
-                    JSONObject root = new JSONObject(json);
-                    JSONObject response = root.getJSONObject("response");
-                    boolean success = response.getBoolean("success");
-                    if(success){
-//                        notifyDataSetChanged();
-//                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice()) +(itemCart.getPrice()*quantity);
-//                        CartActivity.sum = update_sum;
-//                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
-                        itemCart.setQuantity(quantity);
-                    }else{
-                        Toast.makeText(context,"try again!",Toast.LENGTH_SHORT).show();
-                        holder.iv_update_cart.setVisibility(View.VISIBLE);
-                        holder.progressBar.setVisibility(View.GONE);
-                    }
-                } catch (JSONException e) {
-                    holder.iv_update_cart.setVisibility(View.VISIBLE);
-                    holder.progressBar.setVisibility(View.GONE);
-                    Toast.makeText(context,context.getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        }
-        GetData gd = new GetData();
-        gd.execute();
-    }
-
-    public void del_cart_item(final ItemCart itemCart, final int pos){
-        class GetData extends AsyncTask<Void, Void, String> {
-            @Override
-            protected void onPreExecute() {
-                CartActivity.progressBar.setVisibility(View.VISIBLE);
-                super.onPreExecute();
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                CartActivity.progressBar.setVisibility(View.GONE);
-                super.onPostExecute(s);
-                parseJSON(s);
-            }
-
-            @Override
-            protected String doInBackground(Void... params) {
-
-                try {
-                    URL url = new URL(Constant.URL_DEL_CART_ITEM);
-                    String urlParams = "cart_id=" + itemCart.getCart_id();
-
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setDoOutput(true);
-                    StringBuilder sb = new StringBuilder();
+//    public void update_cart(final ViewHolder holder, final ItemCart itemCart, final int quantity){
+//        class GetData extends AsyncTask<Void, Void, String> {
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//                holder.iv_update_cart.setVisibility(View.GONE);
+//                holder.progressBar.setVisibility(View.VISIBLE);
 //
-                    OutputStream os = con.getOutputStream();
-                    os.write(urlParams.getBytes());
-                    os.flush();
-                    os.close();
-
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-                    String json;
-                    while ((json = bufferedReader.readLine()) != null) {
-                        sb.append(json + "\n");
-                    }
-
-                    String s = sb.toString().trim();
-                    return s;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return "error";
-                }
-            }
-
-            private void parseJSON(String json) {
-                try {
-//                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "Response: " + json);
-                    JSONObject root = new JSONObject(json);
-                    JSONObject response = root.getJSONObject("response");
-                    boolean success = response.getBoolean("success");
-                    if(success){
-//                        arrayList.remove(pos);
-                        notifyItemRemoved(pos);
-//                        CartActivity.tv_items.setText("Items("+arrayList.size()+")");
-//                        if(arrayList.size()==0){
-//                            CartActivity.tv_items.setText("");
-//                        }
-//                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice());
-//                        CartActivity.sum = update_sum;
-//                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
-                    }else{
-                        Toast.makeText(context,"try again!",Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    CartActivity.progressBar.setVisibility(View.GONE);
-                    Toast.makeText(context,context.getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        }
-        GetData gd = new GetData();
-        gd.execute();
-    }
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String s) {
+//                super.onPostExecute(s);
+//                holder.iv_update_cart.setVisibility(View.GONE);
+//                holder.progressBar.setVisibility(View.GONE);
+//                parseJSON(s);
+//            }
+//
+//            @Override
+//            protected String doInBackground(Void... params) {
+//
+//                try {
+//                    URL url = new URL(Constant.URL_UPDATE_CART);
+//                    String urlParams = "cart_id=" + itemCart.getCart_id() +
+//                            "&quantity="+quantity;
+//
+//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//                    con.setDoOutput(true);
+//                    StringBuilder sb = new StringBuilder();
+////
+//                    OutputStream os = con.getOutputStream();
+//                    os.write(urlParams.getBytes());
+//                    os.flush();
+//                    os.close();
+//
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//
+//                    String json;
+//                    while ((json = bufferedReader.readLine()) != null) {
+//                        sb.append(json + "\n");
+//                    }
+//
+//                    String s = sb.toString().trim();
+//                    return s;
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    return "error";
+//                }
+//            }
+//
+//            private void parseJSON(String json) {
+//                try {
+////                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "Response: " + json);
+//                    JSONObject root = new JSONObject(json);
+//                    JSONObject response = root.getJSONObject("response");
+//                    boolean success = response.getBoolean("success");
+//                    if(success){
+////                        notifyDataSetChanged();
+////                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice()) +(itemCart.getPrice()*quantity);
+////                        CartActivity.sum = update_sum;
+////                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
+//                        itemCart.setQuantity(quantity);
+//                    }else{
+//                        Toast.makeText(context,"try again!",Toast.LENGTH_SHORT).show();
+//                        holder.iv_update_cart.setVisibility(View.VISIBLE);
+//                        holder.progressBar.setVisibility(View.GONE);
+//                    }
+//                } catch (JSONException e) {
+//                    holder.iv_update_cart.setVisibility(View.VISIBLE);
+//                    holder.progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(context,context.getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        GetData gd = new GetData();
+//        gd.execute();
+//    }
+//
+//    public void del_cart_item(final ItemCart itemCart, final int pos){
+//        class GetData extends AsyncTask<Void, Void, String> {
+//            @Override
+//            protected void onPreExecute() {
+//                CartActivity.progressBar.setVisibility(View.VISIBLE);
+//                super.onPreExecute();
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String s) {
+//                CartActivity.progressBar.setVisibility(View.GONE);
+//                super.onPostExecute(s);
+//                parseJSON(s);
+//            }
+//
+//            @Override
+//            protected String doInBackground(Void... params) {
+//
+//                try {
+//                    URL url = new URL(Constant.URL_DEL_CART_ITEM);
+//                    String urlParams = "cart_id=" + itemCart.getCart_id();
+//
+//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//                    con.setDoOutput(true);
+//                    StringBuilder sb = new StringBuilder();
+////
+//                    OutputStream os = con.getOutputStream();
+//                    os.write(urlParams.getBytes());
+//                    os.flush();
+//                    os.close();
+//
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//
+//                    String json;
+//                    while ((json = bufferedReader.readLine()) != null) {
+//                        sb.append(json + "\n");
+//                    }
+//
+//                    String s = sb.toString().trim();
+//                    return s;
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    return "error";
+//                }
+//            }
+//
+//            private void parseJSON(String json) {
+//                try {
+////                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
+//                    Log.d(TAG, "Response: " + json);
+//                    JSONObject root = new JSONObject(json);
+//                    JSONObject response = root.getJSONObject("response");
+//                    boolean success = response.getBoolean("success");
+//                    if(success){
+////                        arrayList.remove(pos);
+//                        notifyItemRemoved(pos);
+////                        CartActivity.tv_items.setText("Items("+arrayList.size()+")");
+////                        if(arrayList.size()==0){
+////                            CartActivity.tv_items.setText("");
+////                        }
+////                        double update_sum = CartActivity.sum - (itemCart.getTotalPrice());
+////                        CartActivity.sum = update_sum;
+////                        CartActivity.tv_total_price.setText(context.getResources().getString(R.string.Rs)+" "+update_sum+"");
+//                    }else{
+//                        Toast.makeText(context,"try again!",Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    CartActivity.progressBar.setVisibility(View.GONE);
+//                    Toast.makeText(context,context.getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        GetData gd = new GetData();
+//        gd.execute();
+//    }
 
 
 }

@@ -4,21 +4,29 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,8 +82,45 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
 //            holder.card_name.setTransitionName("transition" + position);
 //        }
         holder.icon.setImageResource(SportFragment.iconHash.get(itemSport.getSport_id()));
+
+        holder.notify.setShapeResource(R.raw.star);
+        holder.notify.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final View view, boolean checked) {
+                if(checked){
+                    FirebaseMessaging.getInstance().subscribeToTopic(itemSport.getName().toLowerCase().replace(' ','_'))
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        holder.notify.setChecked(false);
+                                        Toast.makeText(context,"Server error!",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                }else{
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(itemSport.getName().toLowerCase())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        holder.notify.setChecked(true);
+                                        Toast.makeText(context,"Server error!",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
+
         holder.textView_name.setTypeface(oswald_regular);
-        holder.textView_name.setOnClickListener(    new View.OnClickListener() {
+        holder.rl.setOnClickListener(    new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -98,19 +143,22 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
         TextView textView_name;
         CardView card_name;
         ImageView icon;
+        ShineButton notify;
+        RelativeLayout rl;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textView_name = (TextView) itemView.findViewById(R.id.tv_name);
             card_name= (CardView)itemView.findViewById(R.id.card_name);
             icon = (ImageView)itemView.findViewById(R.id.icon);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                }
-//            });
+            notify = (ShineButton)itemView.findViewById(R.id.notify);
+            rl = (RelativeLayout)itemView.findViewById(R.id.rl);
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
 }

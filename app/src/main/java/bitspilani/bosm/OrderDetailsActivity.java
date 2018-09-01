@@ -1,63 +1,120 @@
 package bitspilani.bosm;
 
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import bitspilani.bosm.adapters.AdapterOrder;
+import bitspilani.bosm.adapters.AdapterStalls;
 import bitspilani.bosm.adapters.AdapterWalletHistory;
+import bitspilani.bosm.fragments.CurrentSportFragment;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class OrderDetailsActivity extends AppCompatActivity {
-    Toolbar toolbar;
-    private TextView tv_order_unique_id, tv_timestamp,tv_amount;
-    double amount=0;
-    String order_unique_id="",timestamp="";
+public class OrderDetailsActivity extends Fragment {
+
+    ProgressBar progressBar;
+    AdapterOrder adapterOrder;
+    private int orderUniqueId;
+
+    public static OrderDetailsActivity newInstance(int param1) {
+        OrderDetailsActivity fragment = new OrderDetailsActivity();
+        Bundle args = new Bundle();
+        args.putInt("oui", param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_details);
-        init();
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setTitle("Order Details");
-
-        Intent intent = getIntent();
-        if(intent!=null){
-            amount = intent.getDoubleExtra("amount",0);
-            order_unique_id = intent.getStringExtra("order_unique_id");
-            timestamp = intent.getStringExtra("timestamp");
+        orderUniqueId = -1;
+        if (getArguments() != null) {
+            orderUniqueId = getArguments().getInt("oui");
         }
-        if(amount>=0){
-            //added to wallet
-            tv_amount.setText(getResources().getString(R.string.Rs)+" "+amount+"");
-        }else if(amount<0){
-            //paid from wallet
-            tv_amount.setText(getResources().getString(R.string.Rs)+" "+(-1*amount)+"");
-        }
-
-        tv_order_unique_id.setText(order_unique_id);
-        tv_timestamp.setText(timestamp);
-
     }
-    private void init() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_top);
-        tv_amount=(TextView)findViewById(R.id.tv_amount);
-        tv_order_unique_id=(TextView)findViewById(R.id.tv_order_unique_id);
-        tv_timestamp=(TextView)findViewById(R.id.tv_timestamp);
-    }
+
     @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View rootView =  inflater.inflate(R.layout.activity_order_details, container, false);
+        init(rootView);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if(user==)
+
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
+
+        Query mQuery = db.collection("orders").document(user.getUid()).collection(String.valueOf(orderUniqueId));
+
+        adapterOrder = new AdapterOrder(getActivity(),mQuery);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapterOrder);
+
+
+        return rootView;
+
+    }
+
+    private void init(View rootView){
+        progressBar=(ProgressBar) rootView.findViewById(R.id.progressBar);
+
+
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        TextView tv_title = (TextView)rootView.findViewById(R.id.tv_stall);
+        tv_title.setTypeface(oswald_regular);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Start listening for Firestore updates
+        if (adapterOrder != null) {
+            adapterOrder.startListening();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (adapterOrder != null) {
+            adapterOrder.stopListening();
+        }
     }
 
 

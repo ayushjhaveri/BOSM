@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,9 +29,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.paytm.pgsdk.Log;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -52,6 +58,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import bitspilani.bosm.adapters.AdapterLive;
 import bitspilani.bosm.adapters.AdapterWalletHistory;
 import bitspilani.bosm.items.ItemWalletHistory;
 import bitspilani.bosm.utils.Constant;
@@ -63,12 +70,13 @@ public class WalletActivity extends Fragment {
     Toolbar toolbar;
     TextView textView_balance;
     StickyListHeadersListView stickyList_history;
-    ArrayList<ItemWalletHistory> walletHistoryArrayList;
     private RelativeLayout relativeLayout_add_money;
     private ProgressBar progressBar, progressBar2;
     AdapterWalletHistory adapter;
     private RelativeLayout rl_empty_layout;
 
+    FirebaseUser user;
+    FirebaseFirestore db;
 
     @Nullable
     @Override
@@ -83,40 +91,36 @@ public class WalletActivity extends Fragment {
         relativeLayout_add_money.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                startActivity(new Intent(WalletActivity.this, AddMoneyBActivity.class));
+              loadFragment(new AddMoneyBActivity());
             }
         });
-        stickyList_history.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Intent intent =new Intent(WalletActivity.this,OrderDetailsActivity.class);
-//                intent.putExtra("amount",walletHistoryArrayList.get(i).getAmount());
-//                intent.putExtra("order_unique_id",walletHistoryArrayList.get(i).getOrder_id());
-//                SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
-//                String timestamp = timeFormat.format(walletHistoryArrayList.get(i).getDate().getTime());
-//                intent.putExtra("timestamp",timestamp);
-//                startActivity(intent);
-            }
-        });
-
 
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
         TextView tv_title = (TextView)view.findViewById(R.id.tv_title);
         tv_title.setTypeface(oswald_regular);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
 
-        FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        user  = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user==null){
             Toast.makeText(getActivity(),"Please login!",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(getActivity(),LoginActivity.class));
         }
+
+
+
+        Query mQuery = db.collection("transactions").whereEqualTo("user_id",user.getUid());
+
+        adapter = new AdapterWalletHistory(getActivity(),mQuery);
+        stickyList_history.setAdapter(adapter);
 
         textView_balance.setText(getResources().getString(R.string.Rs)+" --");
 
@@ -141,9 +145,6 @@ public class WalletActivity extends Fragment {
         textView_balance = (TextView) view.findViewById(R.id.tv_balance);
 
         stickyList_history = (StickyListHeadersListView)view. findViewById(R.id.lv_recent);
-        walletHistoryArrayList = new ArrayList<>();
-        adapter = new AdapterWalletHistory(getActivity(), walletHistoryArrayList);
-        stickyList_history.setAdapter(adapter);
 
         relativeLayout_add_money = (RelativeLayout) view.findViewById(R.id.rl_2);
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
@@ -320,5 +321,56 @@ public class WalletActivity extends Fragment {
 //        gd.execute();
 //    }
 
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_view, fragment);
+        transaction.addToBackStack("transaction");
+        transaction.commit();
+    }
+
+    ListenerRegistration listenerRegistration;
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (adapter != null) {
+            adapter.startListening();
+        }
+
+        DocumentReference docRef = db.collection("user").document(user.getUid());
+        listenerRegistration = docRef.addSnapshotListener(getActivity(),new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+//
+//                String source = snapshot != null && snapshot.getMetadata().hasPendingWrites()
+//                        ? "Local" : "Server";
+
+                if (snapshot != null && snapshot.exists()) {
+//                    Log.d(TAG, source +
+//" data: " + snapshot.getData());
+                    textView_balance.setText(getResources().getString(R.string.Rs)+" "+ snapshot.getData().get("wallet").toString());
+
+                }
+//                else {
+//                    Log.d(TAG, source + " data: null");
+//                }
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        listenerRegistration.remove();
+        if (adapter != null) {
+            adapter.stopListening();
+        }
+    }
 
 }

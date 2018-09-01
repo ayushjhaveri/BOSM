@@ -12,11 +12,18 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.ramotion.foldingcell.FoldingCell;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemEvent;
+
+import static bitspilani.bosm.HomeActivity.toTitleCase;
+import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
+
+//import java.lang.Object;
+//import org.apache.commons.text.WordUtils;
 
 public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
 
@@ -44,15 +51,21 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+        String month_format = "MMM";
+        SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
+        String time_format = "kk:mm";
+        SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
         ItemEvent itemEvent = new ItemEvent(
                 document.getId(),
-                document.getData().get("title").toString(),
-                cal.get(Calendar.DATE)+"",
-                cal.get(Calendar.HOUR) +":"+ cal.get(Calendar.MINUTE),
-                document.getData().get("venue").toString(),
+                toTitleCase(document.getData().get("title").toString()),
+                cal.get(Calendar.DATE)
+                        +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
+                        " "+sdf_month.format(date)+"",
+                sdf_time.format(cal.getTime()),
+                toTitleCase(document.getData().get("venue").toString()),
                 document.getData().get("text").toString(),
-                document.getData().get("club").toString()
+                        toTitleCase(document.getData().get("club").toString())
         );
 
         // use itemEvent here

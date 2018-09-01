@@ -73,14 +73,14 @@
         android:layout_marginTop="36dp">
 
         <RelativeLayout
-            android:id="@+id/relativeLayout2"
+            android:id="@+id/rl_add_50"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
+            app:layout_constraintEnd_toStartOf="@+id/rl_add_100"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageButton
+            <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ib_add_50"
                 android:layout_width="56dp"
@@ -111,14 +111,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout"
+            android:id="@+id/rl_add_100"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/relativeLayout3"
+            app:layout_constraintEnd_toStartOf="@+id/rl_add_150"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayout2">
+            app:layout_constraintStart_toEndOf="@+id/rl_add_50">
 
-            <ImageButton
+            <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ib_add_100"
                 android:layout_width="56dp"
@@ -149,14 +149,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout3"
+            android:id="@+id/rl_add_150"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayout">
+            app:layout_constraintStart_toEndOf="@+id/rl_add_100">
 
-            <ImageButton
+            <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ib_add_150"
                 android:layout_width="56dp"
@@ -196,14 +196,14 @@
         android:layout_marginTop="24dp">
 
         <RelativeLayout
-            android:id="@+id/relativeLayout2_"
+            android:id="@+id/rl_add_200"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/relativeLayout_"
+            app:layout_constraintEnd_toStartOf="@+id/rl_add_350"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent">
 
-            <ImageButton
+            <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ib_add_200"
                 android:layout_width="56dp"
@@ -234,14 +234,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout_"
+            android:id="@+id/rl_add_350"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/relativeLayout3_"
+            app:layout_constraintEnd_toStartOf="@+id/rl_add_500"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayout2_">
+            app:layout_constraintStart_toEndOf="@+id/rl_add_200">
 
-            <ImageButton
+            <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ib_add_350"
                 android:layout_width="56dp"
@@ -272,14 +272,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/relativeLayout3_"
+            android:id="@+id/rl_add_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/relativeLayout_">
+            app:layout_constraintStart_toEndOf="@+id/rl_add_350">
 
-            <ImageButton
+            <ImageView
                 android:layout_centerHorizontal="true"
                 android:id="@+id/ib_add_500"
                 android:layout_width="56dp"
@@ -326,68 +326,6 @@
         android:layout_height="match_parent"
         android:src="@drawable/bg1"
         android:tint="#3f395e" />
-
-
-    <RelativeLayout
-        android:elevation="4dp"
-        android:layout_marginTop="12dp"
-        android:layout_below="@id/rl_stall"
-        android:background="#cc2c293d"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:background="@color/back_shade2" />
-
-        <RelativeLayout
-            android:visibility="gone"
-            android:id="@+id/rl_1"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp">
-            <TextView
-                android:layout_centerVertical="true"
-                android:id="@+id/tv_1"
-                android:textColor="@android:color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Available Balance: "/>
-            <TextView
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:layout_toRightOf="@+id/tv_1"
-                android:id="@+id/tv_wallet_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15"/>
-
-            <ProgressBar
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="-7dp"
-                android:layout_toRightOf="@+id/tv_1"
-                android:id="@+id/progressBar2"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
-
-        <View
-            android:visibility="gone"
-            android:layout_below="@+id/rl_1"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/back_shade2" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_marginLeft="24dp"
@@ -508,7 +446,7 @@
        <TextView
            android:layout_centerHorizontal="true"
            android:layout_alignParentBottom="true"
-           android:id="@+id/tv_total_price"
+           android:id="@+id/textview_balance"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:layout_marginLeft="@dimen/fab_margin"
@@ -564,5 +502,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
-        android:src="@drawable/icon_pay" />
+        android:src="@drawable/icon_pay_order" />
 </RelativeLayout>

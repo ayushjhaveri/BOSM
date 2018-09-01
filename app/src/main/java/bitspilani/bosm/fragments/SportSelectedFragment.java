@@ -13,7 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.SetOptions;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.utils.Constant;
@@ -107,7 +115,15 @@ public class SportSelectedFragment extends Fragment {
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
         TextView title = (TextView)v.findViewById(R.id.tv_header);
         title.setText(Constant.currentSport.getName());
+
         title.setTypeface(oswald_regular);
+
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         if(!Constant.currentSport.isGender()){
             ntbSample5.setVisibility(View.GONE);

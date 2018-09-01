@@ -30,7 +30,7 @@ import bitspilani.bosm.items.ItemStall;
 import bitspilani.bosm.utils.Constant;
 
 /**
- * Created by Prashant on 4/6/2018.
+ * Created by Prashant on 4/6/2018.adapterStalls
  */
 
 public class AdapterStalls extends FirestoreAdapter<AdapterStalls.ViewHolder>  {

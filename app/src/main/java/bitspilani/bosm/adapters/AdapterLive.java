@@ -2,6 +2,7 @@ package bitspilani.bosm.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,18 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.io.LineReader;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,6 +34,7 @@ import com.like.IconType;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -138,6 +144,8 @@ import javax.annotation.Nullable;
 import bitspilani.bosm.utils.Constant;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
+import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
+import static bitspilani.bosm.HomeActivity.toTitleCase;
 import static com.android.volley.VolleyLog.TAG;
 
 /**
@@ -148,6 +156,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
 
     private Query mQuery;
+
     private ListenerRegistration mRegistration;
 
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
@@ -274,6 +283,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
         final DocumentSnapshot document =  mSnapshots.get(position);
 
+        Log.d("aaaaaa",document.getData().toString());
+
         int ITEM_TYPE = Integer.parseInt(document.getData().get("item_type").toString());
         switch(ITEM_TYPE){
 
@@ -317,17 +328,23 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 Date date = timestamp.toDate();
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
+                String month_format = "MMM";
+                SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
+                String time_format = "kk:mm";
+                SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
                 ItemLive itemLive = new ItemLive(
                         0,
                          Integer.parseInt(document.getData().get("sport_id").toString()),
-                        (String)document.getData().get("sport_name"),
-                        (String)document.getData().get("college_name1"),
-                        (String)document.getData().get("college_name2"),
-                        (String)document.getData().get("round"),
-                        (String)document.getData().get("venue"),
-                        Integer.toString(cal.get(Calendar.MINUTE)),
-                        Integer.toString(cal.get(Calendar.DATE)),
+                        toTitleCase((String)document.getData().get("sport_name")),
+                        ((String)document.getData().get("college1")).toUpperCase(),
+                        ((String)document.getData().get("college2")).toUpperCase(),
+                        toTitleCase((String)document.getData().get("round")),
+                        toTitleCase((String)document.getData().get("venue")),
+                        sdf_time.format(cal.getTime()),
+                        cal.get(Calendar.DATE)
+                                +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
+                                " "+sdf_month.format(date)+"",
                         (String)document.getData().get("score1"),
                         (String)document.getData().get("score2"),
                         Integer.parseInt(document.getData().get("vote1").toString()),
@@ -569,7 +586,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 break;
             case 1:
 
-                TrendingViewHolder holder;
+                final TrendingViewHolder holder;
                 if (convertView == null) {
                     holder = new TrendingViewHolder();
                     convertView = inflater.inflate(R.layout.row_trending, parent, false);
@@ -589,25 +606,31 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder = (TrendingViewHolder) convertView.getTag();
                 }
 
-                //use here
-
-
                 timestamp  = (Timestamp) document.getData().get("timestamp");
                 date = timestamp.toDate();
                 cal = Calendar.getInstance();
                 cal.setTime(date);
+                Date date2 = timestamp.toDate();
+                Calendar cal2 = Calendar.getInstance();
+                cal2.setTime(date);
+                String month_format2 = "MMM";
+                SimpleDateFormat sdf_month2 = new SimpleDateFormat(month_format2);
+                String time_format2 = "kk:mm";
+                SimpleDateFormat sdf_time2 = new SimpleDateFormat(time_format2);
 
                 itemLive = new ItemLive(
                         1,
                         Integer.parseInt(document.getData().get("match_type").toString()),
                         Integer.parseInt(document.getData().get("sport_id").toString()),
-                        (String)document.getData().get("sport_name"),
-                        (String)document.getData().get("college_name1"),
-                        (String)document.getData().get("college_name2"),
-                        (String)document.getData().get("round"),
-                        (String)document.getData().get("venue"),
-                        Integer.toString(cal.get(Calendar.MINUTE)),
-                        Integer.toString(cal.get(Calendar.DATE))
+                        toTitleCase((String)document.getData().get("sport_name")),
+                        ((String)document.getData().get("college1")).toUpperCase(),
+                        ((String)document.getData().get("college2")).toUpperCase(),
+                        toTitleCase((String)document.getData().get("round")),
+                        toTitleCase((String)document.getData().get("venue")),
+                        sdf_time2.format(cal2.getTime()),
+                        cal2.get(Calendar.DATE)
+                                +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
+                                " "+sdf_month2.format(date2)+""
                 );
 
 
@@ -624,13 +647,14 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder.tv_college2.setText(itemLive.getCollegeName2());
                     holder.ll_college.setVisibility(View.VISIBLE);
                 }
-
-                break;
+            break;
         }
 
 
         return convertView;
     }
+
+
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {

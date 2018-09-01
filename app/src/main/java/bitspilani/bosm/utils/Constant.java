@@ -51,6 +51,12 @@ public class Constant {
 
     public static int ACCOUNT_TYPE= ACCOUNT_TYPE_NON_BITS;
 
+
+    public static int NOTIIFCATION_TYPE_EVENT = 1; //intent to scores
+    public static int NOTIIFCATION_TYPE_SCORES = 2; //intent to events
+    public static int NOTIIFCATION_TYPE_3 = 3; // donlt know
+
+
     public static void login(String email, SharedPreferences profieSharedPreferences){
         IS_LOGIN = true;
         saveLoginToSharedPreferences(profieSharedPreferences,email);

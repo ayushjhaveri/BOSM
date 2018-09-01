@@ -66,6 +66,9 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxLength="30"
                 android:id="@+id/tv_subtitle"
                 android:paddingTop="8dp"
                 android:layout_width="match_parent"

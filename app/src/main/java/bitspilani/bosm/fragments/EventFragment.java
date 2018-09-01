@@ -25,16 +25,20 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -67,6 +71,44 @@ public class EventFragment extends Fragment {
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
 
         tv_header.setTypeface(oswald_regular);
+
+        tv_header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                        .setTimestampsInSnapshotsEnabled(true)
+                        .build();
+                db.setFirestoreSettings(settings);
+
+                Map<String,Object> data = new HashMap<>();
+                data.put("college1","BITS");
+                data.put("college2","TITS");
+                data.put("is_result",true);
+                data.put("match_round","Round 1");
+                data.put("match_type",1);
+                data.put("score1",12);
+                data.put("score2",17);
+                data.put("sport_name","Athletics");
+                data.put("timestamp", FieldValue.serverTimestamp());
+                data.put("venue","SAC");
+                data.put("gender",1);
+                data.put("hits",2);
+                data.put("winner",1);
+                data.put("sport_id",1);
+
+                db.collection("scores").document().set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(getActivity(),"done",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(getActivity(),"false",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
 
         //Firestore data retrieval
         FirebaseApp.initializeApp(getContext());

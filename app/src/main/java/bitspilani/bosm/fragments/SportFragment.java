@@ -67,7 +67,14 @@ public class SportFragment extends Fragment{
         iconHash.put(8,R.drawable.hockey);
         iconHash.put(9,R.drawable.tabletennis);
         iconHash.put(10,R.drawable.swimming);
-
+        iconHash.put(11,R.drawable.swimming);
+        iconHash.put(12,R.drawable.swimming);
+        iconHash.put(13,R.drawable.swimming);
+        iconHash.put(14,R.drawable.swimming);
+        iconHash.put(15,R.drawable.swimming);
+        iconHash.put(16,R.drawable.swimming);
+        iconHash.put(17,R.drawable.swimming);
+        iconHash.put(18,R.drawable.swimming);
 
 
 
