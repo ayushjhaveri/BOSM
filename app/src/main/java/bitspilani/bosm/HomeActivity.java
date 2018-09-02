@@ -35,6 +35,7 @@ import bitspilani.bosm.fragments.HomeFragment;
 import bitspilani.bosm.fragments.HpcFragment;
 import bitspilani.bosm.fragments.SponsorsFragment;
 import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
+import bitspilani.bosm.roulette.RouletteHomeFragment;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -145,7 +146,6 @@ public class HomeActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
-
         findViewById(R.id.tv_order_food).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +153,18 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         loadFrag(new StallFragment(), "Order Food", fm);
+                    }
+                }, 600);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        findViewById(R.id.tv_roulette).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new RouletteHomeFragment(), "Roulette", fm);
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);

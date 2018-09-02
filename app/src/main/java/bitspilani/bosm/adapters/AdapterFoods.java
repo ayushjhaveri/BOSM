@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +58,7 @@ import nl.dionsegijn.steppertouch.StepperTouch;
 public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
 
     private  Context context;
+    private static DecimalFormat df2 = new DecimalFormat("0.00");
     public AdapterFoods(Context context,Query query) {
         super(query);
         this.context=context;
@@ -87,7 +89,7 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
 //        textView_stall_name.setTypeface(oswald_regular);
 
         holder.tv_food_name.setText(itemFood.getFood_name());
-        holder.tv_price.setText(context.getResources().getString(R.string.Rs)+itemFood.getPrice());
+        holder.tv_price.setText(context.getResources().getString(R.string.Rs)+df2.format(itemFood.getPrice()));
         holder.ib_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {

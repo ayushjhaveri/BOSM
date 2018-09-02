@@ -31,6 +31,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import bitspilani.bosm.CartActivity;
@@ -47,6 +48,7 @@ import nl.dionsegijn.steppertouch.StepperTouch;
 public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
 
     private Context context;
+    private static DecimalFormat df2 = new DecimalFormat("0.00");
 
     private static final String TAG = "AdapterCart";
 
@@ -78,7 +80,7 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
         );
 
         holder.textView_name.setText(itemCart.getName());
-        holder.textView_price.setText(context.getResources().getString(R.string.Rs) + " "+itemCart.getPrice()+"");
+        holder.textView_price.setText(context.getResources().getString(R.string.Rs) + " "+df2.format(itemCart.getPrice())+"");
         holder.progressBar.setVisibility(View.GONE);
 
         holder.ib_remove.setOnClickListener(new View.OnClickListener() {

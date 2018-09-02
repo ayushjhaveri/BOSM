@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
@@ -301,6 +302,7 @@ public class LoginActivity extends AppCompatActivity {
 
 //        Toast.makeText(this,"successful!",Toast.LENGTH_SHORT).show();
         if(user!=null){
+            Constant.user = user;
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                     .setTimestampsInSnapshotsEnabled(true)
@@ -322,6 +324,12 @@ public class LoginActivity extends AppCompatActivity {
                                     data.put("password",user.getUid());
                                     data.put("username",user.getUid());
                                     data.put("wallet",0.0);
+                                    data.put("score",0);
+                                    data.put("is_team",false);
+                                    data.put("betting_amount",0);
+                                    data.put("luck",2);
+                                    data.put("power_bid_time", FieldValue.serverTimestamp());
+                                    data.put("slot_time", FieldValue.serverTimestamp());
                                     db.collection("user").document(user.getUid())
                                             .set(data, SetOptions.merge());
                                 }

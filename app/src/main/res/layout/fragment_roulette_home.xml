@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    tools:context=".roulette.RouletteHomeFragment">
+
+    <ImageView
+        android:tint="#3f395e"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg1"/>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_horizontal_ntb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"/>
+
+    <RelativeLayout
+        android:layout_marginBottom="64dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="200dp"
+        android:layout_height="60dp">
+
+
+        <android.support.v7.widget.CardView
+            app:cardElevation="6dp"
+            android:layout_marginTop="8.25dp"
+            app:cardCornerRadius="25.5dp"
+            app:cardBackgroundColor="@color/background2"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_width="200dp"
+            android:layout_height="50dp"/>
+
+        <devlight.io.library.ntb.NavigationTabBar
+            android:layout_centerInParent="true"
+            android:elevation="15dp"
+            android:id="@+id/ntb_sample_5"
+            android:layout_width="198dp"
+            android:layout_height="54.5dp"
+            app:ntb_animation_duration="400"
+            app:ntb_preview_colors="@array/red_wine"
+            app:ntb_corners_radius="25dp"
+            app:ntb_scaled="false"
+            app:ntb_active_color="@color/back_shade4"
+            app:ntb_inactive_color="#dddfec"
+            app:ntb_bg_color="@color/back_shade4"
+            app:ntb_badge_bg_color="@color/gold"
+            app:ntb_badged="true"/>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/top_gradient"/>
+
+    <View
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:rotation="180"
+        android:background="@drawable/top_gradient"/>
+
+</FrameLayout>

@@ -73,6 +73,8 @@ public class OrderDetailsActivity extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 //        if(user==)
 
+
+
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
 
         Query mQuery = db.collection("orders").document(user.getUid()).collection(String.valueOf(orderUniqueId));
@@ -94,8 +96,9 @@ public class OrderDetailsActivity extends Fragment {
 
 
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
-        TextView tv_title = (TextView)rootView.findViewById(R.id.tv_stall);
-        tv_title.setTypeface(oswald_regular);
+        TextView tv_title = (TextView)rootView.findViewById(R.id.tv_title);
+//        tv_title.setTypeface(oswald_regular);
+        tv_title.setText("Order #" + orderUniqueId);
 
     }
 

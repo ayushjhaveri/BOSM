@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="4dp"
+    app:cardElevation="0dp"
     app:cardCornerRadius="5dp"
     android:layout_margin="5dp"
     app:cardBackgroundColor="@android:color/transparent"
     android:id="@+id/one">
 
     <RelativeLayout
+        android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -41,7 +42,7 @@
                 android:src="@drawable/star_100"/>
 
             <TextView
-                android:id="@+id/tvName"
+                android:id="@+id/tv_sport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/ivLogo"
@@ -55,16 +56,16 @@
                 android:layout_toRightOf="@id/ivLogo"
                 android:layout_marginTop="5dp"
                 android:layout_toLeftOf="@id/star"
-                android:layout_below="@+id/tvName"
+                android:layout_below="@+id/tv_sport"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/line_gradient"/>
 
             <TextView
-                android:id="@+id/tvDescription"
+                android:id="@+id/tv_round"
                 android:layout_marginTop="7dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvName"
+                android:layout_below="@+id/tv_sport"
                 android:layout_toRightOf="@id/ivLogo"
                 android:paddingTop="2dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -74,22 +75,22 @@
                 android:id="@+id/rrDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDescription"
+                android:layout_below="@+id/tv_round"
                 android:layout_marginTop="4dp"
                 android:layout_toRightOf="@id/ivLogo">
 
                 <TextView
-                    android:id="@+id/tvDateTime"
+                    android:id="@+id/tv_date_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fri 19 19:45"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <TextView
-                    android:id="@+id/tvStatus"
+                    android:id="@+id/tv_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/tvDateTime"
+                    android:layout_alignTop="@id/tv_date_time"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="00dp"
@@ -107,7 +108,7 @@
                 android:layout_marginTop="4dp">
 
                 <TextView
-                    android:id="@+id/tvTeamA"
+                    android:id="@+id/tv_college1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -134,7 +135,7 @@
                 <TextView
                     android:textStyle="bold"
                     android:textSize="16sp"
-                    android:id="@+id/tvTeamB"
+                    android:id="@+id/tv_college2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -142,7 +143,7 @@
                     android:layout_toRightOf="@id/center"
                     android:layout_toEndOf="@+id/center"
                     android:gravity="right"
-                    android:text="college 1"
+                    android:text="college 2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             </RelativeLayout>

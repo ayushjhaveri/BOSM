@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,6 +69,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class WalletActivity extends Fragment {
 
     private static final String TAG = "WalletActivity";
+    private static DecimalFormat df2 = new DecimalFormat("0.00");
     Toolbar toolbar;
     TextView textView_balance;
     StickyListHeadersListView stickyList_history;
@@ -74,6 +77,7 @@ public class WalletActivity extends Fragment {
     private ProgressBar progressBar, progressBar2;
     AdapterWalletHistory adapter;
     private RelativeLayout rl_empty_layout;
+    ImageButton ib_cart;
 
     FirebaseUser user;
     FirebaseFirestore db;
@@ -85,6 +89,14 @@ public class WalletActivity extends Fragment {
         init(view);
 
 //
+
+        //cart button
+        ib_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new CartActivity());
+            }
+        });
 //        getWalletAmount();
 //        getTransactionHistory();
 
@@ -117,7 +129,7 @@ public class WalletActivity extends Fragment {
 
 
 
-        Query mQuery = db.collection("transactions").whereEqualTo("user_id",user.getUid());
+        Query mQuery = db.collection("transactions").orderBy("timestamp", Query.Direction.DESCENDING).whereEqualTo("user_id",user.getUid());
 
         adapter = new AdapterWalletHistory(getActivity(),mQuery);
         stickyList_history.setAdapter(adapter);
@@ -130,7 +142,7 @@ public class WalletActivity extends Fragment {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
                             double balance = Double.parseDouble(task.getResult().getData().get("wallet").toString());
-                            textView_balance.setText(getResources().getString(R.string.Rs)+" "+balance);
+                            textView_balance.setText(getResources().getString(R.string.Rs)+" "+df2.format(balance));
                         }
                     }
                 }
@@ -150,6 +162,7 @@ public class WalletActivity extends Fragment {
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         progressBar2 = (ProgressBar)view.findViewById(R.id.progressBar2);
         rl_empty_layout= (RelativeLayout)view.findViewById(R.id.rl_empty_layout);
+        ib_cart = (ImageButton) view.findViewById(R.id.ib_cart);
     }
 
 //

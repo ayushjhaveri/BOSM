@@ -53,7 +53,7 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
         cal.setTime(date);
         String month_format = "MMM";
         SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
-        String time_format = "kk:mm";
+        String time_format = "hh:mm a";
         SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
         ItemEvent itemEvent = new ItemEvent(

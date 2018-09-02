@@ -5,7 +5,7 @@
     <color name="colorAccent">#ffb862</color>
 
     <color name="colorNegAmount">#E30202</color>
-    <color name="colorPosAmount">#052EA4</color>
+    <color name="colorPosAmount">#18FFFF</color>
 
     <color name="color_grey">#F1EEEE</color>
     <color name="app_yellow">#DD8833</color>
@@ -24,6 +24,30 @@
     <color name="gold">#D4AF37</color>
     <color name="bronze">#A57164</color>
     <color name="silver">#C0C0C0</color>
+
+
+
+    <color name="bid">#C89228</color>
+    <color name="bid_dark">#99701E</color>
+    <color name="power_bid_active">#FF8100</color>
+    <color name="power_bid_active_dark">#CC6600</color>
+    <color name="slot">#82BA73</color>
+    <color name="bosm_roulette">#80BC40</color>
+
+    <color name="errorColor">#DD2C00</color>
+    <color name="custom_dark_grey">#202020</color>
+    <color name="custom_white_grey">#A0A0A0</color>
+    <color name="custom_middle_grey">#606060</color>
+    <color name="custom_teal">#f0f0f0</color>
+    <color name="custom_red">#F44336</color>
+    <color name="defaultColor">#330000</color>
+    <color name="custom_yellow"> #FFEB3B</color>
+    <color name="buttonTextColor">@android:color/white</color>
+    <color name="grey">#CCC</color>
+    <color name="blue">#00B0FF</color>
+    <color name="color_red">#EF5350</color>
+    <color name="black">#000000</color>
+    <color name="fav_green">#5FBB46</color>
 
     <color name="background2">#f7ca42</color>
     <color name="shade3">#18ffff</color>

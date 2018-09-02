@@ -24,20 +24,24 @@ import devlight.io.library.ntb.NavigationTabBar;
 // * Use the {@link HomeFragment#newInstance} factory method to
 // * create an instance of this fragment.
 // */
-public class HomeFragment extends Fragment {
+public class RouletteHomeFragment extends Fragment {
 
 //    FragmentManager fragmentManager = getChildFragmentManager();
 
 
-    public HomeFragment() {
+    public RouletteHomeFragment() {
         // Required empty public constructor
     }
+
+
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_r_home, container, false);
+        View v= inflater.inflate(R.layout.fragment_roulette_home, container, false);
 
 
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
@@ -47,14 +51,14 @@ public class HomeFragment extends Fragment {
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
-                        .badgeTitle("Events")
+                        .badgeTitle("Leaderboard")
                         .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(getContext(),R.color.back_shade1)
-                ).badgeTitle("Home")
+                ).badgeTitle("Matches")
                         .title("title")
                         .build()
         );
@@ -62,7 +66,7 @@ public class HomeFragment extends Fragment {
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
-                        .badgeTitle("Scores")
+                        .badgeTitle("Extra")
                         .title("title")
                         .build()
         );
@@ -134,13 +138,13 @@ public class HomeFragment extends Fragment {
             switch (position) {
 
                 case 0:
-                    return new EventFragment();
+                    return new RouletteLeaderboardFragment();
                 case 1: // Fragment # 0 - This will show FirstFragment
-                    return new MainFragment();
+                    return new RouletteMainFragment();
                 case 2: // Fragment # 0 - This will show FirstFragment different title
-                    return new SportFragment();
+                    return new RouletteExtraFragment();
                 default:
-                    return new MainFragment();
+                    return new RouletteMainFragment();
             }
         }
 

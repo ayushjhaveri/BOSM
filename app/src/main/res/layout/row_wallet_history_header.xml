@@ -6,7 +6,7 @@
     <View
         android:background="#A6A5A5"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         />
 
     <TextView

@@ -76,10 +76,33 @@
             android:tint="#ffffff" />
 
         <TextView
-            android:id="@+id/tv_developers"
+            android:id="@+id/tv_roulette"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_order_food"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/border_shadow_menu"
+            android:padding="12dp"
+            android:text="Roulette"
+            android:textColor="#ffffff" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_roulette"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_roulette"
+            android:padding="12dp"
+            android:src="@drawable/icon_roight_arrow"
+            android:tint="#ffffff" />
+
+        <TextView
+            android:id="@+id/tv_developers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_roulette"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginTop="12dp"

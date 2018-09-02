@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -65,6 +67,7 @@ import bitspilani.bosm.utils.Constant;
 public class AddMoneyBActivity extends Fragment {
 
     private static final String TAG = "AddMoneyBActivity";
+    private static DecimalFormat df2 = new DecimalFormat("0.00");
 
     private Toolbar toolbar;
     private TextView textView_balance, textView_add_amount1, textView_add_amount2, textView_add_amount3;
@@ -75,21 +78,31 @@ public class AddMoneyBActivity extends Fragment {
     String checkSum = "";
     String amount = "0";
     String ORDER_ID = "";
+    ImageButton ib_cart;
     static String amt_needed;
 
 
     FirebaseUser user;
     FirebaseFirestore db;
 
+    public static AddMoneyBActivity newInstance(double param1) {
+        AddMoneyBActivity fragment = new AddMoneyBActivity();
+        Bundle args = new Bundle();
+        args.putDouble("amt", param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            amt_needed = getArguments().getString("YourKey");
+
+        if(getArguments()!=null){
+            amt_needed=getArguments().getString("amt");
         }
+
     }
 
     @Nullable
@@ -97,6 +110,14 @@ public class AddMoneyBActivity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_add_money_b, container, false);
         init(view);
+
+        //cart button
+        ib_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new CartActivity());
+            }
+        });
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -119,12 +140,12 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty()) {
-                    float initial = 50;
-                    editText_amount.setText(initial + "");
+                    double initial = 50.00;
+                    editText_amount.setText(df2.format(initial) + "");
                 } else {
-                    float initial = Float.parseFloat(editText_amount.getText().toString());
-                    initial += 50;
-                    editText_amount.setText(initial + "");
+                    double initial = Double.parseDouble(editText_amount.getText().toString());
+                    initial += 50.00;
+                    editText_amount.setText(df2.format(initial) + "");
                 }
             }
         });
@@ -132,12 +153,12 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty()) {
-                    float initial = 100;
-                    editText_amount.setText(initial + "");
+                    double initial = 100.00;
+                    editText_amount.setText(df2.format(initial) + "");
                 } else {
-                    float initial = Float.parseFloat(editText_amount.getText().toString());
-                    initial += 100;
-                    editText_amount.setText(initial + "");
+                    double initial = Double.parseDouble(editText_amount.getText().toString());
+                    initial += 100.00;
+                    editText_amount.setText(df2.format(initial) + "");
                 }
             }
         });
@@ -145,12 +166,12 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty()) {
-                    float initial = 200;
-                    editText_amount.setText(initial + "");
+                    double initial = 200.00;
+                    editText_amount.setText(df2.format(initial) + "");
                 } else {
-                    float initial = Float.parseFloat(editText_amount.getText().toString());
-                    initial += 200;
-                    editText_amount.setText(initial + "");
+                    double initial = Double.parseDouble(editText_amount.getText().toString());
+                    initial += 200.00;
+                    editText_amount.setText(df2.format(initial) + "");
                 }
             }
         });
@@ -159,7 +180,7 @@ public class AddMoneyBActivity extends Fragment {
         ib_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText_amount.getText().toString().isEmpty() || Float.parseFloat(editText_amount.getText().toString()) <= 0) {
+                if (editText_amount.getText().toString().isEmpty() || Double.parseDouble(editText_amount.getText().toString()) <= 0) {
                     Snackbar.make(view, "Enter valid amount!", Snackbar.LENGTH_SHORT).show();
                 } else {
 
@@ -226,7 +247,7 @@ public class AddMoneyBActivity extends Fragment {
         });
 
 
-        if (amt_needed != "") {
+        if (amt_needed!= "") {
             editText_amount.setText(amt_needed);
         }
 
@@ -308,7 +329,7 @@ public class AddMoneyBActivity extends Fragment {
             db.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    textView_balance.setText(getResources().getString(R.string.Rs) + " " + task.getResult().getData().get("wallet").toString());
+                    textView_balance.setText(getResources().getString(R.string.Rs) + " " + df2.format(task.getResult().getData().get("wallet")).toString());
                 }
             });
 
@@ -327,6 +348,15 @@ public class AddMoneyBActivity extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressBar2 = (ProgressBar) view.findViewById(R.id.progressBar2);
         ib_add = (ImageButton) view.findViewById(R.id.ib_add);
+        ib_cart = (ImageButton) view.findViewById(R.id.ib_cart);
+    }
+
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_view, fragment);
+        transaction.addToBackStack("transaction");
+        transaction.commit();
     }
 
     ListenerRegistration listenerRegistration;
@@ -350,7 +380,7 @@ public class AddMoneyBActivity extends Fragment {
                 if (snapshot != null && snapshot.exists()) {
 //                    Log.d(TAG, source +
 //" data: " + snapshot.getData());
-                    textView_balance.setText(getResources().getString(R.string.Rs) + " " + snapshot.getData().get("wallet").toString());
+                    textView_balance.setText(getResources().getString(R.string.Rs) + " " + df2.format(snapshot.getData().get("wallet")).toString());
 
                 }
 //                else {

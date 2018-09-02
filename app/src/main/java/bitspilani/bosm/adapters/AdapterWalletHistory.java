@@ -23,6 +23,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +31,7 @@ import java.util.Date;
 
 import javax.annotation.Nullable;
 
+import bitspilani.bosm.AddMoneyBActivity;
 import bitspilani.bosm.OrderDetailsActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemWalletHistory;
@@ -51,6 +53,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
     private LayoutInflater inflater;
     private Context context;
+    private static DecimalFormat df2 = new DecimalFormat("0.00");
 
 
 
@@ -210,14 +213,29 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
         }
 
 
-        if(itemWalletHistory.getAmount()>=0){
+        if(itemWalletHistory.getOrder_id().equals(" ")){
             holder.textView_header.setText("Added to Wallet");
             holder.textView_amount.setTextColor(ContextCompat.getColor(context,R.color.colorPosAmount));
-            holder.textView_amount.setText( "+ "+context.getResources().getString(R.string.Rs)+" "+itemWalletHistory.getAmount()+"");
+            holder.textView_amount.setText( "+ "+context.getResources().getString(R.string.Rs)+" "+df2.format(itemWalletHistory.getAmount())+"");
+            holder.textView_comment.setVisibility(View.GONE);
+
+            holder.rl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadFragment(new AddMoneyBActivity());
+                }
+            });
         }else{
             holder.textView_header.setText("Paid for Order");
             holder.textView_amount.setTextColor(ContextCompat.getColor(context,R.color.colorNegAmount));
-            holder.textView_amount.setText( "- "+context.getResources().getString(R.string.Rs)+" "+ (-1*itemWalletHistory.getAmount())+"");
+            holder.textView_amount.setText( "- "+context.getResources().getString(R.string.Rs)+" "+ df2.format(itemWalletHistory.getAmount())+"");
+
+            holder.rl.setOnClickListener(   new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadFragment(OrderDetailsActivity.newInstance(Integer.parseInt(itemWalletHistory.getOrder_id())));
+                }
+            });
         }
         holder.textView_comment.setText("#"+itemWalletHistory.getOrder_id());
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
@@ -225,12 +243,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
 
         holder.textView_time.setText(timeFormat.format(itemWalletHistory.getDate().getTime()));
 
-        holder.rl.setOnClickListener(   new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadFragment(OrderDetailsActivity.newInstance(Integer.parseInt(itemWalletHistory.getOrder_id())));
-            }
-        });
+
 
         return convertView;
     }
