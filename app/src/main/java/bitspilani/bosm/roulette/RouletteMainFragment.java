@@ -1,5 +1,6 @@
 package bitspilani.bosm.roulette;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -49,6 +51,10 @@ public class RouletteMainFragment extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_roulette);
 
+        TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+
+        tv_header.setTypeface(oswald_regular);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()

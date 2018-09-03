@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
     android:id="@+id/container">
 
-    <TextView
-        android:id="@+id/tvRank"
+    <android.support.v7.widget.CardView
+        android:id="@+id/container1"
         android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvName"
-        android:layout_alignBottom="@+id/tvEmail"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary"
-        android:gravity="center"
-        android:text="1" />
+        app:cardCornerRadius="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_centerVertical="true"
+        app:cardBackgroundColor="#eeeeee"
+        android:layout_height="40dp">
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/tvRank"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="1000" />
+
+    </android.support.v7.widget.CardView>
+
 
     <TextView
+        android:layout_marginEnd="20dp"
         android:id="@+id/tvScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,19 +42,20 @@
         android:gravity="center_vertical|right"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:paddingRight="12dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/background2"
         android:paddingEnd="12dp"
         android:paddingLeft="12dp"
         android:paddingStart="12dp"
         android:text="68"/>
 
     <TextView
+        android:layout_marginStart="12dp"
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tvRank"
-        android:layout_toEndOf="@+id/tvRank"
-        android:textColor="@color/colorPrimary"
+        android:layout_toRightOf="@+id/container1"
+        android:layout_toEndOf="@+id/container1"
+        android:textColor="@android:color/white"
         android:layout_toLeftOf="@id/tvScore"
         android:layout_toStartOf="@id/tvScore"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -55,13 +71,13 @@
         android:id="@+id/tvEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#66627f"
         android:layout_below="@+id/tvName"
         android:layout_alignLeft="@+id/tvName"
         android:layout_alignStart="@+id/tvName"
         android:layout_toLeftOf="@id/tvScore"
         android:layout_toStartOf="@id/tvScore"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="11sp"
         android:paddingBottom="8dp"
         android:paddingLeft="4dp"
         android:paddingStart="4dp"

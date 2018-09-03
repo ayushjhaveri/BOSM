@@ -97,12 +97,11 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
-                        card_view:cardBackgroundColor="@android:color/transparent"
+                        card_view:cardBackgroundColor="@android:color/white"
                         card_view:cardCornerRadius="@dimen/cardview_default_radius"
                         card_view:cardElevation="@dimen/cardview_default_elevation">
 
                         <LinearLayout
-                            android:background="@drawable/border_shadow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -112,6 +111,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Team A"
+                                android:textColor="@color/black"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                                 android:textSize="16sp" />
 
@@ -120,6 +120,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lines="1"
+                                android:textColor="@color/black"
                                 android:paddingTop="2dp"
                                 android:text="college 1"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
@@ -140,7 +141,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
-                        card_view:cardBackgroundColor="@android:color/transparent"
+                        card_view:cardBackgroundColor="@android:color/white"
                         card_view:cardCornerRadius="@dimen/cardview_default_radius"
                         card_view:cardElevation="@dimen/cardview_default_elevation">
 
@@ -148,13 +149,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:background="@drawable/border_shadow"
                             android:padding="16dp">
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Team B:"
+                                android:textColor="@color/black"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                                 android:textSize="16sp" />
 
@@ -164,6 +165,7 @@
                                 android:layout_height="wrap_content"
                                 android:lines="1"
                                 android:paddingTop="2dp"
+                                android:textColor="@color/black"
                                 android:text="college 2"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -185,12 +187,11 @@
 
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardBackgroundColor="@android:color/white"
                     card_view:cardCornerRadius="@dimen/cardview_default_radius"
                     card_view:cardElevation="@dimen/cardview_default_elevation">
 
                     <LinearLayout
-                        android:background="@drawable/border_shadow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -200,10 +201,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Venue:"
+                            android:textColor="@color/black"
                             android:textAppearance="@style/TextAppearance.AppCompat.Title"
                             android:textSize="16sp" />
 
                         <TextView
+                            android:textColor="@color/black"
                             android:id="@+id/tvVenue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -237,12 +240,11 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
-                        card_view:cardBackgroundColor="@android:color/transparent"
+                        card_view:cardBackgroundColor="@android:color/white"
                         card_view:cardCornerRadius="@dimen/cardview_default_radius"
                         card_view:cardElevation="@dimen/cardview_default_elevation">
 
                         <LinearLayout
-                            android:background="@drawable/border_shadow"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -252,6 +254,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Date:"
+                                android:textColor="@color/black"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                                 android:textSize="16sp" />
 
@@ -260,6 +263,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingTop="2dp"
+                                android:textColor="@color/black"
                                 android:text="19 September 2016"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -280,7 +284,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
-                        card_view:cardBackgroundColor="@android:color/transparent"
+                        card_view:cardBackgroundColor="@android:color/white"
                         card_view:cardCornerRadius="@dimen/cardview_default_radius"
                         card_view:cardElevation="@dimen/cardview_default_elevation">
 
@@ -288,10 +292,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:background="@drawable/border_shadow"
                             android:padding="16dp">
 
                             <TextView
+                                android:textColor="@color/black"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Time:"
@@ -303,6 +307,7 @@
                                 android:layout_height="wrap_content">
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:id="@+id/tvTime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -311,6 +316,7 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:paddingTop="2dp"
@@ -318,6 +324,7 @@
                                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                                 <TextView
+                                    android:textColor="@color/black"
                                     android:id="@+id/tvDay"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -341,18 +348,18 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    card_view:cardBackgroundColor="@android:color/transparent"
+                    card_view:cardBackgroundColor="@android:color/white"
                     card_view:cardCornerRadius="@dimen/cardview_default_radius"
                     card_view:cardElevation="@dimen/cardview_default_elevation">
 
                     <LinearLayout
-                        android:background="@drawable/border_shadow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp">
 
                         <TextView
+                            android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Status:"
@@ -360,6 +367,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:textColor="@color/black"
                             android:id="@+id/tvStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -750,4 +758,12 @@
         <!--android:background="@drawable/top_gradient"/>-->
 
     <!--/>-->
-    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

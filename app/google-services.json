@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "753293163223-7q78nmg5ltc5olkgfnngjueb9hb8uos0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bitspilani.bosm",
+            "certificate_hash": "901c3782cbeeb5ce57caca7723020fbbc2c8dbc5"
+          }
+        },
+        {
           "client_id": "753293163223-grqo62n80npgbnnm7dmpom6dc0r5c7dc.apps.googleusercontent.com",
           "client_type": 3
         }

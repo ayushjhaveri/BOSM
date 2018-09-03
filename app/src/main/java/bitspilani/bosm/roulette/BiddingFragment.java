@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -64,6 +66,7 @@ import java.util.concurrent.TimeUnit;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
+import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.items.ArrayObject;
 import bitspilani.bosm.items.ItemRoulette;
 import bitspilani.bosm.utils.Constant;
@@ -105,7 +108,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     private int bettingAmount;
 
     //betting
-    private boolean done;
+//    private boolean done;
     private String team;
     private int amount;
     private boolean powerBid;
@@ -130,9 +133,11 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
     int sport_id;
     String doc_id;
+    String sport_name;
 
     Source source;
 
+    ProgressBar progressBar;
 
     FirebaseFirestore db;
 
@@ -141,11 +146,12 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public static BiddingFragment newInstance(int param1, String param2) {
+    public static BiddingFragment newInstance(int param1, String param2,String param3) {
         BiddingFragment fragment = new BiddingFragment();
         Bundle args = new Bundle();
         args.putInt("sport_id", param1);
         args.putString("doc_id", param2);
+        args.putString("sport_name",param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -159,6 +165,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         if (getArguments() != null) {
             sport_id = getArguments().getInt("sport_id");
             doc_id = getArguments().getString("doc_id");
+            sport_name = getArguments().getString("sport_name");
         }
 
 
@@ -171,31 +178,21 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_bidding, container1, false);
 
 
+        TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+
+        tv_header.setTypeface(oswald_regular);
+        tv_header.setText(sport_name);
+
+
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
-//        host = getString(R.string.host_url);
-//        sharedPreferences = getSharedPreferences(LoginActivity.SHARED_USER_DETAILS, Context.MODE_PRIVATE);
-
-//        int sport_id = getIntent().getIntExtra("sport", 0);
-//        id = getIntent().getIntExtra("id", -1);
-
-//        Config config = new Config();
-//        Sport sport = config.items.get(sport_id);
-
-//        ImageView header_logo = (ImageView) view.findViewById(R.id.header_logo);
-//        header_logo.setImageResource(sport.getImage());
-
-//        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-//        setTitle(sport.getName());
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        mySwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
 
 //        tvDescription = (TextView) view.findViewById(R.id.tvDescription);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         tvDay = (TextView) view.findViewById(R.id.tvDay);
         tvTime = (TextView) view.findViewById(R.id.tvTime);
@@ -230,7 +227,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
 //        mySwipeRefreshLayout.setRefreshing(true);
         container.setVisibility(View.GONE);
-
+        viewLoader(true);
          source = Source.SERVER;
         getData();
 
@@ -262,6 +259,14 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private void viewLoader(boolean is){
+        if(is){
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
     private void getData() {
         db.collection("scores").document(doc_id).get(source).addOnCompleteListener(
                 new OnCompleteListener<DocumentSnapshot>() {
@@ -281,8 +286,10 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                     String venue = String.valueOf(task.getResult().getData().get("venue"));
                                                     String team_a = String.valueOf(task.getResult().getData().get("college1"));
                                                     String team_b = String.valueOf(task.getResult().getData().get("college2"));
-                                                    int winner = Integer.parseInt(task.getResult().getData().get("winner").toString());
+                                                    int winner = 0;
                                                     boolean isResult = Boolean.parseBoolean(task.getResult().getData().get("is_result").toString());
+                                                    if(isResult)
+                                                        winner = Integer.parseInt(task.getResult().getData().get("winner").toString());
 
                                                     Timestamp timestamp = (Timestamp) task.getResult().getData().get("timestamp");
                                                     Date date = timestamp.toDate();
@@ -300,7 +307,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                         }
                                                     }
 
-                                                    Toast.makeText(getContext(),status+"",Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(getContext(),status+"",Toast.LENGTH_SHORT).show();
 
                                                     score = Integer.parseInt(task1.getResult().getData().get("score").toString());
                                                     luck = Integer.parseInt(task1.getResult().getData().get("luck").toString());
@@ -331,8 +338,12 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                             powerBid = object.getBoolean("power_bid");
 
                                                             if(team.equals(team_a)){
-//                                                                erwrewr
+                                                                cvTeamA.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bid));
+                                                            }else if(team.equals(team_b)){
+                                                                cvTeamB.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bid));
                                                             }
+
+
 
                                                         }
                                                     }
@@ -341,6 +352,8 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                         disableBet();
                                                         disablePowBet();
                                                     }else{
+                                                        cvTeamA.setCardBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.white));
+                                                        cvTeamB.setCardBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.white));
                                                         enableBet();
                                                         enablePowBet();
                                                     }
@@ -359,7 +372,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                             status
                                                     );
 
-
+                                                    viewLoader(false);
                                                     container.setVisibility(View.VISIBLE);
                                                     showData();
 
@@ -425,7 +438,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
             tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
         }
 
-        if (itemRoulette.getStatus() == 1 && done) {
+        if (itemRoulette.getStatus() == 1 && itemRoulette.isBetting_done()) {
             if (team.equals(itemRoulette.getCollege1())) {
                 changeTeamColor(itemRoulette.getCollege1(), cvTeamA);
             } else {
@@ -439,7 +452,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
             removeWalletCritical();
         }
 
-        if (done) {
+        if (itemRoulette.isBetting_done()) {
             if (powerBid) {
                 leftAlign(ivPowBet);
                 tvPowBidAmount.setText("$" + amount);
@@ -740,14 +753,13 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                     public void onTick(long millisUntilFinished) {
                         coun--;
                         if (coun > 0) {
-//                            Config config = new Config();
                             int n1 = new Random().nextInt(15);
                             int n2 = new Random().nextInt(15);
                             int n3 = new Random().nextInt(15);
 
-//                            left.setImageResource(config.items.get(items.get(n1)).getImage());
-//                            mid.setImageResource(config.items.get(items.get(n2)).getImage());
-//                            right.setImageResource(config.items.get(items.get(n3)).getImage());
+                            left.setImageResource(SportFragment.iconHash.get(items.get(n1)));
+                            mid.setImageResource(SportFragment.iconHash.get(items.get(n2)));
+                            right.setImageResource(SportFragment.iconHash.get(items.get(n3)));
                         } else {
                             bSpin.setVisibility(View.INVISIBLE);
                             tvWon.setVisibility(View.VISIBLE);
@@ -756,12 +768,9 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                             } else {
                                 tvWon.setText("LOST");
                             }
-
-//                            Config config = new Config();
-
-//                            left.setImageResource(config.items.get(items.get(values.get(final_n1))).getImage());
-//                            mid.setImageResource(config.items.get(items.get(values.get(final_n2))).getImage());
-//                            right.setImageResource(config.items.get(items.get(values.get(final_n3))).getImage());
+                            left.setImageResource(SportFragment.iconHash.get(items.get(final_n1)));
+                            mid.setImageResource(SportFragment.iconHash.get(items.get(final_n2)));
+                            right.setImageResource(SportFragment.iconHash.get(items.get(final_n3)));
                         }
                     }
 
@@ -835,8 +844,10 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                int score_ = score - amount;
-                                int betting_amount_ = bettingAmount + amount;
+                                int score_ = score - _amount;
+                                int betting_amount_ = bettingAmount + _amount;
+
+                                Log.d("aaaaaaaaaa","score " + score_);
                                 Map<String, Object> dataUser = new HashMap<>();
                                 dataUser.put("score", score_);
                                 dataUser.put("betting_amount", betting_amount_);
@@ -867,20 +878,9 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
 
     private void slotOnline(final Dialog dialog, final boolean won) {
-//
-//class GetData extends AsyncTask<Void, Void, String> {
         final ProgressDialog progressDialog;
-//
-//    @Override
-//    protected void onPreExecute() {
-//        super.onPreExecute();
-        progressDialog = ProgressDialog.show(getContext(), "", "Please Wait...", true);
-//    }
 
-//    @Override
-//    protected String doInBackground(Void... params) {
-//        try {
-//            URL url = new URL(host + "bet/spin.php");
+        progressDialog = ProgressDialog.show(getContext(), "", "Please Wait...", true);
 
         final Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MINUTE, 30);

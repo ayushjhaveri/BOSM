@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemRouletteLeaderboard;
 
+import static bitspilani.bosm.roulette.RouletteLeaderboardFragment.tv_rank;
+
 /**
  * Created by Saksham on 12 Sep 2016.
  */
@@ -98,7 +100,8 @@ public class AdapterRouletteLeaderboard extends FirestoreAdapter<AdapterRoulette
         holder.tvEmail.setText(user.getEmail());
 
         if (document.getId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-            holder.container.setBackgroundColor(ContextCompat.getColor(context, R.color.back_shade2));
+            tv_rank.setText(position+1+"");
+            holder.container.setBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else {
             holder.container.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
         }

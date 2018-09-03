@@ -1,66 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent"
     tools:context="bitspilani.bosm.roulette.RouletteLeaderboardFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<RelativeLayout
+    android:layout_marginTop="60dp"
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".80"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/background2"
+        app:cardCornerRadius="20.5dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:id="@+id/frame"
-            >
-
+        <android.support.v7.widget.CardView
+            android:layout_margin="1dp"
+            app:cardCornerRadius="20dp"
+            android:layout_width="wrap_content"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/back_shade4"
+            android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tvLab"
-                android:layout_width="wrap_content"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:id="@+id/tv_header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="25dp"
-                android:paddingBottom="25dp"
-                android:textColor="@android:color/black"
-                android:paddingLeft="20dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textStyle="bold"
-                android:text="My Rank" />
-
-            <TextView
-                android:id="@+id/tvRank"
-                android:layout_width="wrap_content"
-                android:textColor="@android:color/black"
-                android:text=""
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tvLab"
-                android:layout_toEndOf="@+id/tvLab"
-                android:layout_alignTop="@+id/tvLab"
-                android:layout_alignBottom="@id/tvLab"
+                android:layout_gravity="center_vertical"
                 android:gravity="center"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:padding="20dp" />
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="My Rank"
+                android:textColor="@color/background2"
+                android:textSize="22sp" />
 
-            <ImageView
-                android:layout_width="80dp"
-                android:layout_height="70dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@+id/tvLab"
-                android:layout_alignBottom="@id/tvLab"
-                android:scaleType="centerInside"
-                android:padding="10dp"
-                android:src="@mipmap/ic_launcher"/>
-        </RelativeLayout>
+        </android.support.v7.widget.CardView>
 
 
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/card_events"
+        android:id="@+id/card_events2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".80"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/background2"
+        app:cardCornerRadius="20.5dp">
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="1dp"
+            app:cardCornerRadius="20dp"
+            android:layout_width="wrap_content"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/back_shade4"
+            android:layout_height="wrap_content">
+            <TextView
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:id="@+id/tvRank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="287"
+                android:textColor="@color/background2"
+                android:textSize="22sp" />
+
+        </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>
 
 
 
                 <android.support.v7.widget.RecyclerView
+                    android:paddingTop="130dp"
+                    android:clipToPadding="false"
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -68,9 +101,17 @@
                     android:dividerHeight="0.2dp"
                     android:scrollbars="none" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/top_gradient"/>
 
+    <View
+    android:layout_alignParentBottom="true"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:rotation="180"
+    android:background="@drawable/top_gradient"/>
 
-
-    </LinearLayout>
-
-</FrameLayout>
+    />
+</RelativeLayout>

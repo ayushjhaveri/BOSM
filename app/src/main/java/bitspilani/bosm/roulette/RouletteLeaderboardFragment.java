@@ -1,6 +1,7 @@
 package bitspilani.bosm.roulette;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,7 +38,7 @@ public class RouletteLeaderboardFragment extends Fragment {
     public RouletteLeaderboardFragment() {
         // Required empty public constructor
     }
-
+    public static  TextView tv_rank;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,14 @@ public class RouletteLeaderboardFragment extends Fragment {
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
+
+        TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+
+        tv_header.setTypeface(oswald_regular);
+
+         tv_rank = (TextView) rootView.findViewById(R.id.tvRank);
+
 
         Query query = db.collection("user");
         mAdapter = new AdapterRouletteLeaderboard(getContext(),query);
