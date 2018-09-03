@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -67,50 +68,27 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient mGoogleSignInClient;
     RequestQueue queue;
-    ImageView progressBar;
+    ProgressBar progressBar;
 
     EditText et_username;
     private FirebaseAuth mAuth;
-
-    private SharedPreferences profileSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
-// ...
         mAuth = FirebaseAuth.getInstance();
-//        startActivity(new Intent(this,HomeActivity.class));
-//        finish();
-        //initializing Objects
+
         init();
-
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        login(account);
-
-        //Listener to
         signupButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), RegistrationOld.class);
-//                startActivity(intent);
 
             }
         });
-
-//        et_username.setText(Constant.BASE_URL);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String hashed = BCrypt.hashpw(et_username.getText().toString(), BCrypt.gensalt(12));
-//                Log.d(TAG,"HASHED: "+hashed);
-//                Snackbar.make(view,hashed,Snackbar.LENGTH_INDEFINITE).show();
-//                et_username.setText(hashed);
-//                Constant.BASE_URL = et_username.getText().toString();
-//                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-//                startActivity(new Intent(LoginActivity.this, WelcomeLogin.class));
             }
         });
 
@@ -118,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
                 signIn();
             }
         });
@@ -126,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         g_login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressBar.setVisibility(View.VISIBLE);
+                viewLoader(true);
                 signIn();
             }
         });
@@ -138,9 +115,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if(currentUser != null){
+            Constant.user = currentUser;
+            startActivity(new Intent(this,HomeActivity.class));
+            finish();
+        }
     }
 
+    private void viewLoader(boolean is){
+        if(is){
+            progressBar.setVisibility(View.VISIBLE);
+        }else{
+            progressBar.setVisibility(View.GONE);
+        }
+    }
 
 
     private void init() {
@@ -158,9 +146,9 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         queue = Volley.newRequestQueue(this);  // this
 
-        progressBar =(ImageView) findViewById(R.id.progressBar);
+        progressBar =(ProgressBar) findViewById(R.id.progressBar);
         g_login_button= (FloatingActionButton) findViewById(R.id.fab_g_login);
-        profileSharedPreferences = getSharedPreferences(Constant.PROFILE_SHARED_PREFERENCES,MODE_PRIVATE);
+//        profileSharedPreferences = getSharedPreferences(Constant.PROFILE_SHARED_PREFERENCES,MODE_PRIVATE);
 
     }
 
@@ -185,94 +173,16 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            // Signed in successfully, show authenticated UI.
-//            login(account);
             firebaseAuthWithGoogle(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            progressBar.setVisibility(View.GONE);
+            viewLoader(false);
             Toast.makeText(this,getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
         }
     }
 
-
-    private void signUp(GoogleSignInAccount account) {
-//
-    }
-
-//    public void login(final GoogleSignInAccount account){
-//        class GetData extends AsyncTask<Void, Void, String> {
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//            }
-//
-//            @Override
-//            protected void onPostExecute(String s) {
-//                progressBar.setVisibility(View.GONE);
-//                super.onPostExecute(s);
-//                parseJSON(s);
-//            }
-//
-//            @Override
-//            protected String doInBackground(Void... params) {
-//
-//                try {
-//                    URL url = new URL(Constant.URL_VALIDATING_ACCCOUNT);
-//                    String urlParams = "email=" + account.getEmail()+
-//                            "&name="+account.getDisplayName();
-//
-//                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//                    con.setDoOutput(true);
-//                    StringBuilder sb = new StringBuilder();
-////
-//                    OutputStream os = con.getOutputStream();
-//                    os.write(urlParams.getBytes());
-//                    os.flush();
-//                    os.close();
-//
-//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//
-//                    String json;
-//                    while ((json = bufferedReader.readLine()) != null) {
-//                        sb.append(json + "\n");
-//                    }
-//
-//                    String s = sb.toString().trim();
-//                    return s;
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    return "error";
-//                }
-//            }
-//
-//            private void parseJSON(String json) {
-//                try {
-////                    Toast.makeText(LoginActivity.this,json,Toast.LENGTH_SHORT).show();
-//                    Log.d(TAG, "Response: " + json);
-//                    JSONObject root = new JSONObject(json);
-//                    JSONObject response = root.getJSONObject("response");
-//                    int id = response.getInt("id");
-//                    String name = response.getString("name");
-//                    String email = response.getString("email");
-//                    double wallet = response.getDouble("wallet");
-//                    ItemUser itemUser = new ItemUser(id,name,email,wallet);
-//                    Constant.currentItemUser = itemUser;
-//                    Constant.IS_LOGIN =true;
-//                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-//                } catch (JSONException e) {
-//                    progressBar.setVisibility(View.GONE);
-//                    Toast.makeText(LoginActivity.this,getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        GetData gd = new GetData();
-//        gd.execute();
-//    }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
@@ -288,19 +198,13 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
-                            // If sign in fails, display a message to the user.
-//                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            Snackbar.make(findViewById(R.id.), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            updateUI(null);
+                            Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
                         }
 
-                        // ...
                     }
                 });
     }
     private void updateUI(final FirebaseUser user){
-
-//        Toast.makeText(this,"successful!",Toast.LENGTH_SHORT).show();
         if(user!=null){
             Constant.user = user;
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -334,13 +238,20 @@ public class LoginActivity extends AppCompatActivity {
                                             .set(data, SetOptions.merge());
                                 }
 
+                                viewLoader(false);
                                 startActivity(new Intent(LoginActivity.this,HomeActivity.class));
                                 finish();
+                            }else{
+                                Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
+                                viewLoader(false);
                             }
                         }
                     }
             );
 
+        }else{
+            Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
+            viewLoader(false);
         }
 
     }

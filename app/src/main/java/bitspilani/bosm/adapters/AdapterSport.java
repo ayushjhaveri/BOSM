@@ -129,7 +129,9 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                 Constant.currentSport  = itemSport;
                 FragmentTransaction transaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
 
+//                transaction.setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up);
                 transaction.addToBackStack(null);
+
                 transaction.replace(R.id.fl_view, fragment);
                 transaction.commit();
 

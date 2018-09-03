@@ -49,6 +49,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Source;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,7 +82,7 @@ public class CartActivity extends Fragment {
     AdapterCart adapterCart;
     public TextView tv_total_price;
     public RelativeLayout rl_empty_layout;
-    public ProgressBar progressBar;
+    public static ProgressBar progressBar;
     ListenerRegistration listenerRegistration;
     private static DecimalFormat df2 = new DecimalFormat("0.00");
 
@@ -89,11 +90,24 @@ public class CartActivity extends Fragment {
     FirebaseFirestore db;
     FirebaseUser user;
 
+
+    public static void viewLoader(boolean is){
+        if(is){
+            progressBar.setVisibility(View.VISIBLE);
+        }else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_cart, container, false);
         init(view);
+
+        viewLoader(true);
+
+        Source s = Source.SERVER;
 
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -155,6 +169,7 @@ public class CartActivity extends Fragment {
                                             public void onClick(View v) {
                                                 alert.cancel();
 
+
                                                 if (balance >= order_total) {
                                                     final int randomID = (int) (Math.random() * 9000) + 1000;
                                                     db.collection("cart").whereEqualTo("user_id", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -211,8 +226,10 @@ public class CartActivity extends Fragment {
 
                                                                 //intent
                                                                 loadFragment(OrderDetailsActivity.newInstance(randomID));
+//                                                                progressBar.setVisibility(View.GONE);
 
                                                             } else {
+//                                                                progressBar.setVisibility(View.GONE);
                                                                 Log.d(TAG, "Error getting documents: ", task.getException());
                                                             }
                                                         }
@@ -221,7 +238,7 @@ public class CartActivity extends Fragment {
 
                                                 } else {
                                                     Toast.makeText(getContext(), "Insufficient Balance!", Toast.LENGTH_SHORT).show();
-
+//                                                    progressBar.setVisibility(View.GONE);
                                                     loadFragment(new AddMoneyBActivity().newInstance(order_total - balance));
 
 //Inflate the fragment
@@ -257,6 +274,7 @@ public class CartActivity extends Fragment {
 
         tv_total_price.setText(getContext().getResources().getString(R.string.Rs) + " --");
 
+//        progressBar.setVisibility(View.VISIBLE);
         mQuery.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -272,6 +290,7 @@ public class CartActivity extends Fragment {
                         }
                     }
                 });
+//        progressBar.setVisibility(View.GONE);
         return view;
     }
 

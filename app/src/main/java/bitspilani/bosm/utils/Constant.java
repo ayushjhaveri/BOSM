@@ -4,8 +4,10 @@ import android.content.SharedPreferences;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.HashMap;
 import java.util.Random;
 
+import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.ItemSport;
 import bitspilani.bosm.items.ItemUser;
 

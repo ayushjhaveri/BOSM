@@ -64,7 +64,7 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
         // load fragment
         FragmentTransaction transaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_view, fragment);
-        transaction.addToBackStack("transaction");
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

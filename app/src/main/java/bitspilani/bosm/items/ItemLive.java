@@ -42,8 +42,9 @@ public class ItemLive {
 
     //Trending Constructor
 
-    public ItemLive(int itemType, int matchType ,int sport_id, String sport_name, String collegeName1, String collegeName2, String match_round, String venue, String match_time, String match_date) {
+    public ItemLive(int itemType ,int sport_id, String sport_name, String collegeName1, String collegeName2, String match_round, String venue, String match_time, String match_date) {
         this.sport_id = sport_id;
+        this.matchType = 1;
         this.sport_name = sport_name;
         this.collegeName1 = collegeName1;
         this.collegeName2 = collegeName2;
@@ -53,6 +54,25 @@ public class ItemLive {
         this.match_date = match_date;
         this.itemType = itemType;
         this.matchType = matchType;
+
+        this.score1 = "";
+        this.score2 = "";
+        this.vote1 = -1;
+        this.vote2 = -1;
+        this.isVote = -1;
+    }
+
+    public ItemLive(int itemType ,int sport_id, String sport_name, String match_round, String venue, String match_time, String match_date) {
+        this.sport_id = sport_id;
+        this.sport_name = sport_name;
+        this.collegeName1 = "";
+        this.collegeName2 = "";
+        this.match_round = match_round;
+        this.venue = venue;
+        this.match_time = match_time;
+        this.match_date = match_date;
+        this.itemType = itemType;
+        this.matchType = 0;
 
         this.score1 = "";
         this.score2 = "";

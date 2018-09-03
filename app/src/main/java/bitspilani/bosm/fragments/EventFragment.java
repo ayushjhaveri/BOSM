@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +43,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterCurrentSport;
 import bitspilani.bosm.adapters.AdapterEvents;
@@ -54,6 +56,10 @@ import static com.android.volley.VolleyLog.TAG;
 public class EventFragment extends Fragment {
     AdapterEvents adapterEvents;
     ArrayList<ItemEvent> eventsArrayList;
+
+    public EventFragment(){
+        HomeActivity.currentFragment = "EventFragment";
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

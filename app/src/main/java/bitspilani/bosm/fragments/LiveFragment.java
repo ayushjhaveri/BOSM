@@ -16,6 +16,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterLive;
 import bitspilani.bosm.items.ItemLive;
@@ -26,6 +27,9 @@ public class LiveFragment extends Fragment{
     AdapterLive adapterLive;
     ArrayList<ItemLive> liveArrayList;
 
+    public LiveFragment(){
+        HomeActivity.currentFragment = "LiveFragment";
+    }
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,8 @@ public class LiveFragment extends Fragment{
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
-        Query mQuery = db.collection("scores").orderBy("timestamp").whereGreaterThan("timestamp", Timestamp.now()).orderBy("item_type").limit(15);
+        Query mQuery = db.collection("scores").orderBy("item_type").orderBy("timestamp");
+//        .whereGreaterThan("timestamp", Timestamp.now()).limit(15);
 
         adapterLive = new AdapterLive(getActivity(),mQuery);
 

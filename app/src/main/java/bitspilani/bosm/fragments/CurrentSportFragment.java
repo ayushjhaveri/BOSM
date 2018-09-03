@@ -29,7 +29,7 @@ import bitspilani.bosm.adapters.AdapterCurrentSport;
 import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
 
-public class CurrentSportFragment extends Fragment {
+public class    CurrentSportFragment extends Fragment {
 
     AdapterCurrentSport adapterCurrentSport;
     HashMap<String, Integer> map;

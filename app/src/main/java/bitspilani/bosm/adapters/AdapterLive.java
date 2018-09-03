@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -41,6 +42,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import bitspilani.bosm.R;
+import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.items.ItemLive;
 
 /**
@@ -283,6 +285,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
         final DocumentSnapshot document =  mSnapshots.get(position);
 
+//        holder.icon.setImageResource(SportFragment.iconHash.get(itemSport.getSport_id()));
+
         Log.d("aaaaaa",document.getData().toString());
 
         int ITEM_TYPE = Integer.parseInt(document.getData().get("item_type").toString());
@@ -330,7 +334,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 cal.setTime(date);
                 String month_format = "MMM";
                 SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
-                String time_format = "kk:mm";
+                String time_format = "h.mm a";
                 SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
                 ItemLive itemLive = new ItemLive(
@@ -600,6 +604,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder.tv_sport = (TextView) convertView.findViewById(R.id.tv_sport);
                     holder.tv_type = (TextView) convertView.findViewById(R.id.tv_subtitle);
                     holder.ll_college = (LinearLayout) convertView.findViewById(R.id.ll_college);
+                    holder.iv_sport = (ImageView)convertView.findViewById(R.id.iv_sport);
 
                     convertView.setTag(holder);
                 } else {
@@ -615,12 +620,12 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 cal2.setTime(date);
                 String month_format2 = "MMM";
                 SimpleDateFormat sdf_month2 = new SimpleDateFormat(month_format2);
-                String time_format2 = "kk:mm";
+                String time_format2 = "h.mm a";
                 SimpleDateFormat sdf_time2 = new SimpleDateFormat(time_format2);
 
+                if (Integer.parseInt(document.getData().get("match_type").toString())==1){
                 itemLive = new ItemLive(
                         1,
-                        Integer.parseInt(document.getData().get("match_type").toString()),
                         Integer.parseInt(document.getData().get("sport_id").toString()),
                         toTitleCase((String)document.getData().get("sport_name")),
                         ((String)document.getData().get("college1")).toUpperCase(),
@@ -632,6 +637,20 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                 +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
                                 " "+sdf_month2.format(date2)+""
                 );
+                }else{
+
+                    itemLive = new ItemLive(
+                            1,
+                            Integer.parseInt(document.getData().get("sport_id").toString()),
+                            toTitleCase((String)document.getData().get("sport_name")),
+                            toTitleCase((String)document.getData().get("round")),
+                            toTitleCase((String)document.getData().get("venue")),
+                            sdf_time2.format(cal2.getTime()),
+                            cal2.get(Calendar.DATE)
+                                    +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
+                                    " "+sdf_month2.format(date2)+""
+                    );
+                }
 
 
                 holder.tv_time.setText(itemLive.getMatch_time());
@@ -639,6 +658,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 holder.tv_type.setText(itemLive.getMatch_round());
                 holder.tv_sport.setText(itemLive.getSport_name());
                 holder.tv_venue.setText(itemLive.getVenue());
+                holder.iv_sport.setImageResource(SportFragment.iconHash.get(itemLive.getSport_id()));
 
                 if(itemLive.getMatchType() == Constant.ATHLETIC_TYPE_MATCH){
                     holder.ll_college.setVisibility(View.GONE);
@@ -680,7 +700,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         if (ITEM_TYPE == 0) {
             holder.header_text.setText("Live");
         } else if (ITEM_TYPE == 1) {
-            holder.header_text.setText("Trending");
+            holder.header_text.setText("Upcoming");
         }
 
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
@@ -730,6 +750,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     class TrendingViewHolder {
         TextView tv_college1, tv_college2, tv_venue, tv_time,tv_date, tv_sport, tv_type;
         LinearLayout ll_college;
+        ImageView iv_sport;
     }
 
 

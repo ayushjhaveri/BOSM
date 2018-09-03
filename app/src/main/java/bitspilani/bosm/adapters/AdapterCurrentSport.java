@@ -18,6 +18,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,6 +29,8 @@ import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.CurrentSportFragment;
 import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
+
+import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
 
 /**
  * Created by Prashant on 4/7/2018.
@@ -47,6 +50,8 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         this.context = context;
         hash = "";
     }
+
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,6 +79,8 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d");
+        SimpleDateFormat smf = new SimpleDateFormat("MMM");
 
 
 
@@ -92,7 +99,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
-                            cal.get(Calendar.DATE) + "",
+                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
                             document.getData().get("round").toString(),
                             document.getData().get("goldName").toString(),
                             document.getData().get("silverName").toString(),
@@ -107,7 +114,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
-                            cal.get(Calendar.DATE) + "",
+                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
                             document.getData().get("round").toString()
                     );
                 }
@@ -162,7 +169,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
-                            cal.get(Calendar.DATE) + "",
+                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
                             "hinjjin",
                             document.getData().get("score1").toString(),
                             document.getData().get("score2").toString(),
@@ -176,7 +183,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
                             cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
-                            cal.get(Calendar.DATE) + "",
+                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
                             document.getData().get("round").toString(),
                             document.getData().get("college1").toString(),
                             document.getData().get("college2").toString()

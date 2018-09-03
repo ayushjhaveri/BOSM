@@ -123,5 +123,4 @@
         android:layout_height="72dp"
         android:rotation="180"
         android:background="@drawable/top_gradient"/>
-
 </RelativeLayout>

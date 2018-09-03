@@ -14,9 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.eftimoff.viewpagertransformers.AccordionTransformer;
+import com.eftimoff.viewpagertransformers.CubeOutTransformer;
+import com.eftimoff.viewpagertransformers.DrawFromBackTransformer;
+import com.eftimoff.viewpagertransformers.StackTransformer;
+import com.eftimoff.viewpagertransformers.ZoomOutSlideTransformer;
+
 import java.util.ArrayList;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
+import bitspilani.bosm.utils.Constant;
 import devlight.io.library.ntb.NavigationTabBar;
 
 ///**
@@ -30,14 +38,12 @@ import devlight.io.library.ntb.NavigationTabBar;
 public class HomeFragment extends Fragment {
 
 //    FragmentManager fragmentManager = getChildFragmentManager();
-
+    public static ViewPager vpPager;
 
     public HomeFragment() {
+        HomeActivity.currentFragment = "HomeFragment";
         // Required empty public constructor
     }
-
-
-
 
 
     @Override
@@ -77,11 +83,13 @@ public class HomeFragment extends Fragment {
 
 
 
-        ViewPager vpPager = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
+        vpPager = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         vpPager.setAdapter(adapterViewPager);
+        vpPager.setPageTransformer(true, new ZoomOutSlideTransformer());
 
         ntbSample5.setViewPager(vpPager, 1);
+
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
@@ -156,6 +164,18 @@ public class HomeFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return "Page " + position;
         }
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
 
     }
 }

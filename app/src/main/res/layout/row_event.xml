@@ -4,11 +4,10 @@
     android:id="@+id/folding_cell"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
+    android:layout_marginBottom="12dp"
     android:layout_marginEnd="12dp"
     app:backSideColor="@color/back_shade2"
-    android:layout_marginStart="12dp"
-    android:layout_marginTop="6dp">
+    android:layout_marginStart="12dp">
     ​
 
     <FrameLayout
@@ -32,7 +31,7 @@
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginLeft="@dimen/event_horzontal"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
@@ -60,7 +59,7 @@
                 </android.support.v7.widget.CardView>
 
                 <View
-                    android:layout_marginRight="12dp"
+                    android:layout_marginRight="@dimen/event_horzontal"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
@@ -88,20 +87,21 @@
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
                 android:layout_marginTop="18dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginStart="@dimen/event_horzontal"
+                android:layout_marginEnd="@dimen/event_horzontal"
+                android:layout_marginBottom="18dp"
                 android:text="This is an event of Gaming Club. It does suck, but please do come. Without us bosm would have been better blah blah blah. MakeTeams of 10 ppl. We'll play on a random ground an the referee will be partial."
+
                 android:textSize="13dp"
                 android:lineSpacingExtra="2dp" />
 
 
             <RelativeLayout
-                android:paddingRight="12dp"
-                android:paddingLeft="12dp"
+                android:layout_below="@id/tv_info"
+                android:paddingRight="@dimen/event_horzontal"
+                android:paddingLeft="@dimen/event_horzontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_date2"
@@ -112,6 +112,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxLength="15"
+                    android:textColor="@color/light_gray"
                     />
 
                 <TextView
@@ -123,7 +124,8 @@
                     android:maxLines="1"
                     android:layout_centerHorizontal="true"
                     android:maxLength="12"
-                    android:text="19:00" />
+                    android:text="19:00"
+                    android:textColor="@color/light_gray"/>
 
                 <TextView
                     android:layout_alignParentEnd="true"
@@ -134,7 +136,8 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxLength="15"
-                    android:text="Gym G" />
+                    android:text="Gym G"
+                    android:textColor="@color/light_gray"/>
 
             </RelativeLayout>
 
@@ -176,8 +179,8 @@
                 android:textStyle="bold"/>
 
             <RelativeLayout
-                android:paddingRight="12dp"
-                android:paddingLeft="12dp"
+                android:paddingRight="@dimen/event_horzontal"
+                android:paddingLeft="@dimen/event_horzontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
@@ -188,6 +191,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="19th Sep"
+                    android:textColor="@color/light_gray"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxLength="15"
@@ -202,7 +206,8 @@
                     android:maxLines="1"
                     android:layout_centerHorizontal="true"
                     android:maxLength="12"
-                    android:text="19:00" />
+                    android:text="19:00"
+                    android:textColor="@color/light_gray"/>
 
                 <TextView
                     android:layout_alignParentEnd="true"
@@ -213,7 +218,8 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxLength="15"
-                    android:text="Gym G" />
+                    android:text="Gym G"
+                    android:textColor="@color/light_gray"/>
 
             </RelativeLayout>
 

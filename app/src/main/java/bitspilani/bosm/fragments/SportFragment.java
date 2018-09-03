@@ -16,6 +16,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterCart;
 import bitspilani.bosm.adapters.AdapterSport;
@@ -27,6 +28,10 @@ public class SportFragment extends Fragment{
     public static HashMap<Integer,Integer> iconHash;
     static {
         iconHash = new HashMap<>();
+    }
+
+    public SportFragment(){
+        HomeActivity.currentFragment = "SportFragment";
     }
     // Store instance variables based on arguments passed
     @Override

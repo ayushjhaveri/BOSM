@@ -24,9 +24,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 
+import bitspilani.bosm.fragments.PhotoFragment;
 import bitspilani.bosm.fragments.StallFragment;
 import bitspilani.bosm.fragments.ContactFragment;
 import bitspilani.bosm.fragments.DevelopersFragment;
@@ -38,6 +40,7 @@ import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
 import bitspilani.bosm.roulette.RouletteHomeFragment;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
+import static bitspilani.bosm.fragments.HomeFragment.vpPager;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class HomeActivity extends AppCompatActivity
@@ -48,6 +51,8 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager fm;
     DrawerLayout drawer;
     LinearLayout ll_dots;
+
+    public static String currentFragment = "";
 
     private static final int REQUEST_CODE_HOVER_PERMISSION = 1000;
 
@@ -140,7 +145,7 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new HomeFragment(), "Home", fm);
+                        loadFragHome(new HomeFragment(), "Home", fm);
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -165,6 +170,18 @@ public class HomeActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         loadFrag(new RouletteHomeFragment(), "Roulette", fm);
+                    }
+                }, 600);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        findViewById(R.id.tv_photos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadFrag(new PhotoFragment(), "Photos", fm);
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -238,17 +255,6 @@ public class HomeActivity extends AppCompatActivity
 
 
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i ("isMyServiceRunning?", true+"");
-                return true;
-            }
-        }
-        Log.i ("isMyServiceRunning?", false+"");
-        return false;
-    }
 
 
     @Override
@@ -259,13 +265,16 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
+       if(currentFragment.equals("EventFragment")){
+          vpPager.setCurrentItem(1);
+          currentFragment="";
+      }else if(currentFragment.equals("SportFragment")){
+          vpPager.setCurrentItem(1);
+          currentFragment="";
+      }else{
             super.onBackPressed();
         }
     }
@@ -331,6 +340,14 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public static void loadFrag(Fragment f1, String name, FragmentManager fm) {
+//        selectedFragment = name;
+        FragmentTransaction ft = fm.beginTransaction()
+                .addToBackStack(null);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.replace(R.id.fl_view, f1, name);
+        ft.commit();
+    }
+    public static void loadFragHome(Fragment f1, String name, FragmentManager fm) {
 //        selectedFragment = name;
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

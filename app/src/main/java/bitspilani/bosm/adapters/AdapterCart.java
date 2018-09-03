@@ -66,8 +66,14 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    protected void onDataChanged() {
+        super.onDataChanged();
+        CartActivity.viewLoader(false);
+    }
 
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+//        CartActivity.viewLoader(false);
         final DocumentSnapshot document =  getSnapshot(position);
         final ItemCart itemCart = new ItemCart(
                 Integer.parseInt(document.getId()),
