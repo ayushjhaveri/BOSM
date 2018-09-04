@@ -39,6 +39,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import bitspilani.bosm.CartActivity;
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.WalletActivity;
 import bitspilani.bosm.adapters.AdapterEvents;
@@ -60,6 +61,8 @@ public class StallFragment extends Fragment {
 
     public StallFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment = "StallFragment";
+
     }
 
 
@@ -129,6 +132,11 @@ public class StallFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="StallFragment";
+    }
 
     @Override
     public void onStart() {

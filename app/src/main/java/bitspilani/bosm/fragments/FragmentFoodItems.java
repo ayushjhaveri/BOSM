@@ -42,6 +42,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import bitspilani.bosm.CartActivity;
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.WalletActivity;
 import bitspilani.bosm.adapters.AdapterFoods;
@@ -60,6 +61,7 @@ public class FragmentFoodItems extends Fragment {
 
     public FragmentFoodItems() {
         // Required empty public constructor
+        HomeActivity.currentFragment = "FragmentFoodItems";
     }
 
     ImageButton ib_cart;
@@ -156,6 +158,11 @@ public class FragmentFoodItems extends Fragment {
         transaction.replace(R.id.fl_view, fragment);
         transaction.addToBackStack("transaction");
         transaction.commit();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="FragmentFoodItems";
     }
 
 }

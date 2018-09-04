@@ -13,6 +13,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.adapters.AdapterDevelopers;
 import bitspilani.bosm.items.ItemDeveloper;
 import bitspilani.bosm.R;
@@ -27,7 +28,8 @@ public class DevelopersFragment extends Fragment {
 
 
     public DevelopersFragment() {
-        // Required empty public constructor
+        HomeActivity.currentFragment.equals("DevelopersFragment");
+
     }
 
     List<ItemDeveloper> items;
@@ -64,6 +66,11 @@ public class DevelopersFragment extends Fragment {
 
 
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="DevelopersFragment";
     }
 
 }

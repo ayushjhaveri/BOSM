@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterCurrentSport;
 import bitspilani.bosm.items.ItemMatch;
@@ -58,7 +60,7 @@ public class    CurrentSportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_current_sport, container, false);
-
+        Toast.makeText(getContext(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
         //Firestore data retrieval
         FirebaseApp.initializeApp(getContext());
 
@@ -114,5 +116,11 @@ public class    CurrentSportFragment extends Fragment {
         if (adapterCurrentSport != null) {
             adapterCurrentSport.stopListening();
         }
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="CurrentSportFragment";
     }
 }

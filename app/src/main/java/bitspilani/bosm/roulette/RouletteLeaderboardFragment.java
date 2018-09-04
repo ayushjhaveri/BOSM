@@ -24,6 +24,7 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
 import bitspilani.bosm.adapters.AdapterRouletteLeaderboard;
@@ -36,7 +37,7 @@ public class RouletteLeaderboardFragment extends Fragment {
     RecyclerView recyclerView;
 
     public RouletteLeaderboardFragment() {
-        // Required empty public constructor
+        HomeActivity.currentFragment="RouletteHomeFragment";
     }
     public static  TextView tv_rank;
 
@@ -102,5 +103,9 @@ public class RouletteLeaderboardFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="RouletteHomeFragment";
+    }
 }

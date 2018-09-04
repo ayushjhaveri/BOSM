@@ -64,6 +64,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
 import bitspilani.bosm.fragments.SportFragment;
@@ -71,6 +72,7 @@ import bitspilani.bosm.items.ArrayObject;
 import bitspilani.bosm.items.ItemRoulette;
 import bitspilani.bosm.utils.Constant;
 import io.grpc.Server;
+
 
 
 public class BiddingFragment extends Fragment implements View.OnClickListener {
@@ -143,6 +145,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
     public BiddingFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment = "BiddingFragment";
     }
 
 
@@ -930,5 +933,10 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         } else {
             return "Finished";
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="BiddingFragment";
     }
 }

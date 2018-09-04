@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 
 
@@ -16,6 +17,7 @@ public class RouletteExtraFragment extends Fragment {
 
     public RouletteExtraFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment="RouletteHomeFragment";
     }
 
 
@@ -31,6 +33,11 @@ public class RouletteExtraFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_roulette_extra, container, false);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="RouletteHomeFragment";
     }
 
 }

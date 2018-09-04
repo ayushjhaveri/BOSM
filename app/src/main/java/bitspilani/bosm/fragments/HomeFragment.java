@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.eftimoff.viewpagertransformers.AccordionTransformer;
 import com.eftimoff.viewpagertransformers.CubeOutTransformer;
@@ -41,7 +42,8 @@ public class HomeFragment extends Fragment {
     public static ViewPager vpPager;
 
     public HomeFragment() {
-        HomeActivity.currentFragment = "HomeFragment";
+        HomeActivity.currentFragment = "aaaaaaaa";
+
         // Required empty public constructor
     }
 
@@ -51,6 +53,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_home, container, false);
+
+
+//        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
 
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
@@ -90,6 +95,7 @@ public class HomeFragment extends Fragment {
 
         ntbSample5.setViewPager(vpPager, 1);
 
+
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
@@ -98,7 +104,14 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onPageSelected(final int position) {
+
+
                 for(int i =0;i<ntbSample5.getModels().size();i++){
+
+//                    if(i==0)HomeActivity.currentFragment = "EventFragment";
+//                    else if(i==1)HomeActivity.currentFragment = "LiveFragment";
+//                    else if(i==2)HomeActivity.currentFragment = "SportFragment";
+
                     ntbSample5.getModels().get(i).showBadge();
                 }
                 ntbSample5.getModels().get(position).hideBadge();
@@ -124,6 +137,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         }, 500);
+        vpPager.setCurrentItem(1);
+
 
         return v;
     }
@@ -165,6 +180,11 @@ public class HomeFragment extends Fragment {
             return "Page " + position;
         }
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="aaaaaaaa";
     }
 
     @Override

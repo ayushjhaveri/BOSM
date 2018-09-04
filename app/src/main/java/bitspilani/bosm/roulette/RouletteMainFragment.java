@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
 import bitspilani.bosm.items.ItemRoulette;
@@ -33,6 +34,7 @@ public class RouletteMainFragment extends Fragment {
 
     public RouletteMainFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment="RouletteHomeFragment";
     }
 
 
@@ -92,5 +94,9 @@ public class RouletteMainFragment extends Fragment {
             mAdapter.stopListening();
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="RouletteHomeFragment";
+    }
 }

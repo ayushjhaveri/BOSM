@@ -91,6 +91,7 @@ public class AddMoneyBActivity extends Fragment {
         Bundle args = new Bundle();
         args.putDouble("amt", param1);
         fragment.setArguments(args);
+        HomeActivity.currentFragment = "AddMoneyByActivity";
         return fragment;
     }
 
@@ -388,5 +389,10 @@ public class AddMoneyBActivity extends Fragment {
     public void onStop() {
         super.onStop();
         listenerRegistration.remove();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="AddMoneyByActivity";
     }
 }

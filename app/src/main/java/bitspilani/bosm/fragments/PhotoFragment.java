@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterPhotos;
 
@@ -23,6 +24,7 @@ public class PhotoFragment extends Fragment {
 
     public PhotoFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment = "PhotoFragment";
     }
 
     RecyclerView recyclerView;
@@ -66,6 +68,11 @@ public class PhotoFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="PhotoFragment";
     }
 
 }

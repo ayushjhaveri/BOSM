@@ -58,7 +58,8 @@ public class EventFragment extends Fragment {
     ArrayList<ItemEvent> eventsArrayList;
 
     public EventFragment(){
-        HomeActivity.currentFragment = "EventFragment";
+        HomeActivity.currentFragment="aaaaaaaa";
+
     }
 
     @Override
@@ -72,6 +73,9 @@ public class EventFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event, container, false);
+
+
+//        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
@@ -142,6 +146,11 @@ public class EventFragment extends Fragment {
 
 
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="aaaaaaaa";
     }
 
     @Override

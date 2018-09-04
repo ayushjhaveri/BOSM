@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -28,7 +29,7 @@ public class LiveFragment extends Fragment{
     ArrayList<ItemLive> liveArrayList;
 
     public LiveFragment(){
-        HomeActivity.currentFragment = "LiveFragment";
+        HomeActivity.currentFragment="aaaaaaaa";
     }
     // Store instance variables based on arguments passed
     @Override
@@ -44,6 +45,8 @@ public class LiveFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live, container, false);
 
+
+//        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -62,6 +65,11 @@ public class LiveFragment extends Fragment{
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="aaaaaaaa";
+    }
+    @Override
     public void onStart() {
         super.onStart();
 
@@ -78,6 +86,7 @@ public class LiveFragment extends Fragment{
             adapterLive.stopListening();
         }
     }
+
 
 
 }

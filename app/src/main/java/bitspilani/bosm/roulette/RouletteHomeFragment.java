@@ -10,9 +10,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import devlight.io.library.ntb.NavigationTabBar;
 
@@ -31,9 +33,10 @@ public class RouletteHomeFragment extends Fragment {
 
     public RouletteHomeFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment="RouletteHomeFragment";
     }
 
-
+    public static ViewPager vpPagerRoulette;
 
 
 
@@ -44,6 +47,7 @@ public class RouletteHomeFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_roulette_home, container, false);
 
 
+
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
 
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
@@ -51,7 +55,7 @@ public class RouletteHomeFragment extends Fragment {
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
-                        .badgeTitle("Leaderboard")
+                        .badgeTitle("Extra")
                         .title("title")
                         .build()
         );
@@ -66,7 +70,7 @@ public class RouletteHomeFragment extends Fragment {
                 new NavigationTabBar.Model.Builder(
                         getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
-                        .badgeTitle("Extra")
+                        .badgeTitle("Leaderboard")
                         .title("title")
                         .build()
         );
@@ -74,11 +78,11 @@ public class RouletteHomeFragment extends Fragment {
 
 
 
-        ViewPager vpPager = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
+        vpPagerRoulette = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+        vpPagerRoulette.setAdapter(adapterViewPager);
 
-        ntbSample5.setViewPager(vpPager, 1);
+        ntbSample5.setViewPager(vpPagerRoulette, 1);
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
@@ -88,6 +92,9 @@ public class RouletteHomeFragment extends Fragment {
             @Override
             public void onPageSelected(final int position) {
                 for(int i =0;i<ntbSample5.getModels().size();i++){
+//                    if(i==0)HomeActivity.currentFragment = "RouletteExtraFragment";
+//                    else if(i==1)HomeActivity.currentFragment = "RouletteMainFragment";
+//                    else if(i==2)HomeActivity.currentFragment = "RouletteLeaderboardFragment";
                     ntbSample5.getModels().get(i).showBadge();
                 }
                 ntbSample5.getModels().get(position).hideBadge();
@@ -138,11 +145,11 @@ public class RouletteHomeFragment extends Fragment {
             switch (position) {
 
                 case 0:
-                    return new RouletteLeaderboardFragment();
+                return new RouletteExtraFragment();
                 case 1: // Fragment # 0 - This will show FirstFragment
                     return new RouletteMainFragment();
                 case 2: // Fragment # 0 - This will show FirstFragment different title
-                    return new RouletteExtraFragment();
+                    return new RouletteLeaderboardFragment();
                 default:
                     return new RouletteMainFragment();
             }
@@ -154,5 +161,10 @@ public class RouletteHomeFragment extends Fragment {
             return "Page " + position;
         }
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="RouletteHomeFragment";
     }
 }

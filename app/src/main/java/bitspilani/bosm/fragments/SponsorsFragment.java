@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterSponsors;
 import bitspilani.bosm.items.ItemSponsor;
@@ -32,6 +33,7 @@ public class SponsorsFragment extends Fragment {
 
     public SponsorsFragment(){
         list=new ArrayList<ItemSponsor>();
+        HomeActivity.currentFragment = "SponsorsFragment";
     }
 
     @Nullable
@@ -61,6 +63,11 @@ public class SponsorsFragment extends Fragment {
         list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
         list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
         list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="SponsorsFragment";
     }
 
 }

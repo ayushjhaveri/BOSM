@@ -40,6 +40,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import bitspilani.bosm.fragments.PhotoFragment;
+import bitspilani.bosm.fragments.SportFragment;
+import bitspilani.bosm.fragments.SportSelectedFragment;
 import bitspilani.bosm.fragments.StallFragment;
 import bitspilani.bosm.fragments.ContactFragment;
 import bitspilani.bosm.fragments.DevelopersFragment;
@@ -52,7 +54,9 @@ import bitspilani.bosm.roulette.RouletteHomeFragment;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static bitspilani.bosm.fragments.HomeFragment.vpPager;
+import static bitspilani.bosm.fragments.SportSelectedFragment.vpPagerSport;
 import static bitspilani.bosm.hover.HoverScreen.ProfileScreen.setQR;
+import static bitspilani.bosm.roulette.RouletteHomeFragment.vpPagerRoulette;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class HomeActivity extends AppCompatActivity
@@ -203,7 +207,11 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFragHome(new HomeFragment(), "Home", fm);
+                        if(HomeActivity.currentFragment.equals("HomeFragment") || HomeActivity.currentFragment.equals("LiveFragment")){}
+                        else if(HomeActivity.currentFragment.equals("SportFragment")||HomeActivity.currentFragment.equals("EventFragment")){
+                            vpPager.setCurrentItem(1);
+                        }
+                        else{loadFragHome(new HomeFragment(), "Home", fm);}
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -215,7 +223,11 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new StallFragment(), "Order Food", fm);
+                        if (HomeActivity.currentFragment.equals("StallFragment")) {
+
+                        }
+                        else{loadFrag(new StallFragment(), "Order Food", fm);
+                        }
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -227,7 +239,10 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new RouletteHomeFragment(), "Roulette", fm);
+                        if(HomeActivity.currentFragment.equals("RouletteHomeFragment") || HomeActivity.currentFragment.equals("RouletteMainFragment")){}
+
+                        else{loadFrag(new RouletteHomeFragment(), "Roulette", fm);
+                        }
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -239,7 +254,12 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new PhotoFragment(), "Photos", fm);
+
+                        if (HomeActivity.currentFragment.equals("PhotoFragment")) {
+
+                        } else {
+                            loadFrag(new PhotoFragment(), "Photos", fm);
+                        }
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -251,8 +271,12 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (HomeActivity.currentFragment.equals("DevelopersFragment")) {
+
+                        }
+                        else{
                         loadFrag(new DevelopersFragment(), "Develoeprs", fm);
-                    }
+                    }}
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -263,7 +287,11 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new SponsorsFragment(), "Sponsors", fm);
+                        if (HomeActivity.currentFragment.equals("SponsorsFragment")) {
+
+                        } else {
+                            loadFrag(new SponsorsFragment(), "Sponsors", fm);
+                        }
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -276,8 +304,11 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new EpcFragment(), "EPC", fm);
-                    }
+                        if (HomeActivity.currentFragment.equals("EpcFragment")) {
+
+                        }
+                        else{loadFrag(new EpcFragment(), "EPC", fm);
+                    }}
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -288,7 +319,11 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new HpcFragment(), "EPC", fm);
+                        if (HomeActivity.currentFragment.equals("HpcFragment")) {
+
+                        } else {
+                            loadFrag(new HpcFragment(), "HPC", fm);
+                        }
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -300,7 +335,12 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        loadFrag(new ContactFragment(), "Contact Us", fm);
+
+                        if (HomeActivity.currentFragment.equals("StallFragment")) {
+
+                        } else {
+                            loadFrag(new ContactFragment(), "Contact Us", fm);
+                        }
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -321,14 +361,43 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-       if(currentFragment.equals("EventFragment")){
-          vpPager.setCurrentItem(1);
-          currentFragment="";
-      }else if(currentFragment.equals("SportFragment")){
-          vpPager.setCurrentItem(1);
-          currentFragment="";
-      }else{
+        Toast.makeText(this, currentFragment, Toast.LENGTH_SHORT).show();
+           if(drawer.isDrawerOpen(GravityCompat.START)){drawer.closeDrawer(GravityCompat.START);}
+           else if(currentFragment.equals("aaaaaaaa") && vpPager.getCurrentItem()!=1){
+//                if(vpPager.getCurrentItem()!=1){
+                    vpPager.setCurrentItem(1);
+
+           }
+           else if(currentFragment.equals("RouletteHomeFragment") && vpPagerRoulette.getCurrentItem()!=1){
+//                if(vpPager.getCurrentItem()!=1){
+               vpPagerRoulette.setCurrentItem(1);
+
+           }
+//           else if((currentFragment.equals("LiveFragment")||currentFragment.equals("HomeFragment")||currentFragment.equals("EventFragment")||currentFragment.equals("SportFragment"))&& vpPager.getCurrentItem()==1){super.onBackPressed();}
+//           else if((currentFragment.equals("RouletteHomeFragment")||currentFragment.equals("RouletteMainFragment")||currentFragment.equals("RouletteExtraFragment")||currentFragment.equals("RouletteLeaderboardFragment"))&& vpPagerRoulette.getCurrentItem()==1){super.onBackPressed();}
+//       else if(currentFragment.equals("EventFragment")){
+//               currentFragment="LiveFragment";
+//          vpPager.setCurrentItem(1);
+//
+//      }else if(currentFragment.equals("SportFragment")){
+//               currentFragment="LiveFragment";
+//          vpPager.setCurrentItem(1);
+//
+//        }
+//       else if(currentFragment.equals("RouletteExtraFragment") || currentFragment.equals("RouletteLeaderboardFragment")){
+//               currentFragment="RouletteMainFragment";
+//           vpPagerRoulette.setCurrentItem(1);
+//
+//       }
+
+//      else if(vpPagerSport.getCurrentItem()==0||vpPagerSport.getCurrentItem()==1){
+//           loadFrag(new HomeFragment(), "Sport", fm);
+//           vpPager.setCurrentItem(2);
+//       }
+
+      else{
             super.onBackPressed();
+
         }
     }
 

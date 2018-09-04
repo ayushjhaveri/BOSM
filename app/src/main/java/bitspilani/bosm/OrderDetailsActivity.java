@@ -43,6 +43,7 @@ public class OrderDetailsActivity extends Fragment {
         Bundle args = new Bundle();
         args.putInt("oui", param1);
         fragment.setArguments(args);
+        HomeActivity.currentFragment = "OrderDetailsActivity";
         return fragment;
     }
 
@@ -118,6 +119,11 @@ public class OrderDetailsActivity extends Fragment {
         if (adapterOrder != null) {
             adapterOrder.stopListening();
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="OrderDetailsActivity";
     }
 
 

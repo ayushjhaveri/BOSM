@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 
 /**
@@ -22,6 +23,7 @@ public class HpcFragment extends Fragment {
     ProgressBar progress;
 
     public HpcFragment(){
+        HomeActivity.currentFragment = "HpcFragment";
     }
 
     @Nullable
@@ -59,5 +61,10 @@ public class HpcFragment extends Fragment {
             progress.setVisibility(View.VISIBLE);
             super.onPageStarted(view, url, favicon);
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="HpcFragment";
     }
 }

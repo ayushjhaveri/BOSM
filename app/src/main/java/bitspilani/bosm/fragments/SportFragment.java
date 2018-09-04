@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -31,7 +32,7 @@ public class SportFragment extends Fragment{
     }
 
     public SportFragment(){
-        HomeActivity.currentFragment = "SportFragment";
+        HomeActivity.currentFragment="aaaaaaaa";
     }
     // Store instance variables based on arguments passed
     @Override
@@ -44,6 +45,7 @@ public class SportFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_score, container, false);
+//        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
@@ -93,6 +95,12 @@ public class SportFragment extends Fragment{
         if (adapterSport != null) {
             adapterSport.startListening();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="aaaaaaaa";
     }
 
     @Override

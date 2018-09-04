@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterContactus;
 
@@ -23,6 +24,7 @@ public class ContactFragment extends Fragment {
 
 
     public ContactFragment() {
+        HomeActivity.currentFragment.equals("ContactFragment");
         // Required empty public constructor
     }
     RecyclerView recyclerView;
@@ -98,5 +100,9 @@ public class ContactFragment extends Fragment {
 
         return rootView;
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="ContactFragment";
+    }
 }

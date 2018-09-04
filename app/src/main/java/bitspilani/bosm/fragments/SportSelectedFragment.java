@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.utils.Constant;
 import devlight.io.library.ntb.NavigationTabBar;
@@ -39,9 +41,10 @@ public class SportSelectedFragment extends Fragment {
 
 //    FragmentManager fragmentManager = getChildFragmentManager();
 
-
+    public static ViewPager vpPagerSport;
     public SportSelectedFragment() {
         // Required empty public constructor
+        HomeActivity.currentFragment = "SportSelectedFragment";
     }
 
 
@@ -49,7 +52,9 @@ public class SportSelectedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_selected_sport, container, false);
+        View v = inflater.inflate(R.layout.fragment_selected_sport, container, false);   Toast.makeText(getContext(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+
+        HomeActivity.currentFragment = "SportSelectedFragment";
 
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
 
@@ -70,12 +75,11 @@ public class SportSelectedFragment extends Fragment {
         );
         ntbSample5.setModels(models5);
 
-
-        ViewPager vpPager = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
+        vpPagerSport = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+        vpPagerSport.setAdapter(adapterViewPager);
 
-        ntbSample5.setViewPager(vpPager, 0);
+        ntbSample5.setViewPager(vpPagerSport, 0);
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
@@ -86,13 +90,13 @@ public class SportSelectedFragment extends Fragment {
             public void onPageSelected(final int position) {
                 for(int i =0;i<ntbSample5.getModels().size();i++){
                 ntbSample5.getModels().get(i).showBadge();
+                HomeActivity.currentFragment.equals("CurrentSportFragment");
             }
                 ntbSample5.getModels().get(position).hideBadge();
             }
 
             @Override
             public void onPageScrollStateChanged(final int state) {
-
             }
         });
 
@@ -168,11 +172,17 @@ public class SportSelectedFragment extends Fragment {
             }
         }
 
+
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             return "Page " + position;
         }
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="SportSelectedFragment";
     }
 }

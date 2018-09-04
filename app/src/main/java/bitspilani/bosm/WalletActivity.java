@@ -82,6 +82,10 @@ public class WalletActivity extends Fragment {
     FirebaseUser user;
     FirebaseFirestore db;
 
+    public WalletActivity(){
+        HomeActivity.currentFragment = "WalletActivity";
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -385,5 +389,9 @@ public class WalletActivity extends Fragment {
             adapter.stopListening();
         }
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="WalletActivity";
+    }
 }

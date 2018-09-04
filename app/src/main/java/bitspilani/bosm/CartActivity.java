@@ -90,6 +90,10 @@ public class CartActivity extends Fragment {
     FirebaseFirestore db;
     FirebaseUser user;
 
+    public CartActivity(){
+        HomeActivity.currentFragment = "CartActivity";
+    }
+
 
     public static void viewLoader(boolean is){
         if(is){
@@ -640,4 +644,11 @@ public class CartActivity extends Fragment {
 //        GetData gd = new GetData();
 //        gd.execute();
 //    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="CartActivity";
+    }
 }
+
