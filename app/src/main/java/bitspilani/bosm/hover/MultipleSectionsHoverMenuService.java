@@ -62,7 +62,7 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
 
     @NonNull
     private HoverMenu createHoverMenu() {
-        return new MultiSectionHoverMenu(getApplicationContext());
+        return new MultiSectionHoverMenu(getBaseContext());
     }
 
     private static class MultiSectionHoverMenu extends HoverMenu {
@@ -71,7 +71,7 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
         private final List<Section> mSections;
 
         public MultiSectionHoverMenu(@NonNull Context context) {
-            mContext = context.getApplicationContext();
+            mContext = context;
 
             mSections = Arrays.asList(
                     new Section(

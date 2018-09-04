@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
     implementation 'com.jsibbold:zoomage:1.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.github.kenglxn.QRGen:android:2.2.0'
 
 
 }

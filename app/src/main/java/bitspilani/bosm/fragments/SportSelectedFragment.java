@@ -57,14 +57,14 @@ public class SportSelectedFragment extends Fragment {
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(), R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.boy), ContextCompat.getColor(getContext(), R.color.back_shade1)
                 )
                         .badgeTitle("Boys")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(), R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.girl), ContextCompat.getColor(getContext(), R.color.back_shade1)
                 ).badgeTitle("Girls")
                         .build()
         );

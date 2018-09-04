@@ -63,6 +63,7 @@ import java.util.Random;
 
 import bitspilani.bosm.items.ItemUser;
 import bitspilani.bosm.utils.Constant;
+import io.grpc.internal.LogId;
 
 public class AddMoneyBActivity extends Fragment {
 
@@ -121,6 +122,11 @@ public class AddMoneyBActivity extends Fragment {
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user==null){
+            Toast.makeText(getContext(), "Please sign in again!",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(),LoginActivity.class));
+            getActivity().finish();
+        }
 
         db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
@@ -184,7 +190,14 @@ public class AddMoneyBActivity extends Fragment {
                     Snackbar.make(view, "Enter valid amount!", Snackbar.LENGTH_SHORT).show();
                 } else {
 
-                    add_amount(Double.parseDouble(editText_amount.getText().toString()));
+                    if(user.getEmail().contains("pilani.bits-pilani.ac.in")){
+                        //BITS USER
+                        add_amount(Double.parseDouble(editText_amount.getText().toString()));
+                    }else{
+                        //OUTSIDER
+                        Snackbar.make(view, "paytm not implemented!", Snackbar.LENGTH_SHORT).show();
+                    }
+
 
 
 //                    if (Constant.ACCOUNT_TYPE == Constant.ACCOUNT_TYPE_BITS) {
@@ -199,11 +212,6 @@ public class AddMoneyBActivity extends Fragment {
             }
         });
 
-//        Intent intent = getIntent();
-//        if(intent!=null){
-//            double amount = intent.getDoubleExtra("amount",0);
-//            editText_amount.setText(amount+"");
-//        }
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
         TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_title.setTypeface(oswald_regular);
@@ -257,13 +265,7 @@ public class AddMoneyBActivity extends Fragment {
 
     private void add_amount(final double amount) {
 
-        if (user == null) {
-            Toast.makeText(getActivity(), "Please login!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
-        } else {
-
-            db.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+         db.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     final Double prev_bal = Double.parseDouble(task.getResult().getData().get("wallet").toString());
@@ -315,17 +317,10 @@ public class AddMoneyBActivity extends Fragment {
                 }
             });
 
-        }
-
     }
 
     private void getBalance() {
         textView_balance.setText(getResources().getString(R.string.Rs) + " ---");
-        if (user == null) {
-            Toast.makeText(getActivity(), "Please login!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish();
-        } else {
             db.collection("user").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -333,7 +328,6 @@ public class AddMoneyBActivity extends Fragment {
                 }
             });
 
-        }
     }
 
 

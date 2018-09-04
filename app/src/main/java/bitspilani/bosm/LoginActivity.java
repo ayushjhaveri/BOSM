@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -33,6 +34,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -53,6 +58,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.StringTokenizer;
 
 import bitspilani.bosm.items.ItemUser;
 import bitspilani.bosm.utils.Constant;
@@ -61,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 0;
     private static final String TAG = "LoginActivity";
-    Button signupButton;
+
     ImageButton loginButton;
     FloatingActionButton  g_login_button;
     SignInButton googleSignInButton;
@@ -70,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     RequestQueue queue;
     ProgressBar progressBar;
 
-    EditText et_username;
+    EditText et_email, et_password;
     private FirebaseAuth mAuth;
 
     @Override
@@ -81,14 +88,15 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         init();
-        signupButton.setOnClickListener(new Button.OnClickListener() {
-            public void onClick(View v) {
-
-            }
-        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(et_email.getText().toString().contains("@") && !et_password.getText().toString().isEmpty()){
+                    viewLoader(true);
+                    signInWithEmailAndPassword(et_email.getText().toString(),et_email.getText().toString());
+                }else{
+                    Toast.makeText(LoginActivity.this,"Invalid input format!",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -133,11 +141,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void init() {
 
-        signupButton = (Button) findViewById(R.id.button_signup);
         loginButton = (ImageButton) findViewById(R.id.ib_login);
         googleSignInButton = (SignInButton) findViewById(R.id.button_g_sign_in);
 
-        et_username = (EditText) findViewById(R.id.et_username);
+        et_password = (EditText) findViewById(R.id.et_password);
+        et_email = (EditText) findViewById(R.id.et_email);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -173,7 +181,22 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            firebaseAuthWithGoogle(account);
+            if(Objects.requireNonNull(account.getEmail()).contains("@pilani.bits-pilani.ac.in")) {
+                firebaseAuthWithGoogle(account);
+            }else {
+                mGoogleSignInClient.signOut()
+                        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(LoginActivity.this, "Only Bits-email login is enabled!", Toast.LENGTH_SHORT).show();
+                                }
+                                // ...
+                            }
+                        });
+                viewLoader(false);
+
+            }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -204,6 +227,101 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void createUser(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(
+                        new OnCompleteListener<AuthResult>()
+                        {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task)
+                            {
+                                if (!task.isSuccessful())
+                                {
+                                    try
+                                    {
+                                        updateUI(task.getResult().getUser());
+                                        throw Objects.requireNonNull(task.getException());
+                                    }
+                                    // if user enters wrong email.
+                                    catch (FirebaseAuthWeakPasswordException weakPassword)
+                                    {
+                                        viewLoader(false);
+                                        Log.d(TAG, "onComplete: weak_password");
+
+                                        // TODO: take your actions!
+                                    }
+                                    // if user enters wrong password.
+                                    catch (FirebaseAuthInvalidCredentialsException malformedEmail)
+                                    {
+                                        viewLoader(false);
+                                        Log.d(TAG, "onComplete: malformed_email");
+
+                                        // TODO: Take your action
+                                    }
+                                    catch (FirebaseAuthUserCollisionException existEmail)
+                                    {
+                                        viewLoader(false);
+                                        Log.d(TAG, "onComplete: exist_email");
+
+                                        // TODO: Take your action
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        viewLoader(false);
+                                        Log.d(TAG, "onComplete: " + e.getMessage());
+                                    }
+                                }else{
+                                    viewLoader(false);
+                                    Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                );
+    }
+
+    private void signInWithEmailAndPassword(final String email, final String password) {
+        mAuth.signInWithEmailAndPassword(email,password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            try
+                            {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                                throw Objects.requireNonNull(task.getException());
+                            }
+                            // if user enters wrong email.
+                            catch (FirebaseAuthInvalidUserException invalidEmail)
+                            {
+                                Log.d(TAG, "onComplete: invalid_email");
+                                createUser(email,password);
+                            }
+                            // if user enters wrong password.
+                            catch (FirebaseAuthInvalidCredentialsException wrongPassword)
+                            {
+                                viewLoader(false);
+                                Log.d(TAG, "onComplete: wrong_password");
+                                // TODO: Take your action
+                                Toast.makeText(LoginActivity.this,"Incorrect Password!",Toast.LENGTH_SHORT).show();
+                            }
+                            catch (Exception e)
+                            {
+                                viewLoader(false);
+                                Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "onComplete: " + e.getMessage());
+                            }
+                        } else {
+                            viewLoader(false);
+                            Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+    }
+
     private void updateUI(final FirebaseUser user){
         if(user!=null){
             Constant.user = user;
@@ -234,13 +352,26 @@ public class LoginActivity extends AppCompatActivity {
                                     data.put("luck",2);
                                     data.put("power_bid_time", FieldValue.serverTimestamp());
                                     data.put("slot_time", FieldValue.serverTimestamp());
-                                    db.collection("user").document(user.getUid())
-                                            .set(data, SetOptions.merge());
-                                }
 
-                                viewLoader(false);
-                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                                finish();
+                                    StringTokenizer stringTokenizer = new StringTokenizer(user.getEmail(),"@");
+                                    String qrcdode = stringTokenizer.nextToken();
+                                    data.put("qr_code", qrcdode);
+
+                                    db.collection("user").document(user.getUid())
+                                            .set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                viewLoader(false);
+                                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                                finish();
+                                            }else{
+                                                Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
+                                                viewLoader(false);
+                                            }
+                                        }
+                                    });
+                                }
                             }else{
                                 Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
                                 viewLoader(false);
@@ -253,9 +384,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
             viewLoader(false);
         }
-
     }
-
 
 }
 

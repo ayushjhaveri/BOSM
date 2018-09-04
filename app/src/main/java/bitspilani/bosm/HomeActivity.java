@@ -1,5 +1,6 @@
 package bitspilani.bosm;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,6 +29,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import bitspilani.bosm.fragments.PhotoFragment;
 import bitspilani.bosm.fragments.StallFragment;
@@ -41,6 +52,7 @@ import bitspilani.bosm.roulette.RouletteHomeFragment;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static bitspilani.bosm.fragments.HomeFragment.vpPager;
+import static bitspilani.bosm.hover.HoverScreen.ProfileScreen.setQR;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class HomeActivity extends AppCompatActivity
@@ -51,6 +63,9 @@ public class HomeActivity extends AppCompatActivity
     FragmentManager fm;
     DrawerLayout drawer;
     LinearLayout ll_dots;
+    private FirebaseUser user;
+    private FirebaseFirestore db;
+    private ListenerRegistration listenerRegistration;
 
     public static String currentFragment = "";
 
@@ -58,20 +73,53 @@ public class HomeActivity extends AppCompatActivity
 
     private boolean mPermissionsRequested = false;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        DocumentReference docRef = db.collection("user").document(user.getUid());
+        listenerRegistration = docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("hoverService", "Listen failed.", e);
+                    return;
+                }
+                if (snapshot != null && snapshot.exists()) {
+                    try {
+                        setQR(snapshot.getData().get("qr_code").toString());
+                    }catch (Exception e1){
+                    }
+                }
+            }
+        });
+    }
 
-    Intent mServiceIntent;
+    @Override
+    protected void onStop() {
+        super.onStop();
+        listenerRegistration.remove();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
-
         //checking service
         FirebaseApp.initializeApp(this);
 
-        Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
+
+
+        final Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
         startService(startHoverIntent);
 
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -131,13 +179,23 @@ public class HomeActivity extends AppCompatActivity
 
         });
 
-        loadFrag(new HomeFragment(), "Home", fm);
+        loadFragHome(new HomeFragment(), "Home", fm);
 
 
         TextView tv_bosm = (TextView) findViewById(R.id.tv_bosm);
         Typeface oswald_regular = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
         tv_bosm.setTypeface(oswald_regular);
 
+
+        findViewById(R.id.tv_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                stopService(startHoverIntent);
+                finish();
+            }
+        });
 
         findViewById(R.id.tv_home).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,13 +311,8 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-
-
-
-
     @Override
     protected void onDestroy() {
-        stopService(mServiceIntent);
         Log.i("MAINACT", "onDestroy!");
         super.onDestroy();
 

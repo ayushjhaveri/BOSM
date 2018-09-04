@@ -16,12 +16,32 @@
 package bitspilani.bosm.hover.HoverScreen;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.paytm.pgsdk.Log;
+
+import net.glxn.qrgen.android.QRCode;
 
 import bitspilani.bosm.R;
+import bitspilani.bosm.WalletActivity;
 import io.mattcarroll.hover.Content;
 
 /**
@@ -29,22 +49,36 @@ import io.mattcarroll.hover.Content;
  */
 public class ProfileScreen implements Content {
 
+    private static final String TAG = "Profile";
     private final Context mContext;
     private final View mWholeScreen;
     private LayoutInflater inflater;
 
+    public static ImageView iv_qr ;
+
     public ProfileScreen(@NonNull Context context) {
-        mContext = context.getApplicationContext();
+        mContext = context;
         inflater = LayoutInflater.from(context);
         mWholeScreen = createScreenView();
 
     }
 
+
+    private FirebaseUser user;
+
     @NonNull
     private View createScreenView() {
         @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_profile, null, false);
 
+        iv_qr = (ImageView) wholeScreen.findViewById(R.id.iv_qr);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user==null){
+            return wholeScreen;
+        }
+
+        ((TextView)wholeScreen.findViewById(R.id.tv_email)).setText(user.getEmail());
+        ((TextView)wholeScreen.findViewById(R.id.tv_name)).setText(user.getDisplayName());
         //implement contents of layout
 
         return wholeScreen;
@@ -55,13 +89,29 @@ public class ProfileScreen implements Content {
     @NonNull
     @Override
     public View getView() {
-
         return mWholeScreen;
     }
 
     @Override
     public boolean isFullscreen() {
         return true;
+    }
+
+    public static void setQR(final String qr){
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] objects) {
+                return QRCode.from(qr).bitmap();
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                Bitmap bitmap = (Bitmap)o;
+                iv_qr.setImageBitmap(bitmap);
+            }
+        };
+        asyncTask.execute();
     }
 
     @Override
@@ -72,5 +122,7 @@ public class ProfileScreen implements Content {
     @Override
     public void onHidden() {
         // No-op.
+//        listenerRegistration.remove();
     }
+
 }
