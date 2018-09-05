@@ -116,13 +116,6 @@ public class WalletActivity extends Fragment {
         tv_title.setTypeface(oswald_regular);
 
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .setPersistenceEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-
-
 
         user  = FirebaseAuth.getInstance().getCurrentUser();
 

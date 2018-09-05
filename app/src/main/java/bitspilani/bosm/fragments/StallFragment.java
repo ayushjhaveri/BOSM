@@ -93,11 +93,6 @@ public class StallFragment extends Fragment {
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);

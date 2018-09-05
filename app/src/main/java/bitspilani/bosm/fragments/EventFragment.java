@@ -86,10 +86,6 @@ public class EventFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                        .setTimestampsInSnapshotsEnabled(true)
-                        .build();
-                db.setFirestoreSettings(settings);
 
                 Map<String,Object> data = new HashMap<>();
                 data.put("college1","BITS");
@@ -124,11 +120,6 @@ public class EventFragment extends Fragment {
         FirebaseApp.initializeApp(getContext());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterPhotos;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 
 public class PhotoFragment extends Fragment {
@@ -43,30 +44,48 @@ public class PhotoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        phototUrlArrayList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Youth-soccer-indiana.jpg/1200px-Youth-soccer-indiana.jpg");
-        phototUrlArrayList.add("https://static.toiimg.com/thumb/imgsize-458724,msid-65658548,width-650,resizemode-4/65658548.jpg");
-        phototUrlArrayList.add("https://guardian.ng/wp-content/uploads/2016/06/Sports.jpg");
-        phototUrlArrayList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Youth-soccer-indiana.jpg/1200px-Youth-soccer-indiana.jpg");
-        phototUrlArrayList.add("https://static.toiimg.com/thumb/imgsize-458724,msid-65658548,width-650,resizemode-4/65658548.jpg");
-        phototUrlArrayList.add("https://guardian.ng/wp-content/uploads/2016/06/Sports.jpg");
-        phototUrlArrayList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Youth-soccer-indiana.jpg/1200px-Youth-soccer-indiana.jpg");
-        phototUrlArrayList.add("https://static.toiimg.com/thumb/imgsize-458724,msid-65658548,width-650,resizemode-4/65658548.jpg");
-        phototUrlArrayList.add("https://guardian.ng/wp-content/uploads/2016/06/Sports.jpg");
-        phototUrlArrayList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Youth-soccer-indiana.jpg/1200px-Youth-soccer-indiana.jpg");
-        phototUrlArrayList.add("https://static.toiimg.com/thumb/imgsize-458724,msid-65658548,width-650,resizemode-4/65658548.jpg");
-        phototUrlArrayList.add("https://guardian.ng/wp-content/uploads/2016/06/Sports.jpg");
-        phototUrlArrayList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Youth-soccer-indiana.jpg/1200px-Youth-soccer-indiana.jpg");
-        phototUrlArrayList.add("https://static.toiimg.com/thumb/imgsize-458724,msid-65658548,width-650,resizemode-4/65658548.jpg");
-        phototUrlArrayList.add("https://guardian.ng/wp-content/uploads/2016/06/Sports.jpg");
-        phototUrlArrayList.add("https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Youth-soccer-indiana.jpg/1200px-Youth-soccer-indiana.jpg");
-        phototUrlArrayList.add("https://static.toiimg.com/thumb/imgsize-458724,msid-65658548,width-650,resizemode-4/65658548.jpg");
-        phototUrlArrayList.add("https://guardian.ng/wp-content/uploads/2016/06/Sports.jpg");
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
+        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
+        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
+
+
+
 
         mAdapter = new AdapterPhotos(getContext(),phototUrlArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setFirstOnly(false);
+        recyclerView.setAdapter(alphaAdapter);
         return view;
     }
     @Override

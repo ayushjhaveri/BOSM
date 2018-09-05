@@ -64,9 +64,10 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
                     onDocumentRemoved(change);
                     break;
             }
+            onDataChanged();
         }
 
-        onDataChanged();
+
     }
 
     public void startListening() {

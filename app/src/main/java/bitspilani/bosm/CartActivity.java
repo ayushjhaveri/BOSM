@@ -82,7 +82,7 @@ public class CartActivity extends Fragment {
     AdapterCart adapterCart;
     public TextView tv_total_price;
     public RelativeLayout rl_empty_layout;
-    public static ProgressBar progressBar;
+
     ListenerRegistration listenerRegistration;
     private static DecimalFormat df2 = new DecimalFormat("0.00");
 
@@ -94,7 +94,7 @@ public class CartActivity extends Fragment {
         HomeActivity.currentFragment = "CartActivity";
     }
 
-
+    public static ProgressBar progressBar;
     public static void viewLoader(boolean is){
         if(is){
             progressBar.setVisibility(View.VISIBLE);
@@ -114,11 +114,6 @@ public class CartActivity extends Fragment {
         Source s = Source.SERVER;
 
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .setPersistenceEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -447,7 +442,7 @@ public class CartActivity extends Fragment {
 ////                    }
 ////                } catch (JSONException e) {
 ////                    progressBar.setVisibility(View.GONE);
-////                    Toast.makeText(CartActivity.this,getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
+////                    Toast.makeText(CartAicon_cartctivity.this,getResources().getText(R.string.connection_error),Toast.LENGTH_SHORT).show();
 ////                    e.printStackTrace();
 ////                }
 ////            }

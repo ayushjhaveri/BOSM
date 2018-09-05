@@ -58,9 +58,13 @@ dependencies {
     implementation 'com.sackcentury:shinebutton:0.2.0'
     implementation 'com.google.firebase:firebase-messaging:17.3.0'
     implementation 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
-    implementation 'com.jsibbold:zoomage:1.1.0'
+
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.kenglxn.QRGen:android:2.2.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
+    compile 'com.google.android.gms:play-services-maps:15.0.1'
+
 
 
 }

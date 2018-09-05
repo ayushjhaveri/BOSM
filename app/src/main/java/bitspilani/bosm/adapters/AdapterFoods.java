@@ -105,10 +105,6 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
                 data.put("user_id",user.getUid());
 
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                        .setTimestampsInSnapshotsEnabled(true)
-                        .build();
-                db.setFirestoreSettings(settings);
                 db.collection("cart").whereEqualTo("food_id",itemFood.getFood_id()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

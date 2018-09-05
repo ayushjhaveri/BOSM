@@ -64,11 +64,7 @@ public class OrderDetailsActivity extends Fragment {
         init(rootView);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

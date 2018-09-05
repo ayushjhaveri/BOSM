@@ -2,6 +2,7 @@ package bitspilani.bosm.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
 
 import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
+//import static bitspilani.bosm.fragments.CurrentSportFragment.viewLoader;
 
 /**
  * Created by Prashant on 4/7/2018.
@@ -44,12 +47,25 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
 
     public static String hash;
+    ProgressBar progressBar;
 
-    public AdapterCurrentSport(Context context, Query query) {
+    public AdapterCurrentSport(Context context, Query query , ProgressBar progressBar) {
         super(query);
         this.context = context;
         hash = "";
+        this.progressBar = progressBar;
     }
+
+
+    @Override
+    protected void onDataChanged() {
+        Log.d(TAG,"hahahaahhah");
+        super.onDataChanged();
+//        CurrentSportFragment.viewLoader(false);
+
+        progressBar.setVisibility(View.GONE);
+    }
+
 
 
 

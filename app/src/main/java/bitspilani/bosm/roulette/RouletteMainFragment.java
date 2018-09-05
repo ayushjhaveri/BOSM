@@ -59,10 +59,6 @@ public class RouletteMainFragment extends Fragment {
         tv_header.setTypeface(oswald_regular);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
 
         Query query = db.collection("scores").whereEqualTo("item_type",1).whereEqualTo("match_type",1).whereEqualTo("is_roulette",true).orderBy("timestamp");
 

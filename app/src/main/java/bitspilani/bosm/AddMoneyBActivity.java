@@ -130,11 +130,7 @@ public class AddMoneyBActivity extends Fragment {
         }
 
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .setPersistenceEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
+
 
         getBalance();
 

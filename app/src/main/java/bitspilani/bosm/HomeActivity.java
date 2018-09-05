@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 
+import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.fragments.PhotoFragment;
 import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.fragments.SportSelectedFragment;
@@ -115,11 +116,12 @@ public class HomeActivity extends AppCompatActivity
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        db = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
-                .setPersistenceEnabled(true)
+                .setPersistenceEnabled(false)
                 .build();
+
+        db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(settings);
 
 
@@ -259,6 +261,23 @@ public class HomeActivity extends AppCompatActivity
 
                         } else {
                             loadFrag(new PhotoFragment(), "Photos", fm);
+                        }
+                    }
+                }, 600);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+        findViewById(R.id.tv_map).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (HomeActivity.currentFragment.equals("MapFragment")) {
+
+                        } else {
+                            loadFrag(new MapFragment(), "Map", fm);
                         }
                     }
                 }, 600);

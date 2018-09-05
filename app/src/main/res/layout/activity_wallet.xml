@@ -31,7 +31,7 @@
             android:layout_height="56dp"
             android:padding="10dp"
             android:src="@drawable/icon_stall"
-            android:tint="#ffffff" />
+            android:tint="@color/shade3" />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -75,8 +75,8 @@
         android:elevation="8dp"
         android:padding="10dp"
         android:scaleType="centerInside"
-        android:src="@drawable/icon_cart"
-        android:tint="@color/back_shade6" />
+        android:src="@drawable/cart"
+        android:tint="@color/shade3" />
 
 
     <RelativeLayout

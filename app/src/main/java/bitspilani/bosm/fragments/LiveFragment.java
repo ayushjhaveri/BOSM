@@ -48,11 +48,9 @@ public class LiveFragment extends Fragment{
 
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
+
         Query mQuery = db.collection("scores").orderBy("item_type").orderBy("timestamp");
 //        .whereGreaterThan("timestamp", Timestamp.now()).limit(15);
 

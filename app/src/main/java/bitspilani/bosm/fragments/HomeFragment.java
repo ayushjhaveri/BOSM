@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.events), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
                         .badgeTitle("Events")
                         .title("title")
@@ -71,14 +71,14 @@ public class HomeFragment extends Fragment {
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(getContext(),R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.home),ContextCompat.getColor(getContext(),R.color.back_shade1)
                 ).badgeTitle("Home")
                         .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.fixtures), ContextCompat.getColor(getContext(),R.color.back_shade1)
                 )
                         .badgeTitle("Scores")
                         .title("title")

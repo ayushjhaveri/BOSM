@@ -29,8 +29,8 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:padding="10dp"
-            android:src="@drawable/icon_stall"
-            android:tint="#ffffff" />
+            android:src="@drawable/stalls"
+            android:tint="@color/shade4" />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -82,7 +82,7 @@
         android:elevation="8dp"
         android:padding="10dp"
         android:scaleType="centerInside"
-        android:src="@drawable/icon_cart"
+        android:src="@drawable/cart"
         android:tint="@color/back_shade6" />
 
 

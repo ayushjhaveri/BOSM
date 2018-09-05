@@ -328,7 +328,7 @@ public class LoginActivity extends AppCompatActivity {
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                     .setTimestampsInSnapshotsEnabled(true)
-                    .setPersistenceEnabled(true)
+                    .setPersistenceEnabled(false)
                     .build();
             db.setFirestoreSettings(settings);
 

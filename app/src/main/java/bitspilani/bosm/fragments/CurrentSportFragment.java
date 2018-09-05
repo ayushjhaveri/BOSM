@@ -2,6 +2,7 @@ package bitspilani.bosm.fragments;
 
 
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,15 @@ public class    CurrentSportFragment extends Fragment {
         return fragment;
     }
 
+    ProgressBar progressBar;
+//    public static void viewLoader(boolean is){
+//        if(is){
+//           progressBar.setVisibility(View.VISIBLE);
+//        }else {
+//           progressBar.setVisibility(View.GONE);
+//        }
+//    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,17 +70,48 @@ public class    CurrentSportFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
+
+
         View view = inflater.inflate(R.layout.fragment_current_sport, container, false);
-        Toast.makeText(getContext(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+//        viewLoader(true);
+//        Toast.makeText(getContext(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
         //Firestore data retrieval
+
+        AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                progressBar.setVisibility(View.GONE);
+//                fkgmdlmdfkl/
+
+            }
+        };
+
+        asyncTask.execute();
+
         FirebaseApp.initializeApp(getContext());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
@@ -85,7 +127,7 @@ public class    CurrentSportFragment extends Fragment {
             mQuery = db.collection("scores").whereEqualTo("gender",0).whereEqualTo("sport_id",Constant.currentSport.getSport_id()).orderBy("timestamp").whereEqualTo("item_type",1);
         }
 
-        adapterCurrentSport = new AdapterCurrentSport(getActivity(),mQuery);
+        adapterCurrentSport = new AdapterCurrentSport(getActivity(),mQuery,progressBar);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

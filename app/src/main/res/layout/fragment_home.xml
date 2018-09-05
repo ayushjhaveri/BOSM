@@ -46,12 +46,16 @@
             app:ntb_preview_colors="@array/red_wine"
             app:ntb_corners_radius="25dp"
             app:ntb_scaled="false"
-            app:ntb_active_color="@color/back_shade4"
-            app:ntb_inactive_color="#dddfec"
-            app:ntb_bg_color="@color/back_shade4"
+ app:ntb_bg_color="@color/back_shade4"
             app:ntb_badge_bg_color="@color/gold"
-            app:ntb_badged="true"/>
+            app:ntb_badged="true"
+            
+            />
     </RelativeLayout>
+
+    <!--app:ntb_active_color="@color/back_shade4"-->
+    <!--app:ntb_inactive_color="#dddfec"-->
+<!---->
     <View
         android:layout_width="match_parent"
         android:layout_height="72dp"

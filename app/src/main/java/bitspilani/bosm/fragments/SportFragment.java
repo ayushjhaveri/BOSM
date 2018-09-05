@@ -51,12 +51,8 @@ public class SportFragment extends Fragment{
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
 
-        Query mQuery = db.collection("sports");
+        Query mQuery = db.collection("sports").orderBy("sport_name");
 
         adapterSport = new AdapterSport(getContext(),mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
@@ -64,24 +60,24 @@ public class SportFragment extends Fragment{
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterSport);
 
-        iconHash.put(1,R.drawable.football);
-        iconHash.put(2,R.drawable.basketball);
-        iconHash.put(3,R.drawable.cricket);
-        iconHash.put(4,R.drawable.athletics);
-        iconHash.put(5,R.drawable.powerlifting);
-        iconHash.put(6,R.drawable.taekwondo);
-        iconHash.put(7,R.drawable.badminton);
+        iconHash.put(1,R.drawable.athletics);
+        iconHash.put(2,R.drawable.swimming);
+        iconHash.put(3,R.drawable.taekwondo);
+        iconHash.put(4,R.drawable.badminton);
+        iconHash.put(5,R.drawable.basketball);
+        iconHash.put(6,R.drawable.cricket);
+        iconHash.put(7,R.drawable.football);
         iconHash.put(8,R.drawable.hockey);
-        iconHash.put(9,R.drawable.tabletennis);
-        iconHash.put(10,R.drawable.swimming);
-        iconHash.put(11,R.drawable.swimming);
-        iconHash.put(12,R.drawable.swimming);
-        iconHash.put(13,R.drawable.swimming);
-        iconHash.put(14,R.drawable.swimming);
-        iconHash.put(15,R.drawable.swimming);
-        iconHash.put(16,R.drawable.swimming);
-        iconHash.put(17,R.drawable.swimming);
-        iconHash.put(18,R.drawable.swimming);
+        iconHash.put(9,R.drawable.squash); //onilne icon left
+        iconHash.put(10,R.drawable.tennis);  //misc icon left
+        iconHash.put(11,R.drawable.tabletennis);
+        iconHash.put(12,R.drawable.volleyball);
+        iconHash.put(13,R.drawable.carrom);
+        iconHash.put(14,R.drawable.chess);
+        iconHash.put(15,R.drawable.powerlifting);
+        iconHash.put(16,R.drawable.snooker);
+        iconHash.put(17,R.drawable.circle);
+        iconHash.put(18,R.drawable.circle);
 
 
 

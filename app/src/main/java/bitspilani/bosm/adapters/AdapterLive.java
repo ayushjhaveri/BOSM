@@ -196,9 +196,9 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     onDocumentRemoved(change);
                     break;
             }
+            onDataChanged();
         }
 
-        onDataChanged();
 
     }
 

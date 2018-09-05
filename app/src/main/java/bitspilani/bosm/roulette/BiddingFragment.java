@@ -189,10 +189,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
 
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
+
 
 //        tvDescription = (TextView) view.findViewById(R.id.tvDescription);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
