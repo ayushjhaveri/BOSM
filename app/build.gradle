@@ -63,8 +63,10 @@ dependencies {
     implementation 'com.github.kenglxn.QRGen:android:2.2.0'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
     implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
-    compile 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.github.florent37:viewtooltip:1.0.4'
 
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
 
 
 }

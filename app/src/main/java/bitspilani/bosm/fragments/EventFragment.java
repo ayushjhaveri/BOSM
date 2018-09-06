@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,11 +52,13 @@ import bitspilani.bosm.items.ItemEvent;
 import bitspilani.bosm.items.ItemMatch;
 
 import static com.android.volley.VolleyLog.TAG;
+import static com.android.volley.VolleyLog.v;
 
 
 public class EventFragment extends Fragment {
     AdapterEvents adapterEvents;
     ArrayList<ItemEvent> eventsArrayList;
+    private ProgressBar progressBar;
 
     public EventFragment(){
         HomeActivity.currentFragment="aaaaaaaa";
@@ -74,9 +77,9 @@ public class EventFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
-
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
-
+        progressBar.setVisibility(View.VISIBLE);
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
 
@@ -128,7 +131,7 @@ public class EventFragment extends Fragment {
 
         Query mQuery = db.collection("events");
 
-        adapterEvents = new AdapterEvents(getActivity(),mQuery);
+        adapterEvents = new AdapterEvents(getActivity(),mQuery,progressBar);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

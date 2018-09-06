@@ -213,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="4dp"
-                    android:text="19:00"
+                    android:text="12th Sep"
                     android:textColor="@color/light_gray"
                     android:textSize="12sp"
                     android:ellipsize="end"

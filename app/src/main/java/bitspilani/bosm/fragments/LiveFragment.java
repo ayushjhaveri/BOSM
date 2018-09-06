@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.Timestamp;
@@ -27,6 +28,8 @@ public class LiveFragment extends Fragment{
 
     AdapterLive adapterLive;
     ArrayList<ItemLive> liveArrayList;
+
+    ProgressBar progressBar;
 
     public LiveFragment(){
         HomeActivity.currentFragment="aaaaaaaa";
@@ -48,13 +51,14 @@ public class LiveFragment extends Fragment{
 
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
-
+        progressBar =(ProgressBar)view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Query mQuery = db.collection("scores").orderBy("item_type").orderBy("timestamp");
 //        .whereGreaterThan("timestamp", Timestamp.now()).limit(15);
 
-        adapterLive = new AdapterLive(getActivity(),mQuery);
+        adapterLive = new AdapterLive(getActivity(),mQuery,progressBar);
 
         StickyListHeadersListView stickyList_history = (StickyListHeadersListView) view.findViewById(R.id.lv_recent);
         stickyList_history.setAdapter(adapterLive);

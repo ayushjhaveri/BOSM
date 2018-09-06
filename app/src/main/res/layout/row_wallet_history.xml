@@ -3,7 +3,7 @@
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@drawable/border_shadow">
+    android:background="@color/back_shade2">
 
     <ImageView
         android:id="@+id/iv_icon"

@@ -8,7 +8,7 @@
     tools:context="bitspilani.bosm.roulette.RouletteLeaderboardFragment">
 
 <RelativeLayout
-    android:layout_marginTop="60dp"
+    android:layout_marginTop="@dimen/header_top_margin"
     android:layout_centerHorizontal="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -16,7 +16,7 @@
         android:id="@+id/card_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha=".80"
+        android:alpha=".90"
         app:cardElevation="6dp"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="20.5dp">
@@ -56,7 +56,7 @@
         android:id="@+id/card_events2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha=".80"
+        android:alpha=".90"
         app:cardElevation="6dp"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="20.5dp">

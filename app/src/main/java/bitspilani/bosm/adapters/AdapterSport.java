@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,11 +49,12 @@ import bitspilani.bosm.utils.Constant;
 public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
 
     private Context context;
-
+    private ProgressBar progressBar;
     private static final String TAG = "AdapterCart";
 
-    public AdapterSport(Context context, Query query) {
+    public AdapterSport(Context context, Query query,ProgressBar progressBar) {
         super(query);
+        this.progressBar  = progressBar;
         this.context = context;
     }
 
@@ -62,6 +64,12 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                 .inflate(R.layout.row_sport, parent, false);
 
         return new ViewHolder(itemView);
+    }
+
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

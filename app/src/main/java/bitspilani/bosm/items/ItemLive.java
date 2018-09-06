@@ -7,6 +7,7 @@ public class ItemLive {
     String sport_name;
     String collegeName1;
     String collegeName2;
+    String fullCollege1, fullCollege2;
     String match_round;
     String venue, match_time, match_date;
     int itemType;
@@ -22,11 +23,13 @@ public class ItemLive {
 
 
     //Live Constructor
-    public ItemLive(int itemType, int sport_id, String sport_name, String collegeName1, String collegeName2, String match_round, String venue, String match_time, String match_date, String score1, String score2, int vote1, int vote2, int isVote) {
+    public ItemLive(int itemType, int sport_id, String sport_name, String collegeName1, String collegeName2, String match_round, String venue, String match_time, String match_date, String score1, String score2, int vote1, int vote2, int isVote,String fullCollege1,String fullCollege2) {
         this.sport_id = sport_id;
         this.sport_name = sport_name;
         this.collegeName1 = collegeName1;
         this.collegeName2 = collegeName2;
+        this.fullCollege1=fullCollege1;
+        this.fullCollege2=fullCollege2;
         this.match_round = match_round;
         this.venue = venue;
         this.match_time = match_time;
@@ -42,7 +45,7 @@ public class ItemLive {
 
     //Trending Constructor
 
-    public ItemLive(int itemType ,int sport_id, String sport_name, String collegeName1, String collegeName2, String match_round, String venue, String match_time, String match_date) {
+    public ItemLive(int itemType ,int sport_id, String sport_name, String collegeName1, String collegeName2, String match_round, String venue, String match_time, String match_date, String fullCollege1,String fullCollege2) {
         this.sport_id = sport_id;
         this.matchType = 1;
         this.sport_name = sport_name;
@@ -53,8 +56,8 @@ public class ItemLive {
         this.match_time = match_time;
         this.match_date = match_date;
         this.itemType = itemType;
-        this.matchType = matchType;
-
+        this.fullCollege1=fullCollege1;
+        this.fullCollege2=fullCollege2;
         this.score1 = "";
         this.score2 = "";
         this.vote1 = -1;
@@ -67,6 +70,8 @@ public class ItemLive {
         this.sport_name = sport_name;
         this.collegeName1 = "";
         this.collegeName2 = "";
+        this.fullCollege1="";
+        this.fullCollege2="";
         this.match_round = match_round;
         this.venue = venue;
         this.match_time = match_time;
@@ -143,5 +148,13 @@ public class ItemLive {
 
     public void setIsVote(int isVote) {
         this.isVote = isVote;
+    }
+
+    public String getFullCollege1() {
+        return fullCollege1;
+    }
+
+    public String getFullCollege2() {
+        return fullCollege2;
     }
 }

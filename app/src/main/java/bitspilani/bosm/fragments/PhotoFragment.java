@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 
+import com.google.firebase.storage.FirebaseStorage;
+
 import java.util.ArrayList;
 
 import bitspilani.bosm.HomeActivity;
@@ -44,6 +46,12 @@ public class PhotoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
+
+//        String pattern = "https://drive.google.com/drive/u/1/folders/1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj"
+
+//        String pattern = "https://drive.google.com/open?id=1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj";
+        https://drive.google.com/open?id=1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj
+//
         phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
         phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
         phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");

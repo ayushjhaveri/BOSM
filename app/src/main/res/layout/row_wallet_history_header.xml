@@ -2,13 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border_shadow_menu">
-    <View
-        android:background="#A6A5A5"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        />
-
+    android:background="@drawable/bg_gradient1">
     <TextView
         android:id="@+id/tv_transaction_date"
         android:layout_width="match_parent"
@@ -16,15 +10,15 @@
         android:text="Header"
         android:padding="15dp"
         android:textSize="17sp"
-        android:textColor="#ffffff"
+        android:textColor="#fff"
         android:layout_marginLeft="15dp"
         android:textStyle="bold"
         />
+
     <View
-        android:background="@drawable/bottom_shadow"
-        android:layout_below="@+id/tv_transaction_date"
+        android:layout_below="@id/tv_transaction_date"
+        android:background="@drawable/line_gradient"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        />
+        android:layout_height="1dp"/>
 
 </RelativeLayout>

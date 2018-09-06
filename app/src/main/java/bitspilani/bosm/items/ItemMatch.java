@@ -20,6 +20,7 @@ public class ItemMatch {
 
     //TEAM MATCHES
     String college1, college2, score1, score2;
+    String fullCollege1, fullCollege2;
     int winner;
 
     public ItemMatch(){
@@ -28,6 +29,8 @@ public class ItemMatch {
         this.bronzeRecord="";
         this.college1="";
         this.college2="";
+        this.fullCollege1="";
+        this.fullCollege2="";
         this.goldRecord="";
         this.score1="";
         this.score2="";
@@ -66,7 +69,7 @@ public class ItemMatch {
     }
 
     //SCHEDULE TEAM TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String college1, String college2) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String college1, String college2, String fullCollege1, String fullCollege2) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
@@ -76,10 +79,12 @@ public class ItemMatch {
         this.matchRound = type;
         this.college1 = college1;
         this.college2 = college2;
+        this.fullCollege1=fullCollege1;
+        this.fullCollege2=fullCollege2;
     }
 
     //RESULT TEAM TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String score1, String score2, String college1, String college2,int winner) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String score1, String score2, String college1, String college2,int winner, String fullCollege1, String fullCollege2) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
@@ -92,6 +97,8 @@ public class ItemMatch {
         this.score1 = score1;
         this.score2 = score2;
         this.winner = winner;
+        this.fullCollege1=fullCollege1;
+        this.fullCollege2=fullCollege2;
     }
 
     public int getMatchType() {
@@ -162,6 +169,17 @@ public class ItemMatch {
         return winner;
     }
 
+    public String getMatchRound() {
+        return matchRound;
+    }
+
+    public String getFullCollege1() {
+        return fullCollege1;
+    }
+
+    public String getFullCollege2() {
+        return fullCollege2;
+    }
 
     public boolean isHeader() {
         return isHeader;

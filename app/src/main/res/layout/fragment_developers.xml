@@ -25,9 +25,9 @@
             android:layout_marginBottom="24dp"
             android:layout_marginLeft="64dp"
             android:layout_marginRight="64dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/header_top_margin"
             android:layout_toRightOf="@+id/rl_stall"
-            android:alpha=".80"
+            android:alpha=".90"
             app:cardBackgroundColor="@color/background2"
             app:cardCornerRadius="20.5dp"
             app:cardElevation="6dp">

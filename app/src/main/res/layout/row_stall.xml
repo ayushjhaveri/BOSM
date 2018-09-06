@@ -33,7 +33,7 @@
                 android:paddingLeft="48dp"
                 android:paddingTop="18dp"
                 android:text="Stall Name"
-                android:textColor="@color/back_shade6"
+                android:textColor="#fff"
                 android:textSize="16sp"
                 android:transitionName="@string/simple_fragment_transition" />
 
@@ -44,7 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="24dp"
                 android:src="@drawable/icon_roight_arrow"
-                android:tint="@color/back_shade6" />
+                android:tint="#fff" />
 
         </RelativeLayout>
     </RelativeLayout>

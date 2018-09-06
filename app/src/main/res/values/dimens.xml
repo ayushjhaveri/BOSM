@@ -17,4 +17,6 @@
     <dimen name="event_horzontal">18dp</dimen>
 
     <dimen name="heading_bottom">30dp</dimen>
+
+    <dimen name="header_top_margin">40dp</dimen>
 </resources>

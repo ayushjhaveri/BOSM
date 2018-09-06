@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +32,8 @@ public class SportFragment extends Fragment{
         iconHash = new HashMap<>();
     }
 
+    ProgressBar progressBar;
+
     public SportFragment(){
         HomeActivity.currentFragment="aaaaaaaa";
     }
@@ -46,7 +49,9 @@ public class SportFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_score, container, false);
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+        ProgressBar progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
+        progressBar.setVisibility(View.VISIBLE);
 
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
 
@@ -54,7 +59,7 @@ public class SportFragment extends Fragment{
 
         Query mQuery = db.collection("sports").orderBy("sport_name");
 
-        adapterSport = new AdapterSport(getContext(),mQuery);
+        adapterSport = new AdapterSport(getContext(),mQuery,progressBar);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

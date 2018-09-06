@@ -18,9 +18,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:alpha=".95"
+        android:alpha=".9"
         app:cardElevation="6dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="@dimen/header_top_margin"
         app:cardBackgroundColor="@color/back_shade4"
         app:cardCornerRadius="20dp">
 
@@ -29,8 +29,8 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:padding="10dp"
-            android:src="@drawable/stalls"
-            android:tint="@color/shade4" />
+            android:src="@drawable/icon_stall"
+            android:tint="@color/back_shade6" />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
@@ -39,7 +39,7 @@
         android:layout_alignBottom="@+id/rl_stall"
         android:layout_marginLeft="12dp"
         android:layout_alignTop="@+id/rl_stall"
-        android:alpha=".95"
+        android:alpha=".9"
         app:cardElevation="6dp"
         android:layout_marginRight="64dp"
         android:layout_toRightOf="@+id/rl_stall"

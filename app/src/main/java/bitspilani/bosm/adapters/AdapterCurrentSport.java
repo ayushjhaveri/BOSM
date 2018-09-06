@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.florent37.viewtooltip.ViewTooltip;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
@@ -24,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 
 //import bitspilani.bosm.CurrentSportActivity;
@@ -33,6 +36,8 @@ import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
 
 import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
+import static bitspilani.bosm.HomeActivity.toTitleCase;
+import static com.github.florent37.viewtooltip.ViewTooltip.ALIGN.CENTER;
 //import static bitspilani.bosm.fragments.CurrentSportFragment.viewLoader;
 
 /**
@@ -91,12 +96,15 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         DocumentSnapshot document =  getSnapshot(position);
 
         Log.d(TAG,document.getData().toString()+" gfd");
+
         Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d");
         SimpleDateFormat smf = new SimpleDateFormat("MMM");
+        SimpleDateFormat stf = new SimpleDateFormat("h.mm a");
+        SimpleDateFormat smf2 = new SimpleDateFormat("MMM");
 
 
 
@@ -104,7 +112,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         boolean isResult = Boolean.parseBoolean(document.getData().get("is_result").toString());
 
 
-        ItemMatch itemMatch;
+        final ItemMatch itemMatch;
 
         switch (matchType) {
             case Constant.ATHLETIC_TYPE_MATCH:
@@ -114,9 +122,9 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             Integer.parseInt(document.getData().get("match_type").toString()),
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
-                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.getData().get("round").toString(),
+                            toTitleCase(document.getData().get("round").toString()),
                             document.getData().get("goldName").toString(),
                             document.getData().get("silverName").toString(),
                             document.getData().get("bronzeName").toString(),
@@ -129,9 +137,9 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             Integer.parseInt(document.getData().get("match_type").toString()),
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
-                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.getData().get("round").toString()
+                            toTitleCase(document.getData().get("round").toString())
                     );
                 }
 
@@ -153,6 +161,9 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                 holder1.tv_bronze_score.setText(itemMatch.getBronzeRecord());
                 holder1.tv_time.setText(itemMatch.getTime());
                 holder1.tv_venue.setText(itemMatch.getVenue());
+                holder1.tv_date.setText(cal.get(Calendar.DATE)
+                        +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
+                        " "+smf2.format(date));
 
                 if(itemMatch.getGoldName().equals("")){
                     holder1.rl_college.setVisibility(View.GONE);}
@@ -184,25 +195,29 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             Integer.parseInt(document.getData().get("match_type").toString()),
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
-                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            "hinjjin",
+                   toTitleCase(document.getData().get("round").toString()),
                             document.getData().get("score1").toString(),
                             document.getData().get("score2").toString(),
                             document.getData().get("college1").toString(),
                             document.getData().get("college2").toString(),
-                            Integer.parseInt(document.getData().get("winner").toString())
+                            Integer.parseInt(document.getData().get("winner").toString()),
+                            toTitleCase((String)document.getData().get("full_college1")),
+                            toTitleCase((String)document.getData().get("full_college2"))
                     );
                 }else{
                     itemMatch = new ItemMatch(
                             Integer.parseInt(document.getData().get("match_type").toString()),
                             document.getData().get("sport_name").toString(),
                             document.getData().get("venue").toString(),
-                            cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE),
+                            stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.getData().get("round").toString(),
+                            toTitleCase(document.getData().get("round").toString()),
                             document.getData().get("college1").toString(),
-                            document.getData().get("college2").toString()
+                            document.getData().get("college2").toString(),
+                            toTitleCase((String)document.getData().get("full_college1")),
+                            toTitleCase((String)document.getData().get("full_college2"))
                     );
                 }
 
@@ -213,7 +228,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                     itemMatch.setHeader(false);
                 }
 
-                TeamViewHolder holder2 = (TeamViewHolder) holder;
+                final TeamViewHolder holder2 = (TeamViewHolder) holder;
                 holder2.tv_sort_title.setText(itemMatch.getDate());
                 holder2.tv_subtitle.setText(itemMatch.getType());
                 holder2.tv_time.setText(itemMatch.getTime());
@@ -222,6 +237,43 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                 holder2.tv_college_two.setText(itemMatch.getCollege2());
                 holder2.tv_score_one.setText(itemMatch.getScore1());
                 holder2.tv_score_two.setText(itemMatch.getScore2());
+                holder2.tv_date.setText(cal.get(Calendar.DATE)
+                        +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
+                        " "+smf2.format(date));
+
+                holder2.tv_college_one.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        ViewTooltip
+                                .on(holder2.tv_college_one)
+                                .autoHide(true, 2000)
+                                .corner(30)
+                                .color(ContextCompat.getColor(context,R.color.back_shade2))
+                                .align(CENTER)
+                                .position(ViewTooltip.Position.TOP)
+                                .text(itemMatch.getFullCollege1())
+                                .show();
+                    }
+                });
+
+                holder2.tv_college_two.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        ViewTooltip
+                                .on(holder2.tv_college_two)
+                                .autoHide(true, 2000)
+                                .corner(30)
+                                .color(ContextCompat.getColor(context,R.color.back_shade2))
+                                .align(CENTER)
+                                .position(ViewTooltip.Position.TOP)
+                                .text(itemMatch.getFullCollege2())
+                                .show();
+                    }
+                });
 
                 if(itemMatch.getWinner()==0) {
                     holder2.ll_score.setVisibility(View.GONE);
@@ -283,6 +335,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         TextView tv_silver_name, tv_silver_score;
         TextView tv_bronze_name, tv_bronze_score;
         TextView tv_time, tv_venue;
+        TextView tv_date;
 
         public AthleticViewHolder(View itemView) {
             super(itemView);
@@ -298,6 +351,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
             tv_venue = (TextView) itemView.findViewById(R.id.tv_venue);
             rl_college=(RelativeLayout)itemView.findViewById(R.id.rl_college);
+            tv_date=(TextView)itemView.findViewById(R.id.tv_date);
 
         }
     }
@@ -309,6 +363,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         TextView tv_college_two, tv_score_two;
         TextView tv_time, tv_venue;
         LinearLayout ll_score;
+        TextView tv_date;
 
         public TeamViewHolder(View itemView) {
             super(itemView);
@@ -322,6 +377,7 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
             tv_score_one = (TextView) itemView.findViewById(R.id.tv_score_one);
             tv_score_two = (TextView) itemView.findViewById(R.id.tv_score_two);
             ll_score=(LinearLayout)itemView.findViewById(R.id.ll_score);
+            tv_date=(TextView)itemView.findViewById(R.id.tv_date);
 
         }
     }

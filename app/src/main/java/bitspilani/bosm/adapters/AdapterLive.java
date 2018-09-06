@@ -1,8 +1,10 @@
 package bitspilani.bosm.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +13,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.github.florent37.viewtooltip.ViewTooltip;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -149,6 +153,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
 import static bitspilani.bosm.HomeActivity.toTitleCase;
 import static com.android.volley.VolleyLog.TAG;
+import static com.github.florent37.viewtooltip.ViewTooltip.ALIGN.CENTER;
 
 /**
  * Created by Prashant on 4/5/2018.
@@ -156,9 +161,8 @@ import static com.android.volley.VolleyLog.TAG;
 
 public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter, EventListener<QuerySnapshot> {
 
-
     private Query mQuery;
-
+    private ProgressBar progressBar;
     private ListenerRegistration mRegistration;
 
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
@@ -167,11 +171,12 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     private LayoutInflater inflater;
     private Context context;
 
-    public AdapterLive(Context context, Query query) {
+    public AdapterLive(Context context, Query query,ProgressBar progressBar) {
         inflater = LayoutInflater.from(context);
 //        this.arrayList = arrayList;
         this.mQuery = query;
         this.context = context;
+        this.progressBar = progressBar;
     }
 
     @Override
@@ -243,6 +248,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     }
 
     protected void onDocumentAdded(DocumentChange change) {
+
         mSnapshots.add(change.getNewIndex(), change.getDocument());
         notifyDataSetChanged();
 //        notifyItemInserted(change.getNewIndex());
@@ -273,8 +279,11 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         Log.w(TAG, "onError", e);
     };
 
-    protected void onDataChanged() {}
+    protected void onDataChanged() {
+        progressBar.setVisibility(View.GONE);
+    }
 
+    ItemLive itemLive ;
     @Override
     public long getItemId(int position) {
         return position;
@@ -316,6 +325,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     liveViewHolder.rl_vote_two=(RelativeLayout)convertView.findViewById(R.id.rl_vote_two);
                     liveViewHolder.container = (ShimmerFrameLayout)convertView.findViewById(R.id.shimmer_view_container);
 
+
+
                     convertView.setTag(liveViewHolder);
                 } else {
                     liveViewHolder = (LiveViewHolder) convertView.getTag();
@@ -337,14 +348,14 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 String time_format = "h.mm a";
                 SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
-                ItemLive itemLive = new ItemLive(
+                itemLive = new ItemLive(
                         0,
                          Integer.parseInt(document.getData().get("sport_id").toString()),
                         toTitleCase((String)document.getData().get("sport_name")),
                         ((String)document.getData().get("college1")).toUpperCase(),
                         ((String)document.getData().get("college2")).toUpperCase(),
                         toTitleCase((String)document.getData().get("round")),
-                        toTitleCase((String)document.getData().get("venue")),
+                        (String)document.getData().get("venue"),
                         sdf_time.format(cal.getTime()),
                         cal.get(Calendar.DATE)
                                 +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
@@ -353,7 +364,9 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                         (String)document.getData().get("score2"),
                         Integer.parseInt(document.getData().get("vote1").toString()),
                         Integer.parseInt(document.getData().get("vote2").toString()),
-                        Integer.parseInt(document.getData().get("is_vote").toString())
+                        Integer.parseInt(document.getData().get("is_vote").toString()),
+                        toTitleCase((String)document.getData().get("full_college1")),
+                        toTitleCase((String)document.getData().get("full_college2"))
                 );
 
                 liveViewHolder.tv_college1.setText(itemLive.getCollegeName1());
@@ -364,6 +377,43 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 liveViewHolder.tv_type.setText(itemLive.getMatch_round());
                 liveViewHolder.tv_sport.setText(itemLive.getSport_name());
                 liveViewHolder.tv_venue.setText(itemLive.getVenue());
+
+                liveViewHolder.tv_college1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        ViewTooltip
+                                .on(liveViewHolder.tv_college1)
+                                .autoHide(true, 2000)
+                                .corner(30)
+                                .color(ContextCompat.getColor(context,R.color.back_shade2))
+                                .align(CENTER)
+                                .position(ViewTooltip.Position.TOP)
+                                .text( toTitleCase((String)document.getData().get("full_college1")))
+                                .show();
+                    }
+                });
+
+                liveViewHolder.tv_college2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        ViewTooltip
+                                .on(liveViewHolder.tv_college2)
+                                .autoHide(true, 2000)
+                                .corner(30)
+                                .color(ContextCompat.getColor(context,R.color.back_shade2))
+                                .align(CENTER)
+                                .position(ViewTooltip.Position.TOP)
+                                .text( toTitleCase((String)document.getData().get("full_college2")))
+                                .show();
+                    }
+                });
+
+
+
 
                 //customizing vote1 and vote2 icons
                 liveViewHolder.iv_vote1.setIcon(IconType.Thumb);
@@ -393,6 +443,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
                         liveViewHolder.tv_vote2.setVisibility(View.INVISIBLE);
                         liveViewHolder.tv_vote2.setText(itemLive.getVote2()+"");
+
 
                         Animation animSlide_vote1 = AnimationUtils.loadAnimation(context.getApplicationContext(),R.anim.live_slide_left);
                         liveViewHolder.rl_vote_one.startAnimation(animSlide_vote1);
@@ -631,11 +682,13 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                         ((String)document.getData().get("college1")).toUpperCase(),
                         ((String)document.getData().get("college2")).toUpperCase(),
                         toTitleCase((String)document.getData().get("round")),
-                        toTitleCase((String)document.getData().get("venue")),
+                        (String)document.getData().get("venue"),
                         sdf_time2.format(cal2.getTime()),
                         cal2.get(Calendar.DATE)
                                 +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
-                                " "+sdf_month2.format(date2)+""
+                                " "+sdf_month2.format(date2)+"",
+                        toTitleCase((String)document.getData().get("full_college1")),
+                        toTitleCase((String)document.getData().get("full_college2"))
                 );
                 }else{
 
@@ -644,7 +697,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                             Integer.parseInt(document.getData().get("sport_id").toString()),
                             toTitleCase((String)document.getData().get("sport_name")),
                             toTitleCase((String)document.getData().get("round")),
-                            toTitleCase((String)document.getData().get("venue")),
+                            (String)document.getData().get("venue"),
                             sdf_time2.format(cal2.getTime()),
                             cal2.get(Calendar.DATE)
                                     +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
@@ -666,6 +719,41 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder.tv_college1.setText(itemLive.getCollegeName1());
                     holder.tv_college2.setText(itemLive.getCollegeName2());
                     holder.ll_college.setVisibility(View.VISIBLE);
+                    holder.tv_college1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            ViewTooltip
+                                    .on(holder.tv_college1)
+                                    .autoHide(true, 2000)
+                                    .corner(30)
+                                    .color(ContextCompat.getColor(context,R.color.back_shade2))
+                                    .align(CENTER)
+                                    .position(ViewTooltip.Position.TOP)
+                                    .text(toTitleCase((String)document.getData().get("full_college1")))
+                                    .show();
+                        }
+                    });
+
+                    holder.tv_college2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+                            ViewTooltip
+                                    .on(holder.tv_college2)
+                                    .autoHide(true, 2000)
+                                    .corner(30)
+                                    .color(ContextCompat.getColor(context,R.color.back_shade2))
+                                    .align(CENTER)
+                                    .position(ViewTooltip.Position.TOP)
+                                    .text(
+                                            toTitleCase((String)document.getData().get("full_college2")))
+                                    .show();
+                        }
+                    });
+
+
                 }
             break;
         }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.Timestamp;
@@ -28,11 +29,12 @@ import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
 public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
 
     private Context context;
-
+    private ProgressBar progressBar;
     private static final String TAG = "AdapterCart";
 
-    public AdapterEvents(Context context, Query query) {
+    public AdapterEvents(Context context, Query query, ProgressBar progressBar) {
         super(query);
+        this.progressBar = progressBar;
         this.context = context;
     }
 
@@ -45,6 +47,12 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
     }
 
     @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onBindViewHolder(final AdapterEvents.ViewHolder holder, final int position) {
        DocumentSnapshot document =  getSnapshot(position);
         Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
@@ -53,7 +61,7 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
         cal.setTime(date);
         String month_format = "MMM";
         SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
-        String time_format = "hh:mm a";
+        String time_format = "h.mm a";
         SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
         ItemEvent itemEvent = new ItemEvent(
@@ -63,7 +71,7 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
                         +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
                         " "+sdf_month.format(date)+"",
                 sdf_time.format(cal.getTime()),
-                toTitleCase(document.getData().get("venue").toString()),
+                document.getData().get("venue").toString(),
                 document.getData().get("text").toString(),
                         toTitleCase(document.getData().get("club").toString())
         );
