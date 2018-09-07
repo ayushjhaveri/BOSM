@@ -348,25 +348,94 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 String time_format = "h.mm a";
                 SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
 
+                int id = 0;
+                String sport_name="";
+                String college1 = "", college2="",round="",venue="",score1="",score2="",full_college1="",full_college2="";
+                int vote1=0, vote2=0,isVote =-1;
+                try{
+                    id =   Integer.parseInt(document.getData().get("sport_id").toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    sport_name =   toTitleCase((String)document.getData().get("sport_name"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    college1 =   ((String)document.getData().get("college1")).toUpperCase();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    college2 =   ((String)document.getData().get("college2")).toUpperCase();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    round =   toTitleCase((String)document.getData().get("round"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    venue =   (String)document.getData().get("venue");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    score1 =   (String)document.getData().get("score1");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    score2 =    (String)document.getData().get("score2");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    full_college1 =   toTitleCase((String)document.getData().get("full_college1"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    full_college2 =   toTitleCase((String)document.getData().get("full_college2"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    vote1 =    Integer.parseInt(document.getData().get("vote1").toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    vote2 =   Integer.parseInt(document.getData().get("vote2").toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                try{
+                    isVote =   Integer.parseInt(document.getData().get("is_vote").toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 itemLive = new ItemLive(
                         0,
-                         Integer.parseInt(document.getData().get("sport_id").toString()),
-                        toTitleCase((String)document.getData().get("sport_name")),
-                        ((String)document.getData().get("college1")).toUpperCase(),
-                        ((String)document.getData().get("college2")).toUpperCase(),
-                        toTitleCase((String)document.getData().get("round")),
-                        (String)document.getData().get("venue"),
+                        id,
+                        sport_name,
+                        college1,
+                        college2,
+                        round,
+                        venue,
                         sdf_time.format(cal.getTime()),
                         cal.get(Calendar.DATE)
                                 +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
                                 " "+sdf_month.format(date)+"",
-                        (String)document.getData().get("score1"),
-                        (String)document.getData().get("score2"),
-                        Integer.parseInt(document.getData().get("vote1").toString()),
-                        Integer.parseInt(document.getData().get("vote2").toString()),
-                        Integer.parseInt(document.getData().get("is_vote").toString()),
-                        toTitleCase((String)document.getData().get("full_college1")),
-                        toTitleCase((String)document.getData().get("full_college2"))
+                        score1,
+                        score2,
+                        vote1,
+                        vote2,
+                        isVote,
+                        full_college1,
+                        full_college2
                 );
 
                 liveViewHolder.tv_college1.setText(itemLive.getCollegeName1());

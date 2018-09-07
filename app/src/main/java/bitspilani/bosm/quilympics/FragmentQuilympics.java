@@ -89,11 +89,6 @@ public class FragmentQuilympics extends Fragment {
         allowClickOnOptions(false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-
         source = Source.SERVER;
 
         //which round

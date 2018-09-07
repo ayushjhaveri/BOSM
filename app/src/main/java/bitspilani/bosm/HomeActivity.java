@@ -39,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
 
+import bitspilani.bosm.fragments.GameFragment;
 import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.fragments.PhotoFragment;
 import bitspilani.bosm.fragments.SportFragment;
@@ -118,7 +119,7 @@ public class HomeActivity extends AppCompatActivity
         user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
-                .setPersistenceEnabled(false)
+                .setPersistenceEnabled(true)
                 .build();
 
         db = FirebaseFirestore.getInstance();
@@ -235,7 +236,7 @@ public class HomeActivity extends AppCompatActivity
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
-        findViewById(R.id.tv_roulette).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Handler().postDelayed(new Runnable() {
@@ -243,7 +244,7 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         if(HomeActivity.currentFragment.equals("RouletteHomeFragment") || HomeActivity.currentFragment.equals("RouletteMainFragment")){}
 
-                        else{loadFrag(new RouletteHomeFragment(), "Roulette", fm);
+                        else{loadFrag(new GameFragment(), "Game", fm);
                         }
                     }
                 }, 600);

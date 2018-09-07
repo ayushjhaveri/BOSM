@@ -45,10 +45,6 @@ public class LeaderboardFragment extends Fragment {
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view) ;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
 
         TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
