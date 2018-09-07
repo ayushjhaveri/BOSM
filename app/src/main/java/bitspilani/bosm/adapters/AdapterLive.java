@@ -339,7 +339,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
 
 
-                Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+                Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
                 Date date = timestamp.toDate();
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(date);
@@ -459,7 +459,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                 .color(ContextCompat.getColor(context,R.color.back_shade2))
                                 .align(CENTER)
                                 .position(ViewTooltip.Position.TOP)
-                                .text( toTitleCase((String)document.getData().get("full_college1")))
+                                .text( document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"")
                                 .show();
                     }
                 });
@@ -476,7 +476,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                 .color(ContextCompat.getColor(context,R.color.back_shade2))
                                 .align(CENTER)
                                 .position(ViewTooltip.Position.TOP)
-                                .text( toTitleCase((String)document.getData().get("full_college2")))
+                                .text( document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):"")
                                 .show();
                     }
                 });
@@ -731,7 +731,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder = (TrendingViewHolder) convertView.getTag();
                 }
 
-                timestamp  = (Timestamp) document.getData().get("timestamp");
+                timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
                 date = timestamp.toDate();
                 cal = Calendar.getInstance();
                 cal.setTime(date);
@@ -743,30 +743,30 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 String time_format2 = "h.mm a";
                 SimpleDateFormat sdf_time2 = new SimpleDateFormat(time_format2);
 
-                if (Integer.parseInt(document.getData().get("match_type").toString())==1){
+                if (document.contains("match_type")?Integer.parseInt(document.getData().get("match_type").toString())==1:true){
                 itemLive = new ItemLive(
                         1,
-                        Integer.parseInt(document.getData().get("sport_id").toString()),
-                        toTitleCase((String)document.getData().get("sport_name")),
-                        ((String)document.getData().get("college1")).toUpperCase(),
-                        ((String)document.getData().get("college2")).toUpperCase(),
-                        toTitleCase((String)document.getData().get("round")),
-                        (String)document.getData().get("venue"),
+                        document.contains("sport_id")?Integer.parseInt(document.getData().get("sport_id").toString()):0,
+                        document.contains("sport_name")?toTitleCase((String)document.getData().get("sport_name")):"",
+                        document.contains("college1")?((String)document.getData().get("college1")).toUpperCase():"",
+                        document.contains("college2")?((String)document.getData().get("college2")).toUpperCase():"",
+                        document.contains("round")?toTitleCase((String)document.getData().get("round")):"",
+                        document.contains("venue")?(String)document.getData().get("venue"):"",
                         sdf_time2.format(cal2.getTime()),
                         cal2.get(Calendar.DATE)
                                 +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
                                 " "+sdf_month2.format(date2)+"",
-                        toTitleCase((String)document.getData().get("full_college1")),
-                        toTitleCase((String)document.getData().get("full_college2"))
+                        document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
+                         document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
                 );
                 }else{
 
                     itemLive = new ItemLive(
                             1,
-                            Integer.parseInt(document.getData().get("sport_id").toString()),
-                            toTitleCase((String)document.getData().get("sport_name")),
-                            toTitleCase((String)document.getData().get("round")),
-                            (String)document.getData().get("venue"),
+                            document.contains("sport_id")?Integer.parseInt(document.getData().get("sport_id").toString()):0,
+                            document.contains("sport_name")?toTitleCase((String)document.getData().get("sport_name")):"",
+                            document.contains("round")?toTitleCase((String)document.getData().get("round")):"",
+                            document.contains("venue")?(String)document.getData().get("venue"):"",
                             sdf_time2.format(cal2.getTime()),
                             cal2.get(Calendar.DATE)
                                     +getDayOfMonthSuffix(cal2.get(Calendar.DATE))+
@@ -799,7 +799,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                     .color(ContextCompat.getColor(context,R.color.back_shade2))
                                     .align(CENTER)
                                     .position(ViewTooltip.Position.TOP)
-                                    .text(toTitleCase((String)document.getData().get("full_college1")))
+                                    .text(document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"")
                                     .show();
                         }
                     });
@@ -817,7 +817,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                     .align(CENTER)
                                     .position(ViewTooltip.Position.TOP)
                                     .text(
-                                            toTitleCase((String)document.getData().get("full_college2")))
+                                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):"")
                                     .show();
                         }
                     });

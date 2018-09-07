@@ -102,14 +102,14 @@ public class AddMoneyBActivity extends Fragment {
 
 
         if(getArguments()!=null){
-            amt_needed=getArguments().getString("amt");
+            amt_needed=String.valueOf(getArguments().getDouble("amt"));
         }
 
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_add_money_b, container, false);
         init(view);
 
@@ -189,7 +189,27 @@ public class AddMoneyBActivity extends Fragment {
 
                     if(user.getEmail().contains("pilani.bits-pilani.ac.in")){
                         //BITS USER
-                        add_amount(Double.parseDouble(editText_amount.getText().toString()));
+                        AlertDialog.Builder builder;
+                        builder = new AlertDialog.Builder(getActivity());
+                        View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                        builder.setView(dialog_view);
+                        TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                        tv_title.setText("Add  "+getResources().getString(R.string.Rs)+ df2.format(Double.parseDouble(editText_amount.getText().toString()))+" ?");
+                        final AlertDialog alert = builder.create();
+                        dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alert.cancel();
+                                add_amount(Double.parseDouble(editText_amount.getText().toString()));
+                            }});
+                        dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                alert.cancel();
+                            }
+                        });
+                        alert.show();
+
                     }else{
                         //OUTSIDER
                         Snackbar.make(view, "paytm not implemented!", Snackbar.LENGTH_SHORT).show();
@@ -217,37 +237,159 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(getActivity(), "Its listnening", Toast.LENGTH_LONG).show();
-                add_amount(50.0);
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                tv_title.setText("Add  "+getResources().getString(R.string.Rs)+"50.00 ?");
+
+
+                builder.setView(dialog_view);
+                final AlertDialog alert = builder.create();
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                        add_amount(50.0);
+                    }});
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
+                alert.show();
+
             }
         });
         view.findViewById(R.id.rl_add_100).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_amount(100.0);
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                builder.setView(dialog_view);
+                TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                tv_title.setText("Add  "+getResources().getString(R.string.Rs)+"100.00 ?");
+                final AlertDialog alert = builder.create();
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                        add_amount(100.0);
+                    }});
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
+                alert.show();
+
             }
         });
         view.findViewById(R.id.rl_add_150).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_amount(150.0);
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                builder.setView(dialog_view);
+                TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                tv_title.setText("Add  "+getResources().getString(R.string.Rs)+"150.00 ?");
+                final AlertDialog alert = builder.create();
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                        add_amount(150.0);
+                    }});
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
+                alert.show();
+
             }
         });
         view.findViewById(R.id.rl_add_200).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_amount(200.0);
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                builder.setView(dialog_view);
+                TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                tv_title.setText("Add  "+getResources().getString(R.string.Rs)+"200.00 ?");
+                final AlertDialog alert = builder.create();
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                        add_amount(200.0);
+                    }});
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
+                alert.show();
+
             }
         });
         view.findViewById(R.id.rl_add_350).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_amount(350.0);
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                builder.setView(dialog_view);
+                TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                tv_title.setText("Add  "+getResources().getString(R.string.Rs)+"350.00 ?");
+                final AlertDialog alert = builder.create();
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                        add_amount(350.0);
+                    }});
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
+                alert.show();
+
             }
         });
         view.findViewById(R.id.rl_add_500).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                add_amount(500.0);
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(getActivity());
+                View dialog_view = inflater.inflate(R.layout.dialog_cart, null);
+                builder.setView(dialog_view);
+                TextView tv_title = (TextView)dialog_view.findViewById(R.id.tv_title);
+                tv_title.setText("Add  "+getResources().getString(R.string.Rs)+"500.00 ?");
+                final AlertDialog alert = builder.create();
+                dialog_view.findViewById(R.id.btn_yes).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                        add_amount(500.0);
+                    }});
+                dialog_view.findViewById(R.id.btn_no).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.cancel();
+                    }
+                });
+                alert.show();
+
             }
         });
 

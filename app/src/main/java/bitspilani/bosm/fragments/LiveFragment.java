@@ -1,5 +1,6 @@
 package bitspilani.bosm.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -31,6 +32,8 @@ public class LiveFragment extends Fragment{
 
     ProgressBar progressBar;
 
+    Context context;
+
     public LiveFragment(){
         HomeActivity.currentFragment="aaaaaaaa";
     }
@@ -48,7 +51,7 @@ public class LiveFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live, container, false);
 
-
+        context = getContext();
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
         progressBar =(ProgressBar)view.findViewById(R.id.progressBar);

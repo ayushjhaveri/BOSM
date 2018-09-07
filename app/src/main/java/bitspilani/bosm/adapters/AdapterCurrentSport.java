@@ -95,9 +95,9 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
         DocumentSnapshot document =  getSnapshot(position);
 
-        Log.d(TAG,document.getData().toString()+" gfd");
+//        Log.d(TAG,document.getData().toString()+" gfd");
 
-        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -108,8 +108,8 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
 
 
-        int matchType = Integer.parseInt(document.getData().get("match_type").toString());
-        boolean isResult = Boolean.parseBoolean(document.getData().get("is_result").toString());
+        int matchType = document.contains("match_type")?Integer.parseInt(document.getData().get("match_type").toString()):1;
+        boolean isResult = document.contains("is_result")?Boolean.parseBoolean(document.getData().get("is_result").toString()):false;
 
 
         final ItemMatch itemMatch;
@@ -119,27 +119,27 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
                 if(isResult) {
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("match_type").toString()),
-                            document.getData().get("sport_name").toString(),
-                            document.getData().get("venue").toString(),
+                           0,
+                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+                            document.contains("venue")?document.getData().get("venue").toString():"",
                             stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            toTitleCase(document.getData().get("round").toString()),
-                            document.getData().get("goldName").toString(),
-                            document.getData().get("silverName").toString(),
-                            document.getData().get("bronzeName").toString(),
-                            document.getData().get("goldRecord").toString(),
-                            document.getData().get("silverRecord").toString(),
-                            document.getData().get("bronzeRecord").toString()
+                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
+                            document.contains("goldName")?document.getData().get("goldName").toString():"",
+                            document.contains("silverName")?document.getData().get("silverName").toString():"",
+                            document.contains("bronzeName")? document.getData().get("bronzeName").toString():"",
+                            document.contains("goldRecord")? document.getData().get("goldRecord").toString():"",
+                            document.contains("silverRecord")?document.getData().get("silverRecord").toString():"",
+                            document.contains("bronzeRecord")?document.getData().get("bronzeRecord").toString():""
                             );
                 }else{
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("match_type").toString()),
-                            document.getData().get("sport_name").toString(),
-                            document.getData().get("venue").toString(),
+                            0,
+                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+                            document.contains("venue")?document.getData().get("venue").toString():"",
                             stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            toTitleCase(document.getData().get("round").toString())
+                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):""
                     );
                 }
 
@@ -192,32 +192,32 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
             case Constant.TEAM_MATCH:
                 if(isResult) {
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("match_type").toString()),
-                            document.getData().get("sport_name").toString(),
-                            document.getData().get("venue").toString(),
+                            1,
+                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+                            document.contains("venue")?document.getData().get("venue").toString():"",
                             stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                   toTitleCase(document.getData().get("round").toString()),
-                            document.getData().get("score1").toString(),
-                            document.getData().get("score2").toString(),
-                            document.getData().get("college1").toString(),
-                            document.getData().get("college2").toString(),
-                            Integer.parseInt(document.getData().get("winner").toString()),
-                            toTitleCase((String)document.getData().get("full_college1")),
-                            toTitleCase((String)document.getData().get("full_college2"))
+                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
+                            document.contains("score1")?document.getData().get("score1").toString():"",
+                            document.contains("score2")?document.getData().get("score2").toString():"",
+                            document.contains("college1")?document.getData().get("college1").toString():"",
+                            document.contains("college2")?document.getData().get("college2").toString():"",
+                            document.contains("winner")?Integer.parseInt(document.getData().get("winner").toString()):0,
+                            document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
+                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
                     );
                 }else{
                     itemMatch = new ItemMatch(
-                            Integer.parseInt(document.getData().get("match_type").toString()),
-                            document.getData().get("sport_name").toString(),
-                            document.getData().get("venue").toString(),
+                           1,
+                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+                            document.contains("venue")?document.getData().get("venue").toString():"",
                             stf.format(date),
                             sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            toTitleCase(document.getData().get("round").toString()),
-                            document.getData().get("college1").toString(),
-                            document.getData().get("college2").toString(),
-                            toTitleCase((String)document.getData().get("full_college1")),
-                            toTitleCase((String)document.getData().get("full_college2"))
+                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
+                            document.contains("college1")?document.getData().get("college1").toString():"",
+                            document.contains("college2")?document.getData().get("college2").toString():"",
+                            document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
+                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
                     );
                 }
 

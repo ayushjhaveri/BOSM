@@ -81,8 +81,8 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
         DocumentSnapshot document = getSnapshot(position);
         final ItemFood itemFood = new ItemFood(
                 Integer.parseInt(document.getId()),
-                Objects.requireNonNull(document.getData()).get("name").toString(),
-                Double.parseDouble(Objects.requireNonNull(document.getData()).get("price").toString())
+                document.contains("name")?document.getData().get("name").toString():"",
+                document.contains("price")?Double.parseDouble((document.getData()).get("price").toString()):0
         );
 
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/Oswald-Regular.ttf");

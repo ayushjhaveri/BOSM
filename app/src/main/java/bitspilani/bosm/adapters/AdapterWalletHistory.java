@@ -180,7 +180,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
 
         final DocumentSnapshot document =  mSnapshots.get(position);
 
-        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -188,11 +188,11 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
         final ItemWalletHistory itemWalletHistory = new ItemWalletHistory(
                 Integer.parseInt(document.getId()),
                 cal,
-                 Double.parseDouble(document.getData().get("amount").toString()),
-                document.getData().get("order_unique_id").toString(),
-                document.getData().get("from").toString(),
-                document.getData().get("to").toString(),
-                document.getData().get("remarks").toString()
+                 document.contains("amount")?Double.parseDouble(document.getData().get("amount").toString()):0,
+                document.contains("order_unique_id")?document.getData().get("order_unique_id").toString():"",
+                document.contains("from")?document.getData().get("from").toString():"",
+                document.contains("to")?document.getData().get("to").toString():"",
+                document.contains("remarks")?document.getData().get("remarks").toString():""
         );
 
         //Inflating row
@@ -238,7 +238,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
             });
         }
         holder.textView_comment.setText("#"+itemWalletHistory.getOrder_id());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h.mm a");
 
 
         holder.textView_time.setText(timeFormat.format(itemWalletHistory.getDate().getTime()));
@@ -261,10 +261,10 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
             holder = (HeaderViewHolder) convertView.getTag();
         }
         final DocumentSnapshot document =  mSnapshots.get(position);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 //        String text = dateFormat.format(document.getData().get("").getDate().getTime());
 
-        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -291,7 +291,7 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
 //        return arrayList.get(position).getDate().get(Calendar.DATE);
         final DocumentSnapshot document =  mSnapshots.get(position);
 
-        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Timestamp timestamp  =document.contains("timestamp") ?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

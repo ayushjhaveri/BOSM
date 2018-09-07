@@ -88,10 +88,10 @@ public class AdapterRouletteLeaderboard extends FirestoreAdapter<AdapterRoulette
         DocumentSnapshot document  = getSnapshot(position);
 
         final ItemRouletteLeaderboard user = new ItemRouletteLeaderboard(
-                document.getData().get("email").toString(),
-                document.getData().get("name").toString(),
-                Integer.parseInt(document.getData().get("score").toString()),
-                Integer.parseInt(document.getData().get("betting_amount").toString())
+                document.contains("email")?document.getData().get("email").toString():"",
+                document.contains("name")?document.getData().get("name").toString():"",
+                document.contains("score")?Integer.parseInt(document.getData().get("score").toString()):0,
+                document.contains("betting_amount")?Integer.parseInt(document.getData().get("betting_amount").toString()):0
         );
 
         holder.tvRank.setText(String.valueOf(position + 1));

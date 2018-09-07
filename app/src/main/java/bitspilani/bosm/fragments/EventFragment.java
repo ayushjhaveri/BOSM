@@ -64,6 +64,8 @@ public class EventFragment extends Fragment {
         HomeActivity.currentFragment="aaaaaaaa";
 
     }
+    
+    Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class EventFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
+        context = getContext();
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.VISIBLE);
@@ -120,7 +123,7 @@ public class EventFragment extends Fragment {
         });
 
         //Firestore data retrieval
-        FirebaseApp.initializeApp(getContext());
+        FirebaseApp.initializeApp(context);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

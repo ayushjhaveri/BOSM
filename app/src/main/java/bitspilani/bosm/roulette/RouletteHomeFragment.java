@@ -1,5 +1,6 @@
 package bitspilani.bosm.roulette;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,7 @@ public class RouletteHomeFragment extends Fragment {
 
 //    FragmentManager fragmentManager = getChildFragmentManager();
 
-
+    private Context context;
     public RouletteHomeFragment() {
         // Required empty public constructor
         HomeActivity.currentFragment="RouletteHomeFragment";
@@ -45,7 +46,7 @@ public class RouletteHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_roulette_home, container, false);
-
+        context = getContext();
 
 
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
@@ -53,7 +54,7 @@ public class RouletteHomeFragment extends Fragment {
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(context,R.color.back_shade1)
                 )
                         .badgeTitle("Extra")
                         .title("title")
@@ -61,14 +62,14 @@ public class RouletteHomeFragment extends Fragment {
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(getContext(),R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(context,R.color.back_shade1)
                 ).badgeTitle("Matches")
                         .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(getContext(),R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(context,R.color.back_shade1)
                 )
                         .badgeTitle("Leaderboard")
                         .title("title")

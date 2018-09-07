@@ -77,12 +77,12 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
         final DocumentSnapshot document =  getSnapshot(position);
         final ItemCart itemCart = new ItemCart(
                 Integer.parseInt(document.getId()),
-                Integer.parseInt(document.getData().get("food_id").toString()),
-                Integer.parseInt(document.getData().get("stall_id").toString()),
-                Integer.parseInt(document.getData().get("quantity").toString()),
-                document.getData().get("food_name").toString(),
-                document.getData().get("stall_name").toString(),
-                Double.parseDouble(document.getData().get("food_price").toString())
+                document.contains("food_id")?Integer.parseInt(document.getData().get("food_id").toString()):0,
+                document.contains("stall_id")?Integer.parseInt(document.getData().get("stall_id").toString()):0,
+                document.contains("quantity")?Integer.parseInt(document.getData().get("quantity").toString()):0,
+                document.contains("food_name")?document.getData().get("food_name").toString():"",
+                document.contains("stall_name")?document.getData().get("stall_name").toString():"",
+                document.contains("food_price")?Double.parseDouble(document.getData().get("food_price").toString()):0
         );
 
         holder.textView_name.setText(itemCart.getName());

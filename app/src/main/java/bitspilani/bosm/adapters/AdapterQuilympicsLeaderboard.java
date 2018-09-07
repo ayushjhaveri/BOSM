@@ -63,9 +63,9 @@ public class AdapterQuilympicsLeaderboard extends FirestoreAdapter<AdapterQuilym
         DocumentSnapshot document  = getSnapshot(position);
         try {
                 final ItemQuilympicsLeaderboard user = new ItemQuilympicsLeaderboard(
-                        document.getData().get("email").toString(),
-                        document.getData().get("name").toString(),
-                        Integer.parseInt(document.getData().get("quilympics_score").toString())
+                        document.contains("email")?document.getData().get("email").toString():"",
+                        document.contains("name")?document.getData().get("name").toString():"",
+                        document.contains("quilympics_score")?Integer.parseInt(document.getData().get("quilympics_score").toString()):0
                 );
 
             holder.tvRank.setText(String.valueOf(position + 1));

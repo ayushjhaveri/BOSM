@@ -50,13 +50,13 @@ public class AdapterOrder extends FirestoreAdapter<AdapterOrder.ViewHolder>  {
     public void onBindViewHolder(final AdapterOrder.ViewHolder holder, final int position) {
         DocumentSnapshot document = getSnapshot(position);
         final ItemOrder itemOrder = new ItemOrder(
-                Integer.parseInt((document.getData()).get("food_id").toString()),
-                Integer.parseInt((document.getData()).get("quantity").toString()),
-                Integer.parseInt((document.getData()).get("stall_id").toString()),
-                Objects.requireNonNull(document.getData()).get("food_name").toString(),
-                Objects.requireNonNull(document.getData()).get("stall_name").toString(),
-                Double.parseDouble(((document.getData()).get("food_price").toString())),
-                Integer.parseInt((document.getData()).get("status").toString())
+                document.contains("food_id")?Integer.parseInt((document.getData()).get("food_id").toString()):0,
+                document.contains("quantity")?Integer.parseInt((document.getData()).get("quantity").toString()):0,
+                document.contains("stall_id")?Integer.parseInt((document.getData()).get("stall_id").toString()):0,
+                document.contains("food_name")?document.getData().get("food_name").toString():"",
+                document.contains("stall_name")?document.getData().get("stall_name").toString():"",
+                document.contains("food_price")?Double.parseDouble(((document.getData()).get("food_price").toString())):0,
+                document.contains("status")?Integer.parseInt((document.getData()).get("status").toString()):0
         );
 
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/Oswald-Regular.ttf");

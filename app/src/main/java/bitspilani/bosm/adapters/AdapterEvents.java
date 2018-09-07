@@ -55,7 +55,7 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
     @Override
     public void onBindViewHolder(final AdapterEvents.ViewHolder holder, final int position) {
        DocumentSnapshot document =  getSnapshot(position);
-        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -66,14 +66,14 @@ public class AdapterEvents extends FirestoreAdapter<AdapterEvents.ViewHolder> {
 
         ItemEvent itemEvent = new ItemEvent(
                 document.getId(),
-                toTitleCase(document.getData().get("title").toString()),
+                document.contains("title")?toTitleCase(document.getData().get("title").toString()):"",
                 cal.get(Calendar.DATE)
                         +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
                         " "+sdf_month.format(date)+"",
                 sdf_time.format(cal.getTime()),
-                document.getData().get("venue").toString(),
-                document.getData().get("text").toString(),
-                        toTitleCase(document.getData().get("club").toString())
+                document.contains("venue")?document.getData().get("venue").toString():"",
+                document.contains("text")?document.getData().get("text").toString():"",
+                        document.contains("club")?toTitleCase(document.getData().get("club").toString()):""
         );
 
         // use itemEvent here

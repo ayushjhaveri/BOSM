@@ -3,6 +3,7 @@ package bitspilani.bosm.roulette;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -138,6 +139,8 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     String doc_id;
     String sport_name;
 
+    Context context;
+
     Source source;
 
     ProgressBar progressBar;
@@ -178,10 +181,10 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container1,
                              Bundle savedInstanceState) {
-        // Inflate the layout for getContext() fragment
+        // Inflate the layout for context fragment
         View view = inflater.inflate(R.layout.fragment_bidding, container1, false);
 
-
+        context  = getContext();
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
 
@@ -308,7 +311,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                         }
                                                     }
 
-//                                                    Toast.makeText(getContext(),status+"",Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(context,status+"",Toast.LENGTH_SHORT).show();
 
                                                     score = Integer.parseInt(task1.getResult().getData().get("score").toString());
                                                     luck = Integer.parseInt(task1.getResult().getData().get("luck").toString());
@@ -339,9 +342,9 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                             powerBid = object.getBoolean("power_bid");
 
                                                             if(team.equals(team_a)){
-                                                                cvTeamA.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bid));
+                                                                cvTeamA.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bid));
                                                             }else if(team.equals(team_b)){
-                                                                cvTeamB.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bid));
+                                                                cvTeamB.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bid));
                                                             }
 
 
@@ -353,8 +356,8 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                         disableBet();
                                                         disablePowBet();
                                                     }else{
-                                                        cvTeamA.setCardBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.white));
-                                                        cvTeamB.setCardBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.white));
+                                                        cvTeamA.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.white));
+                                                        cvTeamB.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.white));
                                                         enableBet();
                                                         enablePowBet();
                                                     }
@@ -417,26 +420,26 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
     private void changeTeamColor(String team, CardView cardView) {
         if (((itemRoulette.getWinner() == 1) && (itemRoulette.getCollege1().equals(team))) || ((itemRoulette.getWinner() == 2) && (itemRoulette.getCollege2().equals(team)))) {
-            cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bosm_roulette));
+            cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bosm_roulette));
         } else {
-            cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.color_red));
+            cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.color_red));
         }
     }
 
     private void refreshView() {
         if (itemRoulette.getStatus() == -1) {
             tvStatus.setText(getStatusName(-1));
-            tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            tvStatus.setTextColor(ContextCompat.getColor(context, R.color.black));
             cardViewWon.setVisibility(View.GONE);
         } else if (itemRoulette.getStatus() == 0) {
             tvStatus.setText(getStatusName(0));
-            tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.fav_green));
+            tvStatus.setTextColor(ContextCompat.getColor(context, R.color.fav_green));
             cardViewWon.setVisibility(View.GONE);
         } else if (itemRoulette.getStatus() == 1) {
             cardViewWon.setVisibility(View.VISIBLE);
             tvStatus.setText(getStatusName(1));
             tvWon.setText(itemRoulette.getWinner());
-            tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            tvStatus.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
 
         if (itemRoulette.getStatus() == 1 && itemRoulette.isBetting_done()) {
@@ -548,46 +551,46 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
     private void disableBet() {
         cvBetEnabled = false;
-        cardViewBet.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey));
+        cardViewBet.setCardBackgroundColor(ContextCompat.getColor(context, R.color.grey));
     }
 
     private void disablePowBet() {
         cvPowBetEnabled = false;
-        cardViewPowBet.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey));
+        cardViewPowBet.setCardBackgroundColor(ContextCompat.getColor(context, R.color.grey));
     }
 
     private void disableSpin() {
         cvSpinEnabled = false;
-        cardViewSpin.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.grey));
+        cardViewSpin.setCardBackgroundColor(ContextCompat.getColor(context, R.color.grey));
     }
 
     private void removeWalletCritical() {
-        cardViewWallet.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bosm_roulette));
+        cardViewWallet.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bosm_roulette));
     }
 
     private void setWalletCritical() {
-        cardViewWallet.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.errorColor));
+        cardViewWallet.setCardBackgroundColor(ContextCompat.getColor(context, R.color.errorColor));
     }
 
     private void enableBet() {
         cvBetEnabled = true;
-        cardViewBet.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.bid));
+        cardViewBet.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bid));
     }
 
     private void enablePowBet() {
         cvPowBetEnabled = true;
-        cardViewPowBet.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.power_bid_active));
+        cardViewPowBet.setCardBackgroundColor(ContextCompat.getColor(context, R.color.power_bid_active));
     }
 
     private void enableSpin() {
         cvSpinEnabled = true;
-        cardViewSpin.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.slot));
+        cardViewSpin.setCardBackgroundColor(ContextCompat.getColor(context, R.color.slot));
     }
 
     private void freezeCard(CardView cardView) {
         disableBet();
         disablePowBet();
-        cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+        cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.blue));
     }
 
     private void leftAlign(View view) {
@@ -618,7 +621,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showWalletDialog() {
-        final Dialog dialog = new Dialog(getContext());
+        final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_wallet);
 
         final TextView tvAmount = (TextView) dialog.findViewById(R.id.tvAmount);
@@ -631,7 +634,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showBetDialog(final boolean powerBid) {
-        final Dialog dialog = new Dialog(getContext());
+        final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_bet);
 
         if (powerBid) {
@@ -650,7 +653,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
         if (powerBid) {
             LinearLayout container = (LinearLayout) dialog.findViewById(R.id.container);
-            container.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.power_bid_active));
+            container.setBackgroundColor(ContextCompat.getColor(context, R.color.power_bid_active));
         }
 
         final EditText etAmount = (EditText) dialog.findViewById(R.id.etAmount);
@@ -661,18 +664,18 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 String value = etAmount.getText().toString();
                 if (value.isEmpty() || Integer.parseInt(value) <= 0) {
-                    Toast.makeText(getContext(), "Enter an amount", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Enter an amount", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (Integer.parseInt(value) > score) {
-                    Toast.makeText(getContext(), "Cannot be more than your wallet", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Cannot be more than your wallet", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int qty;
                 try {
                     qty = Integer.parseInt(value);
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Not a valid number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Not a valid number", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int powBid;
@@ -711,7 +714,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
     private void showSpinDialog() {
 
-        spin_dialog = new Dialog(getContext());
+        spin_dialog = new Dialog(context);
         spin_dialog.setContentView(R.layout.dialog_spin_n_earn);
 
         left = (ImageView) spin_dialog.findViewById(R.id.left);
@@ -806,7 +809,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         try {
             final ProgressDialog progressDialog;
 
-            progressDialog = ProgressDialog.show(getContext(), "", "Please Wait...", true);
+            progressDialog = ProgressDialog.show(context, "", "Please Wait...", true);
 
             final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
             if (_power_bid == 1) {
@@ -815,7 +818,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
 
             if (itemRoulette.isBetting_done()) {
-                Toast.makeText(getContext(), "already done!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "already done!", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -882,7 +885,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     private void slotOnline(final Dialog dialog, final boolean won) {
         final ProgressDialog progressDialog;
 
-        progressDialog = ProgressDialog.show(getContext(), "", "Please Wait...", true);
+        progressDialog = ProgressDialog.show(context, "", "Please Wait...", true);
 
         final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
         calendar.add(Calendar.MINUTE, 30);

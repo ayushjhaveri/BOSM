@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.SportFragment;
@@ -88,11 +89,11 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
         final DocumentSnapshot document = getSnapshot(position);
 
-        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
+        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"): Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        boolean isResult = Boolean.parseBoolean(document.getData().get("is_result").toString());
+        boolean isResult = document.contains("is_result")?Boolean.parseBoolean(document.getData().get("is_result").toString()):false;
         Calendar calNow = Calendar.getInstance();
         cal.setTime(date);
         int status = -1;
@@ -108,7 +109,7 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
         JSONArray array = null;
         try {
-            array = new JSONArray(document.getData().get("roulette").toString());
+            array = new JSONArray(Objects.requireNonNull(document.getData().get("roulette").toString()));
             boolean isBet = false;
 
             for (int i = 0; i < array.length(); i++) {
@@ -120,18 +121,18 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
             int winner=0;
             if(isResult){
-                winner =  Integer.parseInt(document.getData().get("winner").toString());
+                winner =  document.contains("winner")?Integer.parseInt(document.getData().get("winner").toString()):0;
             }
             final ItemRoulette itemRoulette = new ItemRoulette(
                     document.getId(),
-                    Integer.parseInt(document.getData().get("sport_id").toString()),
-                    document.getData().get("sport_name").toString(),
-                    document.getData().get("venue").toString(),
+                    document.contains("sport_id")?Integer.parseInt(document.getData().get("sport_id").toString()):0,
+                    document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+                    document.contains("venue")?document.getData().get("venue").toString():"",
                     cal,
-                    document.getData().get("college1").toString(),
-                    document.getData().get("college2").toString(),
+                    document.contains("college1")?document.getData().get("college1").toString():"",
+                    document.contains("college2")?document.getData().get("college2").toString():"",
                     winner,
-                    document.getData().get("round").toString(),
+                    document.contains("round")?document.getData().get("round").toString():"",
                     isBet,
                     status
             );
@@ -140,7 +141,7 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             holder.tv_sport.setText(itemRoulette.getSport_name());
 //        holder.tv_status.setText(String.valueOf(itemRoulette.getStatus()));
             Calendar calendar = itemRoulette.getTimestamp();
-            SimpleDateFormat f = new SimpleDateFormat("EEE dd MMM, hh:mm a");
+            SimpleDateFormat f = new SimpleDateFormat("EEE dd MMM, h.mm a");
 
             holder.tv_date_time.setText(f.format(calendar.getTime()));
             holder.tv_college1.setText(itemRoulette.getCollege1());

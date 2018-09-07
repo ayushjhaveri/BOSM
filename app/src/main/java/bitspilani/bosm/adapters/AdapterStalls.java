@@ -55,7 +55,7 @@ public class AdapterStalls extends FirestoreAdapter<AdapterStalls.ViewHolder>  {
         DocumentSnapshot document = getSnapshot(position);
         final ItemStall itemStall = new ItemStall(
                 Integer.parseInt(document.getId()),
-                Objects.requireNonNull(document.getData()).get("name").toString()
+                document.contains("name")?document.getData().get("name").toString():""
         );
 
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/Oswald-Regular.ttf");
