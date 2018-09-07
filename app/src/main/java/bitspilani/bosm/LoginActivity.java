@@ -58,6 +58,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -342,7 +343,6 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 if(task.getResult().getData()==null){
-                                    Log.d(TAG,"mahit madarchod");
                                     //user doesn't exist
                                     Toast.makeText(LoginActivity.this,"han",Toast.LENGTH_SHORT).show();
                                     Map<String, Object> data = new HashMap<>();

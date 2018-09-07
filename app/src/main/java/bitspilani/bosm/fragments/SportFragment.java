@@ -1,6 +1,7 @@
 package bitspilani.bosm.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
@@ -34,6 +39,7 @@ public class SportFragment extends Fragment{
 
     ProgressBar progressBar;
 
+//    ArrayList<Integer> arrayList = new ArrayList<>();
     public SportFragment(){
         HomeActivity.currentFragment="aaaaaaaa";
     }
@@ -49,21 +55,24 @@ public class SportFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_score, container, false);
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
-        ProgressBar progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
         progressBar.setVisibility(View.VISIBLE);
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
+        final RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         Query mQuery = db.collection("sports").orderBy("sport_name");
 
-        adapterSport = new AdapterSport(getContext(),mQuery,progressBar);
+
+        adapterSport = new AdapterSport(getContext(), mQuery, progressBar);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterSport);
+
+
 
         iconHash.put(1,R.drawable.athletics);
         iconHash.put(2,R.drawable.swimming);

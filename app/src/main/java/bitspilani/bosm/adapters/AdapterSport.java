@@ -24,7 +24,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -74,11 +76,12 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        DocumentSnapshot document =  getSnapshot(position);
+        final DocumentSnapshot document =  getSnapshot(position);
         final ItemSport itemSport  = new ItemSport(
                 Integer.parseInt(document.getId()),
                 document.getData().get("sport_name").toString(),
-                Boolean.parseBoolean(document.getData().get("is_gender").toString())
+                Boolean.parseBoolean(document.getData().get("is_gender").toString()),
+                document.contains("notification") ? (ArrayList<String>) document.get("notification") : new ArrayList<String>()
         );
 
         holder.textView_name.setText(itemSport.getName());
@@ -91,6 +94,7 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
 //        }
         holder.icon.setImageResource(SportFragment.iconHash.get(itemSport.getSport_id()));
 
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
         holder.notify.setShapeResource(R.raw.star);
         holder.notify.setOnCheckStateChangeListener(new ShineButton.OnCheckedChangeListener() {
             @Override
@@ -101,7 +105,11 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+                                        ArrayList<String > arrayList = itemSport.getArrayList();
+                                        arrayList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        itemSport.setArrayList(arrayList);
+//                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+                                        document.getReference().update("notification",arrayList);
                                     }else{
                                         holder.notify.setChecked(false);
                                         Toast.makeText(context,"Server error!",Toast.LENGTH_SHORT).show();
@@ -110,11 +118,16 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                             });
 
                 }else{
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(itemSport.getName().toLowerCase())
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(itemSport.getName().toLowerCase().replace(' ','_'))
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        ArrayList<String > arrayList = itemSport.getArrayList();
+                                        arrayList.remove(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                        itemSport.setArrayList(arrayList);
+//                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+                                        document.getReference().update("notification",arrayList);
 //                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
                                     }else{
                                         holder.notify.setChecked(true);
@@ -126,6 +139,12 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
 
             }
         });
+
+        if (itemSport.getArrayList().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+            holder.notify.setChecked(true);
+        }else{
+            holder.notify.setChecked(false);
+        }
 
         holder.textView_name.setTypeface(oswald_regular);
         holder.rl.setOnClickListener(    new View.OnClickListener() {
