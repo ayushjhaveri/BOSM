@@ -31,6 +31,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +46,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.Source;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
 
         init();
@@ -221,6 +224,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
+                            viewLoader(false);
                             Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
                         }
 
@@ -332,12 +336,13 @@ public class LoginActivity extends AppCompatActivity {
                     .build();
             db.setFirestoreSettings(settings);
 
-            db.collection("user").document(user.getUid()).get().addOnCompleteListener(
+            db.collection("user").document(user.getUid()).get(Source.SERVER).addOnCompleteListener(
                     new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 if(task.getResult().getData()==null){
+                                    Log.d(TAG,"mahit madarchod");
                                     //user doesn't exist
                                     Toast.makeText(LoginActivity.this,"han",Toast.LENGTH_SHORT).show();
                                     Map<String, Object> data = new HashMap<>();
@@ -371,6 +376,10 @@ public class LoginActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
+                                }else{
+                                    viewLoader(false);
+                                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                    finish();
                                 }
                             }else{
                                 Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
@@ -379,7 +388,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
             );
-
         }else{
             Toast.makeText(LoginActivity.this,"Connection error!",Toast.LENGTH_SHORT).show();
             viewLoader(false);

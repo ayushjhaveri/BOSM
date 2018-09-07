@@ -5,16 +5,17 @@
     android:background="@drawable/border_shadow"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
+    android:paddingBottom="10dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="5dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:layout_toLeftOf="@+id/tv_hea"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/circular_imageview"
@@ -22,15 +23,18 @@
             android:layout_margin="10dp"/>
 
         <TextView
+            android:id="@+id/tv_hea"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_vertical|center_horizontal"
             android:textColor="@android:color/white"
             android:layout_marginLeft="0dp"
             android:textSize="30sp"
             android:text="Wallet"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

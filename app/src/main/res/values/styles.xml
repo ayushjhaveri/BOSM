@@ -44,5 +44,12 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/back_shade4</item>
+        <item name="android:colorBackground">@color/back_shade2</item>
+        <item name="android:colorPrimary">@color/back_shade2</item>
+        <item name="android:colorPrimaryDark">@color/back_shade2</item>
+        <item name="android:color">@color/back_shade2</item>
+    </style>
 
 </resources>

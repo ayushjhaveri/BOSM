@@ -62,6 +62,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import bitspilani.bosm.HomeActivity;
@@ -293,8 +294,8 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
                                                     Timestamp timestamp = (Timestamp) task.getResult().getData().get("timestamp");
                                                     Date date = timestamp.toDate();
-                                                    Calendar cal = Calendar.getInstance();
-                                                    Calendar calNow = Calendar.getInstance();
+                                                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
+                                                    Calendar calNow = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
                                                     cal.setTime(date);
                                                     int status = -1;
                                                     if (isResult) {
@@ -315,12 +316,12 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
                                                     timestamp = (Timestamp) task1.getResult().getData().get("power_bid_time");
                                                     date = timestamp.toDate();
-                                                    powBidTime = Calendar.getInstance();
+                                                    powBidTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
                                                     powBidTime.setTime(date);
 
                                                     timestamp = (Timestamp) task1.getResult().getData().get("slot_time");
                                                     date = timestamp.toDate();
-                                                    slotTime = Calendar.getInstance();
+                                                    slotTime = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
                                                     slotTime.setTime(date);
                                                     //bet
 
@@ -471,11 +472,11 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                 disableBet();
                 disablePowBet();
             }
-            if (powBidTime.after(Calendar.getInstance())) {
+            if (powBidTime.after(Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30")))) {
                 disablePowBet();
                 ivPowBet.setVisibility(View.GONE);
                 long end = powBidTime.getTimeInMillis();
-                long start = Calendar.getInstance().getTimeInMillis();
+                long start = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30")).getTimeInMillis();
                 final long[] duration = {end - start};
 
                 countDownTimer = new CountDownTimer(duration[0], 1000) {
@@ -497,11 +498,11 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                 }.start();
             }
         }
-        if (slotTime.after(Calendar.getInstance())) {
+        if (slotTime.after(Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30")))) {
             disableSpin();
             ivSpin.setVisibility(View.GONE);
             long end = slotTime.getTimeInMillis();
-            long start = Calendar.getInstance().getTimeInMillis();
+            long start = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30")).getTimeInMillis();
             final long[] duration = {end - start};
 
             countDownTimer2 = new CountDownTimer(duration[0], 1000) {
@@ -707,6 +708,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     ImageView mid;
     ImageView right;
 
+
     private void showSpinDialog() {
 
         spin_dialog = new Dialog(getContext());
@@ -806,7 +808,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
             progressDialog = ProgressDialog.show(getContext(), "", "Please Wait...", true);
 
-            final Calendar calendar = Calendar.getInstance();
+            final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
             if (_power_bid == 1) {
                 calendar.add(Calendar.HOUR, 4);
             }
@@ -882,7 +884,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
         progressDialog = ProgressDialog.show(getContext(), "", "Please Wait...", true);
 
-        final Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
         calendar.add(Calendar.MINUTE, 30);
 
 

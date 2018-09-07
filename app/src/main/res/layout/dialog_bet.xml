@@ -45,6 +45,7 @@
         <RadioButton
             android:id="@+id/rbA"
             android:textSize="17sp"
+            android:text="fasdsdasd"
             android:buttonTint="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
