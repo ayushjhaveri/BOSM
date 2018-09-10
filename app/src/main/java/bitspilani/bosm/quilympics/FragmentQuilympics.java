@@ -1,6 +1,7 @@
 package bitspilani.bosm.quilympics;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -71,6 +72,7 @@ public class FragmentQuilympics extends Fragment {
     EditText et_otp;
     ProgressDialog progressDialog;
     Calendar start_time_;
+    Context context;
 
     int current_q_no = -1;
 
@@ -84,6 +86,8 @@ public class FragmentQuilympics extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_quilympics, container, false);
 
+        context = getContext();
+        
         init(rootView);
 
         allowClickOnOptions(false);
@@ -126,7 +130,7 @@ public class FragmentQuilympics extends Fragment {
             @Override
             public void onClick(View view) {
                 if (et_otp.getText().toString().isEmpty() || et_otp.getText().toString().length() != 4) {
-                    Toast.makeText(getContext(), "Entered OTP is not in correct format!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Entered OTP is not in correct format!", Toast.LENGTH_SHORT).show();
                 } else {
                     submitOTP(et_otp.getText().toString());
                 }
@@ -163,7 +167,7 @@ public class FragmentQuilympics extends Fragment {
         bt_submit = (Button) v.findViewById(R.id.bt_submit);
         et_otp = (EditText) v.findViewById(R.id.et_otp);
 
-        progressDialog = new ProgressDialog(getContext(), R.style.MyAlertDialogStyle);
+        progressDialog = new ProgressDialog(context, R.style.MyAlertDialogStyle);
         progressDialog.setCancelable(false);
         start_time_ = Calendar.getInstance();
     }
@@ -236,7 +240,7 @@ public class FragmentQuilympics extends Fragment {
                                                         showEliminationView(true);
                                                     }
                                                 } else {
-                                                    Toast.makeText(getContext(), "Connection error!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(context, "Connection error!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
                                         }
@@ -245,7 +249,7 @@ public class FragmentQuilympics extends Fragment {
                                 progressDialog.dismiss();
                                 loadFragment(new LeaderboardFragment());
                                 //show leadberboard
-//                                Toast.makeText(getContext(), "FINISHED", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, "FINISHED", Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -278,7 +282,7 @@ public class FragmentQuilympics extends Fragment {
                                 isEntered = true;
                                 toggleOTPVisibility(true);
                             } else {
-                                Toast.makeText(getContext(), "OTP isn't correct!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "OTP isn't correct!", Toast.LENGTH_SHORT).show();
                                 et_otp.setText(null);
                             }
                         }
@@ -295,7 +299,7 @@ public class FragmentQuilympics extends Fragment {
             showOTPContainer(true);
             startRoundTimer(start_time);
         } else {
-            Toast.makeText(getContext(), "FINISHED", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "FINISHED", Toast.LENGTH_SHORT).show();
 //            finish()
             //redirect to leaderboard and results
         }
@@ -327,15 +331,15 @@ public class FragmentQuilympics extends Fragment {
                                 }
                             }
                     );
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
 
                     break;
                 case 2:
@@ -351,15 +355,15 @@ public class FragmentQuilympics extends Fragment {
                                 }
                             }
                     );
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
                     break;
                 case 3:
                     db.collection("quilympics").document("" + round_no).collection("questions").document("" + current_q_no).get(source).addOnCompleteListener(
@@ -374,15 +378,15 @@ public class FragmentQuilympics extends Fragment {
                                 }
                             }
                     );
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
                     break;
                 case 4:
                     db.collection("quilympics").document("" + round_no).collection("questions").document("" + current_q_no).get(source).addOnCompleteListener(
@@ -397,64 +401,64 @@ public class FragmentQuilympics extends Fragment {
                                 }
                             }
                     );
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                     break;
             }
         } else if (round_no == 3 || round_no == 4 || round_no == 5 || round_no == 9 || round_no == 7 || round_no == 8 || round_no == 10) {
             allowClickOnOptions(false);
             switch (option) {
                 case 1:
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
 
                     break;
                 case 2:
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
                     break;
                 case 3:
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
                     break;
                 case 4:
-                    cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                    cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
+                    cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                    cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
 
-                    tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                    tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                    tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                    tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                     break;
             }
         } else if (round_no == 6) {
@@ -463,53 +467,53 @@ public class FragmentQuilympics extends Fragment {
                 markedAnswer1 = option;
                 switch (option) {
                     case 1:
-                        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
                         tv_a.setClickable(false);
-                        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                        tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
 
                         break;
                     case 2:
                         tv_b.setClickable(false);
-                        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                        tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
                         break;
                     case 3:
                         tv_c.setClickable(false);
-                        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-                        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+                        tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
                         break;
                     case 4:
                         tv_d.setClickable(false);
-                        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-                        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
+                        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+                        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
 
-                        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                         break;
                 }
             } else {
@@ -517,20 +521,20 @@ public class FragmentQuilympics extends Fragment {
                 allowClickOnOptions(false);
                 switch (option) {
                     case 1:
-                        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                         break;
                     case 2:
-                        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                         break;
                     case 3:
-                        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                         break;
                     case 4:
-                        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.background2));
-                        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.background2));
+                        tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                         break;
                 }
             }
@@ -551,7 +555,7 @@ public class FragmentQuilympics extends Fragment {
 //                            db.collection("quilympics").document("" + round).update("status", 0);
                             getRoundQuestions(round);
                         } else {
-                            Toast.makeText(getContext(), "Connection error!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Connection error!", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -625,15 +629,15 @@ public class FragmentQuilympics extends Fragment {
             tv_b.setText(questionArrayList.get(q_number - 1).getOptiionB());
             tv_c.setText(questionArrayList.get(q_number - 1).getOptionC());
             tv_d.setText(questionArrayList.get(q_number - 1).getOptionD());
-            cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-            cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-            cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-            cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+            cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+            cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+            cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-            tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-            tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-            tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-            tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+            tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+            tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+            tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+            tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
             current_q_no = q_number;
             allowClickOnOptions(true);
             startTimer(q_number, round);
@@ -800,122 +804,122 @@ public class FragmentQuilympics extends Fragment {
     }
 
     private void updateUI(int answer) {
-        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+        tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+        tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+        tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+        tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
         if (markedAnswer == 1) {
-            cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (markedAnswer == 2) {
-            cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (markedAnswer == 3) {
-            cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (markedAnswer == 4) {
-            cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         }
         switch (answer) {
             case 1:
-                cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
             case 2:
-                cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
             case 3:
-                cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
 
                 break;
             case 4:
-                cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
         }
 
     }
 
     private void updateUI(int answer1, int answer2) {
-        cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-        cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-        cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
-        cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+        cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+        cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+        cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
+        cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.back_shade4));
 
-        tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-        tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-        tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
-        tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.background2));
+        tv_a.setTextColor(ContextCompat.getColor(context, R.color.background2));
+        tv_b.setTextColor(ContextCompat.getColor(context, R.color.background2));
+        tv_c.setTextColor(ContextCompat.getColor(context, R.color.background2));
+        tv_d.setTextColor(ContextCompat.getColor(context, R.color.background2));
         if (answer1 == 1) {
-            cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (answer1 == 2) {
-            cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (answer1 == 3) {
-            cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (answer1 == 4) {
-            cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         }
         if (answer2 == 1) {
-            cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (answer2 == 2) {
-            cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (answer2 == 3) {
-            cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         } else if (answer2 == 4) {
-            cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_shade));
-            tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+            cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.orange_shade));
+            tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
         }
         switch (answer1) {
             case 1:
-                cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
             case 2:
-                cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
             case 3:
-                cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
 
                 break;
             case 4:
-                cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
         }
         switch (answer2) {
             case 1:
-                cv_a.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_a.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_a.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_a.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
             case 2:
-                cv_b.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_b.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_b.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_b.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
             case 3:
-                cv_c.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_c.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_c.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_c.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
 
                 break;
             case 4:
-                cv_d.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.fav_green));
-                tv_d.setTextColor(ContextCompat.getColor(getContext(), R.color.back_shade4));
+                cv_d.setCardBackgroundColor(ContextCompat.getColor(context, R.color.fav_green));
+                tv_d.setTextColor(ContextCompat.getColor(context, R.color.back_shade4));
                 break;
         }
 
@@ -1116,7 +1120,7 @@ public class FragmentQuilympics extends Fragment {
                             }}});
 
 
-            Toast.makeText(getContext(), "GAME UP! DISPLAY LEADERBOARD....", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "GAME UP! DISPLAY LEADERBOARD....", Toast.LENGTH_SHORT).show();
         }
         //eliminate and update user collection
     }

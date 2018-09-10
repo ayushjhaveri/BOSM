@@ -24,7 +24,8 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="4dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
 
             <TextView
@@ -34,8 +35,10 @@
                 android:layout_centerHorizontal="true"
                 android:drawablePadding="4dp"
                 android:drawableTint="@android:color/white"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:text="FOOTBALL"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -53,8 +56,8 @@
 
             <TextView
                 android:layout_below="@+id/tv_sport"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="0dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:id="@+id/tv_round"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:drawableLeft="@drawable/bullet"
+                android:drawableStart="@drawable/bullet"
                 android:paddingVertical="8dp"
                 android:text="BITS"
                 android:textColor="#eeeeee"
@@ -117,7 +120,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:drawableRight="@drawable/bullet"
+                    android:drawableEnd="@drawable/bullet"
                     android:id="@+id/tv_college_two"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,8 +187,8 @@
                 android:id="@+id/ll_vote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/iv_vote2"
-                android:layout_toRightOf="@id/iv_vote1"
+                android:layout_toStartOf="@id/iv_vote2"
+                android:layout_toEndOf="@id/iv_vote1"
                 android:orientation="horizontal">
 
                 <RelativeLayout
@@ -246,14 +249,14 @@
                 android:scaleX="-1"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 app:dots_secondary_color="@color/back_shade2"/>
 
             <!--<ImageView-->
                 <!--android:id="@+id/iv_vote2"-->
                 <!--android:layout_width="36dp"-->
                 <!--android:layout_height="36dp"-->
-                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_alignParentEnd="true"-->
                 <!--android:layout_gravity="end"-->
                 <!--android:padding="5dp"-->
                 <!--android:src="@drawable/icon_sportreg_black" />-->

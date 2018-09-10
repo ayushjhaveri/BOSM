@@ -21,12 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rl_stall"
-        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp"
         android:layout_alignTop="@+id/rl_stall"
         android:alpha=".80"
         app:cardElevation="6dp"
-        android:layout_marginRight="36dp"
-        android:layout_toRightOf="@+id/rl_stall"
+        android:layout_marginEnd="36dp"
+        android:layout_toEndOf="@+id/rl_stall"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="20.5dp">
 
@@ -200,7 +200,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
 
@@ -234,7 +234,7 @@
                         android:layout_height="wrap_content">
 
                         <android.support.v7.widget.CardView
-                            android:layout_toLeftOf="@+id/tv_question_header"
+                            android:layout_toStartOf="@+id/tv_question_header"
                             android:layout_marginEnd="14dp"
                             android:visibility="visible"
                             android:id="@+id/timer_view"
@@ -296,8 +296,8 @@
                         <TextView 
                             android:paddingTop="12dp"
                             android:paddingBottom="12dp"
-                            android:paddingLeft="6dp"
-                            android:paddingRight="6dp"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
                             android:id="@+id/tv_question"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -318,8 +318,8 @@
                         android:layout_marginTop="20dp"
                         app:cardBackgroundColor="@color/back_shade4"
                         android:clickable="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="4dp">
 
@@ -344,8 +344,8 @@
                         android:layout_marginTop="20dp"
                         app:cardBackgroundColor="@color/back_shade4"
                         android:clickable="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="4dp">
 
@@ -369,8 +369,8 @@
                         android:layout_marginTop="20dp"
                         app:cardBackgroundColor="@color/back_shade4"
                         android:clickable="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         app:cardCornerRadius="20dp"
                         app:cardElevation="4dp">
 
@@ -396,8 +396,8 @@
                         android:layout_marginTop="20dp"
                         app:cardBackgroundColor="@color/back_shade4"
                         android:clickable="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         app:cardCornerRadius="20dp"
                         android:layout_marginBottom="20dp"
                         app:cardElevation="4dp">

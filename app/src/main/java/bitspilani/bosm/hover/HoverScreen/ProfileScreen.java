@@ -20,10 +20,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,55 +50,61 @@ import io.mattcarroll.hover.Content;
 /**
  * A screen that is displayed in our Hello World Hover Menu.
  */
-public class ProfileScreen implements Content {
+public class ProfileScreen extends Fragment{
 
     private static final String TAG = "Profile";
-    private final Context mContext;
-    private final View mWholeScreen;
     private LayoutInflater inflater;
 
     public static ImageView iv_qr ;
-
-    public ProfileScreen(@NonNull Context context) {
-        mContext = context;
-        inflater = LayoutInflater.from(context);
-        mWholeScreen = createScreenView();
-
-    }
-
-
     private FirebaseUser user;
 
-    @NonNull
-    private View createScreenView() {
-        @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_profile, null, false);
+    public ProfileScreen(){}
 
-        iv_qr = (ImageView) wholeScreen.findViewById(R.id.iv_qr);
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.layout_hover_profile, null, false);
+
+        iv_qr = (ImageView) view.findViewById(R.id.iv_qr);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user==null){
-            return wholeScreen;
+            return view;
         }
 
-        ((TextView)wholeScreen.findViewById(R.id.tv_email)).setText(user.getEmail());
-        ((TextView)wholeScreen.findViewById(R.id.tv_name)).setText(user.getDisplayName());
+        ((TextView)view.findViewById(R.id.tv_email)).setText(user.getEmail());
+        ((TextView)view.findViewById(R.id.tv_name)).setText(user.getDisplayName());
         //implement contents of layout
 
-        return wholeScreen;
+        return view;
     }
+
+
+
+//    @NonNull
+//    private View createScreenView() {
+//        @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_profile, null, false);
+//
+//
+//
+//        user = FirebaseAuth.getInstance().getCurrentUser();
+//        if(user==null){
+//            return wholeScreen;
+//        }
+//
+//        ((TextView)wholeScreen.findViewById(R.id.tv_email)).setText(user.getEmail());
+//        ((TextView)wholeScreen.findViewById(R.id.tv_name)).setText(user.getDisplayName());
+//        //implement contents of layout
+//
+//        return wholeScreen;
+//    }
 
     // Make sure that this method returns the SAME View.  It should NOT create a new View each time
     // that it is invoked.
-    @NonNull
-    @Override
-    public View getView() {
-        return mWholeScreen;
-    }
 
-    @Override
-    public boolean isFullscreen() {
-        return true;
-    }
+
 
     public static void setQR(final String qr){
         @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
@@ -108,21 +117,12 @@ public class ProfileScreen implements Content {
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 Bitmap bitmap = (Bitmap)o;
-                iv_qr.setImageBitmap(bitmap);
+//                iv_qr.setImageBitmap(bitmap);
             }
         };
         asyncTask.execute();
     }
 
-    @Override
-    public void onShown() {
-        // No-op.
-    }
 
-    @Override
-    public void onHidden() {
-        // No-op.
-//        listenerRegistration.remove();
-    }
 
 }

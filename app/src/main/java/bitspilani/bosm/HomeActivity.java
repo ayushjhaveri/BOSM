@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +41,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
+
+import bitspilani.bosm.fragments.EventFragment;
 import bitspilani.bosm.fragments.GameFragment;
 import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.fragments.PhotoFragment;
@@ -66,7 +73,7 @@ public class HomeActivity extends AppCompatActivity
 
     //    public static Toolbar toolbar;
 //    ImageButton ib_cart;
-    FragmentManager fm;
+    static FragmentManager fm;
     DrawerLayout drawer;
     LinearLayout ll_dots;
     private FirebaseUser user;
@@ -107,13 +114,29 @@ public class HomeActivity extends AppCompatActivity
         listenerRegistration.remove();
     }
 
+
+    public static FragmentManager getSFM(){
+        return fm;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        if(getIntent().getExtras()   != null) {
+            if (getIntent().getStringExtra("NOTIFICATIONS").equals("1"))
+                loadFrag(new EventFragment(), "notify_event", fm);
+            else if (getIntent().getStringExtra("NOTIFICATIONS").equals("2"))
+                loadFrag(new SportFragment(), "notify_score", fm);
+        }
+
+
         //checking service
         FirebaseApp.initializeApp(this);
+
+
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();

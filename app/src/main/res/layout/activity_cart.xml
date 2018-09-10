@@ -17,7 +17,7 @@
         android:id="@+id/rl_stall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:alpha=".9"
         app:cardElevation="6dp"
         android:layout_marginTop="@dimen/header_top_margin"
@@ -37,11 +37,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rl_stall"
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:layout_alignTop="@+id/rl_stall"
         android:alpha=".9"
         app:cardElevation="6dp"
-        android:layout_marginRight="64dp"
+        android:layout_marginEnd="64dp"
         android:layout_toRightOf="@+id/rl_stall"
         app:cardBackgroundColor="@color/back_shade4"
         app:cardCornerRadius="20dp">
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
+            android:paddingStart="12dp"
             android:paddingTop="4dp"
             android:text="Cart"
             android:textColor="@color/background2"
@@ -69,16 +69,21 @@
     <!--android:layout_height="3dp"-->
     <!--android:background="@drawable/bottom_shadow"/>-->
 
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="140dp"
         android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:overScrollMode="never"
+        android:paddingBottom="140dp"
         android:paddingTop="105dp"></android.support.v7.widget.RecyclerView>
+</RelativeLayout>
 
     <ImageButton
         android:id="@+id/ib_pay"
@@ -87,8 +92,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="64dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:background="@drawable/circular_imageview3"
         android:elevation="8dp"
         android:padding="16dp"
@@ -98,16 +103,13 @@
         android:alpha="0.9"/>
 
 
+
     <TextView
         android:id="@+id/tv_items"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone" />
 
-    <RelativeLayout
-        android:id="@+id/rl_empty_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></RelativeLayout>
 
 
     <android.support.design.widget.FloatingActionButton
@@ -118,7 +120,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="64dp"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:background="@color/background2"
         android:elevation="8dp"
         app:backgroundTint="@color/background2"
@@ -131,13 +133,13 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="56dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
         android:background="@drawable/round_template"
         android:elevation="9dp"
         android:paddingBottom="1dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:paddingTop="1dp"
         android:text="--"
         android:textColor="@color/back_shade4"
@@ -164,5 +166,49 @@
         android:layout_height="72dp"
         android:rotation="180"
         android:background="@drawable/top_gradient"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_wifi"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_wifi"
+            android:tint="@color/empty_layout_color"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_below="@id/iv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Items in your cart"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/empty_layout_color"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_below="@id/tv_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Your cart may be empty or there is a problem with your internet connection."
+            android:gravity="center"
+            android:textColor="@color/empty_layout_color"
+            android:textSize="16sp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

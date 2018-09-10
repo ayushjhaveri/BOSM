@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,12 +59,19 @@ import nl.dionsegijn.steppertouch.StepperTouch;
 public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
 
     private  Context context;
+    private ProgressBar progressBar;
     private static DecimalFormat df2 = new DecimalFormat("0.00");
-    public AdapterFoods(Context context,Query query) {
+    public AdapterFoods(Context context,Query query, ProgressBar progressBar) {
         super(query);
         this.context=context;
+        this.progressBar=progressBar;
     }
 
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     public AdapterFoods.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

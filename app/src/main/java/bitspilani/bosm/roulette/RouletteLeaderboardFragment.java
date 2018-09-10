@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ public class RouletteLeaderboardFragment extends Fragment {
 
     private AdapterRouletteLeaderboard mAdapter;
     RecyclerView recyclerView;
+    private ProgressBar progressBar;
 
     public RouletteLeaderboardFragment() {
         HomeActivity.currentFragment="RouletteHomeFragment";
@@ -53,7 +55,8 @@ public class RouletteLeaderboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_roulette_leaderboard, container, false);
-
+        progressBar=(ProgressBar)rootView.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view) ;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -67,7 +70,7 @@ public class RouletteLeaderboardFragment extends Fragment {
 
 
         Query query = db.collection("user");
-        mAdapter = new AdapterRouletteLeaderboard(getContext(),query);
+        mAdapter = new AdapterRouletteLeaderboard(getContext(),query, progressBar);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

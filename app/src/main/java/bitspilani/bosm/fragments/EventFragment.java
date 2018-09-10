@@ -1,8 +1,10 @@
 package bitspilani.bosm.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +53,7 @@ import bitspilani.bosm.adapters.AdapterCurrentSport;
 import bitspilani.bosm.adapters.AdapterEvents;
 import bitspilani.bosm.items.ItemEvent;
 import bitspilani.bosm.items.ItemMatch;
+import bitspilani.bosm.utils.Constant;
 
 import static com.android.volley.VolleyLog.TAG;
 import static com.android.volley.VolleyLog.v;
@@ -59,6 +63,7 @@ public class EventFragment extends Fragment {
     AdapterEvents adapterEvents;
     ArrayList<ItemEvent> eventsArrayList;
     private ProgressBar progressBar;
+    RelativeLayout rl_filled, rl_empty;
 
     public EventFragment(){
         HomeActivity.currentFragment="aaaaaaaa";
@@ -80,13 +85,49 @@ public class EventFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
         context = getContext();
+        rl_filled = (RelativeLayout)view.findViewById(R.id.rl_filled);
+        rl_empty = (RelativeLayout)view.findViewById(R.id.rl_empty);
+        rl_filled.setVisibility(View.VISIBLE);
+        rl_empty.setVisibility(View.GONE);
+
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.VISIBLE);
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
 
         tv_header.setTypeface(oswald_regular);
+
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    Thread.sleep(Constant.sleep);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(progressBar.getVisibility()==View.VISIBLE){
+                    rl_filled.setVisibility(View.GONE);
+                    rl_empty.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        asyncTask.execute();
 
         tv_header.setOnClickListener(new View.OnClickListener() {
             @Override

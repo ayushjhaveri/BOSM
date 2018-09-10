@@ -11,7 +11,7 @@
         android:padding="15dp"
         android:textSize="17sp"
         android:textColor="#fff"
-        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
         android:textStyle="bold"
         />
 

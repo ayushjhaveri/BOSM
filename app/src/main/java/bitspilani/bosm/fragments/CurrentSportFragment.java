@@ -1,6 +1,8 @@
 package bitspilani.bosm.fragments;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +41,8 @@ public class    CurrentSportFragment extends Fragment {
     AdapterCurrentSport adapterCurrentSport;
     HashMap<String, Integer> map;
     private int gender;
-
+    RelativeLayout rl_filled, rl_empty;
+    private Context context;
 
     public static CurrentSportFragment newInstance(int param1) {
         CurrentSportFragment fragment = new CurrentSportFragment();
@@ -49,6 +53,8 @@ public class    CurrentSportFragment extends Fragment {
     }
 
     ProgressBar progressBar;
+
+
 //    public static void viewLoader(boolean is){
 //        if(is){
 //           progressBar.setVisibility(View.VISIBLE);
@@ -73,12 +79,18 @@ public class    CurrentSportFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_current_sport, container, false);
+        context=getContext();
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 //        viewLoader(true);
-//        Toast.makeText(getContext(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
         //Firestore data retrieval
 
-        AsyncTask asyncTask = new AsyncTask() {
+        rl_filled = (RelativeLayout)view.findViewById(R.id.rl_filled);
+        rl_empty = (RelativeLayout)view.findViewById(R.id.rl_empty);
+        rl_filled.setVisibility(View.VISIBLE);
+        rl_empty.setVisibility(View.GONE);
+
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -90,7 +102,7 @@ public class    CurrentSportFragment extends Fragment {
             protected Object doInBackground(Object[] objects) {
 
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(Constant.sleep);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -100,15 +112,16 @@ public class    CurrentSportFragment extends Fragment {
             @Override
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
+                if(progressBar.getVisibility()==View.VISIBLE){
+                    rl_filled.setVisibility(View.GONE);
+                    rl_empty.setVisibility(View.VISIBLE);
+                }
                 progressBar.setVisibility(View.GONE);
-//                fkgmdlmdfkl/
-
             }
         };
-
         asyncTask.execute();
 
-        FirebaseApp.initializeApp(getContext());
+        FirebaseApp.initializeApp(context);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 

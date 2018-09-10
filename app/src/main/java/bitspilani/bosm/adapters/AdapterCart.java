@@ -219,7 +219,7 @@ public class AdapterCart extends FirestoreAdapter<AdapterCart.ViewHolder> {
 //            protected void onPreExecute() {
 //                CartActivity.progressBar.setVisibility(View.VISIBLE);
 //                super.onPreExecute();
-//            }
+//            }3F:C8:70:E2:BC:17:D3:E9:30:01:CD:97:CA:55:A0:5C:41:A4:C7:15
 //
 //            @Override
 //            protected void onPostExecute(String s) {

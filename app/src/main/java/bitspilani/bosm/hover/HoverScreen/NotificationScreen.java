@@ -16,8 +16,14 @@
 package bitspilani.bosm.hover.HoverScreen;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,7 +31,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterEvents;
 import bitspilani.bosm.adapters.AdapterNotifications;
@@ -41,6 +49,8 @@ public class NotificationScreen implements Content {
     private final Context mContext;
     private final View mWholeScreen;
     private LayoutInflater inflater;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     public NotificationScreen(@NonNull Context context) {
         mContext = context.getApplicationContext();
@@ -51,157 +61,55 @@ public class NotificationScreen implements Content {
 
     @NonNull
     private View createScreenView() {
-        @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_notification, null, false);
+        @SuppressLint("InflateParams")
+            View wholeScreen = inflater.inflate(R.layout.activity_hover, null, false);
         //implement contents of layout
 
-        RecyclerView recyclerView = (RecyclerView)wholeScreen.findViewById(R.id.recycler_notifications);
-        ArrayList<ItemNotification> notificationArrayList  = new ArrayList<>();
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-        notificationArrayList.add(new ItemNotification(
-                "Bits Pilani v/s Bits Goa",
-                "The Football Match at Gym G will start in 20 minutes",
-                "20th Sep",
-                "18:00"
-        ));
-
-
-
-        AdapterNotifications adapterNotifications = new AdapterNotifications(mContext,notificationArrayList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapterNotifications);
-
-
+//        viewPager = (ViewPager) wholeScreen.findViewById(R.id.viewpager);
+//        setupViewPager(viewPager);
+//
+//        tabLayout = (TabLayout) wholeScreen.findViewById(R.id.tabs);
+//        tabLayout.setupWithViewPager(viewPager);
 
         return wholeScreen;
     }
 
+//    private void setupViewPager(ViewPager viewPager) {
+//        ViewPagerAdapter adapter = new ViewPagerAdapter(HomeActivity.getSFM());
+//        adapter.addFragment(new ProfileScreen(), "Profile");
+//        adapter.addFragment(new ProfileScreen(), "Updates");
+////        adapter.addFragment(new ThreeFragment(), "THREE");
+//        viewPager.setAdapter(adapter);
+//    }
+//
+//    class ViewPagerAdapter extends FragmentPagerAdapter {
+//        private final List<Fragment> mFragmentList = new ArrayList<>();
+//        private final List<String> mFragmentTitleList = new ArrayList<>();
+//
+//        public ViewPagerAdapter(FragmentManager manager) {
+//            super(manager);
+//        }
+//
+//        @Override
+//        public Fragment getItem(int position) {
+//            return mFragmentList.get(position);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mFragmentList.size();
+//        }
+//
+//        public void addFragment(Fragment fragment, String title) {
+//            mFragmentList.add(fragment);
+//            mFragmentTitleList.add(title);
+//        }
+//
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return mFragmentTitleList.get(position);
+//        }
+//    }
     // Make sure that this method returns the SAME View.  It should NOT create a new View each time
     // that it is invoked.
     @NonNull

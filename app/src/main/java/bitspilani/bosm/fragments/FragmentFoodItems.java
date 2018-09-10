@@ -2,6 +2,7 @@ package bitspilani.bosm.fragments;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -57,6 +58,7 @@ import bitspilani.bosm.utils.Constant;
 public class FragmentFoodItems extends Fragment {
 
 
+    private ProgressBar progressBar;
     private static final String TAG = "FragmentFoodItems";
 
     public FragmentFoodItems() {
@@ -67,16 +69,19 @@ public class FragmentFoodItems extends Fragment {
     ImageButton ib_cart;
     TextView tv_stall_name;
     AdapterFoods adapterFoods;
+    private Context context;
 
     @SuppressLint("StaticFieldLeak")
-    public static ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_food_items, container, false);
+
+        context = getContext();
         init(rootView);
+
 
         tv_stall_name.setText(Constant.CURRENT_STALL_NAME);
 
@@ -89,7 +94,7 @@ public class FragmentFoodItems extends Fragment {
 
         Query mQuery = db.collection("food_items").whereEqualTo("stall_id",Constant.CURRENT_STALL_ID);
 
-        adapterFoods = new AdapterFoods(getActivity(),mQuery);
+        adapterFoods = new AdapterFoods(getActivity(),mQuery, progressBar);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -105,9 +110,8 @@ public class FragmentFoodItems extends Fragment {
 
         tv_stall_name = (TextView)rootView.findViewById(R.id.tv_stall_name);
         progressBar=(ProgressBar) rootView.findViewById(R.id.progressBar);
-        Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
         tv_stall_name.setTypeface(oswald_regular);
-
 
         //imagebutton for cart
         ib_cart = (ImageButton) rootView.findViewById(R.id.ib_cart);
@@ -128,8 +132,6 @@ public class FragmentFoodItems extends Fragment {
         });
 
     }
-
-
 
     @Override
     public void onStart() {

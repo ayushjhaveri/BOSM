@@ -85,8 +85,8 @@
         <View
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
             android:id="@+id/view_12"
             android:layout_below="@+id/rl_title2"
             android:layout_width="match_parent"
@@ -261,6 +261,18 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxLength="15"/>
+
+                <ImageView
+                    android:layout_alignBottom="@+id/tv_date"
+                    android:id="@+id/iv_map"
+                    android:src="@drawable/map_stad"
+                    android:tint="@color/back_shade2"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"/>
+
+
 
 
             </RelativeLayout>

@@ -29,12 +29,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rl_stall"
-        android:layout_marginLeft="64dp"
+        android:layout_marginStart="64dp"
         android:layout_alignTop="@+id/rl_stall"
         android:alpha=".90"
         app:cardElevation="6dp"
-        android:layout_marginRight="64dp"
-        android:layout_toRightOf="@+id/rl_stall"
+        android:layout_marginEnd="64dp"
+        android:layout_toEndOf="@+id/rl_stall"
         app:cardBackgroundColor="@color/background2"
         app:cardCornerRadius="20.5dp">
 

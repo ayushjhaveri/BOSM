@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,6 +32,7 @@ public class RouletteMainFragment extends Fragment {
     private ArrayList<ItemRoulette> rouletteArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private AdapterRoulette mAdapter;
+    private ProgressBar progressBar;
 
     public RouletteMainFragment() {
         // Required empty public constructor
@@ -50,6 +52,8 @@ public class RouletteMainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_roulette_main, container, false);
+        progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_roulette);
 
@@ -62,7 +66,7 @@ public class RouletteMainFragment extends Fragment {
 
         Query query = db.collection("scores").whereEqualTo("item_type",1).whereEqualTo("match_type",1).whereEqualTo("is_roulette",true).orderBy("timestamp");
 
-        mAdapter = new AdapterRoulette(getContext(),query);
+        mAdapter = new AdapterRoulette(getContext(),query, progressBar);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

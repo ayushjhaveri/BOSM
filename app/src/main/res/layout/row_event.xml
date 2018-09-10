@@ -31,7 +31,7 @@
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_marginLeft="@dimen/event_horzontal"
+                    android:layout_marginStart="@dimen/event_horzontal"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
@@ -50,8 +50,8 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="9dp"
                         android:paddingTop="9dp"
-                        android:paddingRight="14dp"
-                        android:paddingLeft="14dp"
+                        android:paddingEnd="14dp"
+                        android:paddingStart="14dp"
                         android:textColor="@color/back_shade4"
                         android:text="Street Football"
                         android:textSize="27dp"
@@ -59,7 +59,7 @@
                 </android.support.v7.widget.CardView>
 
                 <View
-                    android:layout_marginRight="@dimen/event_horzontal"
+                    android:layout_marginEnd="@dimen/event_horzontal"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_gravity="center_vertical"
@@ -98,8 +98,8 @@
 
             <RelativeLayout
                 android:layout_below="@id/tv_info"
-                android:paddingRight="@dimen/event_horzontal"
-                android:paddingLeft="@dimen/event_horzontal"
+                android:paddingEnd="@dimen/event_horzontal"
+                android:paddingStart="@dimen/event_horzontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -179,8 +179,8 @@
                 android:textStyle="bold"/>
 
             <RelativeLayout
-                android:paddingRight="@dimen/event_horzontal"
-                android:paddingLeft="@dimen/event_horzontal"
+                android:paddingEnd="@dimen/event_horzontal"
+                android:paddingStart="@dimen/event_horzontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">

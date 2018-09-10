@@ -1,6 +1,7 @@
 package bitspilani.bosm.fragments;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,6 +32,7 @@ public class PhotoFragment extends Fragment {
         HomeActivity.currentFragment = "PhotoFragment";
     }
 
+    Context context;
     RecyclerView recyclerView;
     AdapterPhotos mAdapter;
     ArrayList<String> phototUrlArrayList = new ArrayList<>();
@@ -45,6 +48,12 @@ public class PhotoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        context = getContext();
+
+        TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+
+        tv_header.setTypeface(oswald_regular);
 
 
 //        String pattern = "https://drive.google.com/drive/u/1/folders/1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj"
@@ -86,7 +95,7 @@ public class PhotoFragment extends Fragment {
 
 
 
-        mAdapter = new AdapterPhotos(getContext(),phototUrlArrayList);
+        mAdapter = new AdapterPhotos(context,phototUrlArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

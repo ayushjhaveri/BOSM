@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,12 +32,19 @@ import bitspilani.bosm.utils.Constant;
 public class AdapterOrder extends FirestoreAdapter<AdapterOrder.ViewHolder>  {
 
     private Context context;
-    DecimalFormat df = new DecimalFormat("#.00");
-    public AdapterOrder(Context context, Query query) {
+    private ProgressBar progressBar;
+    DecimalFormat df = new DecimalFormat("0.00");
+    public AdapterOrder(Context context, Query query, ProgressBar progressBar) {
         super(query);
         this.context=context;
+        this.progressBar=progressBar;
     }
 
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     public AdapterOrder.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -28,7 +28,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:layout_gravity="center_vertical"
             android:textColor="@android:color/white"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:textSize="30sp"
             android:text="Spin n Earn"/>
     </LinearLayout>
@@ -39,7 +39,6 @@
         android:layout_height="60dp"
         android:padding="5dp"
         android:layout_alignTop="@+id/mid"
-        android:layout_toLeftOf="@+id/mid"
         android:layout_toStartOf="@+id/mid"
         android:elevation="5dp"
         android:background="#424242"
@@ -65,7 +64,6 @@
         android:layout_height="60dp"
         android:padding="5dp"
         android:layout_alignTop="@+id/mid"
-        android:layout_toRightOf="@+id/mid"
         android:layout_toEndOf="@+id/mid"
         android:background="#424242"
         android:elevation="5dp"
@@ -88,9 +86,8 @@
         android:id="@+id/tvWon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/bSpin"
+
         android:layout_alignStart="@+id/bSpin"
-        android:layout_alignRight="@+id/bSpin"
         android:layout_alignEnd="@+id/bSpin"
         android:layout_alignTop="@+id/bSpin"
         android:layout_alignBottom="@+id/bSpin"

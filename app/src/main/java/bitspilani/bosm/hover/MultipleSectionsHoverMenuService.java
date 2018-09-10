@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import bitspilani.bosm.hover.HoverScreen.MyScheduleScreen;
 import bitspilani.bosm.hover.HoverScreen.NotificationScreen;
 import bitspilani.bosm.hover.HoverScreen.ProfileScreen;
 import io.mattcarroll.hover.HoverMenu;
@@ -78,17 +77,7 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
                             new SectionId("1"),
                             createTabView(),
                             new NotificationScreen(mContext)
-                    ),
-                    new Section(
-                            new SectionId("2"),
-                            createTabView(),
-                            new ProfileScreen(mContext)
-                    ),
-                    new Section(
-                            new SectionId("3"),
-                            createTabView(),
-                            new MyScheduleScreen(mContext)
-                    )
+                    )//
             );
         }
 

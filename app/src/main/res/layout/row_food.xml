@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/border_shadow"
         android:padding="12dp">
@@ -23,7 +23,7 @@
             <ImageView
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/circular_imageview5" />
 
@@ -33,15 +33,15 @@
                 android:textColor="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp"
                 android:layout_marginTop="8dp"
-                android:layout_toLeftOf="@+id/iv_remove"
+                android:layout_toStartOf="@+id/iv_remove"
                 android:fontFamily="sans-serif"
                 android:maxLines="1"
                 android:text="Pepper Pizza Cheese Loaded" />
 
             <!--<TextView-->
-            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_marginStart="5dp"-->
             <!--android:id="@+id/tv_price_tag"-->
             <!--android:layout_below="@id/tv_name"-->
             <!--android:padding="5dp"-->
@@ -56,10 +56,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_food_name"
                 android:textColor="#bbeeeeee"
-                android:layout_marginLeft="36dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="5dp"
-                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
                 android:text="5000"/>
 
             <!---->
@@ -69,8 +69,8 @@
                 <!--android:layout_height="1dp"-->
                 <!--android:layout_below="@id/tv_price"-->
                 <!--android:layout_marginBottom="10dp"-->
-                <!--android:layout_marginLeft="36dp"-->
-                <!--android:layout_marginRight="14dp"-->
+                <!--android:layout_marginStart="36dp"-->
+                <!--android:layout_marginEnd="14dp"-->
                 <!--android:layout_marginTop="10dp"-->
                 <!--android:background="@drawable/line_gradient" />-->
 
@@ -82,10 +82,10 @@
         android:id="@+id/ib_add"
         android:layout_width="44dp"
         android:layout_height="44dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_below="@+id/cv_1"
         android:layout_marginBottom="3dp"
-        android:layout_marginRight="58dp"
+        android:layout_marginEnd="58dp"
         android:layout_marginTop="-30dp"
         android:background="@drawable/circular_imageview4"
         android:elevation="8dp"

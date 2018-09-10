@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="0dp"
     app:cardCornerRadius="5dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     app:cardBackgroundColor="@android:color/transparent"
@@ -30,7 +30,7 @@
                 android:id="@+id/ivLogo"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginRight="14dp"
+                android:layout_marginEnd="14dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/basketball"/>
 
@@ -40,7 +40,6 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="3dp"
                 android:tint="#eeeeee"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/star_100"/>
 
@@ -48,7 +47,7 @@
                 android:id="@+id/tv_sport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/ivLogo"
+                android:layout_toEndOf="@id/ivLogo"
                 android:text="Badminton"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="17sp" />
@@ -56,11 +55,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_toRightOf="@id/ivLogo"
+                android:layout_toEndOf="@id/ivLogo"
                 android:layout_marginTop="5dp"
-                android:layout_toLeftOf="@id/star"
+                android:layout_toStartOf="@id/star"
                 android:layout_below="@+id/tv_sport"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/line_gradient"/>
 
             <TextView
@@ -69,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_sport"
-                android:layout_toRightOf="@id/ivLogo"
+                android:layout_toEndOf="@id/ivLogo"
                 android:paddingTop="2dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:text="Men's Doubles" />
@@ -80,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_round"
                 android:layout_marginTop="4dp"
-                android:layout_toRightOf="@id/ivLogo">
+                android:layout_toEndOf="@id/ivLogo">
 
                 <TextView
                     android:id="@+id/tv_date_time"
@@ -94,9 +93,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/tv_date_time"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginRight="00dp"
+                    android:layout_marginEnd="00dp"
                     android:text="Pending"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -107,18 +105,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rrDate"
-                android:layout_toRightOf="@id/ivLogo"
+                android:layout_toEndOf="@id/ivLogo"
                 android:layout_marginTop="4dp">
 
                 <TextView
                     android:id="@+id/tv_college1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_toLeftOf="@id/center"
-                    android:layout_toStartOf="@+id/center"
-                    android:gravity="left"
+                    android:layout_toStartOf="@id/center"
+                    android:gravity="start"
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:text="college 1"
@@ -131,8 +127,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="vs"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="2dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <TextView
@@ -142,10 +138,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_toRightOf="@id/center"
-                    android:layout_toEndOf="@+id/center"
-                    android:gravity="right"
+                    android:layout_toEndOf="@id/center"
+                    android:gravity="end"
                     android:text="college 2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

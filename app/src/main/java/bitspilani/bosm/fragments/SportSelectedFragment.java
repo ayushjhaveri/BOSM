@@ -1,5 +1,6 @@
 package bitspilani.bosm.fragments;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,7 +41,7 @@ import devlight.io.library.ntb.NavigationTabBar;
 public class SportSelectedFragment extends Fragment {
 
 //    FragmentManager fragmentManager = getChildFragmentManager();
-
+    Context context;
     public static ViewPager vpPagerSport;
     public SportSelectedFragment() {
         // Required empty public constructor
@@ -52,7 +53,13 @@ public class SportSelectedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_selected_sport, container, false);   Toast.makeText(getContext(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+        View v = inflater.inflate(R.layout.fragment_selected_sport, container, false);
+
+        context = getContext();
+
+//        Toast.makeText(context, HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+
+
 
         HomeActivity.currentFragment = "SportSelectedFragment";
 
@@ -62,14 +69,14 @@ public class SportSelectedFragment extends Fragment {
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.boy), ContextCompat.getColor(getContext(), R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.boys), ContextCompat.getColor(context, R.color.back_shade1)
                 )
                         .badgeTitle("Boys")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.girl), ContextCompat.getColor(getContext(), R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.girls), ContextCompat.getColor(context, R.color.back_shade1)
                 ).badgeTitle("Girls")
                         .build()
         );

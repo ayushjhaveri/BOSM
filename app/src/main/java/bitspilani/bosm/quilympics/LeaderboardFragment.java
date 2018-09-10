@@ -1,5 +1,6 @@
 package bitspilani.bosm.quilympics;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ public class LeaderboardFragment extends Fragment {
 
     private AdapterQuilympicsLeaderboard mAdapter;
     RecyclerView recyclerView;
+    Context context;
 
     public LeaderboardFragment() {
         // Required empty public constructor
@@ -42,6 +44,8 @@ public class LeaderboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_quilympics_leaderboard, container, false);
 
+        context = getContext();
+
         recyclerView = (RecyclerView)rootView.findViewById(R.id.recycler_view) ;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -52,7 +56,7 @@ public class LeaderboardFragment extends Fragment {
         tv_header.setTypeface(oswald_regular);
 
         Query query = db.collection("user").orderBy("quilympics_score");
-        mAdapter = new AdapterQuilympicsLeaderboard(getContext(),query);
+        mAdapter = new AdapterQuilympicsLeaderboard(context,query);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -65,7 +65,7 @@
 
         <RelativeLayout
             android:id="@+id/main"
-            android:layout_toLeftOf="@+id/icons"
+            android:layout_toStartOf="@+id/icons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -98,8 +98,8 @@
         <View
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
             android:id="@+id/view_12"
             android:layout_below="@+id/rl_title2"
             android:layout_width="match_parent"
@@ -122,8 +122,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     android:id="@+id/tv_gold_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -134,8 +134,8 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
                 <TextView
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -144,8 +144,8 @@
                     android:textColor="@color/gold"
                     android:textSize="10sp" />
                 <TextView
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     android:id="@+id/tv_gold_score"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -169,8 +169,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:id="@+id/tv_silver_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -181,8 +181,8 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -191,8 +191,8 @@
                         android:textColor="@color/silver"
                         android:textSize="10sp" />
                     <TextView
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:id="@+id/tv_silver_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -210,8 +210,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:id="@+id/tv_bronze_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -222,8 +222,8 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -232,8 +232,8 @@
                         android:textColor="@color/bronze"
                         android:textSize="10sp" />
                     <TextView
-                        android:paddingLeft="12dp"
-                        android:paddingRight="12dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
                         android:id="@+id/tv_bronze_score"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -349,6 +349,16 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:maxLength="15"/>
+
+                <ImageView
+                    android:layout_alignBottom="@+id/tv_date"
+                    android:id="@+id/iv_map"
+                    android:src="@drawable/map_stad"
+                    android:tint="@color/back_shade2"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"/>
 
 
             </RelativeLayout>

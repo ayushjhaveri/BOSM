@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import static bitspilani.bosm.roulette.RouletteLeaderboardFragment.tv_rank;
 public class AdapterRouletteLeaderboard extends FirestoreAdapter<AdapterRouletteLeaderboard.LeaderboardViewHolder> {
 
     Context context;
+    private ProgressBar progressBar;
 
     private void showWalletDialog (int score, int bettingAmount) {
         final Dialog dialog = new Dialog(context);
@@ -60,16 +62,23 @@ public class AdapterRouletteLeaderboard extends FirestoreAdapter<AdapterRoulette
             tvEmail = (TextView) view.findViewById(R.id.tvEmail);
             container = (RelativeLayout) view.findViewById(R.id.container);
 
-//            tv_venue = (TextView)view.findViewById(R.id.tv_venue);
+//            tv_venue = (TextView)view.findViewById(R.id.tv_venue);super.onDataChanged();
 
 
         }
     }
 
 
-    public AdapterRouletteLeaderboard(Context context,Query query ){
+    public AdapterRouletteLeaderboard(Context context, Query query, ProgressBar progressBar){
         super(query);
         this.context = context;
+        this.progressBar=progressBar;
+    }
+
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

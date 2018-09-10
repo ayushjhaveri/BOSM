@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:paddingBottom="18dp"
-                android:paddingLeft="48dp"
+                android:paddingStart="48dp"
                 android:paddingTop="18dp"
                 android:text="Stall Name"
                 android:textColor="#fff"
@@ -40,9 +40,9 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="20dp"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
                 android:src="@drawable/icon_roight_arrow"
                 android:tint="#fff" />
 

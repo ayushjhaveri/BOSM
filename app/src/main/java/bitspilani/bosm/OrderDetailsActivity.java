@@ -34,7 +34,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class OrderDetailsActivity extends Fragment {
 
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
     AdapterOrder adapterOrder;
     private int orderUniqueId;
 
@@ -62,6 +62,8 @@ public class OrderDetailsActivity extends Fragment {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.activity_order_details, container, false);
         init(rootView);
+        progressBar.setVisibility(View.VISIBLE);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -76,7 +78,7 @@ public class OrderDetailsActivity extends Fragment {
 
         Query mQuery = db.collection("orders").document(user.getUid()).collection(String.valueOf(orderUniqueId));
 
-        adapterOrder = new AdapterOrder(getActivity(),mQuery);
+        adapterOrder = new AdapterOrder(getActivity(),mQuery, progressBar);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

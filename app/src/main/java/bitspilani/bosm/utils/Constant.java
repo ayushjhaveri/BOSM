@@ -58,6 +58,8 @@ public class Constant {
     public static int NOTIIFCATION_TYPE_SCORES = 2; //intent to events
     public static int NOTIIFCATION_TYPE_3 = 3; // donlt know
 
+    public static int sleep = 10000;
+
 
     public static void login(String email, SharedPreferences profieSharedPreferences){
         IS_LOGIN = true;

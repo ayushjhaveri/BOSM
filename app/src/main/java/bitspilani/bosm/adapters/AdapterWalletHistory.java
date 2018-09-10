@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,6 +50,8 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
         EventListener<QuerySnapshot> {
     private Query mQuery;
     private ListenerRegistration mRegistration;
+    private ProgressBar progressBar;
+
 
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
     private LayoutInflater inflater;
@@ -58,10 +61,11 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
 
 
 
-    public AdapterWalletHistory(Context context, Query query) {
+    public AdapterWalletHistory(Context context, Query query, ProgressBar progressBar) {
         inflater = LayoutInflater.from(context);
         this.mQuery = query;
         this.context=context;
+        this.progressBar=progressBar;
     }
 
 
@@ -166,7 +170,9 @@ public class AdapterWalletHistory extends BaseAdapter implements StickyListHeade
         Log.w(TAG, "onError", e);
     };
 
-    protected void onDataChanged() {}
+    protected void onDataChanged() {
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     public long getItemId(int position) {

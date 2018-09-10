@@ -3,6 +3,7 @@ package bitspilani.bosm.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,11 @@ public class ContactFragment extends Fragment {
         View rootView= inflater.inflate(R.layout.fragment_contact, container, false);
         context=getContext();
         activity =getActivity();
+
+        TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        tv_header.setTypeface(oswald_regular);
+
         //INTIALIZING
         post=new ArrayList<>();
         name=new ArrayList<>();
@@ -89,7 +96,7 @@ public class ContactFragment extends Fragment {
 
 
         //SETUP RECYCLER VIEW
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);

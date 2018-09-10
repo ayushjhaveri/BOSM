@@ -1,6 +1,8 @@
 package bitspilani.bosm.fragments;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -20,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,8 @@ public class StallFragment extends Fragment {
     private static final String TAG = "FragmentStall";
     AdapterStalls adapterStalls;
     private ProgressBar progressBar;
+    Context context;
+    RelativeLayout rl_filled, rl_empty;
 
     ImageButton ib_cart;
 
@@ -71,8 +76,18 @@ public class StallFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView =  inflater.inflate(R.layout.fragment_stall, container, false);
+
+        context = getContext();
         init(rootView);
 
+
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        rl_filled = (RelativeLayout)rootView.findViewById(R.id.rl_filled);
+        rl_empty = (RelativeLayout)rootView.findViewById(R.id.rl_empty);
+        rl_filled.setVisibility(View.VISIBLE);
+        rl_empty.setVisibility(View.GONE);
         //imagebutton for cart
         ib_cart = (ImageButton) rootView.findViewById(R.id.ib_cart);
         ib_cart.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +106,37 @@ public class StallFragment extends Fragment {
             }
         });
 
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    Thread.sleep(Constant.sleep);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(progressBar.getVisibility()==View.VISIBLE){
+                    rl_filled.setVisibility(View.GONE);
+                    rl_empty.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        asyncTask.execute();
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -99,7 +145,7 @@ public class StallFragment extends Fragment {
 
         Query mQuery = db.collection("stalls");
 
-        adapterStalls = new AdapterStalls(getActivity(),mQuery);
+        adapterStalls = new AdapterStalls(getActivity(),mQuery, progressBar);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -121,7 +167,7 @@ public class StallFragment extends Fragment {
         progressBar=(ProgressBar) rootView.findViewById(R.id.progressBar);
 
 
-        Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
         TextView tv_title = (TextView)rootView.findViewById(R.id.tv_stall);
         tv_title.setTypeface(oswald_regular);
 

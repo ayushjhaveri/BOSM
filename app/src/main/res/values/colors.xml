@@ -54,6 +54,7 @@
     <color name="shade4">#78bf33</color>
 
     <color name="light_gray">#66627f</color>
+    <color name="empty_layout_color">#66627f</color>
 
     <color name="orange_shade">#E64A19</color>
 

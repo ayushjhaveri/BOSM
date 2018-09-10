@@ -1,5 +1,6 @@
 package bitspilani.bosm;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -76,8 +77,8 @@ public class WalletActivity extends Fragment {
     private RelativeLayout relativeLayout_add_money;
     private ProgressBar progressBar, progressBar2;
     AdapterWalletHistory adapter;
-    private RelativeLayout rl_empty_layout;
     ImageButton ib_cart;
+    RelativeLayout rl_filled, rl_empty;
 
     FirebaseUser user;
     FirebaseFirestore db;
@@ -93,6 +94,41 @@ public class WalletActivity extends Fragment {
         init(view);
 
 //
+        progressBar.setVisibility(View.GONE);
+        progressBar2.setVisibility(View.VISIBLE);
+        rl_filled.setVisibility(View.VISIBLE);
+        rl_empty.setVisibility(View.GONE);
+
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    Thread.sleep(Constant.sleep);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(progressBar.getVisibility()==View.VISIBLE){
+                    rl_filled.setVisibility(View.GONE);
+                    rl_empty.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        asyncTask.execute();
 
         //cart button
         ib_cart.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +164,7 @@ public class WalletActivity extends Fragment {
 
         Query mQuery = db.collection("transactions").orderBy("timestamp", Query.Direction.DESCENDING).whereEqualTo("user_id",user.getUid());
 
-        adapter = new AdapterWalletHistory(getActivity(),mQuery);
+        adapter = new AdapterWalletHistory(getActivity(),mQuery, progressBar2);
         stickyList_history.setAdapter(adapter);
 
         textView_balance.setText(getResources().getString(R.string.Rs)+" --");
@@ -140,6 +176,7 @@ public class WalletActivity extends Fragment {
                         if(task.isSuccessful()){
                             double balance = Double.parseDouble(task.getResult().getData().get("wallet").toString());
                             textView_balance.setText(getResources().getString(R.string.Rs)+" "+df2.format(balance));
+                            progressBar.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -158,7 +195,8 @@ public class WalletActivity extends Fragment {
         relativeLayout_add_money = (RelativeLayout) view.findViewById(R.id.rl_2);
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         progressBar2 = (ProgressBar)view.findViewById(R.id.progressBar2);
-        rl_empty_layout= (RelativeLayout)view.findViewById(R.id.rl_empty_layout);
+        rl_empty= (RelativeLayout)view.findViewById(R.id.rl_empty);
+        rl_filled = (RelativeLayout)view.findViewById(R.id.rl_filled);
         ib_cart = (ImageButton) view.findViewById(R.id.ib_cart);
     }
 

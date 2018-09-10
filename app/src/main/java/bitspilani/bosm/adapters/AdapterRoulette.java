@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,10 +41,12 @@ import bitspilani.bosm.utils.Constant;
 public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteViewHolder> {
 
     Context context;
+    private ProgressBar progressBar;
     public class RouletteViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_sport, tv_date_time, tv_round, tv_college1, tv_college2, tv_status;
         ImageView star,ivLogo;
         RelativeLayout rl;
+
         public RouletteViewHolder(View view) {
             super(view);
             star = (ImageView) view.findViewById(R.id.star);
@@ -71,9 +74,16 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
 
 
-    public AdapterRoulette(Context context, Query mQuery) {
+    public AdapterRoulette(Context context, Query mQuery, ProgressBar progressBar) {
         super(mQuery);
         this.context = context;
+        this.progressBar=progressBar;
+    }
+
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override

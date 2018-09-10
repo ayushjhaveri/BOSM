@@ -52,4 +52,8 @@
         <item name="android:color">@color/back_shade2</item>
     </style>
 
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FF4081</item>
+    </style>
+
 </resources>

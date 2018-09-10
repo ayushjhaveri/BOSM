@@ -1,5 +1,7 @@
 package bitspilani.bosm;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -81,7 +83,8 @@ public class CartActivity extends Fragment {
     RecyclerView recyclerView;
     AdapterCart adapterCart;
     public TextView tv_total_price;
-    public RelativeLayout rl_empty_layout;
+
+
 
     ListenerRegistration listenerRegistration;
     private static DecimalFormat df2 = new DecimalFormat("0.00");
@@ -89,6 +92,8 @@ public class CartActivity extends Fragment {
     ImageButton ib_pay;
     FirebaseFirestore db;
     FirebaseUser user;
+    private Context context;
+    RelativeLayout rl_filled, rl_empty;
 
     public CartActivity(){
         HomeActivity.currentFragment = "CartActivity";
@@ -109,9 +114,14 @@ public class CartActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_cart, container, false);
         init(view);
 
+
         viewLoader(true);
+        rl_filled.setVisibility(View.VISIBLE);
+        rl_empty.setVisibility(View.GONE);
+
 
         Source s = Source.SERVER;
+        context = getContext();
 
         db = FirebaseFirestore.getInstance();
 
@@ -128,6 +138,37 @@ public class CartActivity extends Fragment {
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
         TextView tv_title = (TextView) view.findViewById(R.id.tv_cart);
         tv_title.setTypeface(oswald_regular);
+
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    Thread.sleep(Constant.sleep);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(progressBar.getVisibility()==View.VISIBLE){
+                    rl_filled.setVisibility(View.GONE);
+                    rl_empty.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        asyncTask.execute();
 
 
         //fab for wallet
@@ -153,7 +194,8 @@ public class CartActivity extends Fragment {
                                     final double balance = Double.parseDouble(task.getResult().getData().get("wallet").toString());
                                     final double order_total = Double.parseDouble(tv_total_price.getText().toString().substring(1));
                                     if (order_total == 0) {
-                                        Snackbar.make(view, "Cart is empty! PLease add an item", BaseTransientBottomBar.LENGTH_SHORT).show();
+//                                        Snackbar.make(view, "Cart is empty! PLease add an item", BaseTransientBottomBar.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Cart is empty! PLease add an item", Toast.LENGTH_SHORT).show();
                                     } else {
 
                                         AlertDialog.Builder builder;
@@ -305,7 +347,8 @@ public class CartActivity extends Fragment {
     private void init(View view) {
 //        toolbar = (Toolbar) findViewById(R.id.toolbar_top);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        rl_empty_layout = (RelativeLayout) view.findViewById(R.id.rl_empty_layout);
+        rl_filled = (RelativeLayout)view.findViewById(R.id.rl_filled);
+        rl_empty = (RelativeLayout) view.findViewById(R.id.rl_empty);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         tv_total_price = (TextView) view.findViewById(R.id.tv_total_price);
 //        tv_pay=(TextView) findViewById(R.id.tv_pay);

@@ -2,6 +2,7 @@ package bitspilani.bosm.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
@@ -48,6 +50,11 @@ public class SponsorsFragment extends Fragment {
         activity=getActivity();
         AdapterSponsors adapter = new AdapterSponsors(context,R.layout.row_sponsors,list,activity);
         list_spons.setAdapter(adapter);
+
+        TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+
+        tv_header.setTypeface(oswald_regular);
 
         return rootView;
     }

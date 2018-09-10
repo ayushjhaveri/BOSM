@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:paddingBottom="32dp">
+
+        <ImageView
+            android:id="@+id/iv_wifi"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_wifi"
+            android:tint="@color/empty_layout_color"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_below="@id/iv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Live Matches"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/empty_layout_color"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_below="@id/tv_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="There may be no live matches or there is a problem with your internet connection."
+            android:gravity="center"
+            android:textColor="@color/empty_layout_color"
+            android:textSize="16sp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -26,12 +26,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        sendNotification(remoteMessage.getNotification().getTitle(),
-                remoteMessage.getNotification().getBody(),
-                remoteMessage.getData().get("type"));
+        Log.d(TAG,remoteMessage.getData().toString());
+
+        sendNotification(
+                remoteMessage.getData().containsKey("title")?remoteMessage.getData().get("title"):"",
+                remoteMessage.getData().containsKey("body")?remoteMessage.getData().get("body"):"",
+                remoteMessage.getData().containsKey("type")?remoteMessage.getData().get("type"):"");
 
     }
-
 
 
     private void sendNotification(String title, String messageBody, String type) {

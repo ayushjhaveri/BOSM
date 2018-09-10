@@ -1,5 +1,6 @@
 package bitspilani.bosm;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -81,6 +82,7 @@ public class AddMoneyBActivity extends Fragment {
     String ORDER_ID = "";
     ImageButton ib_cart;
     static String amt_needed;
+    private Context context;
 
 
     FirebaseUser user;
@@ -120,6 +122,7 @@ public class AddMoneyBActivity extends Fragment {
                 loadFragment(new CartActivity());
             }
         });
+        context = getContext();
 
 
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -184,7 +187,8 @@ public class AddMoneyBActivity extends Fragment {
             @Override
             public void onClick(View view) {
                 if (editText_amount.getText().toString().isEmpty() || Double.parseDouble(editText_amount.getText().toString()) <= 0) {
-                    Snackbar.make(view, "Enter valid amount!", Snackbar.LENGTH_SHORT).show();
+//                    Snackbar.make(view, "Enter valid amount!", Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Enter valid amount!", Toast.LENGTH_SHORT).show();
                 } else {
 
                     if(user.getEmail().contains("pilani.bits-pilani.ac.in")){
@@ -212,7 +216,8 @@ public class AddMoneyBActivity extends Fragment {
 
                     }else{
                         //OUTSIDER
-                        Snackbar.make(view, "paytm not implemented!", Snackbar.LENGTH_SHORT).show();
+//                        Snackbar.make(view, "paytm not implemented!", Snackbar.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Paytm not implemented!", Toast.LENGTH_SHORT).show();
                     }
 
 

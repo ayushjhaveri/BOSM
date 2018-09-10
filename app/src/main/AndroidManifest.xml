@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="false"
@@ -20,24 +19,22 @@
             android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait"></activity>
 
         <service android:name=".hover.MultipleSectionsHoverMenuService" />
-
-
-        <service
-            android:name=".notification.MyFirebaseMessagingService">
+        <service android:name=".notification.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -47,13 +44,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA5DIinvpSidqmKbJu0FdnbNOQ8l-XIbiE" />
 
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
+        <!-- android:resource="@color/colorAccent" /> -->
 
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <!--<meta-data-->
-            <!--android:name="com.google.firebase.messaging.default_notification_color"-->
-            <!--android:resource="@color/colorAccent" />-->
-
+        <activity android:name=".hover.HoverScreen.HoverActivity"></activity>
     </application>
 
 </manifest>

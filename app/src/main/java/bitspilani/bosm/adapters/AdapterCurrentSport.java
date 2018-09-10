@@ -1,7 +1,9 @@
 package bitspilani.bosm.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -32,10 +35,12 @@ import java.util.Objects;
 //import bitspilani.bosm.CurrentSportActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.CurrentSportFragment;
+import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
 
 import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
+import static bitspilani.bosm.HomeActivity.loadFrag;
 import static bitspilani.bosm.HomeActivity.toTitleCase;
 import static com.github.florent37.viewtooltip.ViewTooltip.ALIGN.CENTER;
 //import static bitspilani.bosm.fragments.CurrentSportFragment.viewLoader;
@@ -51,13 +56,13 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
     private static final String TAG = "AdapterCart";
 
 
-    public static String hash;
+//    public static String hash;
     ProgressBar progressBar;
 
     public AdapterCurrentSport(Context context, Query query , ProgressBar progressBar) {
         super(query);
         this.context = context;
-        hash = "";
+//        hash = "";
         this.progressBar = progressBar;
     }
 
@@ -111,6 +116,8 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
         int matchType = document.contains("match_type")?Integer.parseInt(document.getData().get("match_type").toString()):1;
         boolean isResult = document.contains("is_result")?Boolean.parseBoolean(document.getData().get("is_result").toString()):false;
 
+        Toast.makeText(context,"yyuyuyuyuyuyuyuyuy",Toast.LENGTH_SHORT).show();
+
 
         final ItemMatch itemMatch;
 
@@ -142,13 +149,13 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                             document.contains("round")?toTitleCase(document.getData().get("round").toString()):""
                     );
                 }
-
-                if(!hash.equals(""+cal.get(Calendar.DATE))){
-                    itemMatch.setHeader(true);
-                    hash = ""+cal.get(Calendar.DATE);
-                }else{
-                    itemMatch.setHeader(false);
-                }
+//
+//                if(!hash.equals(""+cal.get(Calendar.DATE))){
+//                    itemMatch.setHeader(true);
+//                    hash = ""+cal.get(Calendar.DATE);
+//                }else{
+//                    itemMatch.setHeader(false);
+//                }
 
                 AthleticViewHolder holder1 = (AthleticViewHolder) holder;
                 holder1.tv_sort_title.setText(itemMatch.getDate());
@@ -221,12 +228,20 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                     );
                 }
 
-                if(!hash.equals(""+cal.get(Calendar.DATE))){
-                    itemMatch.setHeader(true);
-                    hash = ""+cal.get(Calendar.DATE);
-                }else{
-                    itemMatch.setHeader(false);
-                }
+
+                ArrayList<DocumentSnapshot> documentSnapshots = getmSnapshots();
+
+//                String q =
+//                for(int i=0;i<documentSnapshots.size();i++){
+//                    DocumentSnapshot d = documentSnapshots.get(i);
+//                    if()
+//                }
+//                if(!hash.equals(""+cal.get(Calendar.DATE))){
+//                    itemMatch.setHeader(true);
+//                    hash = ""+cal.get(Calendar.DATE);
+//                }else{
+//                    itemMatch.setHeader(false);
+//                }
 
                 final TeamViewHolder holder2 = (TeamViewHolder) holder;
                 holder2.tv_sort_title.setText(itemMatch.getDate());
@@ -301,6 +316,16 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                     holder2.rl_top.setVisibility(View.VISIBLE);
                     holder2.tv_sort_title.setText(itemMatch.getDate());
                 }
+
+
+                holder.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Intent intent = new Intent(Intent.ACTION_VIEW,
+//                                Uri.parse(map_nav_url));
+//                        context.startActivity(intent);
+                    }
+                });
 
                 break;
         }

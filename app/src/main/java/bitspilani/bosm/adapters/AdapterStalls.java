@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,11 +37,18 @@ import bitspilani.bosm.utils.Constant;
 public class AdapterStalls extends FirestoreAdapter<AdapterStalls.ViewHolder>  {
 
     private Context context;
-    public AdapterStalls(Context context,Query query) {
+    private ProgressBar progressBar;
+    public AdapterStalls(Context context,Query query, ProgressBar progressBar) {
         super(query);
         this.context=context;
+        this.progressBar=progressBar;
     }
 
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     public AdapterStalls.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
