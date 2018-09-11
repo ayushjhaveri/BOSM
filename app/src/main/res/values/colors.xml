@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">@android:color/transparent</color>
     <color name="colorAccent">#ffb862</color>
 
-    <color name="colorNegAmount">#E30202</color>
+    <color name="colorNegAmount">#130f2b</color>
     <color name="colorPosAmount">#18FFFF</color>
 
     <color name="color_grey">#F1EEEE</color>

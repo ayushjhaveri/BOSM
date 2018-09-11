@@ -402,7 +402,7 @@ public class WalletActivity extends Fragment {
                 if (snapshot != null && snapshot.exists()) {
 //                    Log.d(TAG, source +
 //" data: " + snapshot.getData());
-                    textView_balance.setText(getResources().getString(R.string.Rs)+" "+ snapshot.getData().get("wallet").toString());
+                    textView_balance.setText(getResources().getString(R.string.Rs)+" "+ df2.format(Double.parseDouble(snapshot.getData().get("wallet").toString())));
 
                 }
 //                else {
