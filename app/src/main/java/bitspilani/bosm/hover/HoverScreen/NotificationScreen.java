@@ -16,38 +16,32 @@
 package bitspilani.bosm.hover.HoverScreen;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TabHost;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterEvents;
 import bitspilani.bosm.adapters.AdapterNotifications;
-import bitspilani.bosm.fragments.StallFragment;
 import bitspilani.bosm.items.ItemEvent;
 import bitspilani.bosm.items.ItemNotification;
 import io.mattcarroll.hover.Content;
 
-import static bitspilani.bosm.HomeActivity.getSFM;
+import static bitspilani.bosm.utils.Constant.PREF;
 
 /**
  * A screen that is displayed in our Hello World Hover Menu.
@@ -57,8 +51,6 @@ public class NotificationScreen implements Content {
     private final Context mContext;
     private final View mWholeScreen;
     private LayoutInflater inflater;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     public NotificationScreen(@NonNull Context context) {
         mContext = context.getApplicationContext();
@@ -66,51 +58,40 @@ public class NotificationScreen implements Content {
         mWholeScreen = createScreenView();
 
     }
+    AdapterNotifications adapterNotifications;
+    List<ItemNotification> list;
 
     @NonNull
     private View createScreenView() {
-        @SuppressLint("InflateParams")
-            View wholeScreen = inflater.inflate(R.layout.activity_hover, null, false);
+        @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_notification, null, false);
+        //implement contents of layout
+
+        RecyclerView recyclerView = (RecyclerView)wholeScreen.findViewById(R.id.recycler_notifications);
+
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(mContext);
+
+        Gson gson = new Gson();
+        String list_string = appSharedPrefs.getString(PREF, "");
+
+        Log.d("NOTIFICATION SCREEN","notification "+list_string);
+
+        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+
+        if(gson.fromJson(list_string, type_1)!=null)
+            list = gson.fromJson(list_string, type_1);
+        else
+            list = new ArrayList<>();
+
+        adapterNotifications = new AdapterNotifications(mContext,list);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapterNotifications);
 
         return wholeScreen;
     }
 
-//    private void setupViewPager(ViewPager viewPager) {
-//        ViewPagerAdapter adapter = new ViewPagerAdapter(HomeActivity.getSFM());
-//        adapter.addFragment(new ProfileScreen(), "Profile");
-//        adapter.addFragment(new ProfileScreen(), "Updates");
-////        adapter.addFragment(new ThreeFragment(), "THREE");
-//        viewPager.setAdapter(adapter);
-//    }
-//
-//    class ViewPagerAdapter extends FragmentPagerAdapter {
-//        private final List<Fragment> mFragmentList = new ArrayList<>();
-//        private final List<String> mFragmentTitleList = new ArrayList<>();
-//
-//        public ViewPagerAdapter(FragmentManager manager) {
-//            super(manager);
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//            return mFragmentList.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return mFragmentList.size();
-//        }
-//
-//        public void addFragment(Fragment fragment, String title) {
-//            mFragmentList.add(fragment);
-//            mFragmentTitleList.add(title);
-//        }
-//
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return mFragmentTitleList.get(position);
-//        }
-//    }
     // Make sure that this method returns the SAME View.  It should NOT create a new View each time
     // that it is invoked.
     @NonNull
@@ -122,12 +103,43 @@ public class NotificationScreen implements Content {
 
     @Override
     public boolean isFullscreen() {
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(mContext);
+
+        Gson gson = new Gson();
+        String list_string = appSharedPrefs.getString(PREF, "");
+
+        Log.d("NOTIFICATION SCREEN","notification "+list_string);
+
+        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+
+        if(gson.fromJson(list_string, type_1)!=null)
+            list = gson.fromJson(list_string, type_1);
+        else
+            list = new ArrayList<>();
+        adapterNotifications.notifyDataSetChanged();
+
         return true;
     }
 
     @Override
     public void onShown() {
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(mContext);
+
+        Gson gson = new Gson();
+        String list_string = appSharedPrefs.getString(PREF, "");
+
+        Log.d("NOTIFICATION SCREEN","notification "+list_string);
+
+        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+
+        if(gson.fromJson(list_string, type_1)!=null)
+            list = gson.fromJson(list_string, type_1);
+        else
+            list = new ArrayList<>();
         // No-op.
+        adapterNotifications.notifyDataSetChanged();
     }
 
     @Override

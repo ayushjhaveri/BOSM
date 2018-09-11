@@ -46,13 +46,21 @@ public class HomeFragment extends Fragment {
 
         // Required empty public constructor
     }
-
+int pos;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        Bundle arguments = getArguments();
+        if(getArguments()!=null){
+            pos =  arguments.getInt("pos");
+            Log.d("ereed",pos+"");
+        }else
+            pos = 0;
 
 
 //        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
@@ -93,7 +101,7 @@ public class HomeFragment extends Fragment {
         vpPager.setAdapter(adapterViewPager);
         vpPager.setPageTransformer(true, new ZoomOutSlideTransformer());
 
-        ntbSample5.setViewPager(vpPager, 1);
+        ntbSample5.setViewPager(vpPager, pos);
 
 
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -137,7 +145,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         }, 500);
-        vpPager.setCurrentItem(1);
+
+        vpPager.setCurrentItem(pos);
 
 
         return v;

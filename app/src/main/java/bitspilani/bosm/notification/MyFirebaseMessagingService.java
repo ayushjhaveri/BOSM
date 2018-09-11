@@ -4,17 +4,29 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.common.reflect.TypeToken;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
+import bitspilani.bosm.items.ItemNotification;
 import bitspilani.bosm.utils.Constant;
+
+import static bitspilani.bosm.utils.Constant.PREF;
 
 /**
  * Created by Aditya on 11/09/2016.
@@ -57,6 +69,35 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }else if(type.equals(String.valueOf(Constant.NOTIIFCATION_TYPE_SCORES))){
             intent.putExtra("NOTIFICATION","2");
         }
+
+
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+
+        SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+        Gson gson = new Gson();
+        String list_string = appSharedPrefs.getString(PREF, "");
+
+        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+        List<ItemNotification> list;
+        if(gson.fromJson(list_string, type_1)!=null)
+            list = gson.fromJson(list_string, type_1);
+        else
+            list = new ArrayList<>();
+
+        ItemNotification itemNotification = new ItemNotification(
+                title,
+                messageBody,
+                Calendar.getInstance()
+        );
+        list.add(itemNotification);
+
+        String json = gson.toJson(list);
+
+        Log.d(TAG,"notification "+json);
+
+        prefsEditor.putString(PREF, json);
+        prefsEditor.apply();
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 

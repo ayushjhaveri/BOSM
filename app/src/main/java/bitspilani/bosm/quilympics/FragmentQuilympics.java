@@ -48,7 +48,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.Nullable;
 
-import bitspilani.bosm.LoginActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.quilympics.ItemQuestion;
 

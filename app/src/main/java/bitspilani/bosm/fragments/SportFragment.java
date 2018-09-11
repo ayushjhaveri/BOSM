@@ -29,7 +29,6 @@ import java.util.HashMap;
 
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
-import bitspilani.bosm.adapters.AdapterCart;
 import bitspilani.bosm.adapters.AdapterSport;
 import bitspilani.bosm.adapters.ItemSport;
 import bitspilani.bosm.utils.Constant;

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.paytm.pgsdk.Log;
@@ -124,7 +125,7 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
-                if (object.getString("user_id").equals(Constant.user.getUid())) {
+                if (object.getString("user_id").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isBet = true;
                 }
             }

@@ -18,15 +18,17 @@
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".HomeActivity"
-            android:screenOrientation="portrait"></activity>
 
         <service android:name=".hover.MultipleSectionsHoverMenuService" />
         <service android:name=".notification.MyFirebaseMessagingService">
@@ -52,7 +54,6 @@
         <!-- android:name="com.google.firebase.messaging.default_notification_color" -->
         <!-- android:resource="@color/colorAccent" /> -->
 
-        <activity android:name=".hover.HoverScreen.HoverActivity"></activity>
     </application>
 
 </manifest>

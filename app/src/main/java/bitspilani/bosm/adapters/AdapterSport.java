@@ -105,11 +105,11 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        ArrayList<String > arrayList = itemSport.getArrayList();
-                                        arrayList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        itemSport.setArrayList(arrayList);
+//                                        ArrayList<String > arrayList = itemSport.getArrayList();
+//                                        arrayList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                                        itemSport.setArrayList(arrayList);
 //                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
-                                        document.getReference().update("notification",arrayList);
+//                                        document.getReference().update("notification",arrayList);
                                     }else{
                                         holder.notify.setChecked(false);
                                         Toast.makeText(context,"Server error!",Toast.LENGTH_SHORT).show();
@@ -123,11 +123,11 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        ArrayList<String > arrayList = itemSport.getArrayList();
-                                        arrayList.remove(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                                        itemSport.setArrayList(arrayList);
-//                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
-                                        document.getReference().update("notification",arrayList);
+//                                        ArrayList<String > arrayList = itemSport.getArrayList();
+//                                        arrayList.remove(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                                        itemSport.setArrayList(arrayList);
+                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+//                                        document.getReference().update("notification",arrayList);
 //                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
                                     }else{
                                         holder.notify.setChecked(true);
@@ -140,11 +140,11 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
             }
         });
 
-        if (itemSport.getArrayList().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
-            holder.notify.setChecked(true);
-        }else{
-            holder.notify.setChecked(false);
-        }
+//        if (itemSport.getArrayList().contains(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+//            holder.notify.setChecked(true);
+//        }else{
+//            holder.notify.setChecked(false);
+//        }
 
         holder.textView_name.setTypeface(oswald_regular);
         holder.rl.setOnClickListener(    new View.OnClickListener() {

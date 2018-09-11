@@ -17,7 +17,6 @@
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/rl_3"
         android:paddingBottom="140dp"
         android:overScrollMode="never"
         android:scrollbars="none"

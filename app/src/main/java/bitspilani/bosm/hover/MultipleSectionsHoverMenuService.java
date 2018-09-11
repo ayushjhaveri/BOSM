@@ -33,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import bitspilani.bosm.hover.HoverScreen.NotificationScreen;
-import bitspilani.bosm.hover.HoverScreen.ProfileScreen;
 import io.mattcarroll.hover.HoverMenu;
 import io.mattcarroll.hover.HoverView;
 import io.mattcarroll.hover.window.HoverMenuService;

@@ -51,7 +51,6 @@ import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.fragments.PhotoFragment;
 import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.fragments.SportSelectedFragment;
-import bitspilani.bosm.fragments.StallFragment;
 import bitspilani.bosm.fragments.ContactFragment;
 import bitspilani.bosm.fragments.DevelopersFragment;
 import bitspilani.bosm.fragments.EpcFragment;
@@ -64,7 +63,6 @@ import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static bitspilani.bosm.fragments.HomeFragment.vpPager;
 import static bitspilani.bosm.fragments.SportSelectedFragment.vpPagerSport;
-import static bitspilani.bosm.hover.HoverScreen.ProfileScreen.setQR;
 import static bitspilani.bosm.roulette.RouletteHomeFragment.vpPagerRoulette;
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -76,45 +74,13 @@ public class HomeActivity extends AppCompatActivity
     static FragmentManager fm;
     DrawerLayout drawer;
     LinearLayout ll_dots;
-    private FirebaseUser user;
     private FirebaseFirestore db;
-    private ListenerRegistration listenerRegistration;
 
     public static String currentFragment = "";
 
     private static final int REQUEST_CODE_HOVER_PERMISSION = 1000;
 
     private boolean mPermissionsRequested = false;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        DocumentReference docRef = db.collection("user").document(user.getUid());
-        listenerRegistration = docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w("hoverService", "Listen failed.", e);
-                    return;
-                }
-                if (snapshot != null && snapshot.exists()) {
-                    try {
-                        setQR(snapshot.getData().get("qr_code").toString());
-                    }catch (Exception e1){
-                    }
-                }
-            }
-        });
-    }
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        listenerRegistration.remove();
-    }
-
 
     public static FragmentManager getSFM(){
         return fm;
@@ -129,12 +95,7 @@ public class HomeActivity extends AppCompatActivity
 
         //checking service
         FirebaseApp.initializeApp(this);
-
-
         FirebaseMessaging.getInstance().subscribeToTopic("all");
-
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)
@@ -151,17 +112,8 @@ public class HomeActivity extends AppCompatActivity
 //        setSupportActionBar(toolbar);
         setTitle("BOSM 2K18");
 
-
-        if(getIntent().getExtras()   != null) {
-            if (getIntent().getStringExtra("NOTIFICATIONS").equals("1"))
-                loadFrag(new EventFragment(), "notify_event", fm);
-            else if (getIntent().getStringExtra("NOTIFICATIONS").equals("2"))
-                loadFrag(new SportFragment(), "notify_score", fm);
-        }
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
-
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, null, R.string.app_name, R.string.app_name) {
 
@@ -185,9 +137,6 @@ public class HomeActivity extends AppCompatActivity
                 ll_dots.startAnimation(animSlide);
 //                Toast.makeText(HomeActivity.this, "ppppp", Toast.LENGTH_SHORT).show();
 
-
-
-
             }
 
         };
@@ -210,23 +159,34 @@ public class HomeActivity extends AppCompatActivity
 
         });
 
-        loadFragHome(new HomeFragment(), "Home", fm);
 
+        if(getIntent().getExtras()!= null && getIntent().getStringExtra("NOTIFICATION")!=null) {
+                if (getIntent().getStringExtra("NOTIFICATION").equals("1")) {
+                    Log.d("notif", "1");
+                    loadFragHome(new HomeFragment(), "Home", fm, 0);
+                } else if (getIntent().getStringExtra("NOTIFICATION").equals("2")) {
+                    Log.d("notif", "2");
+                    loadFragHome(new HomeFragment(), "Home", fm, 2);
+                }
+        }else{
+            Log.d("notif","564564");
+                loadFragHome(new HomeFragment(), "Home", fm,1);
+            }
 
         TextView tv_bosm = (TextView) findViewById(R.id.tv_bosm);
         Typeface oswald_regular = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
         tv_bosm.setTypeface(oswald_regular);
 
 
-        findViewById(R.id.tv_logout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(HomeActivity.this,LoginActivity.class));
-                stopService(startHoverIntent);
-                finish();
-            }
-        });
+//        findViewById(R.id.tv_logout).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FirebaseAuth.getInstance().signOut();
+//                startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+//                stopService(startHoverIntent);
+//                finish();
+//            }
+//        });
 
         findViewById(R.id.tv_home).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,28 +198,15 @@ public class HomeActivity extends AppCompatActivity
                         else if(HomeActivity.currentFragment.equals("SportFragment")||HomeActivity.currentFragment.equals("EventFragment")){
                             vpPager.setCurrentItem(1);
                         }
-                        else{loadFragHome(new HomeFragment(), "Home", fm);}
+                        else{
+                            Log.d("notif","56546434");
+                            loadFragHome(new HomeFragment(), "Home", fm,1);}
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
-        findViewById(R.id.tv_order_food).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (HomeActivity.currentFragment.equals("StallFragment")) {
 
-                        }
-                        else{loadFrag(new StallFragment(), "Order Food", fm);
-                        }
-                    }
-                }, 600);
-                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
         findViewById(R.id.tv_game).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -473,18 +420,7 @@ public class HomeActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
-        int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_wallet) {
-            startActivity(new Intent(HomeActivity.this, WalletActivity.class));
-            return true;
-        } else if (id == R.id.menu_cart) {
-            startActivity(new Intent(HomeActivity.this, CartActivity.class));
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -513,8 +449,11 @@ public class HomeActivity extends AppCompatActivity
         ft.replace(R.id.fl_view, f1, name);
         ft.commit();
     }
-    public static void loadFragHome(Fragment f1, String name, FragmentManager fm) {
+    public static void loadFragHome(Fragment f1, String name, FragmentManager fm, int pos) {
 //        selectedFragment = name;
+        Bundle arguments = new Bundle();
+        arguments.putInt( "pos" ,pos);
+        f1.setArguments(arguments);
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         ft.replace(R.id.fl_view, f1, name);

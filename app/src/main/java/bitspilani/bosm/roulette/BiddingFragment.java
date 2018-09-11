@@ -277,7 +277,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
-                            db.collection("user").document(Constant.user.getUid()).get(source).addOnCompleteListener(
+                            db.collection("user").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get(source).addOnCompleteListener(
                                     new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
@@ -335,7 +335,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
                                                     for (int i = 0; i < array.length(); i++) {
                                                         JSONObject object = array.getJSONObject(i);
-                                                        if (object.getString("user_id").equals(Constant.user.getUid())) {
+                                                        if (object.getString("user_id").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                                             isBet = true;
                                                             team = object.getString("college");
                                                             amount = object.getInt("amount");
@@ -823,7 +823,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
             }
 
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("user_id", Constant.user.getUid());
+            jsonObject.put("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
             jsonObject.put("amount", _amount);
             jsonObject.put("college", _team);
             jsonObject.put("power_bid", _power_bid == 1);
@@ -859,7 +859,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                 if (_power_bid == 1) {
                                     dataUser.put("power_bid_time", new Timestamp(calendar.getTime()));
                                 }
-                                db.collection("user").document(Constant.user.getUid()).update(dataUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                db.collection("user").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(dataUser).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task1) {
                                         if (task1.isSuccessful()) {
@@ -904,7 +904,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                             data.put("score", score);
                             data.put("slot_time",  new Timestamp(calendar.getTime()));
 
-                            db.collection("user").document(Constant.user.getUid()).update(data).addOnCompleteListener(
+                            db.collection("user").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).update(data).addOnCompleteListener(
                                     new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

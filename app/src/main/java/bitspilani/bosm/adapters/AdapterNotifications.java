@@ -10,18 +10,19 @@ import android.widget.TextView;
 import com.ramotion.foldingcell.FoldingCell;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemNotification;
 
 public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotifications.ViewHolder> {
 
-    private ArrayList<ItemNotification> notificationArrayList;
+    private List<ItemNotification> notificationArrayList;
     private Context context;
 
 //    private static final String TAG = "AdapterCart";
 
-    public AdapterNotifications(Context context, ArrayList<ItemNotification> eventsArrayList) {
+    public AdapterNotifications(Context context, List<ItemNotification> eventsArrayList) {
         this.notificationArrayList = eventsArrayList;
         this.context = context;
     }
@@ -38,10 +39,10 @@ public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotificati
     public void onBindViewHolder(final AdapterNotifications.ViewHolder holder, final int position) {
          ItemNotification itemNotifications = notificationArrayList.get(position);
 
-        holder.tv_name.setText(itemNotifications.getNotif_name());
-        holder.tv_info.setText(itemNotifications.getnotif_info());
+        holder.tv_name.setText(itemNotifications.getNotif_title());
+        holder.tv_info.setText(itemNotifications.getNotif_body());
 //        holder.tv_date.setText(itemNotifications.getNotif_date());
-        holder.tv_time.setText(itemNotifications.getNotif_time());
+//        holder.tv_time.setText(itemNotifications.getNotif_time());
 
 
     }
