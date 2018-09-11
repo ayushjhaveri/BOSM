@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import bitspilani.bosm.HomeActivity;
@@ -71,6 +72,8 @@ public class    CurrentSportFragment extends Fragment {
             gender = getArguments().getInt("gender");
         }
     }
+
+    public static RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -127,7 +130,7 @@ public class    CurrentSportFragment extends Fragment {
 
 
 
-        RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
+         recyclerView = (RecyclerView)view.findViewById(R.id.recycler_view) ;
 
         Query mQuery = null;
         if(Constant.currentSport.isGender()){
@@ -146,7 +149,16 @@ public class    CurrentSportFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterCurrentSport);
 
-
+//        recyclerView.smoothScrollToPosition(3);
+//         ArrayList<ItemMatch> arrayList =       adapterCurrentSport.getMatchArray();
+//
+//         for(int i=0;i<arrayList.size();i++){
+//             if(Calendar.getInstance().get(Calendar.DATE) == arrayList.get(i).getCalendar().get(Calendar.DATE)){
+//        //         Log.d(TAG,"dSDSADASDSADSADSADASD" + position);
+//                 CurrentSportFragment.recyclerView.smoothScrollToPosition(i+1);
+//                 break;
+//             }
+//         }
 
         map = new HashMap<>();
 

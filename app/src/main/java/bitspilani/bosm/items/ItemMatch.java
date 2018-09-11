@@ -1,10 +1,13 @@
 package bitspilani.bosm.items;
 
+import java.util.Calendar;
+
 public class ItemMatch {
     int matchType;
     String sportName;
     String venue;
     String time,date;
+    Calendar calendar;
     String matchRound;
     boolean isHeader;
 
@@ -41,10 +44,11 @@ public class ItemMatch {
     }
 
     //SCHEDULE ATHLETIC TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String matchRound) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String matchRound ,Calendar calendar) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
+        this.calendar = calendar;
         this.venue = venue;
         this.time = time;
         this.date = date;
@@ -52,12 +56,13 @@ public class ItemMatch {
     }
 
     //RESULT ATHLETIC TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String goldName, String silverName, String bronzeName, String goldRecord, String silverRecord, String bronzeRecord) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String goldName, String silverName, String bronzeName, String goldRecord, String silverRecord, String bronzeRecord ,Calendar calendar) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
         this.venue = venue;
         this.time = time;
+        this.calendar = calendar;
         this.date = date;
         this.matchRound = type;
         this.goldName = goldName;
@@ -69,10 +74,11 @@ public class ItemMatch {
     }
 
     //SCHEDULE TEAM TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String college1, String college2, String fullCollege1, String fullCollege2) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String college1, String college2, String fullCollege1, String fullCollege2 ,Calendar calendar) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
+        this.calendar = calendar;
         this.venue = venue;
         this.time = time;
         this.date = date;
@@ -84,13 +90,14 @@ public class ItemMatch {
     }
 
     //RESULT TEAM TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String score1, String score2, String college1, String college2,int winner, String fullCollege1, String fullCollege2) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String score1, String score2, String college1, String college2,int winner, String fullCollege1, String fullCollege2 ,Calendar calendar) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
         this.venue = venue;
         this.time = time;
         this.date = date;
+        this.calendar = calendar;
         this.matchRound = type;
         this.college1=college1;
         this.college2=college2;
@@ -99,6 +106,10 @@ public class ItemMatch {
         this.winner = winner;
         this.fullCollege1=fullCollege1;
         this.fullCollege2=fullCollege2;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
     }
 
     public int getMatchType() {

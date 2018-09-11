@@ -101,7 +101,8 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
         holder.ib_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-//                S
+//
+                progressBar.setVisibility(View.VISIBLE);
                 FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
                 final Map<String, Object> data = new HashMap<>();
                 data.put("food_id",itemFood.getFood_id());
@@ -113,12 +114,13 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
                 data.put("user_id",user.getUid());
 
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("cart").whereEqualTo("food_id",itemFood.getFood_id()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                db.collection("cart").whereEqualTo("food_id",itemFood.getFood_id()).whereEqualTo("user_id",user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            progressBar.setVisibility(View.GONE);
                             if(task.getResult().size()>0){
-                                Snackbar.make(view,"item already added to cart!",Snackbar.LENGTH_SHORT).show();
+                                Toast.makeText(context,"item already added to cart!",Toast.LENGTH_SHORT).show();
                             }else{
                                 db.collection("latest_ids").document("cart").
                                         get().addOnCompleteListener(
@@ -134,7 +136,7 @@ public class AdapterFoods extends FirestoreAdapter<AdapterFoods.ViewHolder> {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if(task.isSuccessful()){
-                                                                Snackbar.make(view,"item added successfully!",Snackbar.LENGTH_SHORT).show();
+                                                                Toast.makeText(context,"item added successfully!",Toast.LENGTH_SHORT).show();
                                                                 db.collection("latest_ids").document("cart").update("value", finalId);
                                                             }
                                                         }

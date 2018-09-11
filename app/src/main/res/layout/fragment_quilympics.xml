@@ -91,7 +91,7 @@
     </android.support.v7.widget.CardView>
 
     <LinearLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/otp_container"
         android:layout_centerInParent="true"
         android:background="@drawable/border_shadow"
@@ -173,11 +173,14 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tv_msg"
+            android:scrollbarThumbVertical="@drawable/border_shadow"
             android:textColor="@color/background2"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ELIMINATED!"
+            android:gravity="center"
+            android:text="Wait for the round to start"
             android:textStyle="bold"
             android:textSize="25sp"
             />

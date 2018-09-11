@@ -145,6 +145,8 @@ import bitspilani.bosm.items.ItemLive;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+
 import javax.annotation.Nullable;
 
 import bitspilani.bosm.utils.Constant;
@@ -167,16 +169,27 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
 
-//    private ArrayList<ItemLive> arrayList;
+    private ArrayList<Integer> arrayListAdapter = new ArrayList<>();
+
     private LayoutInflater inflater;
     private Context context;
 
     public AdapterLive(Context context, Query query,ProgressBar progressBar) {
         inflater = LayoutInflater.from(context);
-//        this.arrayList = arrayList;
         this.mQuery = query;
         this.context = context;
         this.progressBar = progressBar;
+    }
+
+    private void getArrayFromSnapshot(){
+        arrayListAdapter.clear();
+        for(int i=0;i<mSnapshots.size();i++){
+            DocumentSnapshot document  = mSnapshots.get(i);
+            Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
+            if(timestamp.compareTo(Timestamp.now())>0){
+                arrayListAdapter.add(i);
+            }
+        }
     }
 
     @Override
@@ -207,7 +220,6 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     }
 
-
     public void startListening() {
         if (mQuery != null && mRegistration == null) {
             mRegistration = mQuery.addSnapshotListener(this);
@@ -221,6 +233,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         }
 
         mSnapshots.clear();
+        getArrayFromSnapshot();
         notifyDataSetChanged();
     }
 
@@ -230,6 +243,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
         // Clear existing data
         mSnapshots.clear();
+        getArrayFromSnapshot();
         notifyDataSetChanged();
 
         // Listen to new query
@@ -239,17 +253,18 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     @Override
     public int getCount() {
-        return mSnapshots.size();
+        return arrayListAdapter.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mSnapshots.get(position);
+        return arrayListAdapter.get(position);
     }
 
     protected void onDocumentAdded(DocumentChange change) {
 
         mSnapshots.add(change.getNewIndex(), change.getDocument());
+        getArrayFromSnapshot();
         notifyDataSetChanged();
 //        notifyItemInserted(change.getNewIndex());
     }
@@ -258,12 +273,14 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         if (change.getOldIndex() == change.getNewIndex()) {
             // Item changed but remained in same position
             mSnapshots.set(change.getOldIndex(), change.getDocument());
+            getArrayFromSnapshot();
             notifyDataSetChanged();
 //            notifyItemChanged(change.getOldIndex());
         } else {
             // Item changed and changed position
             mSnapshots.remove(change.getOldIndex());
             mSnapshots.add(change.getNewIndex(), change.getDocument());
+            getArrayFromSnapshot();
             notifyDataSetChanged();
 //            notifyItemMoved(change.getOldIndex(), change.getNewIndex());
         }
@@ -272,6 +289,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     protected void onDocumentRemoved(DocumentChange change) {
         mSnapshots.remove(change.getOldIndex());
 //        notifyItemRemoved(change.getOldIndex());
+        getArrayFromSnapshot();
         notifyDataSetChanged();
     }
 
@@ -292,7 +310,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final DocumentSnapshot document =  mSnapshots.get(position);
+        final DocumentSnapshot document =  mSnapshots.get(arrayListAdapter.get(position));
 
 //        holder.icon.setImageResource(SportFragment.iconHash.get(itemSport.getSport_id()));
 
@@ -846,7 +864,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        DocumentSnapshot document =  mSnapshots.get(position);
+        DocumentSnapshot document =  mSnapshots.get(arrayListAdapter.get(position));
 //        Timestamp timestamp  = (Timestamp) document.getData().get("timestamp");
 //        Date date = timestamp.toDate();
 //        Calendar cal = Calendar.getInstance();
@@ -869,7 +887,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     @Override
     public int getItemViewType(int position) {
-        DocumentSnapshot document =  mSnapshots.get(position);
+        DocumentSnapshot document =  mSnapshots.get(arrayListAdapter.get(position));
 
         return Integer.parseInt(document.getData().get("item_type").toString());
     }
@@ -880,7 +898,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         //return the first character of the country as ID because this is what headers are based upon
 //        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 //        String text = dateFormat.format(arrayList.get(position).getDate().getTime());
-        DocumentSnapshot document =  mSnapshots.get(position);
+        DocumentSnapshot document =  mSnapshots.get(arrayListAdapter.get(position));
 
         return Integer.parseInt(document.getData().get("item_type").toString());
     }

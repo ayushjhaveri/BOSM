@@ -18,28 +18,36 @@ package bitspilani.bosm.hover.HoverScreen;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TabHost;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterEvents;
 import bitspilani.bosm.adapters.AdapterNotifications;
+import bitspilani.bosm.fragments.StallFragment;
 import bitspilani.bosm.items.ItemEvent;
 import bitspilani.bosm.items.ItemNotification;
 import io.mattcarroll.hover.Content;
+
+import static bitspilani.bosm.HomeActivity.getSFM;
 
 /**
  * A screen that is displayed in our Hello World Hover Menu.
@@ -63,13 +71,6 @@ public class NotificationScreen implements Content {
     private View createScreenView() {
         @SuppressLint("InflateParams")
             View wholeScreen = inflater.inflate(R.layout.activity_hover, null, false);
-        //implement contents of layout
-
-//        viewPager = (ViewPager) wholeScreen.findViewById(R.id.viewpager);
-//        setupViewPager(viewPager);
-//
-//        tabLayout = (TabLayout) wholeScreen.findViewById(R.id.tabs);
-//        tabLayout.setupWithViewPager(viewPager);
 
         return wholeScreen;
     }

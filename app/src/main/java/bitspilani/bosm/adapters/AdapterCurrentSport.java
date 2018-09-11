@@ -2,6 +2,7 @@ package bitspilani.bosm.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -49,34 +50,40 @@ import static com.github.florent37.viewtooltip.ViewTooltip.ALIGN.CENTER;
  * Created by Prashant on 4/7/2018.
  */
 
-public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolder> {
+public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHolder> {
 
     private Context context;
-
     private static final String TAG = "AdapterCart";
+
 
 
 //    public static String hash;
     ProgressBar progressBar;
-
     public AdapterCurrentSport(Context context, Query query , ProgressBar progressBar) {
         super(query);
         this.context = context;
 //        hash = "";
         this.progressBar = progressBar;
+//        arrayList = new ArrayList<>();
     }
 
 
     @Override
     protected void onDataChanged() {
-        Log.d(TAG,"hahahaahhah");
         super.onDataChanged();
+        ArrayList<ItemMatch> arrayList = getMatchArray();
+
+        for(int i=0;i<arrayList.size();i++){
+            if(Calendar.getInstance().get(Calendar.DATE) == arrayList.get(i).getCalendar().get(Calendar.DATE)){
+                //         Log.d(TAG,"dSDSADASDSADSADSADASD" + position);
+                CurrentSportFragment.recyclerView.smoothScrollToPosition(i+1);
+                break;
+            }
+        }
 //        CurrentSportFragment.viewLoader(false);
 
         progressBar.setVisibility(View.GONE);
     }
-
-
 
 
     @Override
@@ -98,58 +105,57 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
 
 
-        DocumentSnapshot document =  getSnapshot(position);
+//        DocumentSnapshot document =  getSnapshot(position);
 
 //        Log.d(TAG,document.getData().toString()+" gfd");
 
-        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
-        Date date = timestamp.toDate();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d");
-        SimpleDateFormat smf = new SimpleDateFormat("MMM");
-        SimpleDateFormat stf = new SimpleDateFormat("h.mm a");
+//        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
+//        Date date = timestamp.toDate();
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(date);
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d");
+//        SimpleDateFormat smf = new SimpleDateFormat("MMM");
+//        SimpleDateFormat stf = new SimpleDateFormat("h.mm a");
+//        SimpleDateFormat smf2 = new SimpleDateFormat("MMM");
+
+
+
+//        int matchType = document.contains("match_type")?Integer.parseInt(document.getData().get("match_type").toString()):1;
+//        boolean isResult = document.contains("is_result")?Boolean.parseBoolean(document.getData().get("is_result").toString()):false;
+
+        ArrayList<ItemMatch> arrayList = getMatchArray();
+        final ItemMatch itemMatch = arrayList.get(position);
+
         SimpleDateFormat smf2 = new SimpleDateFormat("MMM");
-
-
-
-        int matchType = document.contains("match_type")?Integer.parseInt(document.getData().get("match_type").toString()):1;
-        boolean isResult = document.contains("is_result")?Boolean.parseBoolean(document.getData().get("is_result").toString()):false;
-
-        Toast.makeText(context,"yyuyuyuyuyuyuyuyuy",Toast.LENGTH_SHORT).show();
-
-
-        final ItemMatch itemMatch;
-
-        switch (matchType) {
+        switch (itemMatch.getMatchType()) {
             case Constant.ATHLETIC_TYPE_MATCH:
 
-                if(isResult) {
-                    itemMatch = new ItemMatch(
-                           0,
-                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
-                            document.contains("venue")?document.getData().get("venue").toString():"",
-                            stf.format(date),
-                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
-                            document.contains("goldName")?document.getData().get("goldName").toString():"",
-                            document.contains("silverName")?document.getData().get("silverName").toString():"",
-                            document.contains("bronzeName")? document.getData().get("bronzeName").toString():"",
-                            document.contains("goldRecord")? document.getData().get("goldRecord").toString():"",
-                            document.contains("silverRecord")?document.getData().get("silverRecord").toString():"",
-                            document.contains("bronzeRecord")?document.getData().get("bronzeRecord").toString():""
-                            );
-                }else{
-                    itemMatch = new ItemMatch(
-                            0,
-                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
-                            document.contains("venue")?document.getData().get("venue").toString():"",
-                            stf.format(date),
-                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):""
-                    );
-                }
-//
+//                if(isResult) {
+//                    itemMatch = new ItemMatch(
+//                           0,
+//                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+//                            document.contains("venue")?document.getData().get("venue").toString():"",
+//                            stf.format(date),
+//                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
+//                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
+//                            document.contains("goldName")?document.getData().get("goldName").toString():"",
+//                            document.contains("silverName")?document.getData().get("silverName").toString():"",
+//                            document.contains("bronzeName")? document.getData().get("bronzeName").toString():"",
+//                            document.contains("goldRecord")? document.getData().get("goldRecord").toString():"",
+//                            document.contains("silverRecord")?document.getData().get("silverRecord").toString():"",
+//                            document.contains("bronzeRecord")?document.getData().get("bronzeRecord").toString():""
+//                            );
+//                }else{
+//                    itemMatch = new ItemMatch(
+//                            0,
+//                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+//                            document.contains("venue")?document.getData().get("venue").toString():"",
+//                            stf.format(date),
+//                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
+//                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):""
+//                    );
+//                }
+////
 //                if(!hash.equals(""+cal.get(Calendar.DATE))){
 //                    itemMatch.setHeader(true);
 //                    hash = ""+cal.get(Calendar.DATE);
@@ -168,9 +174,9 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                 holder1.tv_bronze_score.setText(itemMatch.getBronzeRecord());
                 holder1.tv_time.setText(itemMatch.getTime());
                 holder1.tv_venue.setText(itemMatch.getVenue());
-                holder1.tv_date.setText(cal.get(Calendar.DATE)
-                        +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
-                        " "+smf2.format(date));
+                holder1.tv_date.setText(itemMatch.getCalendar().get(Calendar.DATE)
+                        +getDayOfMonthSuffix(itemMatch.getCalendar().get(Calendar.DATE))+
+                        " "+smf2.format(itemMatch.getCalendar().getTime()));
 
                 if(itemMatch.getGoldName().equals("")){
                     holder1.rl_college.setVisibility(View.GONE);}
@@ -190,6 +196,10 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                 if(!itemMatch.isHeader()){
                     holder1.rl_top.setVisibility(View.GONE);
                 }else{
+//                    if(Calendar.getInstance().get(Calendar.DATE) == itemMatch.getCalendar().get(Calendar.DATE)){
+//                        Log.d(TAG,"dSDSADASDSADSADSADASD" + position);
+//                        CurrentSportFragment.recyclerView.smoothScrollToPosition(position+1);
+//                    }
                     holder1.rl_top.setVisibility(View.VISIBLE);
                     holder1.tv_sort_title.setText(itemMatch.getDate());
                 }
@@ -197,39 +207,37 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                 break;
 
             case Constant.TEAM_MATCH:
-                if(isResult) {
-                    itemMatch = new ItemMatch(
-                            1,
-                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
-                            document.contains("venue")?document.getData().get("venue").toString():"",
-                            stf.format(date),
-                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
-                            document.contains("score1")?document.getData().get("score1").toString():"",
-                            document.contains("score2")?document.getData().get("score2").toString():"",
-                            document.contains("college1")?document.getData().get("college1").toString():"",
-                            document.contains("college2")?document.getData().get("college2").toString():"",
-                            document.contains("winner")?Integer.parseInt(document.getData().get("winner").toString()):0,
-                            document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
-                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
-                    );
-                }else{
-                    itemMatch = new ItemMatch(
-                           1,
-                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
-                            document.contains("venue")?document.getData().get("venue").toString():"",
-                            stf.format(date),
-                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
-                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
-                            document.contains("college1")?document.getData().get("college1").toString():"",
-                            document.contains("college2")?document.getData().get("college2").toString():"",
-                            document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
-                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
-                    );
-                }
+//                if(isResult) {
+//                    itemMatch = new ItemMatch(
+//                            1,
+//                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+//                            document.contains("venue")?document.getData().get("venue").toString():"",
+//                            stf.format(date),
+//                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
+//                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
+//                            document.contains("score1")?document.getData().get("score1").toString():"",
+//                            document.contains("score2")?document.getData().get("score2").toString():"",
+//                            document.contains("college1")?document.getData().get("college1").toString():"",
+//                            document.contains("college2")?document.getData().get("college2").toString():"",
+//                            document.contains("winner")?Integer.parseInt(document.getData().get("winner").toString()):0,
+//                            document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
+//                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
+//                    );
+//                }else{
+//                    itemMatch = new ItemMatch(
+//                           1,
+//                            document.contains("sport_name")?document.getData().get("sport_name").toString():"",
+//                            document.contains("venue")?document.getData().get("venue").toString():"",
+//                            stf.format(date),
+//                            sdf.format(date)+getDayOfMonthSuffix(cal.get(Calendar.DATE))+" " + smf.format(date),
+//                            document.contains("round")?toTitleCase(document.getData().get("round").toString()):"",
+//                            document.contains("college1")?document.getData().get("college1").toString():"",
+//                            document.contains("college2")?document.getData().get("college2").toString():"",
+//                            document.contains("full_college1")?toTitleCase((String)document.getData().get("full_college1")):"",
+//                            document.contains("full_college2")?toTitleCase((String)document.getData().get("full_college2")):""
+//                    );
+//                }
 
-
-                ArrayList<DocumentSnapshot> documentSnapshots = getmSnapshots();
 
 //                String q =
 //                for(int i=0;i<documentSnapshots.size();i++){
@@ -252,9 +260,9 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
                 holder2.tv_college_two.setText(itemMatch.getCollege2());
                 holder2.tv_score_one.setText(itemMatch.getScore1());
                 holder2.tv_score_two.setText(itemMatch.getScore2());
-                holder2.tv_date.setText(cal.get(Calendar.DATE)
-                        +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
-                        " "+smf2.format(date));
+                holder2.tv_date.setText(itemMatch.getCalendar().get(Calendar.DATE)
+                        +getDayOfMonthSuffix(itemMatch.getCalendar().get(Calendar.DATE))+
+                        " "+smf2.format(itemMatch.getCalendar().getTime()));
 
                 holder2.tv_college_one.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -341,16 +349,16 @@ public class AdapterCurrentSport extends FirestoreAdapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        DocumentSnapshot document =  getSnapshot(position);
-        if (document != null && document.exists()) {
-            Log.d("aaaaaa",document.getId()+"ffgfg");
-           return Integer.parseInt(Objects.requireNonNull(document.getData()).get("match_type").toString());
+//        DocumentSnapshot document =  getSnapshot(position);
+//        if (document != null && document.exists()) {
+//            Log.d("aaaaaa",document.getId()+"ffgfg");
+           return getMatchArray().get(position).getMatchType();
 //            ItemMatch object = arrayList.get(position);
 //            if (object != null) {
 //                return object.getMatchType();
 //            }
-        }
-        return 0;
+//        }
+//        return 0;
     }
 
     public class AthleticViewHolder extends RecyclerView.ViewHolder {

@@ -116,8 +116,8 @@ public class CartActivity extends Fragment {
 
 
         viewLoader(true);
-        rl_filled.setVisibility(View.VISIBLE);
-        rl_empty.setVisibility(View.GONE);
+//        rl_filled.setVisibility(View.VISIBLE);
+//        rl_empty.setVisibility(View.GONE);
 
 
         Source s = Source.SERVER;
@@ -162,8 +162,8 @@ public class CartActivity extends Fragment {
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 if(progressBar.getVisibility()==View.VISIBLE){
-                    rl_filled.setVisibility(View.GONE);
-                    rl_empty.setVisibility(View.VISIBLE);
+//                    rl_filled.setVisibility(View.GONE);
+//                    rl_empty.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
             }

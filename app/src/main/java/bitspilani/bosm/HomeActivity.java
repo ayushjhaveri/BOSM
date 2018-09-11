@@ -108,6 +108,7 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -124,13 +125,7 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if(getIntent().getExtras()   != null) {
-            if (getIntent().getStringExtra("NOTIFICATIONS").equals("1"))
-                loadFrag(new EventFragment(), "notify_event", fm);
-            else if (getIntent().getStringExtra("NOTIFICATIONS").equals("2"))
-                loadFrag(new SportFragment(), "notify_score", fm);
-        }
-
+        fm = getSupportFragmentManager();
 
         //checking service
         FirebaseApp.initializeApp(this);
@@ -156,7 +151,13 @@ public class HomeActivity extends AppCompatActivity
 //        setSupportActionBar(toolbar);
         setTitle("BOSM 2K18");
 
-        fm = getSupportFragmentManager();
+
+        if(getIntent().getExtras()   != null) {
+            if (getIntent().getStringExtra("NOTIFICATIONS").equals("1"))
+                loadFrag(new EventFragment(), "notify_event", fm);
+            else if (getIntent().getStringExtra("NOTIFICATIONS").equals("2"))
+                loadFrag(new SportFragment(), "notify_score", fm);
+        }
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
