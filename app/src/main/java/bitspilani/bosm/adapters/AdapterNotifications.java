@@ -30,7 +30,7 @@ public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotificati
     @Override
     public AdapterNotifications.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_notification3, parent, false);
+                .inflate(R.layout.row_notification, parent, false);
 
         return new AdapterNotifications.ViewHolder(itemView);
     }
@@ -39,7 +39,7 @@ public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotificati
     public void onBindViewHolder(final AdapterNotifications.ViewHolder holder, final int position) {
          ItemNotification itemNotifications = notificationArrayList.get(position);
 
-        holder.tv_name.setText(itemNotifications.getNotif_title());
+        holder.tv_title.setText(itemNotifications.getNotif_title());
         holder.tv_info.setText(itemNotifications.getNotif_body());
 //        holder.tv_date.setText(itemNotifications.getNotif_date());
 //        holder.tv_time.setText(itemNotifications.getNotif_time());
@@ -54,14 +54,14 @@ public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotificati
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_name, tv_info, tv_date, tv_time;
+        TextView tv_title, tv_info, tv_date, tv_time;
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_name = itemView.findViewById(R.id.tv_name);
+            tv_title = itemView.findViewById(R.id.tv_title);
             tv_info = itemView.findViewById(R.id.tv_info);
 //            tv_date = itemView.findViewById(R.id.tv_date);
             tv_time = itemView.findViewById(R.id.tv_time);
-
+//
         }
     }
 }

@@ -20,9 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -49,6 +51,9 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
 
 
     private static LayoutInflater inflater;
+    //   public static TextView tv_number;
+
+//    public static MultiSectionHoverMenu multiSectionHoverMenu;
 
     @Override
     protected void onHoverMenuLaunched(@NonNull Intent intent, @NonNull HoverView hoverView) {
@@ -56,12 +61,22 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
         hoverView.setMenu(createHoverMenu());
         hoverView.collapse();
         hoverView.bringToFront();
+
     }
+
 
     @NonNull
     private HoverMenu createHoverMenu() {
+        Log.d("aaaaaaaaaa","passed 1");
+//        multiSectionHoverMenu = new MultiSectionHoverMenu(getBaseContext());
         return new MultiSectionHoverMenu(getBaseContext());
+
     }
+//
+//    public static void increase(Context context){
+////        Log.d("aaaaaaaaaa","passed 2");
+////        multiSectionHoverMenu.increaseNumber();
+//    }
 
     private static class MultiSectionHoverMenu extends HoverMenu {
 
@@ -82,12 +97,34 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
 
         private View createTabView() {
 //            @SuppressLint("InflateParams") View iconScreen = inflater.inflate(R.layout.layout_hover_icon, null, false);
-
+//                tv_number = (TextView)iconScreen.findViewById(R.id.tv_number);
+//                tv_number.setText("");
+//                tv_number.setVisibility(View.GONE);
             ImageView imageView = new ImageView(mContext);
             imageView.setImageResource(R.drawable.baxter);
             imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             return imageView;
         }
+
+//        public static void increaseNumber(){
+//            Log.d("aaaaaaaaaa","passed 3");
+//
+//            if(tv_number!=null) {
+//                Log.d("aaaaaaaaaa","passed 4");
+//                int no;
+//                if (tv_number.getText().toString().isEmpty()) {
+//                    no = 0;
+//                } else {
+//                    no = Integer.parseInt(tv_number.getText().toString());
+//                }
+//                no++;
+//                tv_number.setText(no + "");
+//                tv_number.setVisibility(View.VISIBLE);
+//                Log.d("aaaaaaaaaa","passed 5");
+//            }
+//        }
+
+
 
         @Override
         public String getId() {

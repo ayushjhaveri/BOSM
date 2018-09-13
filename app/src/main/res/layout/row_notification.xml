@@ -4,13 +4,14 @@
     android:id="@+id/folding_cell"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
+    android:layout_marginBottom="12dp"
     android:layout_marginEnd="12dp"
     android:layout_marginStart="12dp"
-    android:layout_marginTop="6dp"
-    app:backSideColor="@color/back_shade2">​
+    android:layout_marginTop="0dp"
+    >​
 
     <android.support.v7.widget.CardView
+        app:cardBackgroundColor="#eeeeee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardElevation="3dp">
@@ -18,36 +19,44 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:id="@+id/icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/bosm_logo"/>
 
             <RelativeLayout
+                android:layout_marginBottom="4dp"
+                android:layout_toStartOf="@+id/view"
+                android:layout_toEndOf="@+id/icon"
                 android:id="@+id/rl_main"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/view"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp">
 
                 <TextView
-                    android:id="@+id/tv_name"
-
+                    android:id="@+id/tv_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="BITS P v/s BITS G"
-                    android:textColor="#000000"
+                    android:text="Title"
+                    android:textColor="@color/back_shade4"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_name"
-                    android:padding="5dp"
+                    android:layout_below="@id/tv_title"
                     android:text="Come fast. The Football Match will Start in 10 minutes"
-                    android:textColor="#aa000000" />
+                    android:textSize="11sp"
+                    android:textColor="@color/back_shade4" />
 
             </RelativeLayout>
 
@@ -59,7 +68,7 @@
                 android:layout_alignTop="@id/rl_main"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/ll_time"
-                android:background="@color/orange_shade" />
+                android:background="@color/back_shade6" />
 
             <LinearLayout
                 android:id="@+id/ll_time"
@@ -76,19 +85,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:padding="5dp"
-                    android:text="19:30"
-                    android:textColor="#99000000" />
+                    android:text="19:30 am"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/back_shade4" />
 
                 <TextView
+                    android:layout_marginTop="5dp"
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_time"
                     android:layout_gravity="center_horizontal"
-                    android:padding="5dp"
+                    android:padding="0dp"
                     android:text="21 Sep"
-                    android:textColor="#99000000" />
+                    android:textSize="9sp"
+                    android:textColor="@color/back_shade4" />
 
 
             </LinearLayout>

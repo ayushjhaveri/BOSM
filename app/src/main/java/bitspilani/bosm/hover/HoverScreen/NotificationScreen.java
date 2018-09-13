@@ -18,6 +18,7 @@ package bitspilani.bosm.hover.HoverScreen;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -26,8 +27,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.reflect.TypeToken;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
@@ -39,6 +43,7 @@ import bitspilani.bosm.adapters.AdapterEvents;
 import bitspilani.bosm.adapters.AdapterNotifications;
 import bitspilani.bosm.items.ItemEvent;
 import bitspilani.bosm.items.ItemNotification;
+import bitspilani.bosm.notification.MyFirebaseMessagingService;
 import io.mattcarroll.hover.Content;
 
 import static bitspilani.bosm.utils.Constant.PREF;
@@ -52,42 +57,18 @@ public class NotificationScreen implements Content {
     private final View mWholeScreen;
     private LayoutInflater inflater;
 
+
     public NotificationScreen(@NonNull Context context) {
         mContext = context.getApplicationContext();
         inflater = LayoutInflater.from(context);
         mWholeScreen = createScreenView();
 
     }
-    AdapterNotifications adapterNotifications;
-    List<ItemNotification> list;
+   public AdapterNotifications adapterNotifications;
 
     @NonNull
     private View createScreenView() {
         @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_notification, null, false);
-        //implement contents of layout
-
-        RecyclerView recyclerView = (RecyclerView)wholeScreen.findViewById(R.id.recycler_notifications);
-
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(mContext);
-
-        Gson gson = new Gson();
-        String list_string = appSharedPrefs.getString(PREF, "");
-
-        Log.d("NOTIFICATION SCREEN","notification "+list_string);
-
-        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
-
-        if(gson.fromJson(list_string, type_1)!=null)
-            list = gson.fromJson(list_string, type_1);
-        else
-            list = new ArrayList<>();
-
-        adapterNotifications = new AdapterNotifications(mContext,list);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapterNotifications);
 
         return wholeScreen;
     }
@@ -98,52 +79,88 @@ public class NotificationScreen implements Content {
     @Override
     public View getView() {
 
+
+        TextView title =(TextView) mWholeScreen.findViewById(R.id.title);
+
+        Typeface oswald_regular = Typeface.createFromAsset(mContext.getAssets(), "fonts/Oswald-Regular.ttf");
+
+        title.setTypeface(oswald_regular);
+
+        RecyclerView recyclerView = (RecyclerView)mWholeScreen.findViewById(R.id.recycler_notifications);
+
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(mContext);
+
+        Log.d("qqqqqqqqq","getview");
+
+        Gson gson = new Gson();
+        String list_string = appSharedPrefs.getString(PREF, "");
+
+        Log.d( "qqqqqqqqqqq","notification "+list_string);
+
+        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+
+        if(gson.fromJson(list_string, type_1)!=null)
+            MyFirebaseMessagingService.list = gson.fromJson(list_string, type_1);
+
+
+        // empty layout
+
+        adapterNotifications = new AdapterNotifications(mContext,MyFirebaseMessagingService.list);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapterNotifications);
+
+
+//        Toast.makeText(mContext,"getview",Toast.LENGTH_SHORT).show();
         return mWholeScreen;
     }
 
     @Override
     public boolean isFullscreen() {
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(mContext);
-
-        Gson gson = new Gson();
-        String list_string = appSharedPrefs.getString(PREF, "");
-
-        Log.d("NOTIFICATION SCREEN","notification "+list_string);
-
-        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
-
-        if(gson.fromJson(list_string, type_1)!=null)
-            list = gson.fromJson(list_string, type_1);
-        else
-            list = new ArrayList<>();
-        adapterNotifications.notifyDataSetChanged();
+//        Log.d("qqqqqqqqq","full screen");
+//        Toast.makeText(mContext,"full screen",Toast.LENGTH_SHORT).show();
+//        SharedPreferences appSharedPrefs = PreferenceManager
+//                .getDefaultSharedPreferences(mContext);
+//
+//        Gson gson = new Gson();
+//        String list_string = appSharedPrefs.getString(PREF, "");
+//
+//        Log.d("NOTIFICATION SCREEN","notification "+list_string);
+//
+//        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+//
+//        if(gson.fromJson(list_string, type_1)!=null)
+//            MyFirebaseMessagingService.list = gson.fromJson(list_string, type_1);
+//
+//        adapterNotifications.notifyDataSetChanged();
 
         return true;
     }
 
     @Override
     public void onShown() {
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(mContext);
-
-        Gson gson = new Gson();
-        String list_string = appSharedPrefs.getString(PREF, "");
-
-        Log.d("NOTIFICATION SCREEN","notification "+list_string);
-
-        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
-
-        if(gson.fromJson(list_string, type_1)!=null)
-            list = gson.fromJson(list_string, type_1);
-        else
-            list = new ArrayList<>();
-        // No-op.
+//        Log.d("qqqqqqqqq","shown");
+//        Toast.makeText(mContext,"shown",Toast.LENGTH_SHORT).show();
+//        SharedPreferences appSharedPrefs = PreferenceManager
+//                .getDefaultSharedPreferences(mContext);
+//
+//        Gson gson = new Gson();
+//        String list_string = appSharedPrefs.getString(PREF, "");
+//        Log.d("NOTIFICATION SCREEN","notification "+list_string);
+//        Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+//
+//        if(gson.fromJson(list_string, type_1)!=null)
+//            MyFirebaseMessagingService.list  = gson.fromJson(list_string, type_1);
+//        // No-op.
         adapterNotifications.notifyDataSetChanged();
     }
 
     @Override
     public void onHidden() {
+//        Log.d("qqqqqqqqq","hidden");
+//        Toast.makeText(mContext,"hidden",Toast.LENGTH_SHORT).show();
         // No-op.
     }
 }

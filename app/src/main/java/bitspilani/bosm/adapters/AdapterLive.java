@@ -298,6 +298,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     };
 
     protected void onDataChanged() {
+
         progressBar.setVisibility(View.GONE);
     }
 

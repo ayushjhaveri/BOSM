@@ -11,14 +11,21 @@
             android:id="@+id/baxter"
             android:layout_centerHorizontal="true"
             android:src="@drawable/baxter"
-            android:paddingBottom="16dp"
-            android:paddingTop="6dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
             android:layout_width="56dp"
-            android:layout_height="66dp"
-
+            android:layout_height="56dp"
             />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_number"
+            android:background="@drawable/notif_"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:text="2" />
 
         <!--<TextView-->
             <!--android:layout_marginTop="45dp"-->

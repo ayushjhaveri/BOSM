@@ -2,8 +2,10 @@ package bitspilani.bosm.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.util.ArrayList;
@@ -43,6 +46,8 @@ import bitspilani.bosm.fragments.SponsorsFragment;
 import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.fragments.SportSelectedFragment;
 import bitspilani.bosm.utils.Constant;
+
+import static bitspilani.bosm.utils.Constant.PREF;
 
 /**
  * Created by Prashant on 4/7/2018.
@@ -105,6 +110,7 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+
 //                                        ArrayList<String > arrayList = itemSport.getArrayList();
 //                                        arrayList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //                                        itemSport.setArrayList(arrayList);
@@ -123,6 +129,9 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+
+                                        SharedPreferences appSharedPrefs = PreferenceManager
+                                                .getDefaultSharedPreferences(context);
 //                                        ArrayList<String > arrayList = itemSport.getArrayList();
 //                                        arrayList.remove(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //                                        itemSport.setArrayList(arrayList);

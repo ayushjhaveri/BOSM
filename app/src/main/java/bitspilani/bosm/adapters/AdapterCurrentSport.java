@@ -21,9 +21,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.florent37.viewtooltip.ViewTooltip;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.type.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -203,6 +207,42 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                     holder1.rl_top.setVisibility(View.VISIBLE);
                     holder1.tv_sort_title.setText(itemMatch.getDate());
                 }
+                holder.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("venue").document(itemMatch.getVenue()).get().addOnCompleteListener(
+                                new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        progressBar.setVisibility(View.GONE);
+                                        if(task.isSuccessful()){
+                                            String latitude = task.getResult().contains("latitude")?task.getResult().getData().get("latitude").toString():"28.363821";
+                                            String longitude = task.getResult().contains("longitude")?task.getResult().getData().get("latitude").toString():"75.587029";
+                                            final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                    Uri.parse(map_nav_url));
+                                            context.startActivity(intent);
+                                        }else{
+                                            String latitude = "28.363821";
+                                            String longitude = "75.587029";
+                                            final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                    Uri.parse(map_nav_url));
+                                            context.startActivity(intent);
+                                        }
+                                    }
+                                }
+                        );
+//                        Intent intent = new Intent(Intent.ACTION_VIEW,
+//                                Uri.parse(map_nav_url));
+//                        context.startActivity(intent);
+                    }
+                });
+
                 //for
                 break;
 
@@ -329,6 +369,33 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                 holder.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("venue").document(itemMatch.getVenue()).get().addOnCompleteListener(
+                                new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        progressBar.setVisibility(View.GONE);
+                                        if(task.isSuccessful()){
+                              String latitude = task.getResult().contains("latitude")?task.getResult().getData().get("latitude").toString():"28.363821";
+                                            String longitude = task.getResult().contains("longitude")?task.getResult().getData().get("latitude").toString():"75.587029";
+                                            final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                    Uri.parse(map_nav_url));
+                                            context.startActivity(intent);
+                                        }else{
+                                            String latitude = "28.363821";
+                                            String longitude = "75.587029";
+                                            final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                    Uri.parse(map_nav_url));
+                                            context.startActivity(intent);
+                                        }
+                                    }
+                                }
+                        );
 //                        Intent intent = new Intent(Intent.ACTION_VIEW,
 //                                Uri.parse(map_nav_url));
 //                        context.startActivity(intent);

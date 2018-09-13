@@ -2,6 +2,7 @@ package bitspilani.bosm.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,7 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +62,10 @@ public class GameFragment extends Fragment {
     private String TAG = "GAMEFRAGMENT";
     ProgressBar progressBar;
     private int type = 0;
+    RelativeLayout rl_profile, rl_please_login;
+    TextView tv_name,tv_email,tv_logout;
+            ImageView iv_profile;
+    SignInButton iv_login;
 
     public GameFragment() {
         // Required empty public constructor
@@ -74,13 +82,70 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_game, container, false);
+        final View view = inflater.inflate(R.layout.fragment_game, container, false);
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
         Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
         TextView tv_title = (TextView)view.findViewById(R.id.tv_header);
         tv_title.setTypeface(oswald_regular);
+
+        rl_profile = (RelativeLayout)view.findViewById(R.id.rl_profile);
+        rl_please_login = (RelativeLayout)view.findViewById(R.id.rl_please_login);
+        tv_name = (TextView)view.findViewById(R.id.tv_name);
+        tv_email = (TextView)view.findViewById(R.id.tv_email);
+        tv_logout =(TextView)view.findViewById(R.id.tv_logout);
+        iv_profile = (ImageView) view.findViewById(R.id.iv_profile);
+        iv_login = (SignInButton) view.findViewById(R.id.iv_login);
+
+
+        if(mAuth.getCurrentUser()!= null) {
+            rl_profile.setVisibility(View.VISIBLE);
+            rl_please_login.setVisibility(View.GONE);
+            tv_name.setText(mAuth.getCurrentUser().getDisplayName());
+            tv_email.setText(mAuth.getCurrentUser().getEmail());
+
+            Picasso.with(getContext()).load(mAuth.getCurrentUser().getPhotoUrl()).into(iv_profile);
+        }else{
+            rl_profile.setVisibility(View.GONE);
+            rl_please_login.setVisibility(View.VISIBLE);
+        }
+
+        iv_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewLoader(true);
+                type =3;
+                login(v);
+            }
+        });
+
+        tv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewLoader(true);
+                mAuth.signOut();
+                mGoogleSignInClient.signOut()
+                        .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    viewLoader(false);
+                                }
+                                // ...
+                            }
+                        });
+                rl_please_login.setVisibility(View.VISIBLE);
+                rl_profile.setVisibility(View.GONE);
+            }
+        });
+
 
         (view.findViewById(R.id.cv_roulette)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,11 +193,6 @@ public class GameFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     private void login(View view){
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
         signIn();
     }
     private void signIn() {
@@ -164,22 +224,7 @@ public class GameFragment extends Fragment {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            if(Objects.requireNonNull(account.getEmail()).contains("@pilani.bits-pilani.ac.in")) {
                 firebaseAuthWithGoogle(account);
-            }else {
-                mGoogleSignInClient.signOut()
-                        .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(getContext(), "Only Bits-email login is enabled!", Toast.LENGTH_SHORT).show();
-                                }
-                                // ...
-                            }
-                        });
-                viewLoader(false);
-
-            }
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -202,6 +247,7 @@ public class GameFragment extends Fragment {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            Log.d(TAG,mAuth.getCurrentUser().getPhotoUrl()+"");
                             updateUI(user);
                         } else {
                             viewLoader(false);
@@ -226,6 +272,7 @@ public class GameFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
+                                Toast.makeText(getContext(),"Logged In Successfully!",Toast.LENGTH_SHORT).show();
                                 if(task.getResult().getData()==null){
                                     //user doesn't exist
 //                                    Toast.makeText(getContext(),"han",Toast.LENGTH_SHORT).show();
@@ -254,8 +301,17 @@ public class GameFragment extends Fragment {
                                                 viewLoader(false);
                                                 if(type ==1){
                                                     loadFragment(new RouletteHomeFragment());
-                                                }else if(type ==0){
+                                                }else if(type ==2){
                                                     loadFragment(new FragmentQuilympics());
+                                                }else if(type ==3){
+                                                    rl_profile.setVisibility(View.VISIBLE);
+                                                    rl_please_login.setVisibility(View.GONE);
+                                                    tv_name.setText(mAuth.getCurrentUser().getDisplayName());
+                                                    tv_email.setText(mAuth.getCurrentUser().getEmail());
+
+//                                                    iv_profile.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
+                                                    Picasso.with(getContext()).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(iv_profile);
+
                                                 }
 //                                                startActivity(new Intent(getActivity(),HomeActivity.class));
 //                                                finish();
@@ -266,11 +322,19 @@ public class GameFragment extends Fragment {
                                         }
                                     });
                                 }else{
+                                    Toast.makeText(getContext(),"Logged In Successfully!",Toast.LENGTH_SHORT).show();
                                     viewLoader(false);
                                     if(type ==1){
                                         loadFragment(new RouletteHomeFragment());
-                                    }else if(type ==0){
+                                    }else if(type ==2){
                                         loadFragment(new FragmentQuilympics());
+                                    }else if(type ==3){
+                                        rl_profile.setVisibility(View.VISIBLE);
+                                        rl_please_login.setVisibility(View.GONE);
+                                        tv_name.setText(mAuth.getCurrentUser().getDisplayName());
+                                        tv_email.setText(mAuth.getCurrentUser().getEmail());
+                                        iv_profile.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
+                                        Picasso.with(getContext()).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(iv_profile);
                                     }
 //                                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
 //                                    finish();

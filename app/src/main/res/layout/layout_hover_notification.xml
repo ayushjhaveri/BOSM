@@ -3,13 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <TextView
+        android:id="@+id/title"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:text="NOTIFICATIONS"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:layout_marginBottom="12dp"
+        android:textSize="23sp"
+        />
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/title"
         android:id="@+id/recycler_notifications"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp"
+        android:paddingBottom="12dp"
         android:divider="@android:color/transparent"
         android:overScrollMode="never"
         />

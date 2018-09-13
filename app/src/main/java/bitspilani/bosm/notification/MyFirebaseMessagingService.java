@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
 
 import com.google.common.reflect.TypeToken;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
+import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
 import bitspilani.bosm.items.ItemNotification;
 import bitspilani.bosm.utils.Constant;
 
@@ -34,6 +36,8 @@ import static bitspilani.bosm.utils.Constant.PREF;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "StartingAndroid";
+
+   public static List<ItemNotification> list = new ArrayList<>();
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -79,11 +83,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String list_string = appSharedPrefs.getString(PREF, "");
 
         Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
-        List<ItemNotification> list;
+
         if(gson.fromJson(list_string, type_1)!=null)
             list = gson.fromJson(list_string, type_1);
-        else
-            list = new ArrayList<>();
 
         ItemNotification itemNotification = new ItemNotification(
                 title,
@@ -91,6 +93,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Calendar.getInstance()
         );
         list.add(itemNotification);
+
+//        if(adapterNotifications!=null) {
+//            Log.d(TAG,"updated");
+//            adapterNotifications.notifyDataSetChanged();
+//
+//        }
 
         String json = gson.toJson(list);
 

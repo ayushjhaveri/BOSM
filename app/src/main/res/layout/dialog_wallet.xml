@@ -18,7 +18,7 @@
             android:layout_toLeftOf="@+id/tv_hea"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/circular_imageview"
+            android:src="@drawable/notif_"
             android:tint="@android:color/white"
             android:layout_margin="10dp"/>
 
