@@ -73,7 +73,7 @@ public class    CurrentSportFragment extends Fragment {
         }
     }
 
-    public static RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -143,7 +143,7 @@ public class    CurrentSportFragment extends Fragment {
             mQuery = db.collection("scores").whereEqualTo("gender",0).whereEqualTo("sport_id",Constant.currentSport.getSport_id()).orderBy("timestamp").whereEqualTo("item_type",1);
         }
 
-        adapterCurrentSport = new AdapterCurrentSport(getActivity(),mQuery,progressBar);
+        adapterCurrentSport = new AdapterCurrentSport(getActivity(),mQuery,progressBar,recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -24,5 +24,6 @@ public class Constant {
     public final static int TEAM_MATCH = 1;
 
     public final static String PREF = "notification_list";
+    public final static String PREF_SPORT = "notification_list_pref_list";
 
 }

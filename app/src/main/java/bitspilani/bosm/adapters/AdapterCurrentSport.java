@@ -39,7 +39,6 @@ import java.util.Objects;
 
 //import bitspilani.bosm.CurrentSportActivity;
 import bitspilani.bosm.R;
-import bitspilani.bosm.fragments.CurrentSportFragment;
 import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.items.ItemMatch;
 import bitspilani.bosm.utils.Constant;
@@ -57,15 +56,17 @@ import static com.github.florent37.viewtooltip.ViewTooltip.ALIGN.CENTER;
 public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHolder> {
 
     private Context context;
-    private static final String TAG = "AdapterCart";
+    private RecyclerView recyclerView;
+    private static final String TAG = "AdapterCurrentSport";
 
 
 
 //    public static String hash;
     ProgressBar progressBar;
-    public AdapterCurrentSport(Context context, Query query , ProgressBar progressBar) {
+    public AdapterCurrentSport(Context context, Query query , ProgressBar progressBar, RecyclerView recyclerView) {
         super(query);
         this.context = context;
+        this.recyclerView = recyclerView;
 //        hash = "";
         this.progressBar = progressBar;
 //        arrayList = new ArrayList<>();
@@ -79,8 +80,8 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
 
         for(int i=0;i<arrayList.size();i++){
             if(Calendar.getInstance().get(Calendar.DATE) == arrayList.get(i).getCalendar().get(Calendar.DATE)){
-                //         Log.d(TAG,"dSDSADASDSADSADSADASD" + position);
-                CurrentSportFragment.recyclerView.smoothScrollToPosition(i+1);
+                         Log.d(TAG,"Scrolling to Position " + i+1);
+                recyclerView.smoothScrollToPosition(i+1);
                 break;
             }
         }

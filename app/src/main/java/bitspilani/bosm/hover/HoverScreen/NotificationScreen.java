@@ -19,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -36,6 +37,7 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import bitspilani.bosm.R;
@@ -79,7 +81,6 @@ public class NotificationScreen implements Content {
     @Override
     public View getView() {
 
-
         TextView title =(TextView) mWholeScreen.findViewById(R.id.title);
 
         Typeface oswald_regular = Typeface.createFromAsset(mContext.getAssets(), "fonts/Oswald-Regular.ttf");
@@ -103,6 +104,14 @@ public class NotificationScreen implements Content {
         if(gson.fromJson(list_string, type_1)!=null)
             MyFirebaseMessagingService.list = gson.fromJson(list_string, type_1);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            MyFirebaseMessagingService.list.sort(new Comparator<ItemNotification>() {
+                @Override
+                public int compare(ItemNotification itemNotification, ItemNotification t1) {
+                    return itemNotification.getCal().compareTo(t1.getCal());
+                }
+            });
+        }
 
         // empty layout
 

@@ -96,14 +96,14 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
         }
 
         private View createTabView() {
-//            @SuppressLint("InflateParams") View iconScreen = inflater.inflate(R.layout.layout_hover_icon, null, false);
+            @SuppressLint("InflateParams") View iconScreen = inflater.inflate(R.layout.layout_hover_icon, null, false);
 //                tv_number = (TextView)iconScreen.findViewById(R.id.tv_number);
 //                tv_number.setText("");
 //                tv_number.setVisibility(View.GONE);
-            ImageView imageView = new ImageView(mContext);
-            imageView.setImageResource(R.drawable.baxter);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            return imageView;
+//            ImageView imageView = new ImageView(mContext);
+//            imageView.setImageResource(R.drawable.baxter);
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            return iconScreen;
         }
 
 //        public static void increaseNumber(){

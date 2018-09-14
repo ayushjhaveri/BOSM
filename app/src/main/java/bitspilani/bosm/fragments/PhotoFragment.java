@@ -15,7 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -50,59 +53,23 @@ public class PhotoFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         context = getContext();
 
+
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
 
         tv_header.setTypeface(oswald_regular);
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-//        String pattern = "https://drive.google.com/drive/u/1/folders/1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj"
-
-//        String pattern = "https://drive.google.com/open?id=1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj";
-        https://drive.google.com/open?id=1BVBJTcoG8bb8L3ge1AbAIdp9yT2KGDLj
-//
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-        phototUrlArrayList.add("https://i1.wp.com/digital-photography-school.com/wp-content/uploads/2013/07/ar-05.jpg?ssl=1");
-        phototUrlArrayList.add("https://static1.squarespace.com/static/54c50337e4b07b213a53ab66/57545205746fb93a8a546428/57545224746fb93a8a5464e9/1465143847101/logatec+smaller+watermark-3-2.jpg");
-        phototUrlArrayList.add("http://coxnewstoday.com/wp-content/uploads/2017/10/022208jel_kalerkantho-2017-3-2.jpg");
-
-
-
-
-        mAdapter = new AdapterPhotos(context,phototUrlArrayList);
+        Query mQuery = db.collection("photos");
+        mAdapter = new AdapterPhotos(context,mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
-        alphaAdapter.setDuration(1000);
-        alphaAdapter.setFirstOnly(false);
-        recyclerView.setAdapter(alphaAdapter);
+//        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+//        alphaAdapter.setDuration(1000);
+//        alphaAdapter.setFirstOnly(false);
+        recyclerView.setAdapter(mAdapter);
         return view;
     }
     @Override
