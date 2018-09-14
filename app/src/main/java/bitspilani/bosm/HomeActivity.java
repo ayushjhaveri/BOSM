@@ -82,9 +82,11 @@ public class HomeActivity extends AppCompatActivity
 
     private boolean mPermissionsRequested = false;
 
-    public static FragmentManager getSFM(){
+    public static FragmentManager getSFM() {
         return fm;
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,6 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         fm = getSupportFragmentManager();
-
         //checking service
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().subscribeToTopic("all");
@@ -123,7 +124,7 @@ public class HomeActivity extends AppCompatActivity
                 super.onDrawerClosed(drawerView);
 
 
-                Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide2);
+                Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide2);
                 ll_dots.startAnimation(animSlide);
 
 //                Toast.makeText(HomeActivity.this, "dsasda", Toast.LENGTH_SHORT).show();
@@ -133,7 +134,7 @@ public class HomeActivity extends AppCompatActivity
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
                 super.onDrawerOpened(drawerView);
-                Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.slide);
+                Animation animSlide = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide);
                 ll_dots.startAnimation(animSlide);
 //                Toast.makeText(HomeActivity.this, "ppppp", Toast.LENGTH_SHORT).show();
 
@@ -160,18 +161,18 @@ public class HomeActivity extends AppCompatActivity
         });
 
 
-        if(getIntent().getExtras()!= null && getIntent().getStringExtra("NOTIFICATION")!=null) {
-                if (getIntent().getStringExtra("NOTIFICATION").equals("1")) {
-                    Log.d("notif", "1");
-                    loadFragHome(new HomeFragment(), "Home", fm, 0);
-                } else if (getIntent().getStringExtra("NOTIFICATION").equals("2")) {
-                    Log.d("notif", "2");
-                    loadFragHome(new HomeFragment(), "Home", fm, 2);
-                }
-        }else{
-            Log.d("notif","564564");
-                loadFragHome(new HomeFragment(), "Home", fm,1);
+        if (getIntent().getExtras() != null && getIntent().getStringExtra("NOTIFICATION") != null) {
+            if (getIntent().getStringExtra("NOTIFICATION").equals("1")) {
+                Log.d("notif", "1");
+                loadFragHome(new HomeFragment(), "Home", fm, 0);
+            } else if (getIntent().getStringExtra("NOTIFICATION").equals("2")) {
+                Log.d("notif", "2");
+                loadFragHome(new HomeFragment(), "Home", fm, 2);
             }
+        } else {
+            Log.d("notif", "564564");
+            loadFragHome(new HomeFragment(), "Home", fm, 1);
+        }
 
         TextView tv_bosm = (TextView) findViewById(R.id.tv_bosm);
         Typeface oswald_regular = Typeface.createFromAsset(getAssets(), "fonts/Oswald-Regular.ttf");
@@ -194,13 +195,13 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(HomeActivity.currentFragment.equals("HomeFragment") || HomeActivity.currentFragment.equals("LiveFragment")){}
-                        else if(HomeActivity.currentFragment.equals("SportFragment")||HomeActivity.currentFragment.equals("EventFragment")){
+                        if (HomeActivity.currentFragment.equals("HomeFragment") || HomeActivity.currentFragment.equals("LiveFragment")) {
+                        } else if (HomeActivity.currentFragment.equals("SportFragment") || HomeActivity.currentFragment.equals("EventFragment")) {
                             vpPager.setCurrentItem(1);
+                        } else {
+                            Log.d("notif", "56546434");
+                            loadFragHome(new HomeFragment(), "Home", fm, 1);
                         }
-                        else{
-                            Log.d("notif","56546434");
-                            loadFragHome(new HomeFragment(), "Home", fm,1);}
                     }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
@@ -213,9 +214,9 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(HomeActivity.currentFragment.equals("RouletteHomeFragment") || HomeActivity.currentFragment.equals("RouletteMainFragment")){}
-
-                        else{loadFrag(new GameFragment(), "Game", fm);
+                        if (HomeActivity.currentFragment.equals("RouletteHomeFragment") || HomeActivity.currentFragment.equals("RouletteMainFragment")) {
+                        } else {
+                            loadFrag(new GameFragment(), "Game", fm);
                         }
                     }
                 }, 600);
@@ -264,10 +265,10 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         if (HomeActivity.currentFragment.equals("DevelopersFragment")) {
 
+                        } else {
+                            loadFrag(new DevelopersFragment(), "Develoeprs", fm);
                         }
-                        else{
-                        loadFrag(new DevelopersFragment(), "Develoeprs", fm);
-                    }}
+                    }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -297,9 +298,10 @@ public class HomeActivity extends AppCompatActivity
                     public void run() {
                         if (HomeActivity.currentFragment.equals("EpcFragment")) {
 
+                        } else {
+                            loadFrag(new EpcFragment(), "EPC", fm);
                         }
-                        else{loadFrag(new EpcFragment(), "EPC", fm);
-                    }}
+                    }
                 }, 600);
                 drawer.closeDrawer(GravityCompat.START);
             }
@@ -339,7 +341,6 @@ public class HomeActivity extends AppCompatActivity
         });
 
 
-
     }
 
     @Override
@@ -353,17 +354,17 @@ public class HomeActivity extends AppCompatActivity
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toast.makeText(this, currentFragment, Toast.LENGTH_SHORT).show();
-           if(drawer.isDrawerOpen(GravityCompat.START)){drawer.closeDrawer(GravityCompat.START);}
-           else if(currentFragment.equals("aaaaaaaa") && vpPager.getCurrentItem()!=1){
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (currentFragment.equals("aaaaaaaa") && vpPager.getCurrentItem() != 1) {
 //                if(vpPager.getCurrentItem()!=1){
-                    vpPager.setCurrentItem(1);
+            vpPager.setCurrentItem(1);
 
-           }
-           else if(currentFragment.equals("RouletteHomeFragment") && vpPagerRoulette.getCurrentItem()!=1){
+        } else if (currentFragment.equals("RouletteHomeFragment") && vpPagerRoulette.getCurrentItem() != 1) {
 //                if(vpPager.getCurrentItem()!=1){
-               vpPagerRoulette.setCurrentItem(1);
+            vpPagerRoulette.setCurrentItem(1);
 
-           }
+        }
 //           else if((currentFragment.equals("LiveFragment")||currentFragment.equals("HomeFragment")||currentFragment.equals("EventFragment")||currentFragment.equals("SportFragment"))&& vpPager.getCurrentItem()==1){super.onBackPressed();}
 //           else if((currentFragment.equals("RouletteHomeFragment")||currentFragment.equals("RouletteMainFragment")||currentFragment.equals("RouletteExtraFragment")||currentFragment.equals("RouletteLeaderboardFragment"))&& vpPagerRoulette.getCurrentItem()==1){super.onBackPressed();}
 //       else if(currentFragment.equals("EventFragment")){
@@ -386,7 +387,7 @@ public class HomeActivity extends AppCompatActivity
 //           vpPager.setCurrentItem(2);
 //       }
 
-      else{
+        else {
             super.onBackPressed();
 
         }
@@ -449,10 +450,11 @@ public class HomeActivity extends AppCompatActivity
         ft.replace(R.id.fl_view, f1, name);
         ft.commit();
     }
+
     public static void loadFragHome(Fragment f1, String name, FragmentManager fm, int pos) {
 //        selectedFragment = name;
         Bundle arguments = new Bundle();
-        arguments.putInt( "pos" ,pos);
+        arguments.putInt("pos", pos);
         f1.setArguments(arguments);
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -519,10 +521,14 @@ public class HomeActivity extends AppCompatActivity
             return "th";
         }
         switch (n % 10) {
-            case 1:  return "st";
-            case 2:  return "nd";
-            case 3:  return "rd";
-            default: return "th";
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
         }
     }
 }

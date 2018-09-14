@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import bitspilani.bosm.R;
 
 public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> {
 
+    private static final String TAG = "AdapterPhotos";
     Context context;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -65,13 +67,14 @@ public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> 
         holder.progressBar.setVisibility(View.VISIBLE);
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://bosm-18-1522766608739.appspot.com");
         StorageReference storageRef = storage.getReference();
-
+        Log.d(TAG,"working");
         String name = documentSnapshot.contains("name")?documentSnapshot.getData().get("name").toString():"one.jpg";
         String path = "images/"+name;
         StorageReference pathReference = storageRef.child(path);
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
+                Log.d(TAG,uri.toString());
                 Picasso.with(context).load(uri).into(holder.photo, new Callback() {
                     @Override
                     public void onSuccess() {

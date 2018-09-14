@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -104,14 +105,12 @@ public class NotificationScreen implements Content {
         if(gson.fromJson(list_string, type_1)!=null)
             MyFirebaseMessagingService.list = gson.fromJson(list_string, type_1);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            MyFirebaseMessagingService.list.sort(new Comparator<ItemNotification>() {
-                @Override
-                public int compare(ItemNotification itemNotification, ItemNotification t1) {
-                    return itemNotification.getCal().compareTo(t1.getCal());
-                }
-            });
-        }
+        Collections.sort(MyFirebaseMessagingService.list, new Comparator<ItemNotification>() {
+            @Override
+            public int compare(ItemNotification itemNotification, ItemNotification t1) {
+                return itemNotification.getCal().compareTo(t1.getCal());
+            }
+        });
 
         // empty layout
 
@@ -125,6 +124,7 @@ public class NotificationScreen implements Content {
 //        Toast.makeText(mContext,"getview",Toast.LENGTH_SHORT).show();
         return mWholeScreen;
     }
+
 
     @Override
     public boolean isFullscreen() {

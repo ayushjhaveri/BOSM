@@ -77,5 +77,21 @@ public class PhotoFragment extends Fragment {
         super.onResume();
         HomeActivity.currentFragment="PhotoFragment";
     }
+    @Override
+    public void onStart() {
+        super.onStart();
 
+        // Start listening for Firestore updates
+        if (mAdapter != null) {
+            mAdapter.startListening();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAdapter != null) {
+            mAdapter.stopListening();
+        }
+    }
 }
