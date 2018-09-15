@@ -143,7 +143,7 @@ public class    CurrentSportFragment extends Fragment {
             mQuery = db.collection("scores").whereEqualTo("gender",0).whereEqualTo("sport_id",Constant.currentSport.getSport_id()).orderBy("timestamp").whereEqualTo("item_type",1);
         }
 
-        adapterCurrentSport = new AdapterCurrentSport(getActivity(),mQuery,progressBar,recyclerView);
+        adapterCurrentSport = new AdapterCurrentSport(getActivity(),mQuery,progressBar,recyclerView, rl_filled, rl_empty);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

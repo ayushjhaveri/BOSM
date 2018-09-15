@@ -66,11 +66,19 @@ public class SponsorsFragment extends Fragment {
 
     private void setupList(){
 
-        list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
-        list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
-        list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
-        list.add(new ItemSponsor("One Plus", R.drawable.androidify_1));
-    }
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+        list.add(new ItemSponsor("Paytm","Title Sponsor", R.drawable.logo_paytm));
+
+        }
     @Override
     public void onResume() {
         super.onResume();

@@ -180,7 +180,9 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="start"
-                app:dots_secondary_color="@color/orange_shade"/>
+                app:dots_secondary_color="@color/orange_shade"
+                app:like_drawable="@drawable/icon_like"
+                app:unlike_drawable="@drawable/icon_like"/>
 
             <LinearLayout
                 android:layout_centerVertical="true"
@@ -250,7 +252,9 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_alignParentEnd="true"
-                app:dots_secondary_color="@color/back_shade2"/>
+                app:dots_secondary_color="@color/back_shade2"
+                app:like_drawable="@drawable/icon_like"
+                app:unlike_drawable="@drawable/icon_like"/>
 
             <!--<ImageView-->
                 <!--android:id="@+id/iv_vote2"-->

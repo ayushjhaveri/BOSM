@@ -54,24 +54,24 @@ public class RouletteHomeFragment extends Fragment {
         final ArrayList<NavigationTabBar.Model> models5 = new ArrayList<>();
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(context,R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.icon_instructions), ContextCompat.getColor(context,R.color.back_shade1)
                 )
-                        .badgeTitle("Extra")
+                        .badgeTitle("Instructions")
                         .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black),ContextCompat.getColor(context,R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.home),ContextCompat.getColor(context,R.color.back_shade1)
                 ).badgeTitle("Matches")
                         .title("title")
                         .build()
         );
         models5.add(
                 new NavigationTabBar.Model.Builder(
-                        getResources().getDrawable(R.drawable.icon_sportreg_black), ContextCompat.getColor(context,R.color.back_shade1)
+                        getResources().getDrawable(R.drawable.icon_leaderboard), ContextCompat.getColor(context,R.color.back_shade1)
                 )
-                        .badgeTitle("Leaderboard")
+                        .badgeTitle("Rank")
                         .title("title")
                         .build()
         );

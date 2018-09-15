@@ -64,11 +64,14 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
     private Context context;
     private ProgressBar progressBar;
     private static final String TAG = "AdapterCart";
+    private RelativeLayout rl_filled, rl_empty;
 
-    public AdapterSport(Context context, Query query,ProgressBar progressBar) {
+    public AdapterSport(Context context, Query query,ProgressBar progressBar, RelativeLayout rl_filled, RelativeLayout rl_empty) {
         super(query);
         this.progressBar  = progressBar;
         this.context = context;
+        this.rl_empty=rl_empty;
+        this.rl_filled=rl_filled;
     }
 
     @Override
@@ -83,6 +86,8 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
     protected void onDataChanged() {
         super.onDataChanged();
         progressBar.setVisibility(View.GONE);
+        rl_empty.setVisibility(View.GONE);
+        rl_filled.setVisibility(View.VISIBLE);
     }
 
     @Override

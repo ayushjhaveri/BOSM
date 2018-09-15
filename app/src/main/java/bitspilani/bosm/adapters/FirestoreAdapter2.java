@@ -92,7 +92,8 @@ public abstract class FirestoreAdapter2<VH extends RecyclerView.ViewHolder>
                                 document.contains("goldRecord") ? document.getData().get("goldRecord").toString() : "",
                                 document.contains("silverRecord") ? document.getData().get("silverRecord").toString() : "",
                                 document.contains("bronzeRecord") ? document.getData().get("bronzeRecord").toString() : "",
-                                cal
+                                cal,
+                                document.contains("extra_details")? document.getData().get("extra_details").toString():""
                         );
                     } else {
                         itemMatch = new ItemMatch(
@@ -133,7 +134,8 @@ public abstract class FirestoreAdapter2<VH extends RecyclerView.ViewHolder>
                                 document.contains("winner") ? Integer.parseInt(document.getData().get("winner").toString()) : 0,
                                 document.contains("full_college1") ? toTitleCase((String) document.getData().get("full_college1")) : "",
                                 document.contains("full_college2") ? toTitleCase((String) document.getData().get("full_college2")) : "",
-                                cal
+                                cal,
+                                document.contains("extra_details")? document.getData().get("extra_details").toString():""
                         );
                     } else {
                         itemMatch = new ItemMatch(

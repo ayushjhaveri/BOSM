@@ -107,7 +107,7 @@
             android:background="@drawable/line_gradient"/>
 
         <RelativeLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_marginTop="0dp"
             android:layout_below="@id/view_12"
             android:layout_marginBottom="6dp"
@@ -130,6 +130,9 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Sanjeet"
+                    android:maxLines="1"
+                    android:maxLength="24"
+                    android:ellipsize="end"
                     android:textColor="@color/gold"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -142,7 +145,7 @@
                     android:gravity="center"
                     android:text="GOLD"
                     android:textColor="@color/gold"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"/>
                 <TextView
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -153,7 +156,10 @@
                     android:gravity="center"
                     android:text="45m"
                     android:textColor="@color/gold"
-                    android:textSize="8sp" />
+                    android:textSize="8sp"
+                    android:maxLines="1"
+                    android:maxLength="18"
+                    android:ellipsize="end"/>
 
             </LinearLayout>
 
@@ -179,7 +185,10 @@
                         android:text="Sanjeet"
                         android:textColor="@color/silver"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
                     <TextView
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
@@ -200,7 +209,10 @@
                         android:gravity="center"
                         android:text="45m"
                         android:textColor="@color/silver"
-                        android:textSize="8sp" />
+                        android:textSize="8sp"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
 
                 </LinearLayout>
 
@@ -220,7 +232,10 @@
                         android:text="Sanjeet"
                         android:textColor="@color/bronze"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
                     <TextView
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
@@ -241,7 +256,11 @@
                         android:gravity="center"
                         android:text="45m"
                         android:textColor="@color/bronze"
-                        android:textSize="8sp" />
+                        android:textSize="8sp"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        />
 
                 </LinearLayout>
 
@@ -275,6 +294,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -355,57 +375,91 @@
                     android:id="@+id/iv_map"
                     android:src="@drawable/map_stad"
                     android:tint="@color/back_shade2"
-                    android:layout_marginEnd="8dp"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="48dp"
+                    android:layout_height="32dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="15dp"
+                    android:paddingTop="8dp"
                     android:layout_alignParentEnd="true"/>
 
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="visible"
+                android:id="@+id/rl_extra"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_time">
+
+            <View
+                android:id="@+id/divider_extra"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_gradient"/>
+
+            <TextView
+                android:layout_below="@id/divider_extra"
+                android:id="@+id/tv_extra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="Bits Pilani won by 24 runs."
+                android:textSize="9sp"
+                android:textColor="@color/silver"
+                />
+            </RelativeLayout>
+
 
         </RelativeLayout>
 
 
     </RelativeLayout>
 
-        <RelativeLayout
-            android:visibility="gone"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/icons"
-            android:layout_width="40dp"
-            android:layout_alignBottom="@+id/main"
-            android:layout_height="match_parent">
+        <!--<RelativeLayout-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:id="@+id/icons"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_alignBottom="@+id/main"-->
+            <!--android:layout_height="match_parent">-->
 
-            <LinearLayout
-                android:layout_centerVertical="true"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <!--<LinearLayout-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
 
 
-            <ImageView
-                android:tint="@color/light_gray"
-                android:src="@drawable/map_stad"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                />
-                <View
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:background="@drawable/line_gradient"
-                    />
-                <ImageView
-                    android:tint="@color/light_gray"
-                    android:src="@drawable/alarm_outline"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    />
-            </LinearLayout>
+            <!--<ImageView-->
+                <!--android:tint="@color/light_gray"-->
+                <!--android:src="@drawable/map_stad"-->
+                <!--android:layout_width="30dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--/>-->
+                <!--<View-->
+                    <!--android:layout_marginEnd="12dp"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:layout_marginBottom="12dp"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="0dp"-->
+                    <!--android:background="@drawable/line_gradient"-->
+                    <!--/>-->
+                <!--<ImageView-->
+                    <!--android:tint="@color/light_gray"-->
+                    <!--android:src="@drawable/alarm_outline"-->
+                    <!--android:layout_width="30dp"-->
+                    <!--android:layout_height="30dp"-->
+                    <!--/>-->
+            <!--</LinearLayout>-->
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
+
 
     </RelativeLayout>
 

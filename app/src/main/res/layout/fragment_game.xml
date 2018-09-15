@@ -157,7 +157,7 @@
         android:paddingBottom="12dp"
         android:background="@drawable/border_shadow"
         android:id="@+id/rl_please_login"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"

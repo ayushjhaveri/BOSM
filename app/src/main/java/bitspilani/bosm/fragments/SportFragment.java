@@ -109,7 +109,7 @@ public class SportFragment extends Fragment{
         Query mQuery = db.collection("sports").orderBy("sport_name");
 
 
-        adapterSport = new AdapterSport(context, mQuery, progressBar);
+        adapterSport = new AdapterSport(context, mQuery, progressBar, rl_filled, rl_empty);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -38,6 +38,7 @@ public class AdapterSponsors extends ArrayAdapter<ItemSponsor> {
             holder = new ViewHolder();
             holder.tvName = (TextView) convertView.findViewById(R.id.textView2);
             holder.ivLogo = (ImageView) convertView.findViewById(R.id.imageView2);
+            holder.tvDescription=(TextView)convertView.findViewById(R.id.tv_description);
             convertView.setTag(holder);
         }
         else {
@@ -48,6 +49,7 @@ public class AdapterSponsors extends ArrayAdapter<ItemSponsor> {
 
         holder.tvName.setText(item.getName());
         holder.ivLogo.setImageResource(item.getImage());
+        holder.tvDescription.setText(item.getDescription());
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +62,7 @@ public class AdapterSponsors extends ArrayAdapter<ItemSponsor> {
     }
 
     static class ViewHolder {
-        private TextView tvName;
+        private TextView tvName, tvDescription;
         private ImageView ivLogo;
     }
 

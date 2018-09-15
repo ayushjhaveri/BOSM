@@ -1,16 +1,11 @@
 package bitspilani.bosm;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,30 +22,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import java.util.ArrayList;
-
-import bitspilani.bosm.fragments.EventFragment;
 import bitspilani.bosm.fragments.GameFragment;
 import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.fragments.PhotoFragment;
-import bitspilani.bosm.fragments.SportFragment;
-import bitspilani.bosm.fragments.SportSelectedFragment;
 import bitspilani.bosm.fragments.ContactFragment;
 import bitspilani.bosm.fragments.DevelopersFragment;
 import bitspilani.bosm.fragments.EpcFragment;
@@ -58,11 +38,9 @@ import bitspilani.bosm.fragments.HomeFragment;
 import bitspilani.bosm.fragments.HpcFragment;
 import bitspilani.bosm.fragments.SponsorsFragment;
 import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
-import bitspilani.bosm.roulette.RouletteHomeFragment;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static bitspilani.bosm.fragments.HomeFragment.vpPager;
-import static bitspilani.bosm.fragments.SportSelectedFragment.vpPagerSport;
 import static bitspilani.bosm.roulette.RouletteHomeFragment.vpPagerRoulette;
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -86,6 +64,8 @@ public class HomeActivity extends AppCompatActivity
         return fm;
     }
 
+    long delay;
+
 
 
     @Override
@@ -104,6 +84,8 @@ public class HomeActivity extends AppCompatActivity
 
         db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(settings);
+
+        delay = 200;
 
 
         final Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
@@ -189,21 +171,19 @@ public class HomeActivity extends AppCompatActivity
 //            }
 //        });
 
-        findViewById(R.id.tv_home).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.rl_home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (HomeActivity.currentFragment.equals("HomeFragment") || HomeActivity.currentFragment.equals("LiveFragment")) {
-                        } else if (HomeActivity.currentFragment.equals("SportFragment") || HomeActivity.currentFragment.equals("EventFragment")) {
-                            vpPager.setCurrentItem(1);
+                        if (HomeActivity.currentFragment.equals("aaaaaaaa") || HomeActivity.currentFragment.equals("LiveFragment")) {
                         } else {
                             Log.d("notif", "56546434");
                             loadFragHome(new HomeFragment(), "Home", fm, 1);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -219,7 +199,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new GameFragment(), "Game", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -236,7 +216,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new PhotoFragment(), "Photos", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -253,7 +233,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new MapFragment(), "Map", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -269,7 +249,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new DevelopersFragment(), "Develoeprs", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -285,7 +265,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new SponsorsFragment(), "Sponsors", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -302,7 +282,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new EpcFragment(), "EPC", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -318,11 +298,11 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new HpcFragment(), "HPC", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
-        findViewById(R.id.tv_contactus).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_contacts).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Handler().postDelayed(new Runnable() {
@@ -335,7 +315,7 @@ public class HomeActivity extends AppCompatActivity
                             loadFrag(new ContactFragment(), "Contact Us", fm);
                         }
                     }
-                }, 600);
+                }, delay);
                 drawer.closeDrawer(GravityCompat.START);
             }
         });
@@ -353,7 +333,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toast.makeText(this, currentFragment, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, currentFragment, Toast.LENGTH_SHORT).show();
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (currentFragment.equals("aaaaaaaa") && vpPager.getCurrentItem() != 1) {
@@ -446,7 +426,8 @@ public class HomeActivity extends AppCompatActivity
 //        selectedFragment = name;
         FragmentTransaction ft = fm.beginTransaction()
                 .addToBackStack(null);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
         ft.replace(R.id.fl_view, f1, name);
         ft.commit();
     }
@@ -457,7 +438,8 @@ public class HomeActivity extends AppCompatActivity
         arguments.putInt("pos", pos);
         f1.setArguments(arguments);
         FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        ft.setCustomAnimations(R.anim.fade_out, R.anim.fade_in);
         ft.replace(R.id.fl_view, f1, name);
         ft.commit();
     }

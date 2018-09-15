@@ -57,7 +57,7 @@ public class LiveFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_live, container, false);
 
         context = getContext();
-//        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
+
         rl_filled = (RelativeLayout)view.findViewById(R.id.rl_filled);
         rl_empty = (RelativeLayout)view.findViewById(R.id.rl_empty);
         rl_filled.setVisibility(View.VISIBLE);
@@ -101,7 +101,7 @@ public class LiveFragment extends Fragment{
         Query mQuery = db.collection("scores").orderBy("item_type").orderBy("timestamp");
 //        .whereGreaterThan("timestamp", Timestamp.now()).limit(15);
 
-        adapterLive = new AdapterLive(getActivity(),mQuery,progressBar);
+        adapterLive = new AdapterLive(getActivity(),mQuery,progressBar, rl_filled, rl_empty);
 
         StickyListHeadersListView stickyList_history = (StickyListHeadersListView) view.findViewById(R.id.lv_recent);
         stickyList_history.setAdapter(adapterLive);

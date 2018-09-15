@@ -19,4 +19,6 @@
     <dimen name="heading_bottom">30dp</dimen>
 
     <dimen name="header_top_margin">40dp</dimen>
+
+    <dimen name="nav_icon_size">28dp</dimen>
 </resources>

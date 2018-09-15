@@ -131,7 +131,7 @@ public class FragmentQuilympics extends Fragment {
             @Override
             public void onClick(View view) {
                 if (et_otp.getText().toString().isEmpty() || et_otp.getText().toString().length() != 4) {
-                    Toast.makeText(getContext(), "Entered OTP is not in correct format!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Entered OTP is not in the correct format!", Toast.LENGTH_SHORT).show();
                 } else {
                     submitOTP(et_otp.getText().toString());
                 }
@@ -1196,7 +1196,7 @@ public class FragmentQuilympics extends Fragment {
                     });
 
 
-            Toast.makeText(getContext(), "GAME UP! DISPLAY LEADERBOARD....", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "GAME UP! DISPLAY LEADERBOARD...", Toast.LENGTH_SHORT).show();
         }
         //eliminate and update user collection
     }

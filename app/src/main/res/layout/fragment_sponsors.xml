@@ -53,7 +53,7 @@
         android:layout_height="match_parent"
         android:id="@+id/list_spons"
         android:dividerHeight="2dp"
-        android:divider="@drawable/line_gradient"
+        android:divider="@android:color/transparent"
         android:clipToPadding="false"
         android:paddingTop="125dp"
         android:overScrollMode="never"

@@ -62,4 +62,6 @@
         <color name="windowBackground">#FFFFFF</color>
         <color name="navigationBarColor">#000000</color>
 
+    <color name = "textColorInstructions">#bcbcc1</color>
+
 </resources>

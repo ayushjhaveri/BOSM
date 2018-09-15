@@ -28,6 +28,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,6 +60,7 @@ public class NotificationScreen implements Content {
     private final Context mContext;
     private final View mWholeScreen;
     private LayoutInflater inflater;
+    private RelativeLayout rl_empty;
 
 
     public NotificationScreen(@NonNull Context context) {
@@ -90,6 +92,8 @@ public class NotificationScreen implements Content {
 
         RecyclerView recyclerView = (RecyclerView)mWholeScreen.findViewById(R.id.recycler_notifications);
 
+        rl_empty =(RelativeLayout)mWholeScreen.findViewById(R.id.rl_empty);
+
         SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
 
@@ -104,6 +108,12 @@ public class NotificationScreen implements Content {
 
         if(gson.fromJson(list_string, type_1)!=null)
             MyFirebaseMessagingService.list = gson.fromJson(list_string, type_1);
+
+
+        if(MyFirebaseMessagingService.list.size() <=0) {
+            rl_empty.setVisibility(View.VISIBLE);
+        }
+
 
         Collections.sort(MyFirebaseMessagingService.list, new Comparator<ItemNotification>() {
             @Override

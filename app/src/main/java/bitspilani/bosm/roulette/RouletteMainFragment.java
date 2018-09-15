@@ -1,6 +1,8 @@
 package bitspilani.bosm.roulette;
 
+import android.annotation.SuppressLint;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,6 +29,7 @@ import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
 import bitspilani.bosm.items.ItemRoulette;
+import bitspilani.bosm.utils.Constant;
 
 
 public class RouletteMainFragment extends Fragment {
@@ -33,6 +37,7 @@ public class RouletteMainFragment extends Fragment {
     private RecyclerView recyclerView;
     private AdapterRoulette mAdapter;
     private ProgressBar progressBar;
+    private  RelativeLayout rl_filled, rl_empty;
 
     public RouletteMainFragment() {
         // Required empty public constructor
@@ -55,6 +60,41 @@ public class RouletteMainFragment extends Fragment {
         progressBar=(ProgressBar)view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
 
+        rl_filled = (RelativeLayout)view.findViewById(R.id.rl_filled);
+        rl_empty = (RelativeLayout)view.findViewById(R.id.rl_empty);
+        rl_filled.setVisibility(View.VISIBLE);
+        rl_empty.setVisibility(View.GONE);
+        @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                progressBar.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            protected Object doInBackground(Object[] objects) {
+
+                try {
+                    Thread.sleep(Constant.sleep);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Object o) {
+                super.onPostExecute(o);
+                if(progressBar.getVisibility()==View.VISIBLE){
+                    rl_filled.setVisibility(View.GONE);
+                    rl_empty.setVisibility(View.VISIBLE);
+                }
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        asyncTask.execute();
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_roulette);
 
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
@@ -66,7 +106,7 @@ public class RouletteMainFragment extends Fragment {
 
         Query query = db.collection("scores").whereEqualTo("item_type",1).whereEqualTo("match_type",1).whereEqualTo("is_roulette",true).orderBy("timestamp");
 
-        mAdapter = new AdapterRoulette(getContext(),query, progressBar);
+        mAdapter = new AdapterRoulette(getContext(),query, progressBar, rl_filled, rl_empty);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +38,7 @@ public class RouletteLeaderboardFragment extends Fragment {
     private AdapterRouletteLeaderboard mAdapter;
     RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private RelativeLayout rl_filled, rl_empty;
 
     public RouletteLeaderboardFragment() {
         HomeActivity.currentFragment="RouletteHomeFragment";

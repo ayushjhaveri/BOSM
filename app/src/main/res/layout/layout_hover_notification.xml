@@ -16,8 +16,12 @@
         android:textSize="23sp"
         />
 
-    <android.support.v7.widget.RecyclerView
+    <RelativeLayout
+        android:id="@+id/rl_filled"
         android:layout_below="@id/title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_notifications"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,4 +29,51 @@
         android:divider="@android:color/transparent"
         android:overScrollMode="never"
         />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_wifi"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_wifi"
+            android:tint="#bdbdbd"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_below="@id/iv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Notifications"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#bdbdbd"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_below="@id/tv_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="You may no notfications or there is a problem with your internet connection."
+            android:gravity="center"
+            android:textColor="#bdbdbd"
+            android:textSize="16sp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"/>
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

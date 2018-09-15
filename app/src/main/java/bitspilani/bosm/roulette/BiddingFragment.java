@@ -311,7 +311,6 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                         }
                                                     }
 
-//                                                    Toast.makeText(context,status+"",Toast.LENGTH_SHORT).show();
 
                                                     score = Integer.parseInt(task1.getResult().getData().get("score").toString());
                                                     luck = Integer.parseInt(task1.getResult().getData().get("luck").toString());
@@ -818,7 +817,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
 
             if (itemRoulette.isBetting_done()) {
-                Toast.makeText(context, "already done!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Already done!", Toast.LENGTH_SHORT).show();
                 return;
             }
 

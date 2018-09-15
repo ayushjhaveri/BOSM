@@ -94,7 +94,7 @@
             android:background="@drawable/line_gradient"/>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_below="@id/view_12"
             android:visibility="visible"
             android:id="@+id/ll_college"
@@ -104,34 +104,56 @@
 
             <TextView
                 android:id="@+id/tv_college_one"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:paddingHorizontal="36dp"
-                android:paddingVertical="8dp"
+                android:paddingStart="36dp"
+                android:paddingEnd="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="BITS"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:maxLength="10"
                 android:textColor="@color/gold"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_toStartOf="@id/tv_vs"
+                />
+
+            <TextView
+                android:id="@+id/tv_vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="v/s"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:layout_alignTop="@id/tv_college_one"
+                android:layout_alignBottom="@id/tv_college_one"
+                android:layout_centerHorizontal="true"/>
+
 
             <TextView
                 android:id="@+id/tv_college_two"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
-                android:padding="15dp"
-                android:paddingHorizontal="36dp"
-                android:paddingVertical="8dp"
+                android:paddingStart="36dp"
+                android:paddingEnd="36dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="TITS"
                 android:textColor="@color/silver"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_toEndOf="@id/tv_vs"
+                android:layout_alignTop="@id/tv_college_one"
+                android:layout_alignBottom="@id/tv_college_one"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:visibility="visible"
             android:id="@+id/ll_score"
             android:layout_width="match_parent"
@@ -141,26 +163,36 @@
 
             <TextView
                 android:id="@+id/tv_score_one"
-                android:layout_width="wrap_content"
+                android:layout_toStartOf="@id/alignCenter"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/gold"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"/>
+            <TextView
+                android:id="@+id/alignCenter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/tv_score_one"
+                android:layout_alignBottom="@id/tv_score_one"
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:id="@+id/tv_score_two"
-                android:layout_width="wrap_content"
+                android:layout_toEndOf="@id/alignCenter"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.2"
                 android:gravity="center"
                 android:text="-"
                 android:textColor="@color/silver"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
 
         <RelativeLayout
@@ -267,15 +299,43 @@
                     android:id="@+id/iv_map"
                     android:src="@drawable/map_stad"
                     android:tint="@color/back_shade2"
-                    android:layout_marginEnd="8dp"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="48dp"
+                    android:layout_height="32dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="15dp"
+                    android:paddingTop="8dp"
                     android:layout_alignParentEnd="true"/>
 
-
-
-
             </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/rl_extra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_time"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="12dp">
+            <View
+                android:id="@+id/divider_extra"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@drawable/line_gradient"/>
+
+            <TextView
+                android:layout_below="@id/divider_extra"
+                android:id="@+id/tv_extra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="Bits Pilani won by 24 runs."
+                android:textSize="9sp"
+                android:textColor="@color/silver"
+                />
         </RelativeLayout>
 
 

@@ -10,7 +10,7 @@ public class ItemMatch {
     Calendar calendar;
     String matchRound;
     boolean isHeader;
-
+    String extraDetails;
     //ATHLETIC TYPE
 
     String goldName;
@@ -41,6 +41,7 @@ public class ItemMatch {
         this.silverRecord="";
         this.winner =0;
         this.isHeader=false;
+        this.extraDetails="";
     }
 
     //SCHEDULE ATHLETIC TYPE
@@ -56,7 +57,7 @@ public class ItemMatch {
     }
 
     //RESULT ATHLETIC TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String goldName, String silverName, String bronzeName, String goldRecord, String silverRecord, String bronzeRecord ,Calendar calendar) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String goldName, String silverName, String bronzeName, String goldRecord, String silverRecord, String bronzeRecord ,Calendar calendar, String extraDetails) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
@@ -71,6 +72,7 @@ public class ItemMatch {
         this.goldRecord = goldRecord;
         this.silverRecord = silverRecord;
         this.bronzeRecord = bronzeRecord;
+        this.extraDetails=extraDetails;
     }
 
     //SCHEDULE TEAM TYPE
@@ -90,7 +92,7 @@ public class ItemMatch {
     }
 
     //RESULT TEAM TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String score1, String score2, String college1, String college2,int winner, String fullCollege1, String fullCollege2 ,Calendar calendar) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String score1, String score2, String college1, String college2,int winner, String fullCollege1, String fullCollege2 ,Calendar calendar, String extraDetails) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
@@ -106,6 +108,7 @@ public class ItemMatch {
         this.winner = winner;
         this.fullCollege1=fullCollege1;
         this.fullCollege2=fullCollege2;
+        this.extraDetails=extraDetails;
     }
 
     public Calendar getCalendar() {
@@ -198,5 +201,9 @@ public class ItemMatch {
 
     public void setHeader(boolean header) {
         isHeader = header;
+    }
+
+    public String getExtraDetails() {
+        return extraDetails;
     }
 }

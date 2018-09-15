@@ -10,10 +10,11 @@
     android:layout_marginStart="7dp"
     android:layout_marginEnd="7dp"
     android:layout_marginBottom="4dp"
-    card_view:cardElevation="3dp"
-    android:foreground="?android:attr/selectableItemBackground"
+    card_view:cardElevation="0dp"
     android:clickable="true"
     android:padding="5dp">
+
+    <!--android:foreground="?android:attr/selectableItemBackground"-->
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -27,12 +28,13 @@
        android:layout_marginEnd="10dp"
        android:layout_gravity="bottom|end"
        android:layout_alignParentEnd="true"
-       android:background="@android:color/transparent">
+       android:background="@android:color/transparent"
+       android:layout_alignBottom="@id/ll_text">
 
        <ImageView
            android:layout_width="33dp"
            android:paddingEnd="4dp"
-           android:tint="#BDBDBD"
+           android:tint="@color/back_shade2"
            android:layout_height="33dp"
            android:src="@drawable/circle"
            />
@@ -47,7 +49,7 @@
        <ImageView
            android:layout_marginTop="10dp"
            android:paddingEnd="4dp"
-           android:tint="#BDBDBD"
+           android:tint="@color/back_shade2"
            android:layout_below="@+id/call"
            android:layout_width="33dp"
            android:layout_height="33dp"
@@ -66,6 +68,7 @@
 
    </RelativeLayout>
     <LinearLayout
+        android:id="@+id/ll_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -86,8 +89,13 @@
             android:text="Large Text"
             android:id="@+id/textView4"
             android:padding="10dp"
-            android:textColor="@android:color/holo_blue_light"
+            android:textColor="@color/back_shade6"
             android:textAlignment="center" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line_gradient"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -96,7 +104,7 @@
             android:id="@+id/textView5"
             android:padding="5dp"
             android:hint="ghghfjf"
-            android:textColor="#BDBDBD"
+            android:textColor="@color/back_shade2"
             android:typeface="normal" />
 
         <TextView
@@ -105,7 +113,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/textView6"
-            android:textColor="#BDBDBD"
+            android:textColor="@color/back_shade2"
             android:padding="5dp"
             android:clickable="false"
             android:textIsSelectable="false"/>
@@ -115,7 +123,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Small Text"
-            android:textColor="#BDBDBD"
+            android:textColor="@color/back_shade2"
             android:id="@+id/textView7" />
     </LinearLayout>
     </RelativeLayout>

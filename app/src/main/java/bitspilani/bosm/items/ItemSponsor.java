@@ -4,11 +4,12 @@ package bitspilani.bosm.items;
  * Created by Saksham on 22 Aug 2016.
  */
 public class ItemSponsor {
-    private String name;
+    private String name, description;
     private int image;
 
-    public ItemSponsor(String name, int image) {
+    public ItemSponsor(String name, String description, int image) {
         this.name = name;
+        this.description = description;
         this.image = image;
     }
 
@@ -16,16 +17,11 @@ public class ItemSponsor {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getDescription() {
+        return description;
     }
 
     public int getImage() {
         return image;
     }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-
 }

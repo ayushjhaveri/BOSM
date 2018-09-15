@@ -1,8 +1,10 @@
 package bitspilani.bosm.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -173,12 +175,15 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     private LayoutInflater inflater;
     private Context context;
+    private  RelativeLayout rl_filled, rl_empty;
 
-    public AdapterLive(Context context, Query query,ProgressBar progressBar) {
+    public AdapterLive(Context context, Query query,ProgressBar progressBar, RelativeLayout rl_filled, RelativeLayout rl_empty) {
         inflater = LayoutInflater.from(context);
         this.mQuery = query;
         this.context = context;
         this.progressBar = progressBar;
+        this.rl_empty = rl_empty;
+        this.rl_filled=rl_filled;
     }
 
     private void getArrayFromSnapshot(){
@@ -300,6 +305,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
     protected void onDataChanged() {
 
         progressBar.setVisibility(View.GONE);
+        rl_empty.setVisibility(View.GONE);
+        rl_filled.setVisibility(View.VISIBLE);
     }
 
     ItemLive itemLive ;
@@ -321,6 +328,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         switch(ITEM_TYPE){
 
             case 0:
+
+
                 final LiveViewHolder liveViewHolder;
                 if (convertView == null) {
                     liveViewHolder = new LiveViewHolder();
@@ -350,6 +359,12 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 } else {
                     liveViewHolder = (LiveViewHolder) convertView.getTag();
                 }
+//
+//                liveViewHolder.iv_vote1.setLikeDrawableRes(R.drawable.icon_like);
+//                liveViewHolder.iv_vote1.setUnlikeDrawableRes(R.drawable.icon_like);
+//                liveViewHolder.iv_vote2.setLikeDrawableRes(R.drawable.icon_like);
+//                liveViewHolder.iv_vote2.setUnlikeDrawableRes(R.drawable.icon_like);
+
 
                 //use here
                 Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/SawarabiMincho-Regular.ttf");
@@ -504,8 +519,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
 
                 //customizing vote1 and vote2 icons
-                liveViewHolder.iv_vote1.setIcon(IconType.Thumb);
-                liveViewHolder.iv_vote2.setIcon(IconType.Thumb);
+//                liveViewHolder.iv_vote1.setIcon(IconType.Thumb);
+//                liveViewHolder.iv_vote2.setIcon(IconType.Thumb);
 
 
                 if(itemLive.getIsVote()>0){
@@ -584,6 +599,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
                         liveViewHolder.iv_vote1.setEnabled(false);
                         liveViewHolder.iv_vote2.setEnabled(false);
+
 
                     }else if(itemLive.getIsVote()==2){
                         liveViewHolder.iv_vote1.setLiked(false);
@@ -742,8 +758,9 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     holder.tv_date = (TextView) convertView.findViewById(R.id.tv_date);
                     holder.tv_sport = (TextView) convertView.findViewById(R.id.tv_sport);
                     holder.tv_type = (TextView) convertView.findViewById(R.id.tv_subtitle);
-                    holder.ll_college = (LinearLayout) convertView.findViewById(R.id.ll_college);
+                    holder.ll_college = (RelativeLayout) convertView.findViewById(R.id.ll_college);
                     holder.iv_sport = (ImageView)convertView.findViewById(R.id.iv_sport);
+                    holder.iv_map = (ImageView)convertView.findViewById(R.id.iv_map);
 
                     convertView.setTag(holder);
                 } else {
@@ -841,6 +858,42 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                         }
                     });
 
+                    holder.iv_map.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            db.collection("venue").document(itemLive.getVenue()).get().addOnCompleteListener(
+                                    new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            progressBar.setVisibility(View.GONE);
+                                            if(task.isSuccessful()){
+                                                String latitude = task.getResult().contains("latitude")?task.getResult().getData().get("latitude").toString():"28.363821";
+                                                String longitude = task.getResult().contains("longitude")?task.getResult().getData().get("latitude").toString():"75.587029";
+                                                final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                                Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(map_nav_url));
+                                                context.startActivity(intent);
+                                            }else{
+                                                String latitude = "28.363821";
+                                                String longitude = "75.587029";
+                                                final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                                Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(map_nav_url));
+                                                context.startActivity(intent);
+                                            }
+                                        }
+                                    }
+                            );
+//                        Intent intent = new Intent(Intent.ACTION_VIEW,
+//                                Uri.parse(map_nav_url));
+//                        context.startActivity(intent);
+                        }
+                    });
+
 
                 }
             break;
@@ -925,8 +978,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     class TrendingViewHolder {
         TextView tv_college1, tv_college2, tv_venue, tv_time,tv_date, tv_sport, tv_type;
-        LinearLayout ll_college;
-        ImageView iv_sport;
+        RelativeLayout ll_college;
+        ImageView iv_sport, iv_map;
     }
 
 

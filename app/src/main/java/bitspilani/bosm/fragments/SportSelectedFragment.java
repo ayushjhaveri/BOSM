@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,8 +57,8 @@ public class SportSelectedFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_selected_sport, container, false);
 
         context = getContext();
+        RelativeLayout rl_bottom_vp = (RelativeLayout)v.findViewById(R.id.rl_bottom_vp);
 
-//        Toast.makeText(context, HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
 
 
 
@@ -137,11 +138,12 @@ public class SportSelectedFragment extends Fragment {
         });
 
         if(!Constant.currentSport.isGender()){
-            ntbSample5.setVisibility(View.GONE);
+            rl_bottom_vp.setVisibility(View.GONE);
+
             MyPagerAdapter.NUM_ITEMS = 1;
             adapterViewPager.notifyDataSetChanged();
         }else{
-            ntbSample5.setVisibility(View.VISIBLE);
+            rl_bottom_vp.setVisibility(View.VISIBLE);
             MyPagerAdapter.NUM_ITEMS = 2;
             adapterViewPager.notifyDataSetChanged();
         }

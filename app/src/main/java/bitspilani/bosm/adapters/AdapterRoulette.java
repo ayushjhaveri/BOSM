@@ -43,21 +43,24 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
     Context context;
     private ProgressBar progressBar;
+    private RelativeLayout rl_filled, rl_empty;
+
     public class RouletteViewHolder extends RecyclerView.ViewHolder {
         public TextView tv_sport, tv_date_time, tv_round, tv_college1, tv_college2, tv_status;
-        ImageView star,ivLogo;
+        ImageView star, ivLogo;
         RelativeLayout rl;
+
 
         public RouletteViewHolder(View view) {
             super(view);
             star = (ImageView) view.findViewById(R.id.star);
             ivLogo = (ImageView) view.findViewById(R.id.ivLogo);
-            tv_sport = (TextView)view.findViewById(R.id.tv_sport);
-            tv_round = (TextView)view.findViewById(R.id.tv_round);
-            tv_college1 = (TextView)view.findViewById(R.id.tv_college1);
-            tv_college2 = (TextView)view.findViewById(R.id.tv_college2);
-            tv_date_time = (TextView)view.findViewById(R.id.tv_date_time);
-            tv_status = (TextView)view.findViewById(R.id.tv_status);
+            tv_sport = (TextView) view.findViewById(R.id.tv_sport);
+            tv_round = (TextView) view.findViewById(R.id.tv_round);
+            tv_college1 = (TextView) view.findViewById(R.id.tv_college1);
+            tv_college2 = (TextView) view.findViewById(R.id.tv_college2);
+            tv_date_time = (TextView) view.findViewById(R.id.tv_date_time);
+            tv_status = (TextView) view.findViewById(R.id.tv_status);
             rl = (RelativeLayout) view.findViewById(R.id.rl);
 //            tv_venue = (TextView)view.findViewById(R.id.tv_venue);
 
@@ -67,24 +70,27 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
     private void loadFragment(Fragment fragment) {
         // load fragment
-        FragmentTransaction transaction = ((FragmentActivity)context).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fl_view, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
 
-
-    public AdapterRoulette(Context context, Query mQuery, ProgressBar progressBar) {
+    public AdapterRoulette(Context context, Query mQuery, ProgressBar progressBar, RelativeLayout rl_filled, RelativeLayout rl_empty) {
         super(mQuery);
         this.context = context;
-        this.progressBar=progressBar;
+        this.progressBar = progressBar;
+        this.rl_empty = rl_empty;
+        this.rl_filled = rl_filled;
     }
 
     @Override
     protected void onDataChanged() {
         super.onDataChanged();
         progressBar.setVisibility(View.GONE);
+        rl_empty.setVisibility(View.GONE);
+        rl_filled.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -100,11 +106,11 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
 
         final DocumentSnapshot document = getSnapshot(position);
 
-        Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"): Timestamp.now();
+        Timestamp timestamp = document.contains("timestamp") ? (Timestamp) document.getData().get("timestamp") : Timestamp.now();
         Date date = timestamp.toDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        boolean isResult = document.contains("is_result")?Boolean.parseBoolean(document.getData().get("is_result").toString()):false;
+        boolean isResult = document.contains("is_result") ? Boolean.parseBoolean(document.getData().get("is_result").toString()) : false;
         Calendar calNow = Calendar.getInstance();
         cal.setTime(date);
         int status = -1;
@@ -130,20 +136,20 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
                 }
             }
 
-            int winner=0;
-            if(isResult){
-                winner =  document.contains("winner")?Integer.parseInt(document.getData().get("winner").toString()):0;
+            int winner = 0;
+            if (isResult) {
+                winner = document.contains("winner") ? Integer.parseInt(document.getData().get("winner").toString()) : 0;
             }
             final ItemRoulette itemRoulette = new ItemRoulette(
                     document.getId(),
-                    document.contains("sport_id")?Integer.parseInt(document.getData().get("sport_id").toString()):0,
-                    document.contains("sport_name")?document.getData().get("sport_name").toString():"",
-                    document.contains("venue")?document.getData().get("venue").toString():"",
+                    document.contains("sport_id") ? Integer.parseInt(document.getData().get("sport_id").toString()) : 0,
+                    document.contains("sport_name") ? document.getData().get("sport_name").toString() : "",
+                    document.contains("venue") ? document.getData().get("venue").toString() : "",
                     cal,
-                    document.contains("college1")?document.getData().get("college1").toString():"",
-                    document.contains("college2")?document.getData().get("college2").toString():"",
+                    document.contains("college1") ? document.getData().get("college1").toString() : "",
+                    document.contains("college2") ? document.getData().get("college2").toString() : "",
                     winner,
-                    document.contains("round")?document.getData().get("round").toString():"",
+                    document.contains("round") ? document.getData().get("round").toString() : "",
                     isBet,
                     status
             );
@@ -164,16 +170,16 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             holder.rl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    loadFragment(BiddingFragment.newInstance(itemRoulette.getSport_id(), document.getId(),itemRoulette.getSport_name()));
+                    loadFragment(BiddingFragment.newInstance(itemRoulette.getSport_id(), document.getId(), itemRoulette.getSport_name()));
                 }
             });
 
-            if(isBet){
+            if (isBet) {
                 holder.star.setImageResource(R.drawable.star_filled_100);
                 ImageViewCompat.setImageTintList(holder.star, ColorStateList.valueOf(ContextCompat.getColor(context, R.color.background2)));
 //                holder.star.setColorFilter(, android.graphics.PorterDuff.Mode.MULTIPLY);
                 ///fdsnfjdsnffjkdsfnjdsdfnjndsjfndsjfkdsfndsjfnj
-            }else{
+            } else {
                 holder.star.setImageResource(R.drawable.star_100);
             }
 
@@ -193,5 +199,7 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             return "Finished";
         }
     }
+
+
 
 }

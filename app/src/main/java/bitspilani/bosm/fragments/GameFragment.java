@@ -62,14 +62,14 @@ public class GameFragment extends Fragment {
     private String TAG = "GAMEFRAGMENT";
     ProgressBar progressBar;
     private int type = 0;
-    RelativeLayout rl_profile, rl_please_login;
+    RelativeLayout rl_profile;
     TextView tv_name,tv_email,tv_logout;
             ImageView iv_profile;
     SignInButton iv_login;
 
     public GameFragment() {
         // Required empty public constructor
-        HomeActivity.currentFragment = "PhotoFragment";
+        HomeActivity.currentFragment = "GAMEFRAGMENT";
     }
 
 
@@ -97,7 +97,7 @@ public class GameFragment extends Fragment {
         tv_title.setTypeface(oswald_regular);
 
         rl_profile = (RelativeLayout)view.findViewById(R.id.rl_profile);
-        rl_please_login = (RelativeLayout)view.findViewById(R.id.rl_please_login);
+//        //rl_please_login = (RelativeLayout)view.findViewById(R.id.//rl_please_login);
         tv_name = (TextView)view.findViewById(R.id.tv_name);
         tv_email = (TextView)view.findViewById(R.id.tv_email);
         tv_logout =(TextView)view.findViewById(R.id.tv_logout);
@@ -107,14 +107,14 @@ public class GameFragment extends Fragment {
 
         if(mAuth.getCurrentUser()!= null) {
             rl_profile.setVisibility(View.VISIBLE);
-            rl_please_login.setVisibility(View.GONE);
+//            //rl_please_login.setVisibility(View.GONE);
             tv_name.setText(mAuth.getCurrentUser().getDisplayName());
             tv_email.setText(mAuth.getCurrentUser().getEmail());
 
             Picasso.with(getContext()).load(mAuth.getCurrentUser().getPhotoUrl()).into(iv_profile);
         }else{
             rl_profile.setVisibility(View.GONE);
-            rl_please_login.setVisibility(View.VISIBLE);
+//            //rl_please_login.setVisibility(View.VISIBLE);
         }
 
         iv_login.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +141,7 @@ public class GameFragment extends Fragment {
                                 // ...
                             }
                         });
-                rl_please_login.setVisibility(View.VISIBLE);
+                //rl_please_login.setVisibility(View.VISIBLE);
                 rl_profile.setVisibility(View.GONE);
             }
         });
@@ -175,7 +175,7 @@ public class GameFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        HomeActivity.currentFragment="PhotoFragment";
+        HomeActivity.currentFragment="GAMEFRAGMENT";
     }
 
 
@@ -305,7 +305,7 @@ public class GameFragment extends Fragment {
                                                     loadFragment(new FragmentQuilympics());
                                                 }else if(type ==3){
                                                     rl_profile.setVisibility(View.VISIBLE);
-                                                    rl_please_login.setVisibility(View.GONE);
+                                                    //rl_please_login.setVisibility(View.GONE);
                                                     tv_name.setText(mAuth.getCurrentUser().getDisplayName());
                                                     tv_email.setText(mAuth.getCurrentUser().getEmail());
 
@@ -330,7 +330,7 @@ public class GameFragment extends Fragment {
                                         loadFragment(new FragmentQuilympics());
                                     }else if(type ==3){
                                         rl_profile.setVisibility(View.VISIBLE);
-                                        rl_please_login.setVisibility(View.GONE);
+                                        //rl_please_login.setVisibility(View.GONE);
                                         tv_name.setText(mAuth.getCurrentUser().getDisplayName());
                                         tv_email.setText(mAuth.getCurrentUser().getEmail());
                                         iv_profile.setImageURI(mAuth.getCurrentUser().getPhotoUrl());

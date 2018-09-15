@@ -91,7 +91,6 @@ public class EventFragment extends Fragment {
         rl_empty.setVisibility(View.GONE);
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
-//        Toast.makeText(getActivity(), HomeActivity.currentFragment, Toast.LENGTH_SHORT).show();
         progressBar.setVisibility(View.VISIBLE);
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
@@ -129,43 +128,8 @@ public class EventFragment extends Fragment {
         };
         asyncTask.execute();
 
-        tv_header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                Map<String,Object> data = new HashMap<>();
-                data.put("college1","BITS");
-                data.put("college2","TITS");
-                data.put("is_result",true);
-                data.put("match_round","Round 1");
-                data.put("match_type",1);
-                data.put("score1",12);
-                data.put("score2",17);
-                data.put("sport_name","Athletics");
-                data.put("timestamp", FieldValue.serverTimestamp());
-                data.put("venue","SAC");
-                data.put("gender",1);
-                data.put("hits",2);
-                data.put("winner",1);
-                data.put("sport_id",1);
-
-                db.collection("scores").document().set(data, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getActivity(),"done",Toast.LENGTH_LONG).show();
-                        }else{
-                            Toast.makeText(getActivity(),"false",Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        });
-
         //Firestore data retrieval
         FirebaseApp.initializeApp(context);
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
@@ -173,9 +137,9 @@ public class EventFragment extends Fragment {
 
 
 
-        Query mQuery = db.collection("events");
+        Query mQuery = db.collection("events").orderBy("timestamp");
 
-        adapterEvents = new AdapterEvents(getActivity(),mQuery,progressBar);
+        adapterEvents = new AdapterEvents(getActivity(),mQuery,progressBar, rl_filled, rl_empty);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

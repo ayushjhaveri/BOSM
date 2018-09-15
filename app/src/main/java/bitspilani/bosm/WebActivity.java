@@ -9,6 +9,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class WebActivity extends AppCompatActivity {
 
@@ -25,7 +26,7 @@ public class WebActivity extends AppCompatActivity {
         webview.getSettings().setJavaScriptEnabled(true);
         webview.setWebViewClient(new MyWebViewClient());
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
 
@@ -60,6 +61,7 @@ public class WebActivity extends AppCompatActivity {
             return true;
         }
 
+
         @Override
         public void onPageFinished(WebView view, String url) {
             progress.setVisibility(View.GONE);
@@ -72,14 +74,5 @@ public class WebActivity extends AppCompatActivity {
             super.onPageStarted(view, url, favicon);
         }
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 }

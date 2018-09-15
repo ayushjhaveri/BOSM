@@ -50,4 +50,17 @@
     <string name="button_launch_hover_menu_then_no_menu">Launch Menu, Then No Menu</string>
 
 
+    <string name="para_1">Bosm Roulette is an app based betting event using which one can predict the results of a match before its start.</string>
+    <string name="para_2">Each user is given a wallet balance of $200 in the beginning, using which one can bid on his favourite team.</string>
+    <string name="h1">There are 2 types of bets : -</string>
+    <string name="h1_P1">Normal Bet :</string>
+    <string name="h1_P1_d">If a user bets $x on a particular match, if his prediction is correct, his wallet balance will increase by 2*x amount otherwise the balance will decrease by x/2 amount.</string>
+    <string name="h1_P2">Power Bet :</string>
+    <string name="h1_P2_d">If a user bets $x on a particular match, if his prediction is correct, his wallet balance will increase by 4*x amount.....\nBut if the user looses on that particular bid, he/she will lose that x amount, so be careful guys.\nThe Power Bet will be active once every 4 hours so use this on the best team.</string>
+    <string name="h2">Earning Additional Points : -</string>
+    <string name="h2_P1">Refer And Earn Policy :</string>
+    <string name="h2_P1_d">Users can refer the app using the Share button in the side drawer.\nBoth sender and reciever will get $80.</string>
+    <string name="h2_P2">Spin and Earn :</string>
+    <string name="h2_P2_d">Try Your luck by spinning the wheel and earn additional bonus points once in half an hour.If win, $50 will be awarded</string>
+
 </resources>

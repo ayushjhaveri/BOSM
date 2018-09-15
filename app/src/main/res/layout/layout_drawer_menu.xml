@@ -32,220 +32,391 @@
 
 
 
+        <RelativeLayout
+            android:id="@+id/rl_home"
+            android:background="@drawable/border_shadow_menu"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_below="@id/tv_bosm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/icon_home"
+            android:tint="@color/back_shade6"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="12dp"
+            android:src="@drawable/nav_home2"
+            android:layout_alignTop="@id/tv_home"
+            android:layout_alignBottom="@id/tv_home"
+            />
 
         <TextView
             android:id="@+id/tv_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_bosm"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/border_shadow_menu"
             android:padding="12dp"
             android:text="Home"
-            android:textColor="#ffffff" />
-
+            android:textColor="#ffffff"
+            android:layout_toEndOf="@id/icon_home"/>
+        </RelativeLayout>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_home"
+            android:layout_alignBottom="@+id/rl_home"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_home"
+            android:layout_alignTop="@+id/rl_home"
             android:padding="12dp"
             android:src="@drawable/icon_roight_arrow"
             android:tint="#ffffff" />
 
-
-        <TextView
-            android:id="@+id/tv_game"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_home"
+        <RelativeLayout
+            android:id="@+id/rl_game"
+            android:background="@drawable/border_shadow_menu"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="Game Section"
-            android:textColor="#ffffff" />
-
-        <ImageView
+            android:layout_below="@id/rl_home"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_game"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_game"
-            android:padding="12dp"
-            android:src="@drawable/icon_roight_arrow"
-            android:tint="#ffffff" />
-        <TextView
-            android:id="@+id/tv_photos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_game"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="Photos"
-            android:textColor="#ffffff" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_photos"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_photos"
-            android:padding="12dp"
-            android:src="@drawable/icon_roight_arrow"
-            android:tint="#ffffff" />
-
-        <TextView
-            android:id="@+id/tv_map"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_photos"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="Map"
-            android:textColor="#ffffff" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_map"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_map"
-            android:padding="12dp"
-            android:src="@drawable/icon_roight_arrow"
-            android:tint="#ffffff" />
-
-        <TextView
-            android:id="@+id/tv_developers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_map"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="Developers"
-            android:textColor="#ffffff" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_developers"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_developers"
-            android:padding="12dp"
-            android:src="@drawable/icon_roight_arrow"
-            android:tint="#ffffff" />
+            <ImageView
+                android:id="@+id/icon_game"
+                android:tint="@color/back_shade6"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_game"
+                android:layout_alignTop="@id/tv_game"
+                android:layout_alignBottom="@id/tv_game"
+                />
 
             <TextView
-            android:id="@+id/tv_sponsors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_developers"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="Sponsors"
-            android:textColor="#ffffff" />
+                android:id="@+id/tv_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Games Section"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_game"/>
+        </RelativeLayout>
+
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_sponsors"
+            android:layout_alignBottom="@+id/rl_game"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_sponsors"
+            android:layout_alignTop="@+id/rl_game"
             android:padding="12dp"
             android:src="@drawable/icon_roight_arrow"
             android:tint="#ffffff" />
 
-        <TextView
-            android:id="@+id/tv_epc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_sponsors"
+        <RelativeLayout
+            android:id="@+id/rl_photos"
+            android:background="@drawable/border_shadow_menu"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="EPC blog"
-            android:textColor="#ffffff" />
+            android:layout_below="@id/rl_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/back_shade6"
+                android:id="@+id/icon_photos"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_photos"
+                android:layout_alignTop="@id/tv_photos"
+                android:layout_alignBottom="@id/tv_photos"
+                />
+
+            <TextView
+                android:id="@+id/tv_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Photos"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_photos"/>
+        </RelativeLayout>
+
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_epc"
+            android:layout_alignBottom="@+id/rl_photos"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_epc"
+            android:layout_alignTop="@+id/rl_photos"
             android:padding="12dp"
             android:src="@drawable/icon_roight_arrow"
             android:tint="#ffffff" />
 
-        <TextView
-            android:id="@+id/tv_hpc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_epc"
+        <RelativeLayout
+            android:id="@+id/rl_map"
+            android:background="@drawable/border_shadow_menu"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="HPC blog"
-            android:textColor="#ffffff" />
+            android:layout_below="@id/rl_photos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/icon_map"
+                android:tint="@color/back_shade6"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_maps"
+                android:layout_alignTop="@id/tv_map"
+                android:layout_alignBottom="@id/tv_map"
+                />
+
+            <TextView
+                android:id="@+id/tv_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Map"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_map"/>
+        </RelativeLayout>
+
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_hpc"
+            android:layout_alignBottom="@+id/rl_map"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_hpc"
+            android:layout_alignTop="@+id/rl_map"
             android:padding="12dp"
             android:src="@drawable/icon_roight_arrow"
             android:tint="#ffffff" />
 
-        <TextView
-            android:id="@+id/tv_contactus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_hpc"
+        <RelativeLayout
+            android:id="@+id/rl_epc"
+            android:background="@drawable/border_shadow_menu"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/border_shadow_menu"
-            android:padding="12dp"
-            android:text="Contact us"
-            android:textColor="#ffffff" />
+            android:layout_below="@id/rl_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/back_shade6"
+                android:id="@+id/icon_epc"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_blog"
+                android:layout_alignTop="@id/tv_epc"
+                android:layout_alignBottom="@id/tv_epc"
+                />
+
+            <TextView
+                android:id="@+id/tv_epc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="EPC Blog"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_epc"/>
+        </RelativeLayout>
+
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_contactus"
+            android:layout_alignBottom="@+id/rl_epc"
             android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/tv_contactus"
+            android:layout_alignTop="@+id/rl_epc"
             android:padding="12dp"
             android:src="@drawable/icon_roight_arrow"
             android:tint="#ffffff" />
+
+        <RelativeLayout
+            android:id="@+id/rl_hpc"
+            android:background="@drawable/border_shadow_menu"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/rl_epc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/back_shade6"
+                android:id="@+id/icon_hpc"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_blog"
+                android:layout_alignTop="@id/tv_hpc"
+                android:layout_alignBottom="@id/tv_hpc"
+                />
+
+            <TextView
+                android:id="@+id/tv_hpc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="HPC Blog"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_hpc"/>
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rl_hpc"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/rl_hpc"
+            android:padding="12dp"
+            android:src="@drawable/icon_roight_arrow"
+            android:tint="#ffffff" />
+
+        <RelativeLayout
+            android:id="@+id/rl_sponsors"
+            android:background="@drawable/border_shadow_menu"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/rl_hpc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/back_shade6"
+                android:id="@+id/icon_sponsors"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_sponsors"
+                android:layout_alignTop="@id/tv_sponsors"
+                android:layout_alignBottom="@id/tv_sponsors"
+                />
+
+            <TextView
+                android:id="@+id/tv_sponsors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Sponsors"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_sponsors"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rl_sponsors"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/rl_sponsors"
+            android:padding="12dp"
+            android:src="@drawable/icon_roight_arrow"
+            android:tint="#ffffff" />
+
+        <RelativeLayout
+            android:id="@+id/rl_developers"
+            android:background="@drawable/border_shadow_menu"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/rl_sponsors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/back_shade6"
+                android:id="@+id/icon_developers"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_developers"
+                android:layout_alignTop="@id/tv_developers"
+                android:layout_alignBottom="@id/tv_developers"
+                />
+
+            <TextView
+                android:id="@+id/tv_developers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Developers"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_developers"/>
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rl_developers"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/rl_developers"
+            android:padding="12dp"
+            android:src="@drawable/icon_roight_arrow"
+            android:tint="#ffffff" />
+
+        <RelativeLayout
+            android:id="@+id/rl_contacts"
+            android:background="@drawable/border_shadow_menu"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_below="@id/rl_developers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:tint="@color/back_shade6"
+                android:id="@+id/icon_contacts"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/nav_contacts"
+                android:layout_alignTop="@id/tv_contacts"
+                android:layout_alignBottom="@id/tv_contacts"
+                />
+
+            <TextView
+                android:id="@+id/tv_contacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Contacts"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@id/icon_contacts"/>
+        </RelativeLayout>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/rl_contacts"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/rl_contacts"
+            android:padding="12dp"
+            android:src="@drawable/icon_roight_arrow"
+            android:tint="#ffffff" />
+
+
+
+
 
 
         <ImageView
             android:id="@+id/iv_baxter"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_below="@id/tv_contactus"
+            android:layout_below="@id/rl_contacts"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="56dp"
             android:layout_marginBottom="66dp"
