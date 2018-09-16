@@ -181,8 +181,8 @@
                 android:layout_height="36dp"
                 android:layout_gravity="start"
                 app:dots_secondary_color="@color/orange_shade"
-                app:like_drawable="@drawable/icon_like"
-                app:unlike_drawable="@drawable/icon_like"/>
+                app:like_drawable="@drawable/like"
+                app:unlike_drawable="@drawable/dislike"/>
 
             <LinearLayout
                 android:layout_centerVertical="true"
@@ -199,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/live_rounded"
-                    android:backgroundTint="@color/back_shade2"
+                    android:backgroundTint="#FF0080"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
                     android:visibility="invisible"
@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:text=""
+                        android:text="098"
                         android:textColor="@android:color/white"
                         android:visibility="invisible" />
                 </RelativeLayout>
@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/live_rounded"
-                    android:backgroundTint="@color/back_shade2"
+                    android:backgroundTint="#FFD4E9"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
                     android:visibility="invisible">

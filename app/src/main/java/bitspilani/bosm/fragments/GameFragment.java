@@ -2,14 +2,10 @@ package bitspilani.bosm.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,19 +37,14 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.StringTokenizer;
 
 import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
-import bitspilani.bosm.adapters.AdapterPhotos;
 import bitspilani.bosm.quilympics.FragmentQuilympics;
 import bitspilani.bosm.roulette.RouletteHomeFragment;
-import bitspilani.bosm.roulette.RouletteMainFragment;
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 
 public class GameFragment extends Fragment {
@@ -92,7 +83,7 @@ public class GameFragment extends Fragment {
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
-        Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/RobotoCondensed-Regular.ttf");
         TextView tv_title = (TextView)view.findViewById(R.id.tv_header);
         tv_title.setTypeface(oswald_regular);
 
@@ -147,7 +138,7 @@ public class GameFragment extends Fragment {
         });
 
 
-        (view.findViewById(R.id.cv_roulette)).setOnClickListener(new View.OnClickListener() {
+        (view.findViewById(R.id.cv_quilympics)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(FirebaseAuth.getInstance().getCurrentUser()==null){
@@ -158,7 +149,7 @@ public class GameFragment extends Fragment {
             }
         });
 
-        (view.findViewById(R.id.cv_quilympics)).setOnClickListener(new View.OnClickListener() {
+        (view.findViewById(R.id.cv_roulette)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(FirebaseAuth.getInstance().getCurrentUser()==null){

@@ -1,15 +1,24 @@
 package bitspilani.bosm;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,15 +31,30 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.ArrayList;
+
+import bitspilani.bosm.fragments.EventFragment;
 import bitspilani.bosm.fragments.GameFragment;
 import bitspilani.bosm.fragments.MapFragment;
 import bitspilani.bosm.fragments.PhotoFragment;
+import bitspilani.bosm.fragments.SportFragment;
+import bitspilani.bosm.fragments.SportSelectedFragment;
 import bitspilani.bosm.fragments.ContactFragment;
 import bitspilani.bosm.fragments.DevelopersFragment;
 import bitspilani.bosm.fragments.EpcFragment;
@@ -38,9 +62,11 @@ import bitspilani.bosm.fragments.HomeFragment;
 import bitspilani.bosm.fragments.HpcFragment;
 import bitspilani.bosm.fragments.SponsorsFragment;
 import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
+import bitspilani.bosm.roulette.RouletteHomeFragment;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static bitspilani.bosm.fragments.HomeFragment.vpPager;
+import static bitspilani.bosm.fragments.SportSelectedFragment.vpPagerSport;
 import static bitspilani.bosm.roulette.RouletteHomeFragment.vpPagerRoulette;
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -63,6 +89,8 @@ public class HomeActivity extends AppCompatActivity
     public static FragmentManager getSFM() {
         return fm;
     }
+    public static View view;
+    public static TextView tv_number;
 
     long delay;
 
@@ -87,10 +115,14 @@ public class HomeActivity extends AppCompatActivity
 
         delay = 200;
 
+        LayoutInflater inflater  = LayoutInflater.from(getApplicationContext());
+        view  = inflater.inflate(R.layout.layout_hover_icon, null, false);
+        tv_number =  (TextView)view.findViewById(R.id.tv_number);
 
         final Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
         startService(startHoverIntent);
 
+        tv_number.setText("12");
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         setTitle("BOSM 2K18");
@@ -323,11 +355,67 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // On Android M and above we need to ask the user for permission to display the Hover
+        // menu within the "alert window" layer.  Use OverlayPermission to check for the permission
+        // and to request it.
+        if (!mPermissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
+            @SuppressWarnings("NewApi")
+            Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
+            startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
+        }
+        registerReceiver(mMessageReceiver, new IntentFilter("unique_name"));
+    }
+
+    //Must unregister onPause()
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mMessageReceiver);
+    }
+
+
+    //This is the handler that will manager to process the broadcast intent
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            // Extract data included in the Intent
+            String message = intent.getStringExtra("message");
+            int number = Integer.parseInt(HomeActivity.tv_number.getText().toString());
+            number ++;
+            HomeActivity.tv_number.setText(number+"");
+            HomeActivity.tv_number.setVisibility(View.VISIBLE);
+
+            //do other stuff here
+        }
+    };
+
     @Override
     protected void onDestroy() {
         Log.i("MAINACT", "onDestroy!");
         super.onDestroy();
 
+    }
+
+    public static boolean hasNavBar (Context context)
+    {
+        Resources resources = context.getResources();
+        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        return id > 0 && resources.getBoolean(id);
+    }
+
+    public static int getHeight(Context context){
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 
     @Override
@@ -444,20 +532,6 @@ public class HomeActivity extends AppCompatActivity
         ft.commit();
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // On Android M and above we need to ask the user for permission to display the Hover
-        // menu within the "alert window" layer.  Use OverlayPermission to check for the permission
-        // and to request it.
-        if (!mPermissionsRequested && !OverlayPermission.hasRuntimePermissionToDrawOverlay(this)) {
-            @SuppressWarnings("NewApi")
-            Intent myIntent = OverlayPermission.createIntentToRequestOverlayPermission(this);
-            startActivityForResult(myIntent, REQUEST_CODE_HOVER_PERMISSION);
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

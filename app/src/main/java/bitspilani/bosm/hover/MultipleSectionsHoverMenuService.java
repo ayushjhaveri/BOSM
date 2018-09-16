@@ -16,6 +16,7 @@
 package bitspilani.bosm.hover;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 
 import java.util.ArrayList;
@@ -49,8 +51,8 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
 
     private static final String TAG = "MultipleSectionsHoverMenuService";
 
-
     private static LayoutInflater inflater;
+
     //   public static TextView tv_number;
 
 //    public static MultiSectionHoverMenu multiSectionHoverMenu;
@@ -61,7 +63,8 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
         hoverView.setMenu(createHoverMenu());
         hoverView.collapse();
         hoverView.bringToFront();
-
+//        hoverView.saveVisualState();
+//        hoverView.enableDebugMode(true);
     }
 
 
@@ -72,7 +75,9 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
         return new MultiSectionHoverMenu(getBaseContext());
 
     }
-//
+
+
+    //
 //    public static void increase(Context context){
 ////        Log.d("aaaaaaaaaa","passed 2");
 ////        multiSectionHoverMenu.increaseNumber();
@@ -96,14 +101,14 @@ public class MultipleSectionsHoverMenuService extends HoverMenuService {
         }
 
         private View createTabView() {
-            @SuppressLint("InflateParams") View iconScreen = inflater.inflate(R.layout.layout_hover_icon, null, false);
-//                tv_number = (TextView)iconScreen.findViewById(R.id.tv_number);
+//            @SuppressLint("InflateParams") View iconScreen = inflater.inflate(R.layout.layout_hover_icon, null, false);
+//            MultipleSectionsHoverMenuService.tv_number = (TextView)iconScreen.findViewById(R.id.tv_number);
 //                tv_number.setText("");
 //                tv_number.setVisibility(View.GONE);
 //            ImageView imageView = new ImageView(mContext);
 //            imageView.setImageResource(R.drawable.baxter);
 //            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            return iconScreen;
+            return HomeActivity.view;
         }
 
 //        public static void increaseNumber(){

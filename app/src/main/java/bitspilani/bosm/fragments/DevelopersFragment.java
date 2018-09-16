@@ -50,7 +50,7 @@ public class DevelopersFragment extends Fragment {
         ListAdapter listAdapter = new AdapterDevelopers(context, R.id.blapic, items, activity);
         listView.setAdapter(listAdapter);
 
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/RobotoCondensed-Regular.ttf");
         TextView title = (TextView)rootView.findViewById(R.id.tv_header);
         title.setTypeface(oswald_regular);
 

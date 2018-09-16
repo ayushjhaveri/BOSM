@@ -188,11 +188,13 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     private void getArrayFromSnapshot(){
         arrayListAdapter.clear();
+        int count =0;
         for(int i=0;i<mSnapshots.size();i++){
             DocumentSnapshot document  = mSnapshots.get(i);
             Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
-            if(timestamp.compareTo(Timestamp.now())>0){
+            if(timestamp.compareTo(Timestamp.now())>0 && count <10){
                 arrayListAdapter.add(i);
+                count++;
             }
         }
     }
@@ -927,12 +929,12 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         int ITEM_TYPE =  Integer.parseInt(document.getData().get("item_type").toString());
 
         if (ITEM_TYPE == 0) {
-            holder.header_text.setText("Live");
+            holder.header_text.setText("LIVE");
         } else if (ITEM_TYPE == 1) {
-            holder.header_text.setText("Upcoming");
+            holder.header_text.setText("UPCOMING");
         }
 
-        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/RobotoCondensed-Regular.ttf");
 
         holder.header_text.setTypeface(oswald_regular);
 

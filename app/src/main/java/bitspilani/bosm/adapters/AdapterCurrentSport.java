@@ -219,6 +219,9 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
 //                    }
                     holder1.rl_top.setVisibility(View.VISIBLE);
                     holder1.tv_sort_title.setText(itemMatch.getDate());
+                    Typeface montserrat = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf");
+                    ((AthleticViewHolder) holder).tv_sort_title.setTypeface(montserrat);
+//                    Montserrat-Regular
                 }
                 holder.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
                     @Override

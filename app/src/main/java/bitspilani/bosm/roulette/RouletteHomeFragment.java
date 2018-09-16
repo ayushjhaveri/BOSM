@@ -1,6 +1,7 @@
 package bitspilani.bosm.roulette;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,6 +52,19 @@ public class RouletteHomeFragment extends Fragment {
         View v= inflater.inflate(R.layout.fragment_roulette_home, container, false);
         context = getContext();
 
+
+        if(!HomeActivity.hasNavBar(getContext())) {
+            RelativeLayout relativeLayout = ((RelativeLayout)v.findViewById(R.id.rl_bottom));
+            FrameLayout.LayoutParams relativeParams = (FrameLayout.LayoutParams)relativeLayout.getLayoutParams();
+            Resources r = getContext().getResources();
+            int px = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    64,
+                    r.getDisplayMetrics()
+            );
+            relativeParams.setMargins(0, 0, 0, px-HomeActivity.getHeight(getContext()));  // left, top, right, bottom
+            relativeLayout.setLayoutParams(relativeParams);
+        }
 
         final NavigationTabBar ntbSample5 = (NavigationTabBar) v.findViewById(R.id.ntb_sample_5);
 

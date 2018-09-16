@@ -52,7 +52,7 @@ public class SponsorsFragment extends Fragment {
         list_spons.setAdapter(adapter);
 
         TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
 
         tv_header.setTypeface(oswald_regular);
 

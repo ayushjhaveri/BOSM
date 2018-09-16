@@ -23,18 +23,19 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.paytm.pgsdk.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.fragments.SportFragment;
+import bitspilani.bosm.items.ItemArraylist;
 import bitspilani.bosm.items.ItemRoulette;
 import bitspilani.bosm.roulette.BiddingFragment;
 import bitspilani.bosm.utils.Constant;
@@ -124,14 +125,12 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             }
         }
 
-        JSONArray array = null;
-        try {
-            array = new JSONArray(Objects.requireNonNull(document.getData().get("roulette").toString()));
+        ArrayList<ItemArraylist> array = null;
+//            array = (ArrayList<HashMap<String,Object>>) Objects.requireNonNull(document.getData().get("roulette"));
             boolean isBet = false;
 
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                if (object.getString("user_id").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            for (int i = 0; i < array.size(); i++) {
+                if (array.get(i).getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isBet = true;
                 }
             }
@@ -182,11 +181,6 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             } else {
                 holder.star.setImageResource(R.drawable.star_100);
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
 
     }
 

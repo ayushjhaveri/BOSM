@@ -52,9 +52,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
+
+
     private void sendNotification(String title, String messageBody, String type) {
 
-
+        updateMyActivity(getApplicationContext(),"dsaasdasd");
 //
 //        Log.d(TAG,title);
 //        Log.d(TAG,messageBody);
@@ -93,6 +95,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Calendar.getInstance()
         );
         list.add(itemNotification);
+
+
 
 //        if(adapterNotifications!=null) {
 //            Log.d(TAG,"updated");
@@ -158,6 +162,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(NotificationID.getID(), notificationBuilder.build());
+    }
+
+    // This function will create an intent. This intent must take as parameter the "unique_name" that you registered your activity with
+    static void updateMyActivity(Context context, String message) {
+
+        Intent intent = new Intent("unique_name");
+
+        //put whatever data you want to send, if any
+        intent.putExtra("message", message);
+
+        //send broadcast
+        context.sendBroadcast(intent);
     }
 }
 

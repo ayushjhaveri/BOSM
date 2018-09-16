@@ -49,10 +49,6 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.Source;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +67,7 @@ import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
 import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.items.ArrayObject;
+import bitspilani.bosm.items.ItemArraylist;
 import bitspilani.bosm.items.ItemRoulette;
 import bitspilani.bosm.utils.Constant;
 import io.grpc.Server;
@@ -133,7 +130,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     CountDownTimer countDownTimer2;
 
     final HashMap<Integer, Integer> items = new HashMap<>();
-    JSONArray array = null;
+    ArrayList<ItemArraylist> array = null;
 
     int sport_id;
     String doc_id;
@@ -186,7 +183,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
         context  = getContext();
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
 
         tv_header.setTypeface(oswald_regular);
         tv_header.setText(sport_name);
@@ -283,7 +280,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task1) {
                                             if (task1.isSuccessful()) {
                                                 Log.d("gggggggggg",task1.getResult().getData().toString()+"fdfdsfdsfdfsdf");
-                                                try {
+//                                                try {
                                                     final String doc_id = task.getResult().getId();
                                                     int sport_id = Integer.parseInt(task.getResult().getData().get("sport_id").toString());
                                                     String description = String.valueOf(task.getResult().getData().get("round"));
@@ -328,17 +325,17 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                     //bet
 
 
-                                                    array = new JSONArray(task.getResult().getData().get("roulette").toString());
+                                                    array = (ArrayList<ItemArraylist>) task.getResult().getData().get("roulette");
 
                                                     boolean isBet = false;
 
-                                                    for (int i = 0; i < array.length(); i++) {
-                                                        JSONObject object = array.getJSONObject(i);
-                                                        if (object.getString("user_id").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                                    for (int i = 0; i < array.size(); i++) {
+                                                        ItemArraylist object = array.get(i);
+                                                        if (object.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                                             isBet = true;
-                                                            team = object.getString("college");
-                                                            amount = object.getInt("amount");
-                                                            powerBid = object.getBoolean("power_bid");
+                                                            team = object.getCollege();
+                                                            amount = object.getAmount();
+                                                            powerBid = object.isPower_bid();
 
                                                             if(team.equals(team_a)){
                                                                 cvTeamA.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bid));
@@ -379,10 +376,10 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                     container.setVisibility(View.VISIBLE);
                                                     showData();
 
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                    Log.d(TAG,e.getMessage());
-                                                }
+//                                                } catch (JSONException e) {
+//                                                    e.printStackTrace();
+//                                                    Log.d(TAG,e.getMessage());
+//                                                }
                                             }
                                         }
                                     }
@@ -805,7 +802,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
     private void placeBetOnline(final int _power_bid, final String _team, final int _amount, final Dialog dialog) {
 
-        try {
+//        try {
             final ProgressDialog progressDialog;
 
             progressDialog = ProgressDialog.show(context, "", "Please Wait...", true);
@@ -821,24 +818,24 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
-            jsonObject.put("amount", _amount);
-            jsonObject.put("college", _team);
-            jsonObject.put("power_bid", _power_bid == 1);
+            ItemArraylist object = new ItemArraylist();
+            object.setUser_id( FirebaseAuth.getInstance().getCurrentUser().getUid());
+            object.setAmount(_amount);
+            object.setCollege(_team);
+            object.setPower_bid(_power_bid == 1);
 
-            array.put(jsonObject);
+            array.add(object);
 
             Map<String, Object> data = new HashMap<>();
 
 
             ArrayList<Map<String,Object>> arrayList = new ArrayList<>();
-            for(int i=0;i<array.length();i++){
+            for(int i=0;i<array.size();i++){
                 Map<String,Object> data2= new HashMap<>();
-                data2.put("user_id",array.getJSONObject(i).get("user_id"));
-                data2.put("amount",array.getJSONObject(i).get("amount"));
-                data2.put("college",array.getJSONObject(i).get("college"));
-                data2.put("power_bid",array.getJSONObject(i).get("power_bid"));
+                data2.put("user_id",array.get(i).getUser_id());
+                data2.put("amount",array.get(i).getAmount());
+                data2.put("college",array.get(i).getCollege());
+                data2.put("power_bid",array.get(i).isPower_bid());
                 arrayList.add(data2);
             }
 
@@ -875,9 +872,9 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                     }
             );
 
-
-        } catch (JSONException e) {
-        }
+//
+//        } catch (JSONException e) {
+//        }
     }
 
 

@@ -1,6 +1,7 @@
 package bitspilani.bosm.fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,9 +10,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +62,17 @@ public class SportSelectedFragment extends Fragment {
         context = getContext();
         RelativeLayout rl_bottom_vp = (RelativeLayout)v.findViewById(R.id.rl_bottom_vp);
 
-
+        if(!HomeActivity.hasNavBar(getContext())) {
+            FrameLayout.LayoutParams relativeParams = (FrameLayout.LayoutParams)rl_bottom_vp.getLayoutParams();
+            Resources r = getContext().getResources();
+            int px = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    64,
+                    r.getDisplayMetrics()
+            );
+            relativeParams.setMargins(0, 0, 0, px-HomeActivity.getHeight(getContext()));  // left, top, right, bottom
+            rl_bottom_vp.setLayoutParams(relativeParams);
+        }
 
 
         HomeActivity.currentFragment = "SportSelectedFragment";
@@ -124,7 +137,7 @@ public class SportSelectedFragment extends Fragment {
         }, 500);
 
 
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/RobotoCondensed-Regular.ttf");
         TextView title = (TextView)v.findViewById(R.id.tv_header);
         title.setText(Constant.currentSport.getName());
 

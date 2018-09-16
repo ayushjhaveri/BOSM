@@ -217,7 +217,7 @@ public class FragmentQuilympics extends Fragment {
 //                                Timestamp now = new Timestamp(Calendar.getInstance().getTime());
                                 round_status = Integer.parseInt(documentSnapshot.getData().get("status").toString());
                                 Log.d(TAG, round_status + "");
-                                if (round_status == 1 || round_status == 0 || round_status == -1) {
+                                if (round_status == 1) {
                                     round_no++;
                                 } else {
                                     break;
@@ -229,13 +229,13 @@ public class FragmentQuilympics extends Fragment {
 
                                 if(round_no == -1){
                                     tv_round.setText("Round 1");
-                                }else if(round_no ==-2){
+                                }else if(round_no ==0){
                                     tv_round.setText("Round 2");
                                 }else {
                                     tv_round.setText("Round " + round_no + " : " + round_desc);
                                 }
-
-                                giveEntry(round_no, start_time_);
+//
+//                                giveEntry(round_no, start_time_);
 
 
                             } else if (round_no <= 10) {
@@ -262,6 +262,7 @@ public class FragmentQuilympics extends Fragment {
                                                         showEliminationView(true,"Eliminated!");
                                                     }
                                                 } else {
+                                                    progressDialog.dismiss();
                                                     Toast.makeText(getContext(), "Connection error!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
@@ -776,6 +777,7 @@ public class FragmentQuilympics extends Fragment {
                     et_otp.setEnabled(false);
                     bt_submit.setOnClickListener(null);
                     db.collection("user").document(user.getUid()).update("is_qualified", 0);
+                    db.collection("user").document(user.getUid()).update("prev_round", round_no);
                     showEliminationView(true,"Eliminated!");
                 } else {
                     HashMap<String, Object> data = new HashMap<>();
@@ -1059,7 +1061,9 @@ public class FragmentQuilympics extends Fragment {
                             int score = 0;
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                    score = score + Integer.parseInt(documentSnapshot.getData().get("score").toString());
+                                    if(documentSnapshot.getId().equals(user.getUid())){
+                                        score = Integer.parseInt(documentSnapshot.getData().get("score").toString());
+                                    }
 //                                    if(documentSnapshot.getData().get("score").toString().equals("0")) {
                                     db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
 //                                    }else{
@@ -1114,10 +1118,14 @@ public class FragmentQuilympics extends Fragment {
                                     elimination_no = total_user - 5;
                                 }
                                 int i = 1;
-                                int score = 0;
+                                int score =0;
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                    score = score + Integer.parseInt(documentSnapshot.getData().get("score").toString());
-                                    if (i <= elimination_no) {
+
+                                    if(documentSnapshot.getId().equals(user.getUid())){
+                                        score = Integer.parseInt(documentSnapshot.getData().get("score").toString());
+                                    }
+
+                                    if (i <= elimination_no){
                                         db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
                                     } else {
                                         db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 1);

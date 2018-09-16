@@ -93,9 +93,10 @@ public class EventFragment extends Fragment {
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/KrinkesDecorPERSONAL.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
 
         tv_header.setTypeface(oswald_regular);
+        tv_header.setText("EVENTS");
 
         @SuppressLint("StaticFieldLeak") AsyncTask asyncTask = new AsyncTask() {
             @Override

@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterEvents;
 import bitspilani.bosm.adapters.AdapterNotifications;
@@ -83,6 +84,9 @@ public class NotificationScreen implements Content {
     @NonNull
     @Override
     public View getView() {
+
+        HomeActivity.tv_number.setText("0");
+        HomeActivity.tv_number.setVisibility(View.GONE);
 
         TextView title =(TextView) mWholeScreen.findViewById(R.id.title);
 
