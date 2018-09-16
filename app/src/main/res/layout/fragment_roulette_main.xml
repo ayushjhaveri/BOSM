@@ -34,7 +34,7 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="Roulette"
+                android:text="ROULETTE"
                 android:textColor="@color/background2"
                 android:textSize="30sp" />
 

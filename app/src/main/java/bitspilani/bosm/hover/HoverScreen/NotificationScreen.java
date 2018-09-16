@@ -85,6 +85,7 @@ public class NotificationScreen implements Content {
     @Override
     public View getView() {
 
+//        Toast.makeText(mContext, "asdfadsf", Toast.LENGTH_SHORT).show();
         HomeActivity.tv_number.setText("0");
         HomeActivity.tv_number.setVisibility(View.GONE);
 

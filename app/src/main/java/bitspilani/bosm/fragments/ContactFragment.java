@@ -53,45 +53,45 @@ public class ContactFragment extends Fragment {
         mail=new ArrayList<>();
 
         //ADDING ENTRIES
-        name.add("Jayshil");
+        name.add("Surakshit Soni");
         post.add("Sports Secretary");
-        number.add("+91-9828623535");
+        number.add("+91-9001436050");
         mail.add("sportssecretary@bits-bosm.org");
 
-        name.add("Siddharth");
+        name.add("Samiran");
         post.add("Joint Sports Secretary");
-        number.add("+91-7733974342");
-        mail.add("siddharth@bits-bosm.org");
+        number.add("+91-7740800430");
+        mail.add("sportscouncil@gmail.com");
 
-        name.add("Aman");
+        name.add("Mrudula Nagesh ");
         post.add("Joint Sports Secretary");
-        number.add("+91-9714540571");
-        mail.add("aman@bits-bosm.org");
+        number.add("+91-8826034708");
+        mail.add("sportscouncil@gmail.com");
 
         post.add("Joint Sports Secretary");
-        name.add("Shreshtha");
-        number.add("+91-9873240714");
-        mail.add("shreshtha@bits-bosm.org");
+        name.add("Harsh Bhoot");
+        number.add("+91-8527741418");
+        mail.add("sportscouncil@gmail.com");
 
         post.add("Publications and Correspondence");
-        name.add("Akshay");
-        number.add("+91-9929022741");
+        name.add("Devansh Ghatak");
+        number.add("+91-7987023229");
         mail.add("pcr@bits-bosm.org");
 
         post.add("Sponsorship and Marketing");
-        name.add("Jayesh");
-        number.add("+91-8897716880");
+        name.add("Harshoman Sinha");
+        number.add("+91-8290798880");
         mail.add("sponsorship@bits-bosm.org");
         
 
         post.add("Reception and Accomodation");
-        name.add("Gautham");
-        number.add("+91-9444637124");
+        name.add("Devashish Bonde");
+        number.add("+91-8779091634");
         mail.add("recnacc@bits-bosm.org");
         
         post.add("BOSM Controls");
-        name.add("Pavan");
-        number.add("+91-9828629266");
+        name.add("Vishnu Raj");
+        number.add("+91-9829946080");
         mail.add("controls@bits-bosm.org");
 
 
