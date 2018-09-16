@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity
         tv_number.setText("12");
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-        setTitle("BOSM 2K18");
+        setTitle("BOSM '18");
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ll_dots = (LinearLayout) findViewById(R.id.ll_dots);
