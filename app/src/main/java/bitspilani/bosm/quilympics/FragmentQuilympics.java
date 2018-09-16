@@ -1,6 +1,7 @@
 package bitspilani.bosm.quilympics;
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -98,6 +99,8 @@ public class FragmentQuilympics extends Fragment {
 
         //which round
         checkRound();
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Bold.ttf");
+        tv_round.setTypeface(oswald_regular);
 
         tv_a.setOnClickListener(new View.OnClickListener() {
             @Override
