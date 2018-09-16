@@ -125,12 +125,12 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             }
         }
 
-        ArrayList<ItemArraylist> array = null;
-//            array = (ArrayList<HashMap<String,Object>>) Objects.requireNonNull(document.getData().get("roulette"));
+        ArrayList<HashMap<String,Object>> array = null;
+            array = (ArrayList<HashMap<String,Object>>) Objects.requireNonNull(document.getData().get("roulette"));
             boolean isBet = false;
 
             for (int i = 0; i < array.size(); i++) {
-                if (array.get(i).getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                if (array.get(i).get("").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isBet = true;
                 }
             }
