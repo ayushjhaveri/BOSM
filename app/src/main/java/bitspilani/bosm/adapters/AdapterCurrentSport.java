@@ -385,8 +385,15 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                 if(!itemMatch.isHeader()){
                     holder2.rl_top.setVisibility(View.GONE);
                 }else{
+//                    if(Calendar.getInstance().get(Calendar.DATE) == itemMatch.getCalendar().get(Calendar.DATE)){
+//                        Log.d(TAG,"dSDSADASDSADSADSADASD" + position);
+//                        CurrentSportFragment.recyclerView.smoothScrollToPosition(position+1);
+//                    }
                     holder2.rl_top.setVisibility(View.VISIBLE);
                     holder2.tv_sort_title.setText(itemMatch.getDate());
+                    Typeface montserrat = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf");
+                    ((AthleticViewHolder) holder).tv_sort_title.setTypeface(montserrat);
+//                    Montserrat-Regular
                 }
 
 

@@ -130,7 +130,7 @@ public class AdapterRoulette extends FirestoreAdapter<AdapterRoulette.RouletteVi
             boolean isBet = false;
 
             for (int i = 0; i < array.size(); i++) {
-                if (array.get(i).get("").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                if (array.get(i).get("user_id").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isBet = true;
                 }
             }

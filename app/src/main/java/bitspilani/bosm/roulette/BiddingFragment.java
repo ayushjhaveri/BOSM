@@ -67,7 +67,6 @@ import bitspilani.bosm.R;
 import bitspilani.bosm.adapters.AdapterRoulette;
 import bitspilani.bosm.fragments.SportFragment;
 import bitspilani.bosm.items.ArrayObject;
-import bitspilani.bosm.items.ItemArraylist;
 import bitspilani.bosm.items.ItemRoulette;
 import bitspilani.bosm.utils.Constant;
 import io.grpc.Server;
@@ -130,7 +129,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     CountDownTimer countDownTimer2;
 
     final HashMap<Integer, Integer> items = new HashMap<>();
-    ArrayList<ItemArraylist> array = null;
+    ArrayList<HashMap<String,Object>> array = null;
 
     int sport_id;
     String doc_id;
@@ -325,17 +324,17 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                                                     //bet
 
 
-                                                    array = (ArrayList<ItemArraylist>) task.getResult().getData().get("roulette");
+                                                    array = (ArrayList<HashMap<String,Object>>) (task.getResult().getData().get("roulette"));
 
                                                     boolean isBet = false;
 
                                                     for (int i = 0; i < array.size(); i++) {
-                                                        ItemArraylist object = array.get(i);
-                                                        if (object.getUser_id().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                                        HashMap<String,Object> object = array.get(i);
+                                                        if (object.get("user_id").equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                                             isBet = true;
-                                                            team = object.getCollege();
-                                                            amount = object.getAmount();
-                                                            powerBid = object.isPower_bid();
+                                                            team = object.get("college").toString();
+                                                            amount = Integer.parseInt(object.get("amount").toString());
+                                                            powerBid = Boolean.parseBoolean(object.get("power_bid").toString());
 
                                                             if(team.equals(team_a)){
                                                                 cvTeamA.setCardBackgroundColor(ContextCompat.getColor(context, R.color.bid));
@@ -434,7 +433,11 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         } else if (itemRoulette.getStatus() == 1) {
             cardViewWon.setVisibility(View.VISIBLE);
             tvStatus.setText(getStatusName(1));
-            tvWon.setText(itemRoulette.getWinner());
+            if(itemRoulette.getWinner()==1){
+                tvWon.setText(itemRoulette.getCollege1());
+            }else if(itemRoulette.getWinner()==2) {
+                tvWon.setText(itemRoulette.getCollege2());
+            }
             tvStatus.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
 
@@ -803,9 +806,11 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     private void placeBetOnline(final int _power_bid, final String _team, final int _amount, final Dialog dialog) {
 
 //        try {
-            final ProgressDialog progressDialog;
-
-            progressDialog = ProgressDialog.show(context, "", "Please Wait...", true);
+            final ProgressDialog progressDialog   = new ProgressDialog(getContext(), R.style.MyAlertDialogStyle);
+            progressDialog.setMessage("Please Wait");
+            progressDialog.setIndeterminate(true);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
             final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
             if (_power_bid == 1) {
@@ -818,28 +823,28 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            ItemArraylist object = new ItemArraylist();
-            object.setUser_id( FirebaseAuth.getInstance().getCurrentUser().getUid());
-            object.setAmount(_amount);
-            object.setCollege(_team);
-            object.setPower_bid(_power_bid == 1);
+            HashMap<String,Object> jsonObject = new HashMap<>();
+            jsonObject.put("user_id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+            jsonObject.put("amount", _amount);
+            jsonObject.put("college", _team);
+            jsonObject.put("power_bid", _power_bid == 1);
 
-            array.add(object);
+            array.add(jsonObject);
 
             Map<String, Object> data = new HashMap<>();
+//
+//
+//            ArrayList<Map<String,Object>> arrayList = new ArrayList<>();
+//            for(int i=0;i<array.size();i++){
+//                Map<String,Object> data2= new HashMap<>();
+//                data2.put("user_id",array.get(i).get("user_id"));
+//                data2.put("amount",array.getJSONObject(i).get("amount"));
+//                data2.put("college",array.getJSONObject(i).get("college"));
+//                data2.put("power_bid",array.getJSONObject(i).get("power_bid"));
+//                arrayList.add(data2);
+//            }
 
-
-            ArrayList<Map<String,Object>> arrayList = new ArrayList<>();
-            for(int i=0;i<array.size();i++){
-                Map<String,Object> data2= new HashMap<>();
-                data2.put("user_id",array.get(i).getUser_id());
-                data2.put("amount",array.get(i).getAmount());
-                data2.put("college",array.get(i).getCollege());
-                data2.put("power_bid",array.get(i).isPower_bid());
-                arrayList.add(data2);
-            }
-
-            data.put("roulette",arrayList);
+            data.put("roulette",array);
             db.collection("scores").document(doc_id).update(data).addOnCompleteListener(
                     new OnCompleteListener<Void>() {
                         @Override
@@ -872,16 +877,18 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
                     }
             );
 
-//
+
 //        } catch (JSONException e) {
 //        }
     }
 
 
     private void slotOnline(final Dialog dialog, final boolean won) {
-        final ProgressDialog progressDialog;
-
-        progressDialog = ProgressDialog.show(context, "", "Please Wait...", true);
+        final ProgressDialog progressDialog   = new ProgressDialog(getContext(), R.style.MyAlertDialogStyle);
+        progressDialog.setMessage("Please Wait");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+05:30"));
         calendar.add(Calendar.MINUTE, 30);

@@ -109,7 +109,7 @@ public class HomeActivity extends AppCompatActivity
         fm = getSupportFragmentManager();
         //checking service
         FirebaseApp.initializeApp(this);
-        FirebaseMessaging.getInstance().subscribeToTopic("all");
+//        FirebaseMessaging.getInstance().subscribeToTopic("all");
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)

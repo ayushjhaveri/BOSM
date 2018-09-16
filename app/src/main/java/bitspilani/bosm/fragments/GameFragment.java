@@ -155,8 +155,11 @@ public class GameFragment extends Fragment {
                 if(FirebaseAuth.getInstance().getCurrentUser()==null){
                     type =2;
                     login(view);
-                }else
-                    loadFragment(new FragmentQuilympics());
+                }else {
+                    Toast.makeText(getContext(), "Not Started yet!", Toast.LENGTH_SHORT).show();
+
+//                    loadFragment(new FragmentQuilympics());
+                }
 
             }
         });
@@ -293,7 +296,8 @@ public class GameFragment extends Fragment {
                                                 if(type ==1){
                                                     loadFragment(new RouletteHomeFragment());
                                                 }else if(type ==2){
-                                                    loadFragment(new FragmentQuilympics());
+                                                    Toast.makeText(getContext(),"Not Started yet!",Toast.LENGTH_SHORT).show();
+//                                                    loadFragment(new FragmentQuilympics());
                                                 }else if(type ==3){
                                                     rl_profile.setVisibility(View.VISIBLE);
                                                     //rl_please_login.setVisibility(View.GONE);
@@ -318,7 +322,8 @@ public class GameFragment extends Fragment {
                                     if(type ==1){
                                         loadFragment(new RouletteHomeFragment());
                                     }else if(type ==2){
-                                        loadFragment(new FragmentQuilympics());
+                                        Toast.makeText(getContext(),"Not Started yet!",Toast.LENGTH_SHORT).show();
+//                                        loadFragment(new FragmentQuilympics());
                                     }else if(type ==3){
                                         rl_profile.setVisibility(View.VISIBLE);
                                         //rl_please_login.setVisibility(View.GONE);

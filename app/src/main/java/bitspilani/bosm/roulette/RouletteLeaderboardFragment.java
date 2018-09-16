@@ -71,7 +71,7 @@ public class RouletteLeaderboardFragment extends Fragment {
          tv_rank = (TextView) rootView.findViewById(R.id.tvRank);
 
 
-        Query query = db.collection("user");
+        Query query = db.collection("user").orderBy("score", Query.Direction.DESCENDING);
         mAdapter = new AdapterRouletteLeaderboard(getContext(),query, progressBar);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
