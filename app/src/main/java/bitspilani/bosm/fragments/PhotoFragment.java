@@ -66,10 +66,10 @@ public class PhotoFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
-//        alphaAdapter.setDuration(1000);
-//        alphaAdapter.setFirstOnly(false);
-        recyclerView.setAdapter(mAdapter);
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setFirstOnly(false);
+        recyclerView.setAdapter(alphaAdapter);
         return view;
     }
     @Override

@@ -223,7 +223,7 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                     ((AthleticViewHolder) holder).tv_sort_title.setTypeface(montserrat);
 //                    Montserrat-Regular
                 }
-                holder.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
+                holder1.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         progressBar.setVisibility(View.VISIBLE);
@@ -314,8 +314,8 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                 holder2.tv_venue.setText(itemMatch.getVenue());
                 holder2.tv_college_one.setText(itemMatch.getCollege1());
                 holder2.tv_college_two.setText(itemMatch.getCollege2());
-                holder2.tv_score_one.setText(itemMatch.getScore1());
-                holder2.tv_score_two.setText(itemMatch.getScore2());
+                holder2.tv_score_one.setText(itemMatch.getScore1().replace(":","\n"));
+                holder2.tv_score_two.setText(itemMatch.getScore2().replace(":", "\n"));
                 holder2.tv_date.setText(itemMatch.getCalendar().get(Calendar.DATE)
                         +getDayOfMonthSuffix(itemMatch.getCalendar().get(Calendar.DATE))+
                         " "+smf2.format(itemMatch.getCalendar().getTime()));
@@ -390,7 +390,7 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                 }
 
 
-                holder.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
+                holder2.itemView.findViewById(R.id.iv_map).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         progressBar.setVisibility(View.VISIBLE);

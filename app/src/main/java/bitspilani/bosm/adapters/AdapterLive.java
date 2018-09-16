@@ -849,6 +849,43 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 holder.tv_venue.setText(itemLive.getVenue());
                 holder.iv_sport.setImageResource(SportFragment.iconHash.get(itemLive.getSport_id()));
 
+                holder.iv_map.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("venue").document(itemLive.getVenue()).get().addOnCompleteListener(
+                                new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        progressBar.setVisibility(View.GONE);
+                                        if(task.isSuccessful()){
+                                            String latitude = task.getResult().contains("latitude")?task.getResult().getData().get("latitude").toString():"28.363821";
+                                            String longitude = task.getResult().contains("longitude")?task.getResult().getData().get("latitude").toString():"75.587029";
+                                            final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                    Uri.parse(map_nav_url));
+                                            context.startActivity(intent);
+                                        }else{
+                                            String latitude = "28.363821";
+                                            String longitude = "75.587029";
+                                            final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
+
+                                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                                    Uri.parse(map_nav_url));
+                                            context.startActivity(intent);
+                                        }
+                                    }
+                                }
+                        );
+//                        Intent intent = new Intent(Intent.ACTION_VIEW,
+//                                Uri.parse(map_nav_url));
+//                        context.startActivity(intent);
+                    }
+                });
+
+
                 if(itemLive.getMatchType() == Constant.ATHLETIC_TYPE_MATCH){
                     holder.ll_college.setVisibility(View.GONE);
                 }else if (itemLive.getMatchType() == Constant.TEAM_MATCH){
@@ -889,44 +926,11 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                         }
                     });
 
-                    holder.iv_map.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            progressBar.setVisibility(View.VISIBLE);
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            db.collection("venue").document(itemLive.getVenue()).get().addOnCompleteListener(
-                                    new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            progressBar.setVisibility(View.GONE);
-                                            if(task.isSuccessful()){
-                                                String latitude = task.getResult().contains("latitude")?task.getResult().getData().get("latitude").toString():"28.363821";
-                                                String longitude = task.getResult().contains("longitude")?task.getResult().getData().get("latitude").toString():"75.587029";
-                                                final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
-
-                                                Intent intent = new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(map_nav_url));
-                                                context.startActivity(intent);
-                                            }else{
-                                                String latitude = "28.363821";
-                                                String longitude = "75.587029";
-                                                final String map_nav_url="http://maps.google.com/maps?daddr="+latitude+","+longitude+"";
-
-                                                Intent intent = new Intent(Intent.ACTION_VIEW,
-                                                        Uri.parse(map_nav_url));
-                                                context.startActivity(intent);
-                                            }
-                                        }
-                                    }
-                            );
-//                        Intent intent = new Intent(Intent.ACTION_VIEW,
-//                                Uri.parse(map_nav_url));
-//                        context.startActivity(intent);
-                        }
-                    });
 
 
                 }
+
+
             break;
         }
 

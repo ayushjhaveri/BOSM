@@ -29,6 +29,7 @@ import bitspilani.bosm.adapters.AdapterPhotos;
 import bitspilani.bosm.adapters.AdapterSponsors;
 import bitspilani.bosm.items.ItemSponsor;
 import bitspilani.bosm.utils.Constant;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 
 import java.util.ArrayList;
@@ -102,15 +103,15 @@ public class SponsorsFragment extends Fragment {
         };
         asyncTask.execute();
 
-        Query mQuery = db.collection("photos");
+        Query mQuery = db.collection("sponsors");
         mAdapter = new AdapterSponsors(context,mQuery, progressBar,rl_filled, rl_empty);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
-//        alphaAdapter.setDuration(1000);
-//        alphaAdapter.setFirstOnly(false);
-        recyclerView.setAdapter(mAdapter);
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        AlphaInAnimationAdapter alphaAdapter = new AlphaInAnimationAdapter(mAdapter);
+        alphaAdapter.setDuration(1000);
+        alphaAdapter.setFirstOnly(false);
+        recyclerView.setAdapter(alphaAdapter);
 
         TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Bold.ttf");
