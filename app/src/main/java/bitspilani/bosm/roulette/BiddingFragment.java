@@ -183,10 +183,10 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 
         context  = getContext();
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Bold.ttf");
 
         tv_header.setTypeface(oswald_regular);
-        tv_header.setText(sport_name);
+        tv_header.setText(sport_name.toUpperCase());
 
 
         db = FirebaseFirestore.getInstance();

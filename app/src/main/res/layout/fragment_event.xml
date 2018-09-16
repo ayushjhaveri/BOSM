@@ -43,6 +43,7 @@ android:id="@+id/card_events"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
                 android:text="Events"
+                android:textStyle="bold"
                 android:textColor="@color/background2"
                 android:textSize="30sp" />
 

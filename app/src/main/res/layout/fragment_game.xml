@@ -52,7 +52,7 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="Gaming Section"
+                android:text="GAMING ZONE"
                 android:textColor="@color/background2"
                 android:textSize="30sp" />
 
@@ -205,32 +205,36 @@
           android:layout_weight="1"
           app:cardBackgroundColor="@android:color/transparent"
           android:layout_width="match_parent"
-          android:layout_height="0dp">
+          android:layout_height="0dp"
+          app:cardCornerRadius="5dp">
 
           <RelativeLayout
-              android:background="@drawable/border_shadow"
+              android:background="@color/back_shade4"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
               <ImageView
-                  android:alpha="0.5"
+                  android:alpha="0.7"
                   android:id="@+id/image2"
-                  android:layout_centerInParent="true"
                   android:layout_centerVertical="true"
-                  android:layout_marginEnd="0dp"
+                  android:layout_marginStart="-100dp"
                   android:layout_width="250dp"
                   android:layout_height="250dp"
-                  android:src="@drawable/idea"/>
+                  android:src="@drawable/roulette"
+                  android:scaleType="centerCrop"/>
               <TextView
+                  android:paddingEnd="12dp"
+                  android:paddingStart="12dp"
+                  android:layout_toEndOf="@id/image2"
                   android:layout_width="match_parent"
                   android:gravity="center"
                   android:layout_height="wrap_content"
-                  android:text="Quilympics"
+                  android:text="Roulette"
                   android:maxLines="1"
                   android:textStyle="bold"
-                  android:textColor="#ff3c00"
-                  android:layout_centerInParent="true"
-                  android:textSize="55dp"
+                  android:textColor="@color/back_shade2"
+                  android:textSize="32dp"
+                  android:layout_centerVertical="true"
                   />
           </RelativeLayout>
 
@@ -248,31 +252,37 @@
           android:layout_marginEnd="12dp"
           android:layout_weight="1"
           android:layout_width="match_parent"
-          android:layout_height="0dp">
+          android:layout_height="0dp"
+          app:cardCornerRadius="5dp">
 
           <RelativeLayout
-              android:background="@drawable/border_shadow"
+              android:background="@color/back_shade4"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
               <ImageView
-                  android:alpha="0.5"
+                  android:alpha="0.7"
                   android:id="@+id/image"
-                  android:layout_centerInParent="true"
-                  android:layout_marginLeft="0dp"
                   android:layout_width="250dp"
                   android:layout_height="250dp"
-                  android:src="@drawable/roulette"/>
+                  android:src="@drawable/idea"
+                  android:layout_marginEnd="-100dp"
+                  android:layout_alignParentEnd="true"
+                  android:scaleType="centerCrop"/>
               <TextView
+                  android:layout_toStartOf="@id/image"
                   android:layout_width="match_parent"
                   android:gravity="center"
                   android:layout_height="wrap_content"
-                  android:text="Roulette"
+                  android:text="Quilympics"
+                  android:paddingStart="12dp"
+                  android:paddingEnd="12dp"
                   android:maxLines="1"
-                  android:textColor="#00ffaa"
+                  android:textColor="@color/back_shade2"
+                  android:layout_alignParentStart="true"
                   android:textStyle="bold"
-                  android:layout_centerInParent="true"
-                  android:textSize="55dp"
+                  android:layout_centerVertical="true"
+                  android:textSize="32dp"
                   />
           </RelativeLayout>
 

@@ -83,7 +83,7 @@ public class GameFragment extends Fragment {
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         mAuth = FirebaseAuth.getInstance();
-        Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/RobotoCondensed-Regular.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/RobotoCondensed-Bold.ttf");
         TextView tv_title = (TextView)view.findViewById(R.id.tv_header);
         tv_title.setTypeface(oswald_regular);
 

@@ -55,7 +55,7 @@ public class PhotoFragment extends Fragment {
 
 
         TextView tv_header = (TextView) view.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Regular.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
 
         tv_header.setTypeface(oswald_regular);
 

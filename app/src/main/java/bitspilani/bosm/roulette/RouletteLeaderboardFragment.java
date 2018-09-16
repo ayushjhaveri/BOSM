@@ -64,7 +64,7 @@ public class RouletteLeaderboardFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         TextView tv_header = (TextView) rootView.findViewById(R.id.tv_header);
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Regular.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Bold.ttf");
 
         tv_header.setTypeface(oswald_regular);
 

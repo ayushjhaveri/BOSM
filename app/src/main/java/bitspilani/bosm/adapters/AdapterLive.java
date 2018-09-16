@@ -2,6 +2,7 @@ package bitspilani.bosm.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -387,7 +388,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 int id = 0;
                 String sport_name="";
                 String college1 = "", college2="",round="",venue="",score1="",score2="",full_college1="",full_college2="";
-                int vote1=0, vote2=0,isVote =-1;
+                int vote1=0, vote2=0,isVote =0;
                 try{
                     id =   Integer.parseInt(document.getData().get("sport_id").toString());
                 }catch (Exception e){
@@ -449,7 +450,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     e.printStackTrace();
                 }
                 try{
-                    isVote =   Integer.parseInt(document.getData().get("is_vote").toString());
+                    isVote =  Integer.parseInt(document.getData().get("is_vote").toString());
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -526,12 +527,16 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
 
                 if(itemLive.getIsVote()>0){
-                    liveViewHolder.iv_vote1.setEnabled(false);
-                    liveViewHolder.iv_vote2.setEnabled(false);
+//                    liveViewHolder.iv_vote1.setEnabled(T);
+//                    liveViewHolder.iv_vote2.setEnabled(false);
 
                     if(itemLive.getIsVote()==1){
+                        liveViewHolder.iv_vote1.setEnabled(false);
+                        liveViewHolder.iv_vote2.setEnabled(true);
                         liveViewHolder.iv_vote1.setLiked(true);
                         liveViewHolder.iv_vote2.setLiked(false);
+//                        liveViewHolder.iv_vote1.setLikeDrawableRes(R.drawable.like);
+//                        liveViewHolder.iv_vote2.setLikeDrawableRes(R.drawable.dislike);
 
                         liveViewHolder.rl_vote_one.setLayoutParams(new LinearLayout.LayoutParams(0,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -541,7 +546,9 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                 itemLive.getVote2()));
 
                         liveViewHolder.rl_vote_one.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_one.setBackgroundTintList(context.getResources().getColorStateList(R.color.rl_liked));
                         liveViewHolder.rl_vote_two.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_two.setBackgroundTintList(context.getResources().getColorStateList(R.color.rl_unliked));
 
                         liveViewHolder.tv_vote1.setVisibility(View.INVISIBLE);
                         liveViewHolder.tv_vote1.setText(itemLive.getVote1()+"");
@@ -598,14 +605,20 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
                         liveViewHolder.rl_vote_one.setVisibility(View.VISIBLE);
 
-
-                        liveViewHolder.iv_vote1.setEnabled(false);
-                        liveViewHolder.iv_vote2.setEnabled(false);
+//
+//                        liveViewHolder.iv_vote1.setEnabled(false);
+//                        liveViewHolder.iv_vote2.setEnabled(true);
 
 
                     }else if(itemLive.getIsVote()==2){
+//
+                        liveViewHolder.iv_vote1.setEnabled(true);
+                        liveViewHolder.iv_vote2.setEnabled(false);
+
                         liveViewHolder.iv_vote1.setLiked(false);
                         liveViewHolder.iv_vote2.setLiked(true);
+//                        liveViewHolder.iv_vote1.setLikeDrawableRes(R.drawable.dislike);
+//                        liveViewHolder.iv_vote2.setLikeDrawableRes(R.drawable.like);
 
 
                         liveViewHolder.rl_vote_one.setLayoutParams(new LinearLayout.LayoutParams(0,
@@ -616,7 +629,9 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                                 itemLive.getVote2()));
 
                         liveViewHolder.rl_vote_one.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_one.setBackgroundTintList(context.getResources().getColorStateList(R.color.rl_unliked));
                         liveViewHolder.rl_vote_two.setVisibility(View.INVISIBLE);
+                        liveViewHolder.rl_vote_two.setBackgroundTintList(context.getResources().getColorStateList(R.color.rl_liked));
 
                         liveViewHolder.tv_vote1.setText(itemLive.getVote1()+"");
                         liveViewHolder.tv_vote2.setText(itemLive.getVote2()+"");
@@ -675,8 +690,8 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                             }
                         });
 
-                        liveViewHolder.iv_vote1.setEnabled(false);
-                        liveViewHolder.iv_vote2.setEnabled(false);
+//                        liveViewHolder.iv_vote1.setEnabled(true);
+//                        liveViewHolder.iv_vote2.setEnabled(false);
 
                     }
                 }else{
@@ -697,10 +712,17 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                 liveViewHolder.iv_vote1.setOnLikeListener(new OnLikeListener() {
                     @Override
                     public void liked(LikeButton likeButton) {
+//                        Toast.makeText(context, "previous vote : "+itemLive.getIsVote(), Toast.LENGTH_SHORT).show();
+                        DocumentReference documentReference = document.getReference();
+
+                        if(itemLive.getIsVote() == 2){
+
+                            int new_vote2 = finalitem.getVote2()-1;
+                            documentReference.update("vote2", new_vote2);
+                        }
 
                         int new_vote1 = finalitem.getVote1()+1;
-                        DocumentReference documentReference = document.getReference();
-                        documentReference.update("is_vote", "1");
+                        documentReference.update("is_vote", 1);
                         documentReference.update("vote1",new_vote1)
                                 .addOnSuccessListener(new OnSuccessListener< Void >() {
                                     @Override
@@ -724,9 +746,16 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
                     @Override
                     public void liked(LikeButton likeButton) {
 
-                        int new_vote2 = finalitem.getVote2() + 1;
+
                         DocumentReference documentReference = document.getReference();
-                        documentReference.update("is_vote", "1");
+
+                        if(itemLive.getIsVote() == 1){
+                            int new_vote1 = finalitem.getVote1()-1;
+                            documentReference.update("vote1", new_vote1);
+                        }
+
+                        int new_vote2 = finalitem.getVote2() + 1;
+                        documentReference.update("is_vote", "2");
                         documentReference.update("vote2", new_vote2)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -934,7 +963,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
             holder.header_text.setText("UPCOMING");
         }
 
-        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/RobotoCondensed-Regular.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(context.getAssets(),"fonts/RobotoCondensed-Bold.ttf");
 
         holder.header_text.setTypeface(oswald_regular);
 

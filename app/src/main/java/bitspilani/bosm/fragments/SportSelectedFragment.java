@@ -137,9 +137,9 @@ public class SportSelectedFragment extends Fragment {
         }, 500);
 
 
-        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/RobotoCondensed-Regular.ttf");
+        Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(),"fonts/RobotoCondensed-Bold.ttf");
         TextView title = (TextView)v.findViewById(R.id.tv_header);
-        title.setText(Constant.currentSport.getName());
+        title.setText(Constant.currentSport.getName().toUpperCase());
 
         title.setTypeface(oswald_regular);
 
