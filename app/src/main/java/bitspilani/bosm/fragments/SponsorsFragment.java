@@ -103,7 +103,7 @@ public class SponsorsFragment extends Fragment {
         };
         asyncTask.execute();
 
-        Query mQuery = db.collection("sponsors");
+        Query mQuery = db.collection("sponsors").orderBy("order");
         mAdapter = new AdapterSponsors(context,mQuery, progressBar,rl_filled, rl_empty);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);

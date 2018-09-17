@@ -103,7 +103,8 @@ public abstract class FirestoreAdapter2<VH extends RecyclerView.ViewHolder>
                                 stf.format(date),
                                 sdf.format(date) + getDayOfMonthSuffix(cal.get(Calendar.DATE)) + " " + smf.format(date),
                                 document.contains("round") ? toTitleCase(document.getData().get("round").toString()) : "",
-                                cal
+                                cal,
+                                document.contains("extra_details")? document.getData().get("extra_details").toString():""
                         );
                     }
 
@@ -149,7 +150,8 @@ public abstract class FirestoreAdapter2<VH extends RecyclerView.ViewHolder>
                                 document.contains("college2") ? document.getData().get("college2").toString() : "",
                                 document.contains("full_college1") ? toTitleCase((String) document.getData().get("full_college1")) : "",
                                 document.contains("full_college2") ? toTitleCase((String) document.getData().get("full_college2")) : "",
-                                cal
+                                cal,
+                                document.contains("extra_details")? document.getData().get("extra_details").toString():""
                         );
                     }
 

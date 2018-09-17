@@ -45,7 +45,7 @@ public class ItemMatch {
     }
 
     //SCHEDULE ATHLETIC TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String matchRound ,Calendar calendar) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String matchRound ,Calendar calendar, String extraDetails) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
@@ -54,6 +54,7 @@ public class ItemMatch {
         this.time = time;
         this.date = date;
         this.matchRound = matchRound;
+        this.extraDetails=extraDetails;
     }
 
     //RESULT ATHLETIC TYPE
@@ -76,7 +77,7 @@ public class ItemMatch {
     }
 
     //SCHEDULE TEAM TYPE
-    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String college1, String college2, String fullCollege1, String fullCollege2 ,Calendar calendar) {
+    public ItemMatch(int matchType, String sportName, String venue, String time, String date, String type, String college1, String college2, String fullCollege1, String fullCollege2 ,Calendar calendar, String extraDetails) {
         this();
         this.matchType = matchType;
         this.sportName = sportName;
@@ -89,6 +90,7 @@ public class ItemMatch {
         this.college2 = college2;
         this.fullCollege1=fullCollege1;
         this.fullCollege2=fullCollege2;
+        this.extraDetails=extraDetails;
     }
 
     //RESULT TEAM TYPE

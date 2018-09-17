@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -52,6 +54,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.fragments.CurrentSportFragment;
 import bitspilani.bosm.fragments.EventFragment;
 import bitspilani.bosm.fragments.GameFragment;
 import bitspilani.bosm.fragments.MapFragment;
@@ -66,6 +69,7 @@ import bitspilani.bosm.fragments.HpcFragment;
 import bitspilani.bosm.fragments.SponsorsFragment;
 import bitspilani.bosm.hover.MultipleSectionsHoverMenuService;
 import bitspilani.bosm.roulette.RouletteHomeFragment;
+import bitspilani.bosm.utils.Constant;
 import io.mattcarroll.hover.overlay.OverlayPermission;
 
 import static bitspilani.bosm.fragments.HomeFragment.vpPager;
@@ -74,7 +78,7 @@ import static bitspilani.bosm.roulette.RouletteHomeFragment.vpPagerRoulette;
 import static com.google.common.base.Preconditions.checkArgument;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ForceUpdateChecker.OnUpdateNeededListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     //    public static Toolbar toolbar;
 //    ImageButton ib_cart;
@@ -104,7 +108,7 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ForceUpdateChecker.with(this).onUpdateNeeded(this).check();
+
 
         fm = getSupportFragmentManager();
         //checking service
@@ -117,6 +121,43 @@ public class HomeActivity extends AppCompatActivity
 
         db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(settings);
+       db.collection("constant").document("required_version_code").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    try {
+                        PackageInfo pInfo = HomeActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
+                        int verCode = pInfo.versionCode;
+                        int serverCode = Integer.parseInt(task.getResult().getData().get("value").toString());
+                        if(verCode < serverCode){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                            builder.setTitle("New Version Available")
+                                    .setCancelable(false)
+                                    .setMessage("Please update the app to continue using")
+                                    .setPositiveButton("update", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // continue with delete
+
+                                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                            } catch (android.content.ActivityNotFoundException anfe) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                            }
+                                        }
+                                    }).show();
+
+
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
 
         delay = 200;
 
@@ -186,7 +227,13 @@ public class HomeActivity extends AppCompatActivity
                 loadFragHome(new HomeFragment(), "Home", fm, 0);
             } else if (getIntent().getStringExtra("NOTIFICATION").equals("2")) {
                 Log.d("notif", "2");
-                loadFragHome(new HomeFragment(), "Home", fm, 2);
+                if (getIntent().getIntExtra("sport_id",-1)>0){
+                    Constant.currentSport.setSport_id(getIntent().getIntExtra("sport_id",-1));
+                    loadFrag(new SportSelectedFragment(),"Notification", fm );
+                }
+                else {
+                    loadFragHome(new HomeFragment(), "Home", fm, 2);
+                }
             }
         } else {
             Log.d("notif", "564564");
@@ -364,6 +411,42 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        db.collection("constant").document("required_version_code").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    try {
+                        PackageInfo pInfo = HomeActivity.this.getPackageManager().getPackageInfo(getPackageName(), 0);
+                        int verCode = pInfo.versionCode;
+                        int serverCode = Integer.parseInt(task.getResult().getData().get("value").toString());
+                        if(verCode < serverCode){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                            builder.setTitle("New Version Available")
+                                    .setCancelable(false)
+                                    .setMessage("Please update the app to continue using")
+                                    .setPositiveButton("update", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // continue with delete
+
+                                            final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                            } catch (android.content.ActivityNotFoundException anfe) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                            }
+                                        }
+                                    }).show();
+
+
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         // On Android M and above we need to ask the user for permission to display the Hover
         // menu within the "alert window" layer.  Use OverlayPermission to check for the permission
@@ -593,24 +676,7 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onUpdateNeeded(final String updateUrl) {
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("New version available")
-                .setMessage("Please update app to new version to continue using.")
-                .setPositiveButton("Update",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                redirectStore(updateUrl);
-                            }
-                        }).create();
-        dialog.show();
-    }
 
-    private void redirectStore(String updateUrl) {
-        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
+
+
 }

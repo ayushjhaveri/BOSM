@@ -24,4 +24,5 @@ public class ItemNotification {
     public Calendar getCal() {
         return cal;
     }
+
 }

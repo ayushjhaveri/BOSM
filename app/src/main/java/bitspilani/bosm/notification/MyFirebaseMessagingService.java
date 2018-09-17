@@ -47,14 +47,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sendNotification(
                 remoteMessage.getData().containsKey("title")?remoteMessage.getData().get("title"):"",
                 remoteMessage.getData().containsKey("body")?remoteMessage.getData().get("body"):"",
-                remoteMessage.getData().containsKey("type")?remoteMessage.getData().get("type"):"");
+                remoteMessage.getData().containsKey("type")?remoteMessage.getData().get("type"):"",
+                remoteMessage.getData().containsKey("sport_id")?Integer.parseInt(remoteMessage.getData().get("sport_id").toString()):-1);
 
     }
 
 
 
 
-    private void sendNotification(String title, String messageBody, String type) {
+    private void sendNotification(String title, String messageBody, String type, int sport_id) {
 
         updateMyActivity(getApplicationContext(),"dsaasdasd");
 //
@@ -74,6 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra("NOTIFICATION","1");
         }else if(type.equals(String.valueOf(Constant.NOTIIFCATION_TYPE_SCORES))){
             intent.putExtra("NOTIFICATION","2");
+            intent.putExtra("sport_id", sport_id);
         }
 
 
