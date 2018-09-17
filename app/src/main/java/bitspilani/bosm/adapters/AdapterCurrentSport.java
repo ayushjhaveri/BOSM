@@ -193,7 +193,6 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                     holder1.rl_extra.setVisibility(View.GONE);
                 }else{
                     holder1.rl_extra.setVisibility(View.VISIBLE);
-
                 }
 
                 if(itemMatch.getGoldName().equals("")){
@@ -393,7 +392,7 @@ public class AdapterCurrentSport extends FirestoreAdapter2<RecyclerView.ViewHold
                     holder2.rl_top.setVisibility(View.VISIBLE);
                     holder2.tv_sort_title.setText(itemMatch.getDate());
                     Typeface montserrat = Typeface.createFromAsset(context.getAssets(), "fonts/Montserrat-Regular.ttf");
-                    ((TeamViewHolder) holder).tv_sort_title.setTypeface(montserrat);
+                    ((TeamViewHolder) holder2).tv_sort_title.setTypeface(montserrat);
 //                    Montserrat-Regular
                 }
 

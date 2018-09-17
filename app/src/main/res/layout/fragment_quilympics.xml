@@ -160,7 +160,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/elimination_conatiner"
         android:layout_centerInParent="true"
         android:background="@drawable/border_shadow"
@@ -183,6 +183,16 @@
             android:text="Wait for the round to start"
             android:textStyle="bold"
             android:textSize="25sp"
+            />
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/back_shade2"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Score : 0"
+            android:textSize="17sp"
             />
         <View
             android:layout_marginTop="10dp"

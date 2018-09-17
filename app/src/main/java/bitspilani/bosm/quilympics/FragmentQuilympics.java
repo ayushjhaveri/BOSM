@@ -70,7 +70,7 @@ public class FragmentQuilympics extends Fragment {
     TextView tv_question_header, tv_question, tv_a, tv_b, tv_c, tv_d, tv_timer, tv_round,
             tv_result,tv_msg,
     //            tv_desc,
-    tv_timer_round;
+    tv_timer_round,tv_score;
     CardView cv_a, cv_b, cv_c, cv_d;
     Button bt_submit;
     EditText et_otp;
@@ -101,6 +101,7 @@ public class FragmentQuilympics extends Fragment {
         checkRound();
         Typeface oswald_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/RobotoCondensed-Bold.ttf");
         tv_round.setTypeface(oswald_regular);
+        tv_msg.setTypeface(oswald_regular);
 
         tv_a.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +152,7 @@ public class FragmentQuilympics extends Fragment {
 //        tv_desc = (TextView) v.findViewById(R.id.tv_desc);
         tv_timer_round = (TextView) v.findViewById(R.id.tv_timer_round);
         tv_round = (TextView) v.findViewById(R.id.tv_round);
+        tv_score = (TextView) v.findViewById(R.id.tv_score);
         tv_result = (TextView) v.findViewById(R.id.tv_result);
         tv_a = (TextView) v.findViewById(R.id.tv_a);
         tv_b = (TextView) v.findViewById(R.id.tv_b);
@@ -177,12 +179,31 @@ public class FragmentQuilympics extends Fragment {
         start_time_ = Calendar.getInstance();
     }
 
-    private void showEliminationView(boolean is, String msg) {
+    private void showEliminationView(boolean is, final String msg) {
         if (is) {
-            otp_container.setVisibility(View.GONE);
-            elimination_container.setVisibility(View.VISIBLE);
-            que_container.setVisibility(View.GONE);
-            tv_msg.setText(msg);
+            if(round_no==-1 ||round_no==-2) {
+                db.collection("user").document(user.getUid()).get().addOnCompleteListener(
+                        new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                int score = task.getResult().contains("quilympics_score") ? Integer.parseInt(task.getResult().getData().get("quilympics_score").toString()) : 0;
+                                otp_container.setVisibility(View.GONE);
+                                elimination_container.setVisibility(View.VISIBLE);
+                                que_container.setVisibility(View.GONE);
+                                tv_msg.setText(msg);
+                                tv_score.setVisibility(View.VISIBLE);
+                                tv_score.setText("Total Score : " + score);
+                            }
+                        }
+                );
+            }else{
+                otp_container.setVisibility(View.GONE);
+                elimination_container.setVisibility(View.VISIBLE);
+                que_container.setVisibility(View.GONE);
+                tv_msg.setText(msg);
+                tv_score.setVisibility(View.GONE);
+            }
+
         } else {
             elimination_container.setVisibility(View.GONE);
             que_container.setVisibility(View.VISIBLE);
@@ -229,7 +250,7 @@ public class FragmentQuilympics extends Fragment {
                             Log.d(TAG, "got round no " + round_no);
                             if (round_no == 1 || round_no ==-1 || round_no ==0) {
                                 //give entry
-
+TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                                 if(round_no == -1){
                                     tv_round.setText("Round 1");
                                 }else if(round_no ==0){
@@ -237,10 +258,7 @@ public class FragmentQuilympics extends Fragment {
                                 }else {
                                     tv_round.setText("Round " + round_no + " : " + round_desc);
                                 }
-//
 //                                giveEntry(round_no, start_time_);
-
-
                             } else if (round_no <= 10) {
                                 if(round_no == -1){
                                     tv_round.setText("Round 1");
@@ -256,6 +274,7 @@ public class FragmentQuilympics extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 if (task.isSuccessful()) {
+
                                                     if (Integer.parseInt(task.getResult().getData().get("prev_round").toString()) == round_no - 1 &&
                                                             Integer.parseInt(task.getResult().getData().get("is_qualified").toString()) == 1) {
                                                     //give entry
@@ -367,7 +386,7 @@ public class FragmentQuilympics extends Fragment {
 
     private void submitAnswer(int option) {
         markedAnswer = option;
-        if (round_no == 1 || round_no == 2) {
+        if (round_no == 1 || round_no == 2|| round_no==-1 || round_no==0) {
             allowClickOnOptions(false);
             switch (option) {
                 case 1:
@@ -625,7 +644,7 @@ public class FragmentQuilympics extends Fragment {
                             Log.d(TAG, "got questions " + task.getResult().size());
                             questionArrayList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (round == 1 || round == 2) {
+                                if (round == 1 || round == 2|| round ==-1 || round ==0) {
                                     ItemQuestion itemQuestion = new ItemQuestion(
                                             Integer.parseInt(document.getId()),
                                             document.getData().get("question").toString(),
@@ -730,9 +749,9 @@ public class FragmentQuilympics extends Fragment {
         new CountDownTimer(roundTimePerQuestion + 1400, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (((int) millisUntilFinished / 1000 - 1) < 10) {
+                if (((int) millisUntilFinished / 1000 - 1) < 10 && ((int) millisUntilFinished / 1000 - 1) >= 0) {
                     tv_timer.setText("0" + String.valueOf(millisUntilFinished / 1000 - 1));
-                } else {
+                } else if(((int) millisUntilFinished / 1000 - 1) >= 0){
                     tv_timer.setText(String.valueOf(millisUntilFinished / 1000 - 1) + "");
                 }
 
@@ -764,9 +783,9 @@ public class FragmentQuilympics extends Fragment {
         new CountDownTimer(left, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (((int) millisUntilFinished / 1000 - 1) < 10) {
+                if (((int) millisUntilFinished / 1000 - 1) < 10 && ((int) millisUntilFinished / 1000 - 1) >=0) {
                     tv_timer_round.setText("Round will start in 0" + String.valueOf(millisUntilFinished / 1000 - 1));
-                } else {
+                } else if(((int) millisUntilFinished / 1000 - 1) >=0){
                     tv_timer_round.setText("Round will start in " + String.valueOf(millisUntilFinished / 1000 - 1) + "");
                 }
             }
@@ -788,7 +807,7 @@ public class FragmentQuilympics extends Fragment {
                     data.put("name",user.getDisplayName());
                     data.put("email",user.getEmail());
                     db.collection("quilympics").document("" + round_no).collection("user").document(user.getUid()).set(data, SetOptions.merge());
-                    db.collection("user").document(user.getUid()).update("quilympics_score", 0);
+//                    db.collection("user").document(user.getUid()).update("quilympics_score", 0);
                     progressDialog.setMessage("Fetching Questions ...");
                     progressDialog.show();
                     getRoundDetails(round_no);
@@ -798,7 +817,7 @@ public class FragmentQuilympics extends Fragment {
     }
 
     private void verifyAnswerToServer(final int round, final int question) {
-        if (round == 1) {
+        if (round == 1|| round ==-1) {
             ans = -1;
             db.collection("quilympics").document("" + round).collection("questions").document("" + question).get(source).addOnCompleteListener(
                     new OnCompleteListener<DocumentSnapshot>() {
@@ -827,7 +846,7 @@ public class FragmentQuilympics extends Fragment {
                     }
             );
 
-        } else if (round == 2) {
+        } else if (round == 2|| round ==0) {
             ans = -1;
             db.collection("quilympics").document("" + round).collection("questions").document("" + question).get(source).addOnCompleteListener(
                     new OnCompleteListener<DocumentSnapshot>() {
@@ -1054,6 +1073,10 @@ public class FragmentQuilympics extends Fragment {
     }
 
     private void doEliminiation(final int round) {
+        if(round ==-1 || round == 0){
+            progressDialog.dismiss();
+            checkRound();
+        }
         Log.d(TAG, "entered elimination");
         db.collection("quilympics").document("" + round).update("status", 1);
         if (round == 1 || round == 2) {
@@ -1064,18 +1087,20 @@ public class FragmentQuilympics extends Fragment {
                             int score = 0;
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                    Log.d(TAG,"ids  "+documentSnapshot.getId());
                                     if(documentSnapshot.getId().equals(user.getUid())){
+                                        Log.d(TAG,"got score"+score);
                                         score = Integer.parseInt(documentSnapshot.getData().get("score").toString());
                                     }
-//                                    if(documentSnapshot.getData().get("score").toString().equals("0")) {
+                                    if(documentSnapshot.getData().get("score").toString().equals("0")) {
                                     db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
-//                                    }else{
+                                    }else{
                                     db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 1);
-//                                    }
+                                    }
                                     db.collection("user").document(documentSnapshot.getId()).update("prev_round", round);
 
                                     Log.d(TAG, "calling check round from fn cnd 1");
-                                    db.collection("user").document(documentSnapshot.getId()).update("curr_round", round);
+//                                    db.collection("user").document(documentSnapshot.getId()).update("curr_round", round);
                                 }
                                 final int finalScore = score;
                                 db.collection("user").document(user.getUid()).get(source).addOnCompleteListener(
@@ -1086,6 +1111,7 @@ public class FragmentQuilympics extends Fragment {
                                                     int curr_score = 0;
                                                     if (task.getResult().getData().containsKey("quilympics_score")) {
                                                         curr_score = Integer.parseInt(task.getResult().getData().get("quilympics_score").toString());
+                                                        Log.d(TAG,"got current score"+curr_score);
                                                     }
                                                     task.getResult().getReference().update("quilympics_score", (curr_score + finalScore));
                                                 }
