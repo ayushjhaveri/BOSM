@@ -59,7 +59,7 @@ public class GameFragment extends Fragment {
     SignInButton iv_login;
 
     public GameFragment() {
-        // Required empty public constructor
+        // Regquired empty public constructor
         HomeActivity.currentFragment = "GAMEFRAGMENT";
     }
 
@@ -158,7 +158,22 @@ public class GameFragment extends Fragment {
                 }else {
 //                    Toast.makeText(getContext(), "Not Started yet!", Toast.LENGTH_SHORT).show();
 
-                    loadFragment(new FragmentQuilympics());
+                    FirebaseFirestore.getInstance().collection("constant").document("quilympics").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                boolean is = Boolean.parseBoolean(task.getResult().getData().get("is_start").toString());
+                                if(is){
+                                    loadFragment(new FragmentQuilympics());
+                                }else{
+                                    Toast.makeText(getContext(), "Game is not started yet!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+//                    db.coll
+
+
                 }
 
             }
@@ -291,13 +306,7 @@ public class GameFragment extends Fragment {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
                                                 viewLoader(false);
-                                                if(type ==1){
-                                                    loadFragment(new RouletteHomeFragment());
-                                                }else if(type ==2){
-//                                                    Toast.makeText(getContext(),"Not Started yet!",Toast.LENGTH_SHORT).show();
-                                                    loadFragment(new FragmentQuilympics());
-                                                }else if(type ==3){
-                                                    rl_profile.setVisibility(View.VISIBLE);
+                                                rl_profile.setVisibility(View.VISIBLE);
                                                     //rl_please_login.setVisibility(View.GONE);
                                                     tv_name.setText(mAuth.getCurrentUser().getDisplayName());
                                                     tv_email.setText(mAuth.getCurrentUser().getEmail());
@@ -305,7 +314,6 @@ public class GameFragment extends Fragment {
 //                                                    iv_profile.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
                                                     Picasso.with(getContext()).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(iv_profile);
 
-                                                }
 //                                                startActivity(new Intent(getActivity(),HomeActivity.class));
 //                                                finish();
                                             }else{
@@ -317,12 +325,6 @@ public class GameFragment extends Fragment {
                                 }else{
                                     Toast.makeText(getContext(),"Logged In Successfully!",Toast.LENGTH_SHORT).show();
                                     viewLoader(false);
-                                    if(type ==1){
-                                        loadFragment(new RouletteHomeFragment());
-                                    }else if(type ==2){
-                                        Toast.makeText(getContext(),"Not Started yet!",Toast.LENGTH_SHORT).show();
-//                                        loadFragment(new FragmentQuilympics());
-                                    }else if(type ==3){
                                         rl_profile.setVisibility(View.VISIBLE);
                                         //rl_please_login.setVisibility(View.GONE);
                                         tv_name.setText(mAuth.getCurrentUser().getDisplayName());
@@ -332,7 +334,6 @@ public class GameFragment extends Fragment {
                                     }
 //                                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
 //                                    finish();
-                                }
                             }else{
                                 Toast.makeText(getContext(),"Connection error!",Toast.LENGTH_SHORT).show();
                                 viewLoader(false);

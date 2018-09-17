@@ -1,6 +1,8 @@
 package bitspilani.bosm.quilympics;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -68,9 +71,9 @@ public class FragmentQuilympics extends Fragment {
     LinearLayout otp_container, elimination_container;
     ScrollView que_container;
     TextView tv_question_header, tv_question, tv_a, tv_b, tv_c, tv_d, tv_timer, tv_round,
-            tv_result,tv_msg,
+            tv_result, tv_msg,
     //            tv_desc,
-    tv_timer_round,tv_score;
+    tv_timer_round, tv_score;
     CardView cv_a, cv_b, cv_c, cv_d;
     Button bt_submit;
     EditText et_otp;
@@ -134,6 +137,7 @@ public class FragmentQuilympics extends Fragment {
         bt_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboardFrom(getContext(),bt_submit);
                 if (et_otp.getText().toString().isEmpty() || et_otp.getText().toString().length() != 4) {
                     Toast.makeText(getContext(), "Entered OTP is not in the correct format!", Toast.LENGTH_SHORT).show();
                 } else {
@@ -181,7 +185,7 @@ public class FragmentQuilympics extends Fragment {
 
     private void showEliminationView(boolean is, final String msg) {
         if (is) {
-            if(round_no==-1 ||round_no==-2) {
+            if (!(round_no == -1 || round_no == 0)) {
                 db.collection("user").document(user.getUid()).get().addOnCompleteListener(
                         new OnCompleteListener<DocumentSnapshot>() {
                             @Override
@@ -196,7 +200,7 @@ public class FragmentQuilympics extends Fragment {
                             }
                         }
                 );
-            }else{
+            } else {
                 otp_container.setVisibility(View.GONE);
                 elimination_container.setVisibility(View.VISIBLE);
                 que_container.setVisibility(View.GONE);
@@ -248,48 +252,54 @@ public class FragmentQuilympics extends Fragment {
                                 }
                             }
                             Log.d(TAG, "got round no " + round_no);
-                            if (round_no == 1 || round_no ==-1 || round_no ==0) {
-                                //give entry
-TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
-                                if(round_no == -1){
+//                            if (round_no == 1 || round_no == -1 || round_no == 0) {
+//                                //give entry
+//                                TODO:
+////DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
+//                                if (round_no == -1) {
+//                                    tv_round.setText("Round 1");
+//                                } else if (round_no == 0) {
+//                                    tv_round.setText("Round 2");
+//                                } else {
+//                                    tv_round.setText("Round " + round_no + " : " + round_desc);
+//                                }
+////                                giveEntry(round_no, start_time_);
+//                            } else
+                            if (round_no <= 10) {
+                                if (round_no == -1) {
                                     tv_round.setText("Round 1");
-                                }else if(round_no ==0){
+                                    giveEntry(round_no, start_time_);
+                                } else if (round_no == 0) {
+                                    giveEntry(round_no, start_time_);
                                     tv_round.setText("Round 2");
+                                } else if(round_no==1) {
+                                    giveEntry(round_no, start_time_);
+                                    tv_round.setText("Round " + round_no + " : " + round_desc);
                                 }else {
                                     tv_round.setText("Round " + round_no + " : " + round_desc);
-                                }
-//                                giveEntry(round_no, start_time_);
-                            } else if (round_no <= 10) {
-                                if(round_no == -1){
-                                    tv_round.setText("Round 1");
-                                }else if(round_no ==-2){
-                                    tv_round.setText("Round 2");
-                                }else {
-                                    tv_round.setText("Round " + round_no + " : " + round_desc);
-                                }
-
 //                                tv_desc.setText(round_desc);
-                                db.collection("user").document(user.getUid().toString()).get(source).addOnCompleteListener(
-                                        new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
+                                    db.collection("user").document(user.getUid().toString()).get(source).addOnCompleteListener(
+                                            new OnCompleteListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                    if (task.isSuccessful()) {
 
-                                                    if (Integer.parseInt(task.getResult().getData().get("prev_round").toString()) == round_no - 1 &&
-                                                            Integer.parseInt(task.getResult().getData().get("is_qualified").toString()) == 1) {
-                                                    //give entry
-                                                    giveEntry(round_no, start_time_);
+                                                        if (Integer.parseInt(task.getResult().getData().get("prev_round").toString()) == round_no - 1 &&
+                                                                Integer.parseInt(task.getResult().getData().get("is_qualified").toString()) == 1) {
+                                                            //give entry
+                                                            giveEntry(round_no, start_time_);
+                                                        } else {
+                                                            progressDialog.dismiss();
+                                                            showEliminationView(true, "Eliminated!");
+                                                        }
                                                     } else {
                                                         progressDialog.dismiss();
-                                                        showEliminationView(true,"Eliminated!");
+                                                        Toast.makeText(getContext(), "Connection error!", Toast.LENGTH_SHORT).show();
                                                     }
-                                                } else {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(getContext(), "Connection error!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
-                                        }
-                                );
+                                    );
+                                }
                             } else {
                                 progressDialog.dismiss();
                                 loadFragment(new LeaderboardFragment());
@@ -342,7 +352,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
         Log.d(TAG, "entry given with round no " + round);
         if (round_no <= 10) {
             if (round_status == -2) {
-                showEliminationView(true,"Wait for the round to start");
+                showEliminationView(true, "Wait for the round to start");
                 Log.d(TAG, "Status -2 ");
                 Query query = db.collection("quilympics").whereEqualTo("order", round);
                 listenerRegistration = query.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
@@ -362,10 +372,11 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                     }
                 });
             } else if (round_status == -1) {
+//                if(round==-1|)
                 showOTPContainer(true);
                 startRoundTimer(start_time);
             } else if (round_status >= 0) {
-                showEliminationView(true,"Sorry, You are late!");
+                showEliminationView(true, "Sorry, You are late!");
 //                Toast.makeText(getContext(), "SORRY! ALREADY STARTED!", Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -386,7 +397,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
 
     private void submitAnswer(int option) {
         markedAnswer = option;
-        if (round_no == 1 || round_no == 2|| round_no==-1 || round_no==0) {
+        if (round_no == 1 || round_no == 2 || round_no == -1 || round_no == 0) {
             allowClickOnOptions(false);
             switch (option) {
                 case 1:
@@ -644,7 +655,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                             Log.d(TAG, "got questions " + task.getResult().size());
                             questionArrayList.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (round == 1 || round == 2|| round ==-1 || round ==0) {
+                                if (round == 1 || round == 2 || round == -1 || round == 0) {
                                     ItemQuestion itemQuestion = new ItemQuestion(
                                             Integer.parseInt(document.getId()),
                                             document.getData().get("question").toString(),
@@ -751,7 +762,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
             public void onTick(long millisUntilFinished) {
                 if (((int) millisUntilFinished / 1000 - 1) < 10 && ((int) millisUntilFinished / 1000 - 1) >= 0) {
                     tv_timer.setText("0" + String.valueOf(millisUntilFinished / 1000 - 1));
-                } else if(((int) millisUntilFinished / 1000 - 1) >= 0){
+                } else if (((int) millisUntilFinished / 1000 - 1) >= 0) {
                     tv_timer.setText(String.valueOf(millisUntilFinished / 1000 - 1) + "");
                 }
 
@@ -783,9 +794,9 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
         new CountDownTimer(left, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (((int) millisUntilFinished / 1000 - 1) < 10 && ((int) millisUntilFinished / 1000 - 1) >=0) {
+                if (((int) millisUntilFinished / 1000 - 1) < 10 && ((int) millisUntilFinished / 1000 - 1) >= 0) {
                     tv_timer_round.setText("Round will start in 0" + String.valueOf(millisUntilFinished / 1000 - 1));
-                } else if(((int) millisUntilFinished / 1000 - 1) >=0){
+                } else if (((int) millisUntilFinished / 1000 - 1) >= 0) {
                     tv_timer_round.setText("Round will start in " + String.valueOf(millisUntilFinished / 1000 - 1) + "");
                 }
             }
@@ -800,12 +811,12 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                     bt_submit.setOnClickListener(null);
                     db.collection("user").document(user.getUid()).update("is_qualified", 0);
                     db.collection("user").document(user.getUid()).update("prev_round", round_no);
-                    showEliminationView(true,"Eliminated!");
+                    showEliminationView(true, "Eliminated!");
                 } else {
                     HashMap<String, Object> data = new HashMap<>();
                     data.put("score", 0);
-                    data.put("name",user.getDisplayName());
-                    data.put("email",user.getEmail());
+                    data.put("name", user.getDisplayName());
+                    data.put("email", user.getEmail());
                     db.collection("quilympics").document("" + round_no).collection("user").document(user.getUid()).set(data, SetOptions.merge());
 //                    db.collection("user").document(user.getUid()).update("quilympics_score", 0);
                     progressDialog.setMessage("Fetching Questions ...");
@@ -817,7 +828,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
     }
 
     private void verifyAnswerToServer(final int round, final int question) {
-        if (round == 1|| round ==-1) {
+        if (round == 1 || round == -1) {
             ans = -1;
             db.collection("quilympics").document("" + round).collection("questions").document("" + question).get(source).addOnCompleteListener(
                     new OnCompleteListener<DocumentSnapshot>() {
@@ -846,7 +857,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                     }
             );
 
-        } else if (round == 2|| round ==0) {
+        } else if (round == 2 || round == 0) {
             ans = -1;
             db.collection("quilympics").document("" + round).collection("questions").document("" + question).get(source).addOnCompleteListener(
                     new OnCompleteListener<DocumentSnapshot>() {
@@ -1073,7 +1084,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
     }
 
     private void doEliminiation(final int round) {
-        if(round ==-1 || round == 0){
+        if (round == -1 || round == 0) {
             progressDialog.dismiss();
             checkRound();
         }
@@ -1087,15 +1098,15 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                             int score = 0;
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                    Log.d(TAG,"ids  "+documentSnapshot.getId());
-                                    if(documentSnapshot.getId().equals(user.getUid())){
-                                        Log.d(TAG,"got score"+score);
+                                    Log.d(TAG, "ids  " + documentSnapshot.getId());
+                                    if (documentSnapshot.getId().equals(user.getUid())) {
+                                        Log.d(TAG, "got score" + score);
                                         score = Integer.parseInt(documentSnapshot.getData().get("score").toString());
                                     }
-                                    if(documentSnapshot.getData().get("score").toString().equals("0")) {
-                                    db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
-                                    }else{
-                                    db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 1);
+                                    if (documentSnapshot.getData().get("score").toString().equals("0")) {
+                                        db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
+                                    } else {
+                                        db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 1);
                                     }
                                     db.collection("user").document(documentSnapshot.getId()).update("prev_round", round);
 
@@ -1111,7 +1122,7 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                                                     int curr_score = 0;
                                                     if (task.getResult().getData().containsKey("quilympics_score")) {
                                                         curr_score = Integer.parseInt(task.getResult().getData().get("quilympics_score").toString());
-                                                        Log.d(TAG,"got current score"+curr_score);
+                                                        Log.d(TAG, "got current score" + curr_score);
                                                     }
                                                     task.getResult().getReference().update("quilympics_score", (curr_score + finalScore));
                                                 }
@@ -1147,14 +1158,14 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                                     elimination_no = total_user - 5;
                                 }
                                 int i = 1;
-                                int score =0;
+                                int score = 0;
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
 
-                                    if(documentSnapshot.getId().equals(user.getUid())){
+                                    if (documentSnapshot.getId().equals(user.getUid())) {
                                         score = Integer.parseInt(documentSnapshot.getData().get("score").toString());
                                     }
 
-                                    if (i <= elimination_no){
+                                    if (i <= elimination_no) {
                                         db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
                                     } else {
                                         db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 1);
@@ -1198,11 +1209,35 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+
+                                int total_user = task.getResult().size();
+                                int elimination_no = (total_user * round_elimination) / 100;
+                                if (total_user - elimination_no < 5) {
+                                    elimination_no = total_user - 5;
+                                }
+                                int i = 1;
                                 int score = 0;
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                    score = score + Integer.parseInt(documentSnapshot.getData().get("score").toString());
+
+                                    if (documentSnapshot.getId().equals(user.getUid())) {
+                                        score = Integer.parseInt(documentSnapshot.getData().get("score").toString());
+                                    }
+
+                                    if (i <= elimination_no) {
+                                        db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 0);
+                                    } else {
+                                        db.collection("user").document(documentSnapshot.getId()).update("is_qualified", 1);
+                                    }
+                                    i++;
                                     db.collection("user").document(documentSnapshot.getId()).update("prev_round", round);
                                 }
+
+//
+//                                int score = 0;
+//                                for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+//                                    score = score + Integer.parseInt(documentSnapshot.getData().get("score").toString());
+//                                    db.collection("user").document(documentSnapshot.getId()).update("prev_round", round);
+//                                }
                                 final int finalScore = score;
                                 db.collection("user").document(user.getUid()).get(source).addOnCompleteListener(
                                         new OnCompleteListener<DocumentSnapshot>() {
@@ -1255,4 +1290,8 @@ TODO://DISALLOW USER TO ENTER NEXT ROUNDS FOR FIRST FOUR ROUNDS
         super.onStop();
     }
 
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

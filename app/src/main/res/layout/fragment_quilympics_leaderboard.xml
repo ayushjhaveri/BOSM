@@ -14,12 +14,9 @@
         android:src="@drawable/bg1"/>
 
 
-    <RelativeLayout
-    android:layout_marginTop="40dp"
-    android:layout_centerHorizontal="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
     <android.support.v7.widget.CardView
+        android:layout_marginTop="40dp"
+        android:layout_centerHorizontal="true"
         android:id="@+id/card_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,12 +51,10 @@
 
 
 
-</RelativeLayout>
-
-
 
                 <android.support.v7.widget.RecyclerView
                     android:paddingTop="130dp"
+                    android:paddingBottom="40dp"
                     android:clipToPadding="false"
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
