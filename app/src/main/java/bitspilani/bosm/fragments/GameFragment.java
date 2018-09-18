@@ -144,8 +144,21 @@ public class GameFragment extends Fragment {
                 if(FirebaseAuth.getInstance().getCurrentUser()==null){
                     type =1;
                     login(view);
-                }else
-                    loadFragment(new RouletteHomeFragment());
+                }else {
+                    FirebaseFirestore.getInstance().collection("constant").document("roulette").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if(task.isSuccessful()){
+                                boolean is = Boolean.parseBoolean(task.getResult().getData().get("is_start").toString());
+                                if(is){
+                                    loadFragment(new RouletteHomeFragment());
+                                }else{
+                                    Toast.makeText(getContext(), "Game is not started yet!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -157,7 +170,6 @@ public class GameFragment extends Fragment {
                     login(view);
                 }else {
 //                    Toast.makeText(getContext(), "Not Started yet!", Toast.LENGTH_SHORT).show();
-
                     FirebaseFirestore.getInstance().collection("constant").document("quilympics").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -172,8 +184,6 @@ public class GameFragment extends Fragment {
                         }
                     });
 //                    db.coll
-
-
                 }
 
             }
@@ -290,7 +300,7 @@ public class GameFragment extends Fragment {
                                     data.put("name",user.getDisplayName());
                                     data.put("password",user.getUid());
                                     data.put("username",user.getUid());
-                                    data.put("score",0);
+                                    data.put("score",200);
                                     data.put("betting_amount",0);
                                     data.put("luck",2);
                                     data.put("power_bid_time", FieldValue.serverTimestamp());

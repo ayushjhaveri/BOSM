@@ -104,7 +104,7 @@ public class RouletteMainFragment extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("scores").whereEqualTo("item_type",1).whereEqualTo("match_type",1).whereEqualTo("is_roulette",true).orderBy("timestamp");
+        Query query = db.collection("scores").whereEqualTo("item_type",1).whereEqualTo("match_type",1).whereEqualTo("is_roulette",true).orderBy("timestamp", Query.Direction.DESCENDING);
 
         mAdapter = new AdapterRoulette(getContext(),query, progressBar, rl_filled, rl_empty);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

@@ -274,7 +274,7 @@
                   android:layout_width="match_parent"
                   android:gravity="center"
                   android:layout_height="wrap_content"
-                  android:text="Quilympics"
+                  android:text="Quilympic"
                   android:paddingStart="12dp"
                   android:paddingEnd="12dp"
                   android:maxLines="1"

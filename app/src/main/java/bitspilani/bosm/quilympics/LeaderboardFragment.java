@@ -55,7 +55,7 @@ public class LeaderboardFragment extends Fragment {
 
         tv_header.setTypeface(oswald_regular);
 
-        Query query = db.collection("user").orderBy("quilympics_score");
+        Query query = db.collection("user").orderBy("quilympics_score").orderBy("quilympics_score", Query.Direction.DESCENDING);
         mAdapter = new AdapterQuilympicsLeaderboard(context,query);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

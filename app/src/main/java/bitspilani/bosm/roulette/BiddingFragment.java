@@ -40,8 +40,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -142,6 +145,7 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     ProgressBar progressBar;
 
     FirebaseFirestore db;
+    ListenerRegistration listenerRegistration;
 
     public BiddingFragment() {
         // Required empty public constructor
@@ -392,6 +396,20 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        final DocumentReference documentReference = db.collection("scores").document(doc_id);
+        listenerRegistration = documentReference.addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                array = (ArrayList<HashMap<String,Object>>) (documentSnapshot.getData().get("roulette"));
+            }
+        });
+    }
+
+
+
     @SuppressLint("SimpleDateFormat")
     public void showData() {
 //        if (!event.getDescription().isEmpty()) {
@@ -545,6 +563,8 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
             countDownTimer2.cancel();
         } catch (Exception e) {
         }
+
+        listenerRegistration.remove();
     }
 
 
@@ -844,6 +864,8 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
 //                arrayList.add(data2);
 //            }
 
+        Log.d(TAG,array.toString());
+
             data.put("roulette",array);
             db.collection("scores").document(doc_id).update(data).addOnCompleteListener(
                     new OnCompleteListener<Void>() {
@@ -944,4 +966,6 @@ public class BiddingFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         HomeActivity.currentFragment="BiddingFragment";
     }
+
+
 }

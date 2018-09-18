@@ -193,9 +193,14 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
         for(int i=0;i<mSnapshots.size();i++){
             DocumentSnapshot document  = mSnapshots.get(i);
             Timestamp timestamp  = document.contains("timestamp")?(Timestamp) document.getData().get("timestamp"):Timestamp.now();
-            if(timestamp.compareTo(Timestamp.now())>0 && count <10){
+            int item_type = document.contains("item_type")?Integer.parseInt(document.getData().get("item_type").toString()):0;
+            if(item_type==1) {
+                if (timestamp.compareTo(Timestamp.now()) > 0 && count < 10) {
+                    arrayListAdapter.add(i);
+                    count++;
+                }
+            }else{
                 arrayListAdapter.add(i);
-                count++;
             }
         }
     }

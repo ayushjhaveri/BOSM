@@ -2,76 +2,195 @@ package bitspilani.bosm.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import bitspilani.bosm.items.ItemDeveloper;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.ramotion.foldingcell.FoldingCell;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import bitspilani.bosm.R;
+import bitspilani.bosm.items.ItemSponsor;
+import bitspilani.bosm.items.ItemSponsor;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
+import static bitspilani.bosm.HomeActivity.toTitleCase;
 
 /**
  * Created by Saksham on 22 Aug 2016.
  */
-public class AdapterDevelopers extends ArrayAdapter<ItemDeveloper> {
+public class AdapterDevelopers extends FirestoreAdapter<AdapterDevelopers.ViewHolder> {
 
-    Activity activity;
+    private Context context;
+    private ProgressBar progressBar;
+    private static final String TAG = "AdapterCart";
+    private RelativeLayout rl_filled, rl_empty;
 
-    public AdapterDevelopers(Context context, int resource, List<ItemDeveloper> objects, Activity activity) {
-        super(context, resource, objects);
-        this.activity = activity;
+    public AdapterDevelopers(Context context, Query query, ProgressBar progressBar, RelativeLayout rl_filled, RelativeLayout rl_empty) {
+        super(query);
+        this.progressBar = progressBar;
+        this.context = context;
+        this.rl_empty=rl_empty;
+        this.rl_filled=rl_filled;
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public AdapterDevelopers.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_developer, parent, false);
 
-        ViewHolder holder;
+        return new AdapterDevelopers.ViewHolder(itemView);
+    }
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row_developer, null);
-            holder = new ViewHolder();
-            holder.ivpic = (ImageView) convertView.findViewById(R.id.blapic);
-            holder.tvName = (TextView) convertView.findViewById(R.id.blaName);
-            holder.tvdesc = (TextView) convertView.findViewById(R.id.bladesc);
+    @Override
+    protected void onDataChanged() {
+        super.onDataChanged();
+        progressBar.setVisibility(View.GONE);
+        rl_empty.setVisibility(View.GONE);
+        rl_filled.setVisibility(View.VISIBLE);
+    }
 
-            convertView.setTag(holder);
-        }
-        else {
-            holder = (ViewHolder) convertView.getTag();
-        }
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
-        ItemDeveloper item = getItem(position);
+    @Override
+    public void onBindViewHolder(final AdapterDevelopers.ViewHolder holder, final int position) {
+        DocumentSnapshot documentSnapshot = getSnapshot(position);
 
-        holder.tvName.setText(item.getName());
-        holder.tvdesc.setText(item.getDesc());
-        holder.ivpic.setImageResource(item.getImage());
-        if(item.getName().equals("Prashant Khandelwal")){
-            holder.tvdesc.setTextColor(ContextCompat.getColor(activity,R.color.orange_shade));
-        }
+        holder.tv_name.setText(documentSnapshot.contains("name")?documentSnapshot.getData().get("name").toString():"");
+        holder.tv_descripition.setText(documentSnapshot.contains("desc")?documentSnapshot.getData().get("desc").toString():"");
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://bosm-18-1522766608739.appspot.com");
+        StorageReference storageRef = storage.getReference();
+//        Log.d(TAG,"working");
+//        String name = documentSnapshot.contains("image_url")?documentSnapshot.getData().get("image_url").toString():"paytm.png";
+        String name = documentSnapshot.getData().get("image_url").toString();
+        String path = "developers/"+name;
+        Log.d(TAG,path);
+        StorageReference pathReference = storageRef.child(path);
+        pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onClick(View view) {
-                listItemClicked(position);
+            public void onSuccess(Uri uri) {
+                Log.d(TAG,uri.toString());
+                Picasso.with(context).load(uri).into(holder.iv_sponsor, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+
+                    @Override
+                    public void onError() {
+                    }
+
+                });
+                // Got the download URL for 'users/me/profile.png'
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
             }
         });
 
-        return convertView;
+
+//        ItemSponsor ItemSponsor = new ItemSponsor(
+//                document.getId(),
+//                document.contains("title")?toTitleCase(document.getData().get("title").toString()):"",
+//                cal.get(Calendar.DATE)
+//                        +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
+//                        " "+sdf_month.format(date)+"",
+//                sdf_time.format(cal.getTime()),
+//                document.contains("venue")?document.getData().get("venue").toString():"",
+//                document.contains("text")?document.getData().get("text").toString():"",
+//                document.contains("club")?toTitleCase(document.getData().get("club").toString()):""
+//        );
+
+        // use ItemSponsor here
+
+
     }
 
-    static class ViewHolder {
-        private TextView tvName;
-        private TextView tvdesc;
-        private ImageView ivpic;
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tv_name, tv_descripition;
+        ImageView iv_sponsor;
+//        ProgressBar progressBar;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tv_name = (TextView)itemView.findViewById(R.id.name);
+            tv_descripition = (TextView)itemView.findViewById(R.id.desc);
+            iv_sponsor = (ImageView) itemView.findViewById(R.id.iv);
+//            progressBar =(ProgressBar)itemView.findViewById(R.id.progressBar);
+
+        }
     }
 
-    private void listItemClicked (int position) {
+
+
+
+//    @Override
+//    public View getView(final int position, View convertView, ViewGroup parent) {
+//
+//        ViewHolder holder;
+//
+//        if (convertView == null) {
+//            LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            convertView = inflater.inflate(R.layout.row_sponsors, null);
+//            holder = new ViewHolder();
+//            holder.tvName = (TextView) convertView.findViewById(R.id.textView2);
+//            holder.ivLogo = (ImageView) convertView.findViewById(R.id.imageView2);
+//            holder.tvDescription=(TextView)convertView.findViewById(R.id.tv_description);
+//            convertView.setTag(holder);
+//        }
+//        else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
+//
+//        ItemSponsor item = getItem(position);
+//
+//        holder.tvName.setText(item.getName());
+//        holder.ivLogo.setImageResource(item.getImage());
+//        holder.tvDescription.setText(item.getDescription());
+//
+//        convertView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                listItemClicked(position);
+//            }
+//        });
+//
+//        return convertView;
+//    }
+//
+//    static class ViewHolder {
+//        private TextView tvName, tvDescription;
+//        private ImageView ivLogo;
+//    }
+//
+//    private void listItemClicked (int position) {
 //        Toast.makeText(getContext(), getItem(position).getName(), Toast.LENGTH_SHORT).show();
-    }
+//    }
 }

@@ -75,7 +75,8 @@ public class NotificationScreen implements Content {
     @NonNull
     private View createScreenView() {
         @SuppressLint("InflateParams") View wholeScreen = inflater.inflate(R.layout.layout_hover_notification, null, false);
-
+        HomeActivity.tv_number.setText("0");
+        HomeActivity.tv_number.setVisibility(View.GONE);
         return wholeScreen;
     }
 
@@ -123,7 +124,7 @@ public class NotificationScreen implements Content {
         Collections.sort(MyFirebaseMessagingService.list, new Comparator<ItemNotification>() {
             @Override
             public int compare(ItemNotification itemNotification, ItemNotification t1) {
-                return itemNotification.getCal().compareTo(t1.getCal());
+                return t1.getCal().compareTo(itemNotification.getCal());
             }
         });
 
@@ -143,6 +144,8 @@ public class NotificationScreen implements Content {
 
     @Override
     public boolean isFullscreen() {
+        HomeActivity.tv_number.setText("0");
+        HomeActivity.tv_number.setVisibility(View.GONE);
 //        Log.d("qqqqqqqqq","full screen");
 //        Toast.makeText(mContext,"full screen",Toast.LENGTH_SHORT).show();
 //        SharedPreferences appSharedPrefs = PreferenceManager
@@ -165,6 +168,8 @@ public class NotificationScreen implements Content {
 
     @Override
     public void onShown() {
+        HomeActivity.tv_number.setText("0");
+        HomeActivity.tv_number.setVisibility(View.GONE);
 //        Log.d("qqqqqqqqq","shown");
 //        Toast.makeText(mContext,"shown",Toast.LENGTH_SHORT).show();
 //        SharedPreferences appSharedPrefs = PreferenceManager
@@ -183,6 +188,8 @@ public class NotificationScreen implements Content {
 
     @Override
     public void onHidden() {
+        HomeActivity.tv_number.setText("0");
+        HomeActivity.tv_number.setVisibility(View.GONE);
 //        Log.d("qqqqqqqqq","hidden");
 //        Toast.makeText(mContext,"hidden",Toast.LENGTH_SHORT).show();
         // No-op.

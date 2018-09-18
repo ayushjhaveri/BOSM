@@ -15,7 +15,7 @@
         android:textSize="10sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
-        android:text="2" />
+        android:text="1" />
 
 
     <android.support.v7.widget.CardView

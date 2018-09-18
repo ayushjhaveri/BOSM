@@ -9,11 +9,15 @@ import android.widget.TextView;
 
 import com.ramotion.foldingcell.FoldingCell;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import bitspilani.bosm.R;
 import bitspilani.bosm.items.ItemNotification;
+
+import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
 
 public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotifications.ViewHolder> {
 
@@ -41,8 +45,14 @@ public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotificati
 
         holder.tv_title.setText(itemNotifications.getNotif_title());
         holder.tv_info.setText(itemNotifications.getNotif_body());
-//        holder.tv_date.setText(itemNotifications.getNotif_date());
-//        holder.tv_time.setText(itemNotifications.getNotif_time());
+        String month_format = "MMM";
+        SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
+        String time_format = "h.mm a";
+        SimpleDateFormat sdf_time = new SimpleDateFormat(time_format);
+
+        holder.tv_date.setText(itemNotifications.getCal().get(Calendar.DATE)+
+                " "+sdf_month.format(itemNotifications.getCal().getTime())+"");
+        holder.tv_time.setText(sdf_time.format(itemNotifications.getCal().getTime()));
 
 
     }
@@ -59,7 +69,7 @@ public class AdapterNotifications extends RecyclerView.Adapter<AdapterNotificati
             super(itemView);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_info = itemView.findViewById(R.id.tv_info);
-//            tv_date = itemView.findViewById(R.id.tv_date);
+            tv_date = itemView.findViewById(R.id.tv_date);
             tv_time = itemView.findViewById(R.id.tv_time);
 //
         }

@@ -74,6 +74,11 @@ public class AdapterSponsors extends FirestoreAdapter<AdapterSponsors.ViewHolder
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public void onBindViewHolder(final AdapterSponsors.ViewHolder holder, final int position) {
         DocumentSnapshot documentSnapshot = getSnapshot(position);
 
@@ -82,9 +87,11 @@ public class AdapterSponsors extends FirestoreAdapter<AdapterSponsors.ViewHolder
 
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://bosm-18-1522766608739.appspot.com");
         StorageReference storageRef = storage.getReference();
-        Log.d(TAG,"working");
-        String name = documentSnapshot.contains("image_url")?documentSnapshot.getData().get("image_url").toString():"paytm.png";
+//        Log.d(TAG,"working");
+//        String name = documentSnapshot.contains("image_url")?documentSnapshot.getData().get("image_url").toString():"paytm.png";
+        String name = documentSnapshot.getData().get("image_url").toString();
         String path = "sponsors/"+name;
+        Log.d(TAG,path);
         StorageReference pathReference = storageRef.child(path);
         pathReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override

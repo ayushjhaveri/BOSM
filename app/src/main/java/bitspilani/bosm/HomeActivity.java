@@ -54,6 +54,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
+import bitspilani.bosm.adapters.ItemSport;
 import bitspilani.bosm.fragments.CurrentSportFragment;
 import bitspilani.bosm.fragments.EventFragment;
 import bitspilani.bosm.fragments.GameFragment;
@@ -113,7 +114,9 @@ public class HomeActivity extends AppCompatActivity
         fm = getSupportFragmentManager();
         //checking service
         FirebaseApp.initializeApp(this);
-//        FirebaseMessaging.getInstance().subscribeToTopic("all");
+        FirebaseMessaging.getInstance().subscribeToTopic("all");
+
+        FirebaseMessaging.getInstance().subscribeToTopic("prashant");
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)
@@ -228,8 +231,22 @@ public class HomeActivity extends AppCompatActivity
             } else if (getIntent().getStringExtra("NOTIFICATION").equals("2")) {
                 Log.d("notif", "2");
                 if (getIntent().getIntExtra("sport_id",-1)>0){
-                    Constant.currentSport.setSport_id(getIntent().getIntExtra("sport_id",-1));
-                    loadFrag(new SportSelectedFragment(),"Notification", fm );
+                        db.collection("sports").document(String.valueOf(getIntent().getIntExtra("sport_id",0))).get().addOnCompleteListener(
+                                new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        final ItemSport itemSport  = new ItemSport(
+                                                Integer.parseInt(task.getResult().getId()),
+                                                task.getResult().getData().get("sport_name").toString(),
+                                                Boolean.parseBoolean(task.getResult().getData().get("is_gender").toString())
+
+                                        );
+                                        Constant.currentSport= itemSport;
+                                        loadFrag(new SportSelectedFragment(),"Notification", fm );
+                                    }
+                                }
+                        );
+//                    Constant.currentSport.setSport_id(getIntent().getIntExtra("sport_id",-1));
                 }
                 else {
                     loadFragHome(new HomeFragment(), "Home", fm, 2);
@@ -278,7 +295,7 @@ public class HomeActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (HomeActivity.currentFragment.equals("RouletteHomeFragment") || HomeActivity.currentFragment.equals("RouletteMainFragment")) {
+                        if (HomeActivity.currentFragment.equals("GAMEFRAGMENT")) {
                         } else {
                             loadFrag(new GameFragment(), "Game", fm);
                         }

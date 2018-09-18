@@ -134,7 +134,7 @@ public class AdapterSport extends FirestoreAdapter<AdapterSport.ViewHolder> {
                                         Log.d(TAG,"sport_notif "+json);
                                         prefsEditor.putString(PREF_SPORT, json);
                                         prefsEditor.apply();
-                                        Toast.makeText(context,"Great! You will be notified for each match",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context,"Subscribed for notifications!",Toast.LENGTH_SHORT).show();
 //                                        ArrayList<String > arrayList = itemSport.getArrayList();
 //                                        arrayList.add(FirebaseAuth.getInstance().getCurrentUser().getUid());
 //                                        itemSport.setArrayList(arrayList);

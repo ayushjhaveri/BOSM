@@ -1,90 +1,142 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context="bitspilani.bosm.fragments.DevelopersFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
 
-    <RelativeLayout
+    <ImageView
+        android:tint="#3f395e"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:src="@drawable/bg1"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/bg1"
-            android:tint="#3f395e" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_events"
+        android:layout_marginTop="@dimen/header_top_margin"
+        android:layout_marginBottom="@dimen/heading_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:alpha=".90"
+        app:cardElevation="6dp"
+        android:layout_marginEnd="64dp"
+        app:cardBackgroundColor="@color/background2"
+        app:cardCornerRadius="20.5dp">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_title"
+            android:layout_margin="1dp"
+            app:cardCornerRadius="20dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/rl_stall"
-            android:layout_alignTop="@+id/rl_stall"
-            android:layout_marginBottom="24dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginRight="64dp"
-            android:layout_marginTop="@dimen/header_top_margin"
-            android:layout_toRightOf="@+id/rl_stall"
-            android:alpha=".90"
-            app:cardBackgroundColor="@color/background2"
-            app:cardCornerRadius="20.5dp"
-            app:cardElevation="6dp">
-
-            <android.support.v7.widget.CardView
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/back_shade4"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                app:cardBackgroundColor="@color/back_shade4"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp">
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="DEVELOPERS"
+                android:textColor="@color/background2"
+                android:textSize="30sp" />
 
-                <TextView
-                    android:id="@+id/tv_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
-                    android:text="DEVELOPERS"
-                    android:textColor="@color/background2"
-                    android:textSize="30sp" />
-
-            </android.support.v7.widget.CardView>
         </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
 
-        <LinearLayout
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_below="@id/card_title"
-            android:id="@+id/scrollView4"
+    <RelativeLayout
+        android:id="@+id/rl_filled"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingTop="60dp">
+
+
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/recycler_view"
+            android:dividerHeight="2dp"
+            android:divider="@android:color/transparent"
+            android:clipToPadding="false"
+            android:paddingTop="60dp"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
+            android:overScrollMode="never"
+            android:clipChildren="false"
+            android:paddingBottom="40dp"
+            >
 
-            <ListView
-                android:id="@+id/developers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:paddingTop="2dp"
-                android:scrollbars="none" />
-
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="@drawable/top_gradient"/>
+        android:background="@drawable/top_gradient"
+        android:layout_alignParentTop="true"/>
 
     <View
-        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:rotation="180"
         android:background="@drawable/top_gradient"/>
 
-</FrameLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_wifi"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_wifi"
+            android:tint="@color/empty_layout_color"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_below="@id/iv_wifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Internet Connection"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/empty_layout_color"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_below="@id/tv_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Please check your internet connection"
+            android:gravity="center"
+            android:textColor="@color/empty_layout_color"
+            android:textSize="16sp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

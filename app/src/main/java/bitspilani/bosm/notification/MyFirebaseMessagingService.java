@@ -48,8 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 remoteMessage.getData().containsKey("title")?remoteMessage.getData().get("title"):"",
                 remoteMessage.getData().containsKey("body")?remoteMessage.getData().get("body"):"",
                 remoteMessage.getData().containsKey("type")?remoteMessage.getData().get("type"):"",
-                remoteMessage.getData().containsKey("sport_id")?Integer.parseInt(remoteMessage.getData().get("sport_id").toString()):-1);
-
+                remoteMessage.getData().containsKey("sport_id")?Integer.parseInt(remoteMessage.getData().get("sport_id").toString().isEmpty()?"-1":remoteMessage.getData().get("sport_id").toString()):-1);
     }
 
 
@@ -159,6 +158,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 //        notificationBuilder.mNumber = 1;
 //        notificationBuilder.mContext =
+
+        notificationBuilder.setAutoCancel(true);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
