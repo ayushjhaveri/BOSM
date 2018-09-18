@@ -10,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
@@ -23,10 +25,15 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import bitspilani.bosm.R;
+
+import static bitspilani.bosm.HomeActivity.getDayOfMonthSuffix;
 
 public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> {
 
@@ -35,7 +42,8 @@ public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView photo;
-        TextView tv_error;
+        TextView tv_error, tv_date, tv_extra_details;
+        RelativeLayout rl_extra;
 //        ZoomageView photo2;
         ProgressBar progressBar;
         public MyViewHolder(View view) {
@@ -44,6 +52,9 @@ public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> 
 //            photo2 = (ZoomageView)view.findViewById(R.id.myZoomageView);
             progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
             tv_error = (TextView)view.findViewById(R.id.tv_error);
+            tv_date=(TextView)view.findViewById(R.id.tv_date);
+            tv_extra_details=(TextView)view.findViewById(R.id.tv_extra_details);
+            rl_extra = (RelativeLayout)view.findViewById(R.id.rl_extra);
         }
     }
 
@@ -68,6 +79,30 @@ public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> 
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://bosm-18-1522766608739.appspot.com");
         StorageReference storageRef = storage.getReference();
         Log.d(TAG,"working");
+
+        //getting and setting date
+        Timestamp timestamp = documentSnapshot.contains("timestamp") ? (Timestamp) documentSnapshot.getData().get("timestamp") : Timestamp.now();
+        Date date = timestamp.toDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        String month_format = "MMM";
+        SimpleDateFormat sdf_month = new SimpleDateFormat(month_format);
+        holder.tv_date.setText(cal.get(Calendar.DATE)
+                +getDayOfMonthSuffix(cal.get(Calendar.DATE))+
+                " "+sdf_month.format(date)+"");
+
+
+        //getting and setting extra details
+        String extra_deatils = documentSnapshot.contains("extra_details")?documentSnapshot.getData().get("extra_details").toString():"";
+        holder.rl_extra.setVisibility(View.GONE);
+        if(extra_deatils.equals("")){
+            holder.rl_extra.setVisibility(View.GONE);
+        }else{
+            holder.tv_extra_details.setText(extra_deatils);
+            holder.rl_extra.setVisibility(View.VISIBLE);
+        }
+
+        //getting and setting image
         String name = documentSnapshot.contains("name")?documentSnapshot.getData().get("name").toString():"one.jpg";
         String path = "images/"+name;
         StorageReference pathReference = storageRef.child(path);

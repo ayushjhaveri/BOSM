@@ -11,14 +11,18 @@
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_shadow">
+        android:background="@drawable/border_shadow"
+        android:paddingBottom="9dp">
 
         <com.github.chrisbanes.photoview.PhotoView
+            android:layout_below="@id/tv_date"
         android:id="@+id/photo_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
+            android:src="@color/back_shade2"
+            android:layout_marginBottom="6dp"
         />
 
         <TextView
@@ -40,6 +44,49 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerInParent="true"/>
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="19th Sep"
+            android:paddingEnd="12dp"
+            android:textStyle="bold"
+            android:textSize="9dp"
+            android:textColor="@color/back_shade6"
+           android:layout_alignParentEnd="true"
+            android:paddingBottom="2dp"/>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_extra"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/photo_view">
+
+        <!--<View-->
+            <!--android:id="@+id/view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="@drawable/line_gradient"-->
+            <!--android:layout_marginStart="12dp"-->
+            <!--android:layout_marginEnd="12dp"-->
+            <!--android:layout_marginBottom="6dp"/>-->
+        <!--&gt;-->
+
+        <TextView
+            android:id="@+id/tv_extra_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/back_shade6"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textSize="11sp" />
+            <!--android:text="This photo represents the meaning of Bosm 2018. It is the fest of BITS Pilani, the sports fest."-->
+        </RelativeLayout>
     </RelativeLayout>
 
     <!--<com.jsibbold.zoomage.ZoomageView-->
