@@ -17,6 +17,8 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.eftimoff.viewpagertransformers.ZoomOutSlideTransformer;
+
 import java.util.ArrayList;
 
 import bitspilani.bosm.HomeActivity;
@@ -99,7 +101,7 @@ public class RouletteHomeFragment extends Fragment {
         vpPagerRoulette = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         vpPagerRoulette.setAdapter(adapterViewPager);
-
+        vpPagerRoulette.setPageTransformer(true, new ZoomOutSlideTransformer());
         ntbSample5.setViewPager(vpPagerRoulette, 1);
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

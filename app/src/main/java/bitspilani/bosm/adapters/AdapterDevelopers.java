@@ -140,7 +140,7 @@ public class AdapterDevelopers extends FirestoreAdapter<AdapterDevelopers.ViewHo
 //        ProgressBar progressBar;
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_name = (TextView)itemView.findViewById(R.id.name);
+            tv_name=(TextView)itemView.findViewById(R.id.name);
             tv_descripition = (TextView)itemView.findViewById(R.id.desc);
             iv_sponsor = (ImageView) itemView.findViewById(R.id.iv);
 //            progressBar =(ProgressBar)itemView.findViewById(R.id.progressBar);

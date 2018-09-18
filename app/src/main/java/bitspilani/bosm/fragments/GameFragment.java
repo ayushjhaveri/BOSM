@@ -117,6 +117,7 @@ public class GameFragment extends Fragment {
             }
         });
 
+
         tv_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +154,7 @@ public class GameFragment extends Fragment {
                                 if(is){
                                     loadFragment(new RouletteHomeFragment());
                                 }else{
-                                    Toast.makeText(getContext(), "Game is not started yet!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "The game has not started yet!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -212,6 +213,7 @@ public class GameFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     private void login(View view){
+        viewLoader(true);
         signIn();
     }
     private void signIn() {
@@ -237,6 +239,8 @@ public class GameFragment extends Fragment {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        }else{
+            viewLoader(false);
         }
     }
 
@@ -245,6 +249,7 @@ public class GameFragment extends Fragment {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
         } catch (ApiException e) {
+            viewLoader(false);
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());

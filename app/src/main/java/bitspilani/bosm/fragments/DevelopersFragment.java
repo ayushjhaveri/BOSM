@@ -51,7 +51,7 @@ public class DevelopersFragment extends Fragment {
 
     public DevelopersFragment(){
         list=new ArrayList<ItemSponsor>();
-        HomeActivity.currentFragment = "SponsorsFragment";
+        HomeActivity.currentFragment = "DevelopersFragment";
     }
 
     @Nullable

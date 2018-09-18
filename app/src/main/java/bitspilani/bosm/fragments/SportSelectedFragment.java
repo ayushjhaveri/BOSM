@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eftimoff.viewpagertransformers.ZoomOutSlideTransformer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -99,7 +100,7 @@ public class SportSelectedFragment extends Fragment {
         vpPagerSport = (ViewPager) v.findViewById(R.id.vp_horizontal_ntb);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getChildFragmentManager());
         vpPagerSport.setAdapter(adapterViewPager);
-
+        vpPagerSport.setPageTransformer(true, new ZoomOutSlideTransformer());
         ntbSample5.setViewPager(vpPagerSport, 0);
         ntbSample5.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

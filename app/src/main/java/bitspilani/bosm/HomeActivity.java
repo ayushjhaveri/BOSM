@@ -116,7 +116,6 @@ public class HomeActivity extends AppCompatActivity
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().subscribeToTopic("all");
 
-        FirebaseMessaging.getInstance().subscribeToTopic("prashant");
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)
@@ -171,7 +170,8 @@ public class HomeActivity extends AppCompatActivity
         final Intent startHoverIntent = new Intent(HomeActivity.this, MultipleSectionsHoverMenuService.class);
         startService(startHoverIntent);
 
-        tv_number.setText("12");
+        tv_number.setText("0");
+        tv_number.setVisibility(View.GONE);
 //        toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         setTitle("BOSM '18");

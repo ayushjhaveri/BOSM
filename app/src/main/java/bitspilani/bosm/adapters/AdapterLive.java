@@ -202,6 +202,15 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
             }else{
                 arrayListAdapter.add(i);
             }
+
+
+            if(arrayListAdapter.size()>0){
+                progressBar.setVisibility(View.GONE);
+                rl_empty.setVisibility(View.GONE);
+//                rl_filled.setVisibility(View.VISIBLE);
+            }else{
+
+            }
         }
     }
 
@@ -312,9 +321,7 @@ public class AdapterLive extends BaseAdapter implements StickyListHeadersAdapter
 
     protected void onDataChanged() {
 
-        progressBar.setVisibility(View.GONE);
-        rl_empty.setVisibility(View.GONE);
-        rl_filled.setVisibility(View.VISIBLE);
+
     }
 
     ItemLive itemLive ;

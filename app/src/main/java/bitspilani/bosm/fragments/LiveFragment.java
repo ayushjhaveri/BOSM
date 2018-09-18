@@ -88,7 +88,7 @@ public class LiveFragment extends Fragment{
             protected void onPostExecute(Object o) {
                 super.onPostExecute(o);
                 if(progressBar.getVisibility()==View.VISIBLE){
-                    rl_filled.setVisibility(View.GONE);
+//                    rl_filled.setVisibility(View.GONE);
                     rl_empty.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
