@@ -1,9 +1,11 @@
 package bitspilani.bosm.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,8 +62,16 @@ public class PhotoFragment extends Fragment {
         tv_header.setTypeface(oswald_regular);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FloatingActionButton fab= (FloatingActionButton)view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://drive.google.com/folderview?id=12MNkXglyq1wHQtFWbgwWEYWBD1XsURla"));
+                startActivity(browserIntent);
+            }
+        });
 
-        Query mQuery = db.collection("photos");
+        Query mQuery = db.collection("photos").orderBy("timestamp", Query.Direction.DESCENDING);
         mAdapter = new AdapterPhotos(context,mQuery);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);

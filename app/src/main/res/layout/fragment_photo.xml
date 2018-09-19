@@ -81,5 +81,17 @@
         android:rotation="180"
         android:background="@drawable/top_gradient"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="64dp"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:background="@color/back_shade4"
+        android:elevation="8dp"
+        app:backgroundTint="@color/back_shade4"
+        app:srcCompat="@drawable/drive" />
+
 
 </FrameLayout>

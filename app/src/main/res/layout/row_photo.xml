@@ -11,24 +11,22 @@
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_shadow"
-        android:paddingBottom="9dp">
+        android:background="@drawable/border_shadow">
 
         <com.github.chrisbanes.photoview.PhotoView
-            android:layout_below="@id/tv_date"
-        android:id="@+id/photo_view"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:id="@+id/photo_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
-            android:src="@color/back_shade2"
-            android:layout_marginBottom="6dp"
+            android:layout_margin="8dp"
         />
 
         <TextView
             android:gravity="center"
             android:id="@+id/tv_error"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -47,13 +45,19 @@
 
 
         <TextView
+            android:visibility="visible"
             android:id="@+id/tv_date"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="19th Sep"
-            android:paddingEnd="12dp"
             android:textStyle="bold"
             android:textSize="9dp"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp"
+            android:paddingTop="2dp"
+            android:background="@drawable/border_shadow_menu"
             android:textColor="@color/back_shade6"
            android:layout_alignParentEnd="true"
             android:paddingBottom="2dp"/>

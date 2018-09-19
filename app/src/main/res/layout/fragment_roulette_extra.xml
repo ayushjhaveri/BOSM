@@ -209,50 +209,50 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/h2_p1_p"
-                    android:layout_width="wrap_content"
-                    android:textColor="@color/textColorInstructions"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:layout_marginLeft="16dp"
-                    android:paddingBottom="16dp"
-                    android:text="1."
-                    android:layout_below="@+id/h2"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/h2_p1_p"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:textColor="@color/textColorInstructions"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="left"-->
+                    <!--android:layout_marginLeft="16dp"-->
+                    <!--android:paddingBottom="16dp"-->
+                    <!--android:text="1."-->
+                    <!--android:layout_below="@+id/h2"-->
+                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+                    <!--android:textSize="16sp" />-->
 
-                <TextView
-                    android:id="@+id/h2_p1"
-                    android:textColor="@color/textColorInstructions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="16dp"
-                    android:text="@string/h2_P1"
-                    android:layout_alignTop="@+id/h2_p1_p"
-                    android:layout_toRightOf="@+id/h2_p1_p"
-                    android:layout_toEndOf="@+id/h2_p1_p"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/h2_p1"-->
+                    <!--android:textColor="@color/textColorInstructions"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="left"-->
+                    <!--android:paddingLeft="16dp"-->
+                    <!--android:paddingRight="16dp"-->
+                    <!--android:paddingBottom="16dp"-->
+                    <!--android:text="@string/h2_P1"-->
+                    <!--android:layout_alignTop="@+id/h2_p1_p"-->
+                    <!--android:layout_toRightOf="@+id/h2_p1_p"-->
+                    <!--android:layout_toEndOf="@+id/h2_p1_p"-->
+                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+                    <!--android:textSize="16sp" />-->
 
-                <TextView
-                    android:id="@+id/h2_p1_d"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:textColor="@color/textColorInstructions"
-                    android:paddingBottom="16dp"
-                    android:text="@string/h2_P1_d"
-                    android:layout_below="@+id/h2_p1_p"
-                    android:layout_toRightOf="@+id/h2_p1_p"
-                    android:layout_toEndOf="@+id/h2_p1_p"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/h2_p1_d"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="left"-->
+                    <!--android:paddingLeft="16dp"-->
+                    <!--android:paddingRight="16dp"-->
+                    <!--android:textColor="@color/textColorInstructions"-->
+                    <!--android:paddingBottom="16dp"-->
+                    <!--android:text="@string/h2_P1_d"-->
+                    <!--android:layout_below="@+id/h2_p1_p"-->
+                    <!--android:layout_toRightOf="@+id/h2_p1_p"-->
+                    <!--android:layout_toEndOf="@+id/h2_p1_p"-->
+                    <!--android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
+                    <!--android:textSize="16sp" />-->
 
                 <TextView
                     android:id="@+id/h2_p2_p"
@@ -262,8 +262,8 @@
                     android:layout_marginLeft="16dp"
                     android:paddingBottom="16dp"
                     android:textColor="@color/textColorInstructions"
-                    android:text="2."
-                    android:layout_below="@+id/h2_p1_d"
+                    android:text="1."
+                    android:layout_below="@+id/h2"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp" />
 

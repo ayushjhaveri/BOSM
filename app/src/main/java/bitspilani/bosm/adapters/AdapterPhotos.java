@@ -93,14 +93,14 @@ public class AdapterPhotos extends FirestoreAdapter<AdapterPhotos.MyViewHolder> 
 
 
         //getting and setting extra details
-        String extra_deatils = documentSnapshot.contains("extra_details")?documentSnapshot.getData().get("extra_details").toString():"";
-        holder.rl_extra.setVisibility(View.GONE);
-        if(extra_deatils.equals("")){
-            holder.rl_extra.setVisibility(View.GONE);
-        }else{
-            holder.tv_extra_details.setText(extra_deatils);
-            holder.rl_extra.setVisibility(View.VISIBLE);
-        }
+//        String extra_deatils = documentSnapshot.contains("extra_details")?documentSnapshot.getData().get("extra_details").toString():"";
+//        holder.rl_extra.setVisibility(View.GONE);
+//        if(extra_deatils.equals("")){
+//            holder.rl_extra.setVisibility(View.GONE);
+//        }else{
+//            holder.tv_extra_details.setText(extra_deatils);
+//            holder.rl_extra.setVisibility(View.VISIBLE);
+//        }
 
         //getting and setting image
         String name = documentSnapshot.contains("name")?documentSnapshot.getData().get("name").toString():"one.jpg";

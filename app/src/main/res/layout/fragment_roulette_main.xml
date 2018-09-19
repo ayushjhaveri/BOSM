@@ -54,7 +54,7 @@
     <android.support.v7.widget.RecyclerView
         android:clipToPadding="false"
         android:paddingTop="120dp"
-        android:paddingBottom="140dp"
+        android:paddingBottom="120dp"
         android:id="@+id/recycler_roulette"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

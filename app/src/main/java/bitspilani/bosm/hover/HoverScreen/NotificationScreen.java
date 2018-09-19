@@ -91,37 +91,19 @@ public class NotificationScreen implements Content {
         HomeActivity.tv_number.setText("0");
         HomeActivity.tv_number.setVisibility(View.GONE);
 
-        TextView title =(TextView) mWholeScreen.findViewById(R.id.title);
+        final TextView title =(TextView) mWholeScreen.findViewById(R.id.title);
 
         Typeface oswald_regular = Typeface.createFromAsset(mContext.getAssets(), "fonts/Oswald-Regular.ttf");
 
         title.setTypeface(oswald_regular);
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
-
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-//                Toast.makeText(MyActivity.this, "on Move", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-//                Toast.makeText(MyActivity.this, "on Swiped ", Toast.LENGTH_SHORT).show();
-                //Remove swiped item from list and notify the RecyclerView
-                final int position = viewHolder.getAdapterPosition();
-                adapterNotifications.notifyItemRemoved(position);
-            }
-        };
 
         RecyclerView recyclerView = (RecyclerView)mWholeScreen.findViewById(R.id.recycler_notifications);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         rl_empty =(RelativeLayout)mWholeScreen.findViewById(R.id.rl_empty);
 
-        SharedPreferences appSharedPrefs = PreferenceManager
+        final SharedPreferences appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
 
         Log.d("qqqqqqqqq","getview");
@@ -156,6 +138,51 @@ public class NotificationScreen implements Content {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapterNotifications);
+
+
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,  ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+//                Toast.makeText(MyActivity.this, "on Move", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+//                Toast.makeText(MyActivity.this, "on Swiped ", Toast.LENGTH_SHORT).show();
+                //Remove swiped item from list and notify the RecyclerView
+                final int position = viewHolder.getAdapterPosition();
+                MyFirebaseMessagingService.list.remove(position);
+
+
+                SharedPreferences.Editor prefsEditor = appSharedPrefs.edit();
+                Gson gson = new Gson();
+
+//                Type type_1 = new TypeToken<List<ItemNotification>>(){}.getType();
+
+
+//        if(adapterNotifications!=null) {
+//            Log.d(TAG,"updated");
+//            adapterNotifications.notifyDataSetChanged();
+//
+//        }
+
+                String json = gson.toJson(MyFirebaseMessagingService.list);
+
+//                Log.d(TAG,"notification "+json);
+
+                prefsEditor.putString(PREF, json);
+                prefsEditor.apply();
+
+
+                adapterNotifications.notifyItemRemoved(position);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
 //        Toast.makeText(mContext,"getview",Toast.LENGTH_SHORT).show();

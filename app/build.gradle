@@ -18,8 +18,8 @@ android {
         applicationId "bitspilani.bosm"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 5
-        versionName "1.0.3"
+        versionCode 6
+        versionName "1.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

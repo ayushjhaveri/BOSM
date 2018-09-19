@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     tools:context=".fragments.CurrentSportFragment">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/bg1"
-        android:tint="#3f395e" />
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/bg1"-->
+        <!--android:tint="#3f395e" />-->
 
     <RelativeLayout
         android:id="@+id/rl_filled"
@@ -31,17 +30,17 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@drawable/top_gradient"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="72dp"-->
+        <!--android:background="@drawable/top_gradient"/>-->
 
-    <View
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:rotation="180"
-        android:background="@drawable/top_gradient"/>
+    <!--<View-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="72dp"-->
+        <!--android:rotation="180"-->
+        <!--android:background="@drawable/top_gradient"/>-->
 
     <ProgressBar
         android:id="@+id/progressBar"
