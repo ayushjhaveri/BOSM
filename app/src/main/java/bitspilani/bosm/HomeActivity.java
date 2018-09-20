@@ -115,7 +115,7 @@ public class HomeActivity extends AppCompatActivity
         //checking service
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().subscribeToTopic("all");
-
+        FirebaseMessaging.getInstance().subscribeToTopic("prashant");
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .setPersistenceEnabled(true)

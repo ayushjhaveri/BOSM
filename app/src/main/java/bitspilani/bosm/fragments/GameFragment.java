@@ -170,7 +170,7 @@ public class GameFragment extends Fragment {
                     type =2;
                     login(view);
                 }else {
-//                    Toast.makeText(getContext(), "Not Started yet!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Not Started yet!", Toast.LENGTH_SHORT).show();
                     FirebaseFirestore.getInstance().collection("constant").document("quilympics").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -179,11 +179,11 @@ public class GameFragment extends Fragment {
                                 if(is){
                                     loadFragment(new FragmentQuilympics());
                                 }else{
-                                    Toast.makeText(getContext(), "Game is not started yet!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    });
+                    Toast.makeText(getContext(), "Game is not started yet!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    });
 //                    db.coll
                 }
 

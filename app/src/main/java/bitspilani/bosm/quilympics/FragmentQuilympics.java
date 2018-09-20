@@ -52,6 +52,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.Nullable;
 
+import bitspilani.bosm.HomeActivity;
 import bitspilani.bosm.R;
 import bitspilani.bosm.quilympics.ItemQuestion;
 
@@ -283,14 +284,20 @@ public class FragmentQuilympics extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                     if (task.isSuccessful()) {
-
                                                         if (Integer.parseInt(task.getResult().getData().get("prev_round").toString()) == round_no - 1 &&
                                                                 Integer.parseInt(task.getResult().getData().get("is_qualified").toString()) == 1) {
                                                             //give entry
                                                             giveEntry(round_no, start_time_);
                                                         } else {
                                                             progressDialog.dismiss();
-                                                            showEliminationView(true, "Eliminated!");
+                                                            task.getResult().getReference().update("is_qualified", 0).addOnCompleteListener(
+                                                                    new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            showEliminationView(true, "Eliminated!");
+                                                                        }
+                                                                    }
+                                                            );
                                                         }
                                                     } else {
                                                         progressDialog.dismiss();
@@ -688,6 +695,7 @@ public class FragmentQuilympics extends Fragment {
                                             Integer.parseInt(document.getData().get("answer1").toString()),
                                             Integer.parseInt(document.getData().get("answer2").toString())
                                     );
+                                    Toast.makeText(getContext(),"Select two options!",Toast.LENGTH_SHORT).show();
                                     questionArrayList.add(itemQuestion);
                                 }
                             }
@@ -724,18 +732,18 @@ public class FragmentQuilympics extends Fragment {
             allowClickOnOptions(true);
             startTimer(q_number, round);
         } else {
+            progressDialog.setMessage("Getting Round Results ...");
+            progressDialog.show();
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     // Do something after 10s = 10000ms
-                    progressDialog.setMessage("Getting Round Results ...");
-                    progressDialog.show();
                     Log.d(TAG, "Elimination required");
                     // break condition
                     doEliminiation(round);
                 }
-            }, 10000);
+            }, 2000);
         }
     }
 
@@ -783,7 +791,7 @@ public class FragmentQuilympics extends Fragment {
                         // Do something after 10s = 10000ms
                         verifyAnswerToServer(round, question);
                     }
-                }, 10000);
+                }, 2000);
             }
         }.start();
     }
@@ -1050,6 +1058,7 @@ public class FragmentQuilympics extends Fragment {
 
     private void updateSolution(int answer1, int answer2, final int round, final int question) {
         //update UI
+        is_click = false;
         progressDialog.dismiss();
         final int this_score;
         updateUI(answer1, answer2);
@@ -1131,6 +1140,8 @@ public class FragmentQuilympics extends Fragment {
                                 );
 
                                 final Handler handler = new Handler();
+                                progressDialog.show();
+                                progressDialog.setMessage("Wait for the round to finish!");
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1138,7 +1149,7 @@ public class FragmentQuilympics extends Fragment {
                                         // Do something after 10s = 10000ms
                                         checkRound();
                                     }
-                                }, 10000);
+                                }, 3000);
 
 
                             }
@@ -1152,11 +1163,11 @@ public class FragmentQuilympics extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                int total_user = task.getResult().size();
-                                int elimination_no = (total_user * round_elimination) / 100;
-                                if (total_user - elimination_no < 5) {
-                                    elimination_no = total_user - 5;
-                                }
+                                    int total_user = task.getResult().size();
+                                    int elimination_no = (total_user * round_elimination) / 100;
+                                    if (total_user - elimination_no < 5) {
+                                        elimination_no = total_user - 5;
+                                    }
                                 int i = 1;
                                 int score = 0;
                                 for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
@@ -1197,7 +1208,7 @@ public class FragmentQuilympics extends Fragment {
                                         // Do something after 10s = 10000ms
                                         checkRound();
                                     }
-                                }, 10000);
+                                }, 3000);
 
                             }
                         }
@@ -1285,6 +1296,11 @@ public class FragmentQuilympics extends Fragment {
         super.onStart();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        HomeActivity.currentFragment="QuilympicsFragment";
+    }
     @Override
     public void onStop() {
         super.onStop();

@@ -94,6 +94,15 @@ public class ContactFragment extends Fragment {
         number.add("+91-9829946080");
         mail.add("controls@bits-bosm.org");
 
+        post.add("Emergency Contact");
+        name.add("Mehul");
+        number.add("+91-8427878749");
+        mail.add("");
+
+        post.add("Emergency Contact");
+        name.add("Ankush Kumar");
+        number.add("+91-9928068889");
+        mail.add("");
 
         //SETUP RECYCLER VIEW
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);

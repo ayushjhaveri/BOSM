@@ -95,14 +95,24 @@ public class AdapterRouletteLeaderboard extends FirestoreAdapter<AdapterRoulette
     public void onBindViewHolder(LeaderboardViewHolder holder, int position) {
 
         DocumentSnapshot document  = getSnapshot(position);
+        final ItemRouletteLeaderboard user;ItemRouletteLeaderboard user1;
+        try {
+     user1 = new ItemRouletteLeaderboard(
+            document.contains("email") ? document.getData().get("email").toString() : "",
+            document.contains("name") ? document.getData().get("name").toString() : "",
+            document.contains("score") ? Integer.parseInt(document.getData().get("score").toString()) : 0,
+            document.contains("betting_amount") ? Integer.parseInt(document.getData().get("betting_amount").toString()) : 0
+    );
+}catch (Exception e){
+     user1 = new ItemRouletteLeaderboard(
+            document.contains("email") ? document.getData().get("email").toString() : "",
+            document.contains("name") ? document.getData().get("name").toString() : "",
+            document.contains("score") ? (int)Double.parseDouble(document.getData().get("score").toString()) : 0,
+            document.contains("betting_amount") ? Integer.parseInt(document.getData().get("betting_amount").toString()) : 0
+    );
+}
 
-        final ItemRouletteLeaderboard user = new ItemRouletteLeaderboard(
-                document.contains("email")?document.getData().get("email").toString():"",
-                document.contains("name")?document.getData().get("name").toString():"",
-                document.contains("score")?Integer.parseInt(document.getData().get("score").toString()):0,
-                document.contains("betting_amount")?Integer.parseInt(document.getData().get("betting_amount").toString()):0
-        );
-
+        user = user1;
         holder.tvRank.setText(String.valueOf(position + 1));
         holder.tvScore.setText(String.valueOf(user.getScore()));
         holder.tvName.setText(user.getName());
