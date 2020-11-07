@@ -5,12 +5,12 @@
 
 Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm
 
-Friendly UI with offline cache support
+>Friendly UI with offline cache support
 <p align="center">
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM1.jpg">
 </p>
 
-Get the live scores and win the vote battles
+>Get the live scores and win the vote battles
 <p align="center">
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM2.jpg">
 </p>
