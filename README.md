@@ -3,9 +3,9 @@
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM.jpg">
 </p>
 
-Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm
-##Made with Love by Coding Club, BITS Pilani
--Built using Android Studio with a Cloud Firestore Backend
+##Made with Love by Coding Club, BITS Pilani\n\n
+Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm\n
+Built using Android Studio with a Cloud Firestore Backend\n
 
 
 >Friendly UI with offline cache support
