@@ -5,7 +5,6 @@
 
 Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm
 
--Built Using Android Studio, with a Cloud Firestore Backend
 
 >Friendly UI with offline cache support
 <p>
@@ -13,17 +12,17 @@ Download from the Google Play Store: https://play.google.com/store/apps/details?
 </p>
 
 >Get the live scores and win the vote battles
-<p">
+<p>
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM2.jpg">
 </p>
 
 >Receve notifications from your favourite sports
-<p">
+<p>
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM4.jpg">
 </p>
 
 >Get results of every single game
-<p">
+<">
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM5.jpg">
 </p>
 
