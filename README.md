@@ -2,3 +2,5 @@
 <p align="center">
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM.jpg">
 </p>
+
+Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm
