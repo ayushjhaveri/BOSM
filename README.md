@@ -15,7 +15,8 @@ Built using Android Studio with a Cloud Firestore Backend<br /><br />
 >Get the live scores and win the vote battles
 <p>
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM2.jpg">
-</p><br />
+</p>
+<br />
 
 >Receve notifications from your favourite sports
 <p>
