@@ -4,6 +4,7 @@
 </p>
 
 Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm
+Built using Android Studio with a Cloud Firestore Backend
 
 
 >Friendly UI with offline cache support
@@ -22,7 +23,7 @@ Download from the Google Play Store: https://play.google.com/store/apps/details?
 </p>
 
 >Get results of every single game
-<">
+<p>
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM5.jpg">
 </p>
 
@@ -41,6 +42,8 @@ Download from the Google Play Store: https://play.google.com/store/apps/details?
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM7.jpg">
 </p>
 
+
+##Made with Love by Coding Club, BITS Pilani
 >Lost? No worries. We provide on-campus navigation
 <p>
   <img src="https://github.com/ayushjhaveri/BOSM/blob/master/app/src/main/res/drawable/BOSM8.jpg">
