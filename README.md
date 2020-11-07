@@ -4,7 +4,6 @@
 </p>
 Download from the Google Play Store: https://play.google.com/store/apps/details?id=bitspilani.bosm<br /><br />
 Built using Android Studio with a Cloud Firestore Backend<br /><br />
-## Made with Love by Coding Club, BITS Pilani
 <br />
 
 
